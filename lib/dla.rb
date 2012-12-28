@@ -14,6 +14,11 @@ class Dla
 
   def grow
     @particle_source.new
+
+    # spawn a new particle on the spawning circle | Particle#new(0, 0) | Particle#step
+    # walk the particle | Particle#step
+    # if it goes outside the kill radius, kill it | Particle#reset
+    # if it sticks, stop
   end
 
   protected
