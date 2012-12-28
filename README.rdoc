@@ -1,0 +1,19 @@
+= dla_builder
+
+dla_builder is a simple project that creates diffusion-limited aggregates (DLA) using ruby. 
+
+== Diffusion-Limited Aggregation
+
+Diffusion-limited aggregation is a process whereby particles are randomly walked into an existing
+cluster of particles (the aggregate). This growth model can be seen in many natural processes, such
+electrodeposition and any particles under the influence of Brownian motion. DLAs are notable because
+they are statistical fractals, and also because they form rather compelling images.
+
+Read more at http://en.wikipedia.org/wiki/Diffusion-limited_aggregation
+
+== ruby-processing
+
+dla_builder uses the ruby-processing library to display progress to an applet window. This library
+builds on the Processing artistic java library using JRuby. 
+
+Get ruby-processing at https://github.com/jashkenas/ruby-processing/wiki
