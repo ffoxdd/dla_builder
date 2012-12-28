@@ -2,9 +2,9 @@ require "#{File.dirname(__FILE__)}/particle.rb"
 
 class Dla
 
-  # Infinity = 1.0 / 0.0
-
   def initialize(renderer, *seeds)
+    raise ArgumentError if seeds.empty?
+
     @renderer = renderer
     @seeds = seeds
 

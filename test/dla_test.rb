@@ -18,10 +18,9 @@ describe Dla do
       dla = Dla.new(renderer, @seed)
     end
 
-    # TODO: test input assertions
-    # it "requires a seed to be passed in" do
-      # -> { dla = Dla.new(renderer) }.must_raise_error
-    # end
+    it "requires a seed to be passed in" do
+      -> { Dla.new(renderer) }.must_raise ArgumentError
+    end
   end
 
   describe "#grow" do
