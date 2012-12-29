@@ -8,34 +8,43 @@ require "#{File.dirname(__FILE__)}/../lib/dla.rb"
 describe Dla do
 
   let(:renderer) { MiniTest::Mock.new }
-  let(:particle_source) { MiniTest::Mock.new }
+  let(:grower) { MiniTest::Mock.new }
+
+  let(:seed) { MiniTest::Mock.new }
+  before { renderer.expect(:render, true, [seed]) }
+
+  let(:options) do
+    { renderer: renderer,
+      grower: grower,
+      seeds: seed }
+  end
 
   describe "#initialize" do
-    let(:seed) { MiniTest::Mock.new }
-
     it "renders the seeds" do
-      renderer.expect(:render, true, [seed])
-      dla = Dla.new(renderer: renderer, particle_source: particle_source, seeds: seed)
-
+      dla = Dla.new(options)
       renderer.verify
     end
   end
 
   describe "#grow" do
-    let(:seed) { MiniTest::Mock.new }
-    before { renderer.expect(:render, true, [seed]) }
-
     let(:new_particle) { MiniTest::Mock.new }
-    after { particle_source.verify }
+    let(:dla) { Dla.new(options) }
 
-    let(:dla) { Dla.new(renderer: renderer, particle_source: particle_source, seeds: seed) }
-
-    it "renders a new particle onto the aggregate" do
-      particle_source.expect(:new, new_particle)
-      dla.grow
-
-      particle_source.verify
+    before do
+      grower.expect(:grow, new_particle, [seed])
+      renderer.expect(:render, true, [new_particle])
+      seed.expect(:==, true, [Object])
     end
+
+    it "calls through to the grower" do
+      dla.grow
+      grower.verify
+    end
+
+    # it "renders a new particle onto the aggregate" do
+      # dla.grow
+      # renderer.verify
+    # end
   end
 
 end
