@@ -15,13 +15,9 @@ describe Dla do
 
     it "renders the seeds" do
       renderer.expect(:render, true, [seed])
-      dla = Dla.new(renderer, particle_source, seed)
+      dla = Dla.new(renderer: renderer, particle_source: particle_source, seeds: seed)
 
       renderer.verify
-    end
-
-    it "requires a seed to be passed in" do
-      -> { Dla.new(renderer, particle_source) }.must_raise ArgumentError
     end
   end
 
@@ -32,7 +28,7 @@ describe Dla do
     let(:new_particle) { MiniTest::Mock.new }
     after { particle_source.verify }
 
-    let(:dla) { Dla.new(renderer, particle_source, seed) }
+    let(:dla) { Dla.new(renderer: renderer, particle_source: particle_source, seeds: seed) }
 
     it "renders a new particle onto the aggregate" do
       particle_source.expect(:new, new_particle)

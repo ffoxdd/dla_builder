@@ -2,12 +2,10 @@ require "#{File.dirname(__FILE__)}/particle.rb"
 
 class Dla
 
-  def initialize(renderer, particle_source, *seeds)
-    raise ArgumentError if seeds.empty?
-
-    @renderer = renderer
-    @particle_source = particle_source
-    @seeds = seeds
+  def initialize(options={})
+    @renderer = options.fetch(:renderer)
+    @particle_source = options.fetch(:particle_source)
+    @seeds = Array(options.fetch(:seeds))
 
     render_seeds
   end
