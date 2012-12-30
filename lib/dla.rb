@@ -12,15 +12,19 @@ class Dla
 
   def grow
     new_particle = grower.grow(seeds)
-    renderer.render(new_particle)
+    render(new_particle)
   end
 
   protected
 
   attr_reader :renderer, :grower, :seeds
 
+  def render(particle)
+    renderer.render(particle)
+  end
+
   def render_seeds
-    seeds.each { |seed| renderer.render(seed) }
+    seeds.each { |seed| render(seed) }
   end
 
 end
