@@ -24,7 +24,7 @@ class Dla
   end
 
   def render_all
-    seeds.each { |seed| render(seed) }
+    particles.each { |seed| render(seed) }
   end
 
 end
