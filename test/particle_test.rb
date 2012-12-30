@@ -9,7 +9,7 @@ describe Particle do
 
   describe "#initialize" do
     it "doesn't blow up" do
-      Particle.new(0, 0, 1)
+      -> { Particle.new(0, 0, 1) }.must_be_silent
     end
   end
 
