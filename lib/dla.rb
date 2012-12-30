@@ -1,5 +1,3 @@
-require "#{File.dirname(__FILE__)}/particle.rb"
-
 class Dla
 
   def initialize(options={})
