@@ -35,6 +35,13 @@ describe Dla do
     end
   end
 
+  describe "#size" do
+    it "returns the number of seeds when no new particles have been added" do
+      dla = Dla.new(options)
+      dla.size.must_equal 1
+    end
+  end
+
   describe "#grow" do
     let(:new_particle) { Object.new }
     let(:dla) { Dla.new(options) }

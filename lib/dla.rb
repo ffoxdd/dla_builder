@@ -15,6 +15,10 @@ class Dla
     render(new_particle)
   end
 
+  def size
+    particles.size
+  end
+
   protected
 
   attr_reader :renderer, :grower, :seeds, :particles
