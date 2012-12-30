@@ -3,7 +3,7 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
-require "#{File.dirname(__FILE__)}/../lib/dla.rb"
+require_relative "../lib/dla.rb"
 
 describe Dla do
 

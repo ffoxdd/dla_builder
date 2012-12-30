@@ -3,7 +3,7 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
-require "#{File.dirname(__FILE__)}/../lib/particle.rb"
+require_relative "../lib/particle.rb"
 
 describe Particle do
 
