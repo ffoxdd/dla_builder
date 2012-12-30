@@ -5,7 +5,9 @@ class Dla
     @grower = options.fetch(:grower)
     @seeds = Array(options.fetch(:seeds))
 
-    render_seeds
+    @particles = @seeds.dup
+
+    render_all
   end
 
   def grow
@@ -15,13 +17,13 @@ class Dla
 
   protected
 
-  attr_reader :renderer, :grower, :seeds
+  attr_reader :renderer, :grower, :seeds, :particles
 
   def render(particle)
     renderer.render(particle)
   end
 
-  def render_seeds
+  def render_all
     seeds.each { |seed| render(seed) }
   end
 
