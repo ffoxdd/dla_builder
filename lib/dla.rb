@@ -12,7 +12,7 @@ class Dla
 
   def grow
     new_particle = grower.grow(particles)
-    render(new_particle)
+    add_particle(new_particle)
   end
 
   def size
@@ -29,6 +29,11 @@ class Dla
 
   def render_all
     particles.each { |particle| render(particle) }
+  end
+
+  def add_particle(particle)
+    particles.push(particle)
+    render(particle)
   end
 
 end

@@ -60,6 +60,11 @@ describe Dla do
       dla.grow
       renderer.verify
     end
+
+    it "increases the number of particles" do
+      dla.grow
+      dla.size.must_equal 2
+    end
   end
 
 end
