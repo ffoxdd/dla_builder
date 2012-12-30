@@ -11,7 +11,7 @@ class Dla
   end
 
   def grow
-    new_particle = grower.grow(seeds)
+    new_particle = grower.grow(particles)
     render(new_particle)
   end
 
