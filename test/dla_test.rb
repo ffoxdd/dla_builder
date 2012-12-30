@@ -40,7 +40,7 @@ describe Dla do
     let(:dla) { Dla.new(options) }
 
     before do
-      grower.expect(:grow, new_particle, [[seed]])
+      grower.expect(:grow, new_particle, [seeds])
       renderer.expect(:render, true, [new_particle])
     end
 
