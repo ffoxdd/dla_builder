@@ -6,4 +6,8 @@ class Particle
     @x, @y, @radius = x, y, radius
   end
 
+  def magnitude
+    Math.hypot(x, y)
+  end
+
 end

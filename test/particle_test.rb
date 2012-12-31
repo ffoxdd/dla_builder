@@ -23,5 +23,22 @@ describe Particle do
     end
   end
 
+  describe "#magnitude" do
+    it "returns zero if the particle is at the origin" do
+      particle = Particle.new(0, 0, 1)
+      particle.magnitude.must_equal 0
+    end
+
+    it "returns the distance from the origin for a particle in quadrant I" do
+      particle = Particle.new(1, 1, 1)
+      particle.magnitude.must_equal Math.sqrt(2)
+    end
+
+    it "returns the distance from the origin for a particle in quadrant III" do
+      particle = Particle.new(-2, -3, 1)
+      particle.magnitude.must_equal Math.sqrt(13)
+    end
+  end
+
 end
 
