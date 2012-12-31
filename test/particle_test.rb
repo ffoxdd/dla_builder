@@ -40,5 +40,17 @@ describe Particle do
     end
   end
 
+  describe "#extent" do
+    it "returns the radius if the particle is at the origin" do
+      particle = Particle.new(0, 0, 2.5)
+      particle.extent.must_equal 2.5
+    end
+
+    it "returns the magnitude plus the radius" do
+      particle = Particle.new(3, 4, 5)
+      particle.extent.must_equal 10
+    end
+  end
+
 end
 

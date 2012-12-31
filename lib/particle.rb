@@ -10,4 +10,8 @@ class Particle
     Math.hypot(x, y)
   end
 
+  def extent
+    magnitude + radius
+  end
+
 end
