@@ -71,5 +71,25 @@ describe Particle do
     end
   end
 
+  describe "#step" do
+    it "steps the particle the given distance in a random direction" do
+      particle = Particle.new(0, 0, 1)
+      particle.step(3)
+
+      particle.magnitude.must_be_close_to 3, 0.0001
+    end
+
+    it "doesn't step the particle the same way each time" do
+      particle = Particle.new(0, 0, 1)
+      other_particle = Particle.new(0, 0, 1)
+
+      particle.step(2)
+      other_particle.step(2)
+
+      particle.x.wont_equal other_particle.x
+      particle.y.wont_equal other_particle.y
+    end
+  end
+
 end
 

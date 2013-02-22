@@ -18,10 +18,34 @@ class Particle
     center_distance(particle) - (radius + particle.radius)
   end
 
+  def step(distance)
+    translate(*random_coordinates(distance))
+  end
+
+  attr_writer :x, :y # TODO: figure out why this can't be private
+
   private
+
+  # attr_writer :x, :y
+
+  def translate(x_, y_)
+    self.x += x_
+    self.y += y_
+  end
 
   def center_distance(particle)
     Math.hypot(x - particle.x, y - particle.y)
+  end
+
+  TWO_PI = Math::PI * 2
+
+  def random_theta
+    TWO_PI * rand
+  end
+
+  def random_coordinates(radius)
+    theta = random_theta
+    [Math.sin(theta) * radius, Math.cos(theta) * radius]
   end
 
 end
