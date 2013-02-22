@@ -20,6 +20,7 @@ class Particle
 
   def step(distance)
     translate(*random_coordinates(distance))
+    self
   end
 
   attr_writer :x, :y # TODO: figure out why this can't be private

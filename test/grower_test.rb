@@ -46,6 +46,26 @@ describe Grower do
       magnitude.must_be :>=, 0.9
       magnitude.must_be :<=, 4.0
     end
+
+    it "doesn't grow the same way each time" do
+      particle = grower.grow
+      other_particle = grower.grow
+
+      particle.x.wont_equal other_particle.x
+      particle.y.wont_equal other_particle.y
+    end
+
+    it "makes more compact aggregates when overlap is large" do
+      compact_grower = Grower.new(existing_particles, overlap: 0.9)
+
+      normal_particles = 5.times.map { grower.grow }
+      compact_particles = 5.times.map { compact_grower.grow }
+
+      normal_magnitude = normal_particles.map(&:magnitude).inject(&:+) / 20
+      compact_magnitude = compact_particles.map(&:magnitude).inject(&:+) / 20
+
+      compact_magnitude.must_be :<, normal_magnitude
+    end
   end
 
 end
