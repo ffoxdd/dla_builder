@@ -8,15 +8,24 @@ class Grower
   def grow
     particle = new_particle
     closest_particle = closest_particle_to(particle)
+    closest_distance = particle.distance(closest_particle)
 
     until stuck?(particle, closest_particle)
-      particle.step(step_distance)
+      particle.step(step_distance(closest_distance))
+      closest_particle = closest_particle_to(particle)
+      closest_distance = particle.distance(closest_particle)
     end
   end
 
   protected
 
   attr_reader :particle_source, :existing_particles
+
+  OVERLAP_DISTANCE = 0.2
+
+  def step_distance(closest_distance)
+    closest_distance * OVERLAP_DISTANCE
+  end
 
   def closest_particle_to(particle)
     existing_particles.min { |p| particle.distance(p) }
@@ -51,6 +60,10 @@ class Grower
 
   def extent
     existing_particles.map(&:extent).max
+  end
+
+  def stuck?(particle, closest_particle)
+    particle.distance(closest_particle) <= 0
   end
 
 end

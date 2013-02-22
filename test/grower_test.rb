@@ -8,7 +8,9 @@ require_relative "../lib/grower.rb"
 # TODO: remove the dependency on particle.rb
 #   Interface:
 #     Particle#magnitude
-#     ParticleSource#new(x, y, radius)
+#     Particle#distance
+#     Particle#step
+#     ParticleSource.new(x, y, radius)
 
 require_relative "../lib/particle.rb"
 
