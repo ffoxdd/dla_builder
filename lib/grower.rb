@@ -1,33 +1,41 @@
 class Grower
 
-  def initialize(options={})
+  def initialize(existing_particles, options={})
+    @existing_particles = existing_particles
     @particle_source = options.fetch(:particle_source, Particle)
   end
 
-  def grow(existing_particles, extent)
-    new_particle(extent)
+  def grow
+    particle = new_particle
+    closest_particle = closest_particle_to(particle)
 
-    # walk the particle until it sticks
+    until stuck?(particle, closest_particle)
+      particle.step(step_distance)
+    end
   end
 
   protected
 
-  attr_reader :particle_source
+  attr_reader :particle_source, :existing_particles
 
-  def new_particle(extent)
-    particle_source.new(*random_spawning_coordinates(extent), 1)
+  def closest_particle_to(particle)
+    existing_particles.min { |p| particle.distance(p) }
   end
 
-  def random_spawning_coordinates(extent)
-    random_coordinates(spawning_radius(extent))
+  def new_particle
+    particle_source.new(*random_spawning_coordinates, 1)
   end
 
-  def spawning_radius(extent)
+  def random_spawning_coordinates
+    random_coordinates(spawning_radius)
+  end
+
+  def spawning_radius
     extent * 2
   end
 
-  def kill_radius(extent)
-    spawning_radius(extent) * 2
+  def kill_radius
+    spawning_radius * 2
   end
 
   TWO_PI = Math::PI * 2
@@ -40,5 +48,9 @@ class Grower
     theta = random_theta
     [Math.sin(theta) * radius, Math.cos(theta) * radius]
   end
-end
 
+  def extent
+    existing_particles.map(&:extent).max
+  end
+
+end

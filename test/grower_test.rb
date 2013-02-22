@@ -19,7 +19,7 @@ describe Grower do
 
   describe "#initialize" do
     it "does not blow up" do
-      -> { Grower.new(options) }.must_be_silent
+      -> { Grower.new([], options) }.must_be_silent
     end
   end
 
@@ -32,11 +32,12 @@ describe Grower do
         Particle.new(0, -2, 1) ]
     end
 
-    let(:extent) { 3 }
-    let(:grower) { Grower.new(options.merge(overlap: 0.1)) }
+    let(:grower) do
+      Grower.new existing_particles, options.merge(overlap: 0.1)
+    end
 
     it "returns a new particle attached to the aggregate" do
-      new_particle = grower.grow(existing_particles, extent)
+      new_particle = grower.grow
       magnitude = new_particle.magnitude
 
       new_particle.wont_be_nil
