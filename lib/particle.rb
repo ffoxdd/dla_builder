@@ -14,4 +14,14 @@ class Particle
     magnitude + radius
   end
 
+  def distance(particle)
+    center_distance(particle) - (radius + particle.radius)
+  end
+
+  private
+
+  def center_distance(particle)
+    Math.hypot(x - particle.x, y - particle.y)
+  end
+
 end

@@ -52,5 +52,24 @@ describe Particle do
     end
   end
 
+  describe "#distance" do
+    let(:particle) { Particle.new(0, 0, 1) }
+
+    it "returns the distance between the particles' centers, minus their radii" do
+      other_particle = Particle.new(2, 0, 0.5)
+      particle.distance(other_particle).must_equal(0.5)
+    end
+
+    it "returns a negative number if the particles overlap" do
+      other_particle = Particle.new(0, 1, 0.5)
+      particle.distance(other_particle).must_equal(-0.5)
+    end
+
+    it "returns zero if they just touch" do
+      other_particle = Particle.new(2, 0, 1)
+      particle.distance(other_particle).must_equal(0)
+    end
+  end
+
 end
 
