@@ -9,6 +9,7 @@ describe Dla do
 
   let(:renderer) { MiniTest::Mock.new }
   let(:grower) { MiniTest::Mock.new }
+  let(:grower_source) { MiniTest::Mock.new }
 
   let(:seed) { Object.new }
   let(:seeds) { [seed] }
@@ -16,7 +17,7 @@ describe Dla do
 
   let(:options) do
     { renderer: renderer,
-      grower: grower,
+      grower_source: grower_source,
       seeds: seed }
   end
 
@@ -46,23 +47,16 @@ describe Dla do
     let(:new_particle) { Object.new }
     let(:dla) { Dla.new(options) }
 
-    before do
-      grower.expect(:grow, new_particle, [seeds])
+    it "calls through to the grower and renders a new particle onto the aggregate" do
+      grower_source.expect(:new, grower, [seeds])
+      grower.expect(:grow, new_particle)
       renderer.expect(:render, true, [new_particle])
-    end
 
-    it "calls through to the grower" do
       dla.grow
+
       grower.verify
-    end
-
-    it "renders a new particle onto the aggregate" do
-      dla.grow
       renderer.verify
-    end
 
-    it "increases the number of particles" do
-      dla.grow
       dla.size.must_equal 2
     end
   end

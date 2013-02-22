@@ -2,7 +2,7 @@ class Dla
 
   def initialize(options={})
     @renderer = options.fetch(:renderer)
-    @grower = options.fetch(:grower)
+    @grower_source = options.fetch(:grower_source, Grower)
     @seeds = Array(options.fetch(:seeds))
 
     @particles = @seeds.dup
@@ -11,7 +11,7 @@ class Dla
   end
 
   def grow
-    new_particle = grower.grow(particles)
+    new_particle = grower.grow
     add_particle(new_particle)
   end
 
@@ -21,7 +21,11 @@ class Dla
 
   protected
 
-  attr_reader :renderer, :grower, :seeds, :particles
+  attr_reader :renderer, :seeds, :particles, :grower_source
+
+  def grower
+    grower_source.new(particles)
+  end
 
   def render(particle)
     renderer.render(particle)
