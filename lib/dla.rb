@@ -4,6 +4,9 @@ class Dla
     @renderer = options.fetch(:renderer)
     @grower_source = options.fetch(:grower_source, Grower)
     @seeds = Array(options.fetch(:seeds))
+    @overlap = options.fetch(:overlap)
+
+    @options = options
 
     @particles = @seeds.dup
 
@@ -21,10 +24,14 @@ class Dla
 
   protected
 
-  attr_reader :renderer, :seeds, :particles, :grower_source
+  attr_reader :renderer, :seeds, :particles, :grower_source, :options
 
   def grower
     grower_source.new(particles)
+  end
+
+  def grower_options
+
   end
 
   def render(particle)
