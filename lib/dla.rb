@@ -5,9 +5,6 @@ class Dla
     @grower_source = options[:grower_source] || Grower
     @seeds = Array(options.fetch(:seeds, []))
     @overlap = options.fetch(:overlap, 0.5)
-
-    @options = options
-
     @particles = @seeds.dup
 
     render_all
@@ -22,16 +19,12 @@ class Dla
     particles.size
   end
 
-  protected
+  private
 
-  attr_reader :renderer, :seeds, :particles, :grower_source, :options
+  attr_reader :renderer, :seeds, :particles, :grower_source
 
   def grower
     grower_source.new(particles)
-  end
-
-  def grower_options
-
   end
 
   def render(particle)
