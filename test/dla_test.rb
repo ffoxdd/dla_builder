@@ -16,11 +16,9 @@ describe Dla do
   before { renderer.expect(:render, true, [seed]) }
 
   let(:options) do
-    { renderer: renderer,
-      grower_source: grower_source,
-      seeds: seed }
+    { renderer: renderer, grower_source: grower_source, seeds: seed } 
   end
-
+  
   describe "#initialize" do
     it "renders the seeds" do
       dla = Dla.new(options)
@@ -62,7 +60,7 @@ describe Dla do
 
     describe "grower options" do
       it "passes options through to the grower" do
-        grower_source.expect(:new, grower, [seeds, {overlap: 0.5}])
+        grower_source.expect(:new, grower, [seeds])
         grower.expect(:grow, new_particle)
         renderer.expect(:render, true, [new_particle])
 

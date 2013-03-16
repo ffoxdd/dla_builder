@@ -1,10 +1,10 @@
 class Dla
 
   def initialize(options={})
-    @renderer = options.fetch(:renderer)
-    @grower_source = options.fetch(:grower_source, Grower)
-    @seeds = Array(options.fetch(:seeds))
-    @overlap = options.fetch(:overlap)
+    @renderer = options[:renderer] || Renderer
+    @grower_source = options[:grower_source] || Grower
+    @seeds = Array(options.fetch(:seeds, []))
+    @overlap = options.fetch(:overlap, 0.5)
 
     @options = options
 
