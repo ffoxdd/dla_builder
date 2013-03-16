@@ -23,11 +23,11 @@ class Particle
     self
   end
 
+  protected
+
   attr_writer :x, :y # TODO: figure out why this can't be private
 
   private
-
-  # attr_writer :x, :y
 
   def translate(x_, y_)
     self.x += x_
