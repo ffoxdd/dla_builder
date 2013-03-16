@@ -14,6 +14,7 @@ GEM
     slop (3.3.3)
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES
