@@ -21,10 +21,10 @@ class Dla
 
   private
 
-  attr_reader :renderer, :seeds, :particles, :grower_source
+  attr_reader :renderer, :seeds, :particles, :grower_source, :overlap
 
   def grower
-    grower_source.new(particles)
+    grower_source.new(particles, overlap: overlap)
   end
 
   def render(particle)
