@@ -35,7 +35,7 @@ describe Grower do
     end
 
     let(:grower) do
-      Grower.new existing_particles, options.merge(overlap: 0.1)
+      Grower.new existing_particles, options.merge(:overlap => 0.1)
     end
 
     it "returns a new particle attached to the aggregate" do
@@ -56,7 +56,7 @@ describe Grower do
     end
 
     it "makes more compact aggregates when overlap is large" do
-      compact_grower = Grower.new(existing_particles, overlap: 0.9)
+      compact_grower = Grower.new(existing_particles, :overlap => 0.9)
 
       normal_particles = 5.times.map { grower.grow }
       compact_particles = 5.times.map { compact_grower.grow }

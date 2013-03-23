@@ -1,7 +1,7 @@
 class Dla
 
   def initialize(options={})
-    @renderer = options[:renderer] || Renderer
+    @renderer = options[:renderer] || Renderer.new
     @grower_source = options[:grower_source] || Grower
     @seeds = Array(options.fetch(:seeds, []))
     @overlap = options.fetch(:overlap, 0.5)
@@ -24,7 +24,7 @@ class Dla
   attr_reader :renderer, :seeds, :particles, :grower_source, :overlap
 
   def grower
-    grower_source.new(particles, overlap: overlap)
+    grower_source.new(particles, :overlap => overlap)
   end
 
   def render(particle)
