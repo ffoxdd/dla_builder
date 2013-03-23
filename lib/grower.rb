@@ -50,7 +50,7 @@ class Grower
   end
 
   def calculate_closest
-    self.closest_particle = existing_particles.min { |p| test_particle.distance(p) }
+    self.closest_particle = existing_particles.min_by { |p| test_particle.distance(p) }
     self.closest_distance = test_particle.distance(closest_particle)
   end
 
