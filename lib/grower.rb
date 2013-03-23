@@ -1,6 +1,6 @@
 class Grower
 
-  def initialize(existing_particles, overlap, options={})
+  def initialize(existing_particles, options={})
     @existing_particles = existing_particles
     @particle_source = options.fetch(:particle_source, Particle)
     @overlap = options.fetch(:overlap, 0.2)
