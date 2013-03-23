@@ -4,6 +4,7 @@ class Grower
     @existing_particles = existing_particles
     @particle_source = options.fetch(:particle_source, Particle)
     @overlap = options.fetch(:overlap, 0.2)
+    @radius = options.fetch(:radius, 10)
   end
 
   def grow
@@ -14,7 +15,7 @@ class Grower
 
   protected
 
-  attr_reader :particle_source, :existing_particles, :overlap
+  attr_reader :particle_source, :existing_particles, :overlap, :radius
   attr_accessor :test_particle, :closest_particle, :closest_distance
 
   def step_distance
@@ -22,7 +23,7 @@ class Grower
   end
 
   def spawn
-    self.test_particle = particle_source.new(0, 0, 1)
+    self.test_particle = particle_source.new(0, 0, radius)
     test_particle.step(spawning_radius)
     calculate_closest
   end
