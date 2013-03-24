@@ -1,5 +1,7 @@
 class Grower
 
+  DEBUG = false
+
   def initialize(existing_particles, options={})
     @existing_particles = existing_particles
     @particle_source = options.fetch(:particle_source, Particle)
@@ -19,7 +21,7 @@ class Grower
   attr_accessor :test_particle, :closest_particle, :closest_distance
 
   def step_distance
-    closest_distance * overlap
+    closest_distance + overlap # TODO: write a test that covers this
   end
 
   def spawn
