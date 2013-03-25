@@ -3,7 +3,9 @@ class Particle
   attr_reader :x, :y, :radius
 
   def initialize(x, y, radius)
-    @x, @y, @radius = x, y, radius
+    @x = Float(x)
+    @y = Float(y)
+    @radius = Float(radius)
   end
 
   def magnitude

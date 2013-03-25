@@ -4,50 +4,40 @@ require 'minitest/mock'
 require 'minitest/autorun'
 
 require_relative "../lib/grower.rb"
-
-# TODO: remove the dependency on particle.rb
-#   Interface:
-#     Particle#magnitude
-#     Particle#distance
-#     Particle#step
-#     ParticleSource.new(x, y, radius)
-
-require_relative "../lib/particle.rb"
+require_relative "../lib/particle.rb" # TODO: remove the dependency on particle.rb
 
 describe Grower do
 
-  let(:particle_source) { Particle }
-  let(:options) { {particle_source: particle_source} }
+  let(:default_options) { {particle_source: Particle} }
 
   describe "#initialize" do
     it "does not blow up" do
-      -> { Grower.new([], options) }.must_be_silent
+      -> { Grower.new([], default_options) }.must_be_silent
     end
   end
 
   describe "#grow" do
-    let(:existing_particles) do
-      [ Particle.new(0, 0, 1),
-        Particle.new(2, 0, 1),
-        Particle.new(-2, 0, 1),
-        Particle.new(0, 2, 1),
-        Particle.new(0, -2, 1) ]
-    end
-
-    let(:grower) do
-      Grower.new existing_particles, options.merge(:overlap => 0.1)
-    end
+    let(:seed_particle) { Particle.new(0, 0, 10.0) }
 
     it "returns a new particle attached to the aggregate" do
+      radius = 10
+      overlap = 1
+
+      existing_particle = Particle.new(0, 0, radius)
+      options = default_options.merge(:radius => radius, :overlap => overlap)
+      grower = Grower.new([existing_particle], options)   
+
       new_particle = grower.grow
       magnitude = new_particle.magnitude
 
       new_particle.wont_be_nil
-      magnitude.must_be :>=, 0.9
-      magnitude.must_be :<=, 4.0
+      magnitude.must_be :>=, radius * 2 - overlap
+      magnitude.must_be :<=, radius * 2
     end
 
     it "doesn't grow the same way each time" do
+      grower = Grower.new([seed_particle], default_options)
+
       particle = grower.grow
       other_particle = grower.grow
 
@@ -56,17 +46,37 @@ describe Grower do
     end
 
     it "makes more compact aggregates when overlap is large" do
-      compact_grower = Grower.new(existing_particles, :overlap => 0.9)
+      existing_particles = [
+        Particle.new(0, 0, 10),
+        Particle.new(20, 0, 10),
+        Particle.new(-20, 0, 10),
+        Particle.new(0, 20, 10),
+        Particle.new(0, -20, 10)
+      ]
 
-      normal_particles = 5.times.map { grower.grow }
-      compact_particles = 5.times.map { compact_grower.grow }
+      normal_options = default_options.merge(:radius => 10.0, :overlap => 0.1)
+      compact_options = default_options.merge(:radius => 10.0, :overlap => 6.0)
 
-      normal_magnitude = normal_particles.map(&:magnitude).inject(&:+) / 20
-      compact_magnitude = compact_particles.map(&:magnitude).inject(&:+) / 20
+      normal_grower = Grower.new(existing_particles, normal_options)
+      compact_grower = Grower.new(existing_particles, compact_options)
+
+      trials = 5
+
+      normal_particles = trials.times.map { normal_grower.grow }
+      compact_particles = trials.times.map { compact_grower.grow }
+
+      normal_magnitude = average_by(normal_particles, &:magnitude)
+      compact_magnitude = average_by(compact_particles, &:magnitude)
 
       compact_magnitude.must_be :<, normal_magnitude
     end
   end
+
+  private
+
+    def average_by(samples, &block)
+      samples.map(&block).inject(&:+) / samples.size
+    end
 
 end
 

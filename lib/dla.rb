@@ -3,9 +3,9 @@ class Dla
   def initialize(options={})
     @renderer = options[:renderer] || Renderer.new
     @grower_source = options[:grower_source] || Grower
-    @radius = options[:radius] || 4
+    @radius = Float(options.fetch(:radius, 4))
     @seeds = Array(options.fetch(:seeds, default_seeds))
-    @overlap = options.fetch(:overlap, @radius / 8.0)
+    @overlap = Float(options.fetch(:overlap, @radius / 8.0))
     @particles = @seeds.dup
 
     render_all

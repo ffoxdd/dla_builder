@@ -4,9 +4,9 @@ class Grower
 
   def initialize(existing_particles, options={})
     @existing_particles = existing_particles
-    @particle_source = options.fetch(:particle_source, Particle)
-    @overlap = options.fetch(:overlap, 0.2)
-    @radius = options.fetch(:radius, 10)
+    @particle_source = options[:particle_source] || Particle
+    @radius = Float(options.fetch(:radius, 10))
+    @overlap = Float(options.fetch(:overlap, 0.2))
   end
 
   def grow
