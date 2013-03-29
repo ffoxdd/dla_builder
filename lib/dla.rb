@@ -45,4 +45,9 @@ class Dla
     [ Particle.new(0, 0, @radius) ]
   end
 
+  class Renderer
+    def render(particle)
+    end
+  end
+
 end
