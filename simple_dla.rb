@@ -1,6 +1,4 @@
 require './lib/dla.rb'
-require './lib/grower.rb'
-require './lib/particle.rb'
 
 def setup
   size 800, 600

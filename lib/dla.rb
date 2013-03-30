@@ -1,3 +1,7 @@
+require_relative "particle"
+require_relative "persister"
+require_relative "grower"
+
 class Dla
 
   def initialize(options={})
@@ -52,11 +56,6 @@ class Dla
 
   class Renderer
     def render(particle)
-    end
-  end
-
-  class Persister
-    def self.save(object, filename)
     end
   end
 

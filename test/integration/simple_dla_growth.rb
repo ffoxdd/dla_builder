@@ -4,8 +4,6 @@ require 'minitest/mock'
 require 'minitest/autorun'
 
 require_relative '../../lib/dla.rb'
-require_relative '../../lib/grower.rb'
-require_relative '../../lib/particle.rb'
 
 describe "Simple DLA Growth" do
 
@@ -14,13 +12,7 @@ describe "Simple DLA Growth" do
   let(:seeds) { [Particle.new(0, 0, 2)] }
 
   let(:options) do
-    { 
-      # :renderer => renderer
-      :grower_source => Grower, 
-      :seeds => seeds, 
-      :radius => 2.0,
-      :overlap => 0.5
-    } 
+    { :grower_source => Grower, :seeds => seeds, :radius => 2.0, :overlap => 0.5 }
   end
 
   let(:dla) { Dla.new(options) }
