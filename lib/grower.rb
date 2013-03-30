@@ -1,7 +1,5 @@
 class Grower
 
-  DEBUG = false
-
   def initialize(existing_particles, options={})
     @existing_particles = existing_particles
     @particle_source = options[:particle_source] || Particle
