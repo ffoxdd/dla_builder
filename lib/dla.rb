@@ -3,6 +3,7 @@ class Dla
   def initialize(options={})
     @renderer = options[:renderer] || Renderer.new
     @grower_source = options[:grower_source] || Grower
+    @persister = options[:persister] || Persister
     @radius = Float(options.fetch(:radius, 4))
     @seeds = Array(options.fetch(:seeds, default_seeds))
     @overlap = Float(options.fetch(:overlap, @radius / 8.0))
@@ -20,9 +21,13 @@ class Dla
     particles.size
   end
 
+  def save(filename)
+    persister.save(self, filename)
+  end
+
   private
 
-  attr_reader :renderer, :seeds, :particles, :grower_source, :overlap, :radius
+  attr_reader :renderer, :grower_source, :persister, :seeds, :particles, :overlap, :radius
 
   def grower
     grower_source.new(particles, :overlap => overlap, :radius => radius)
@@ -42,11 +47,16 @@ class Dla
   end
 
   def default_seeds
-    [ Particle.new(0, 0, @radius) ]
+    [Particle.new(0, 0, radius)]
   end
 
   class Renderer
     def render(particle)
+    end
+  end
+
+  class Persister
+    def self.save(object, filename)
     end
   end
 
