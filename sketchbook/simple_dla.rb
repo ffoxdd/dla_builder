@@ -1,4 +1,4 @@
-require './lib/dla.rb'
+require File.join(File.dirname(__FILE__), "lib", "dla")
 
 def setup
   size 800, 600

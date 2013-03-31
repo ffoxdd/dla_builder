@@ -3,7 +3,7 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
-require_relative "../../lib/particle.rb"
+require_relative "../../sketchbook/lib/particle.rb"
 
 describe Particle do
 

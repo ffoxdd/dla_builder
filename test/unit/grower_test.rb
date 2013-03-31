@@ -3,8 +3,8 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
-require_relative "../../lib/grower.rb"
-require_relative "../../lib/particle.rb" # TODO: remove the dependency on particle.rb
+require_relative "../../sketchbook/lib/grower.rb"
+require_relative "../../sketchbook/lib/particle.rb" # TODO: remove the dependency on particle.rb
 
 describe Grower do
 

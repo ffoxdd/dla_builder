@@ -3,7 +3,7 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
-require_relative "../../lib/persister.rb"
+require_relative "../../sketchbook/lib/persister.rb"
 
 describe Persister do
 

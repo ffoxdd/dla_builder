@@ -3,9 +3,9 @@ gem 'minitest'
 require 'minitest/benchmark'
 require 'minitest/autorun'
 
-require_relative '../../lib/dla.rb'
-require_relative '../../lib/grower.rb'
-require_relative '../../lib/particle.rb'
+require_relative '../../sketchbook/lib/dla.rb'
+require_relative '../../sketchbook/lib/grower.rb'
+require_relative '../../sketchbook/lib/particle.rb'
 
 class DlaBenchmark < MiniTest::Unit::TestCase
 

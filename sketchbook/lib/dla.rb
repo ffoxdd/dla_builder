@@ -4,7 +4,7 @@ require File.join(File.dirname(__FILE__), "grower")
 
 class Dla
 
-  def initialize(options={})
+  def initialize(options = {})
     @renderer = options[:renderer] || Renderer.new
     @grower_source = options[:grower_source] || Grower
     @persister = options[:persister] || Persister

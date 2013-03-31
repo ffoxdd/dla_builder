@@ -3,7 +3,7 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
-require_relative "../../lib/dla.rb"
+require_relative "../../sketchbook/lib/dla.rb"
 
 describe Dla do
 
