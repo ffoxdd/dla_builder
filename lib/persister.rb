@@ -4,16 +4,20 @@ class Persister
 
   DATA_DIRECTORY = "data"
 
-  def self.save(object, filename)
-    File.open(full_filename(filename), 'w') do |file|
-      YAML.dump(object, file)
+  def self.save(object, name)
+    File.open(filename(name), 'w') do |file|
+      YAML::dump(object, file)
     end
+  end
+
+  def self.read(name)
+    YAML::load_file(filename(name))
   end
 
   private
 
-  def self.full_filename(filename)
-    File.join(DATA_DIRECTORY, "#{filename}.yml")
+  def self.filename(name)
+    File.join(DATA_DIRECTORY, "#{name}.yml")
   end
 
 end

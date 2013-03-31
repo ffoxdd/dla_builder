@@ -25,8 +25,8 @@ class Dla
     particles.size
   end
 
-  def save(filename)
-    persister.save(self, filename)
+  def save(name)
+    persister.save(self, name)
   end
 
   private
