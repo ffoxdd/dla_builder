@@ -18,7 +18,7 @@ class Dla
     @y_extent = 0
 
     check_bounds(@particles)
-    render_all
+    render(@particles)
   end
 
   def grow
@@ -47,12 +47,8 @@ class Dla
     grower_source.new(particles, :overlap => overlap, :radius => radius)
   end
 
-  def render(particle)
-    renderer.render(particle)
-  end
-
-  def render_all
-    particles.each { |particle| render(particle) }
+  def render(particles)
+    Array(particles).each { |particle| renderer.render(particle) }
   end
 
   def add_particle(particle)
