@@ -4,10 +4,6 @@ def setup
   size 800, 600
   background 0
 
-  noStroke
-  smooth
-  ellipseMode(RADIUS)
-
   @dla = Dla.new(:renderer => Renderer.new)
 end
 
@@ -18,10 +14,17 @@ end
 class Renderer
 
   def render(particle)
+    settings
     ellipse x(particle), y(particle), particle.radius, particle.radius
   end
 
   private
+
+  def settings
+    noStroke
+    smooth
+    ellipseMode(RADIUS)
+  end
 
   def x(particle)
     x_origin + particle.x

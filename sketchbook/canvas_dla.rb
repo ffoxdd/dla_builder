@@ -38,26 +38,28 @@ def setup
   size *dimensions
   background 0
 
-  noStroke
-  smooth
-  ellipseMode(RADIUS)
-
   @dla = Dla.new(:renderer => Renderer.new, :radius => radius, :overlap => radius / 1000)
 end
 
 def draw
   @dla.grow
-
   puts @dla.size if @dla.size % 250 == 0
 end
 
 class Renderer
 
   def render(particle)
+    settings
     ellipse x(particle), y(particle), particle.radius, particle.radius
   end
 
   private
+
+  def settings
+    noStroke
+    smooth
+    ellipseMode(RADIUS)
+  end
 
   def x(particle)
     x_origin + particle.x
