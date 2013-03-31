@@ -52,6 +52,20 @@ describe Particle do
     end
   end
 
+  describe "#x_extent" do
+    it "returns the magnitude of the x position plus the radius" do
+      particle = Particle.new(-3, 4, 5)
+      particle.x_extent.must_equal 8 
+    end
+  end
+
+  describe "#y_extent" do
+    it "returns the magnitude of the x position plus the radius" do
+      particle = Particle.new(3, -4, 5)
+      particle.y_extent.must_equal 9
+    end
+  end
+
   describe "#distance" do
     let(:particle) { Particle.new(0, 0, 1) }
 

@@ -16,6 +16,14 @@ class Particle
     magnitude + radius
   end
 
+  def x_extent
+    @x.abs + radius
+  end
+
+  def y_extent
+    @y.abs + radius
+  end
+
   def distance(particle)
     center_distance(particle) - (radius + particle.radius)
   end

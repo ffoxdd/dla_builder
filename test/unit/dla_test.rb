@@ -11,7 +11,7 @@ describe Dla do
   let(:grower) { MiniTest::Mock.new }
   let(:grower_source) { MiniTest::Mock.new }
 
-  let(:seed) { Object.new }
+  let(:seed) { mock_particle }
   let(:seeds) { [seed] }
   before { renderer.expect(:render, true, [seed]) }
 
@@ -32,7 +32,7 @@ describe Dla do
     end
 
     describe "multiple seeds" do
-      let(:different_seed) { Object.new }
+      let(:different_seed) { mock_particle }
       let(:options) { {:renderer => renderer, :seeds => [seed, different_seed]} }
 
       it "allows multiple seeds to be passed in" do
@@ -51,7 +51,7 @@ describe Dla do
   end
 
   describe "#grow" do
-    let(:new_particle) { Object.new }
+    let(:new_particle) { mock_particle }
 
     let(:options) do
       {
@@ -88,6 +88,39 @@ describe Dla do
       dla.save("filename")
       persister.verify
     end
+  end
+
+  describe "#within_bounds?" do
+    it "returns true when within the given bounds" do
+      seeds = [mock_particle(1, 1)]
+      dla = Dla.new(:seeds => seeds)
+
+      dla.within_bounds?(-2..2, -2..2).must_equal true
+    end
+
+    it "returns false when outside the given x range" do
+      seeds = [mock_particle(1, 1), mock_particle(2.5, 1)]
+      dla = Dla.new(:seeds => seeds)
+
+      dla.within_bounds?(-2..2, -2..2).must_equal false
+    end
+
+    it "returns false when outside the given y range" do
+      seeds = [mock_particle(1, 1), mock_particle(1, 2.5)]
+      dla = Dla.new(:seeds => seeds)
+
+      dla.within_bounds?(-2..2, -2..2).must_equal false
+    end
+  end
+
+  private
+
+  def mock_particle(x_extent = 1, y_extent = 1)
+    OpenStruct.new(
+      :extent => Math.hypot(x_extent, y_extent),
+      :x_extent => x_extent,
+      :y_extent => y_extent
+    )
   end
 
 end
