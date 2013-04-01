@@ -39,16 +39,16 @@ class Dla
     x_range.include?(@x_extent) && y_range.include?(@y_extent)
   end
 
+  def render(rendered_particles = particles)
+    Array(rendered_particles).each { |particle| renderer.render(particle) }
+  end
+
   private
 
   attr_reader :renderer, :grower_source, :persister, :seeds, :particles, :overlap, :radius
 
   def grower
     grower_source.new(particles, :overlap => overlap, :radius => radius)
-  end
-
-  def render(particles)
-    Array(particles).each { |particle| renderer.render(particle) }
   end
 
   def add_particle(particle)

@@ -113,7 +113,21 @@ describe Dla do
     end
   end
 
+  describe "#render" do
+    let(:seeds) { [mock_particle, mock_particle] }
+    before { seeds.each { |seed| renderer.expect(:render, nil, [seed]) } }
+
+    it "renders all the particles" do
+      dla = Dla.new(:seeds => seeds, :renderer => renderer)
+      seeds.each { |seed| renderer.expect(:render, nil, [seed]) }
+
+      dla.render
+    end
+  end
+
   private
+
+  require 'ostruct'
 
   def mock_particle(x_extent = 1, y_extent = 1)
     OpenStruct.new(
