@@ -21,6 +21,8 @@ class Dla
     render(@particles)
   end
 
+  attr_writer :renderer
+
   def grow
     new_particle = grower.grow
     check_bounds(new_particle)

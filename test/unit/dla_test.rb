@@ -125,6 +125,18 @@ describe Dla do
     end
   end
 
+  describe "#renderer=" do
+    let(:renderer) { MiniTest::Mock.new }
+    let(:dla) { Dla.new(:seeds => seed) }
+
+    it "uses the assigned renderer" do
+      dla.renderer = renderer
+      renderer.expect(:render, nil, [seed])
+
+      dla.render
+    end
+  end
+
   private
 
   require 'ostruct'
