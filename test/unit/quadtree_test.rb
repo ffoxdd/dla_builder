@@ -53,6 +53,31 @@ describe Quadtree do
     end
   end
 
+  describe "#within" do
+    let(:quadtree) { Quadtree.new(0...10, 0...10) }
+
+    let(:inside_particles) do
+      [ mock_particle(2, 5), mock_particle(3, 6),
+        mock_particle(2.5, 5.1), mock_particle(3, 5.5) ]
+    end
+
+    let(:outside_particles) do
+      [ mock_particle(1, 5), mock_particle(1.5, 6),
+        mock_particle(2.5, 4.9), mock_particle(3, 10) ]
+    end
+
+    before do
+      inside_particles.each { |particle| quadtree.add(particle) }
+      outside_particles.each { |particle| quadtree.add(particle) }
+    end
+
+    require 'set'
+
+    it "returns all particles within the given bounds" do
+      Set.new(quadtree.within(2..3, 5..6)).must_equal Set.new(inside_particles)
+    end
+  end
+
   private
 
   require 'ostruct'

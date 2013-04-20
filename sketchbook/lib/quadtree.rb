@@ -20,6 +20,12 @@ class Quadtree
     x_range.cover?(particle.x) && y_range.cover?(particle.y)
   end
 
+  def within(test_x_range, test_y_range)
+    @particles.select do |particle|
+      test_x_range.cover?(particle.x) && test_y_range.cover?(particle.y)
+    end
+  end
+
   private
 
   attr_reader :x_range, :y_range, :particles
