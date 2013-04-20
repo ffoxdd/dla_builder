@@ -9,11 +9,11 @@ class Quadtree
   end
 
   def size
-    @particles.size
+    particles.size
   end
 
   def add(particle)
-    @particles.push(particle)
+    particles.push(particle) if cover?(particle)
   end
 
   def cover?(particle)
@@ -22,7 +22,7 @@ class Quadtree
 
   private
 
-  attr_reader :x_range, :y_range
+  attr_reader :x_range, :y_range, :particles
 
   def valid_ranges?(*args)
    ranges?(*args) && open_ended?(*args)
@@ -35,6 +35,5 @@ class Quadtree
   def open_ended?(*args)
     args.all?(&:exclude_end?)
   end
-
 
 end

@@ -25,11 +25,15 @@ describe Quadtree do
 
   describe "#add" do
     let(:quadtree) { Quadtree.new(0...1, 0...1) }
-    let(:particle) { Object.new }
 
-    it "adds the particle" do
-      quadtree.add(particle)
+    it "adds a particle" do
+      quadtree.add(mock_particle(0.5, 0.5))
       quadtree.size.must_equal 1
+    end
+
+    it "doesn't add a particle if it is outside the tree's bounds" do
+      quadtree.add(mock_particle(2, 2))
+      quadtree.size.must_equal 0
     end
   end
 
