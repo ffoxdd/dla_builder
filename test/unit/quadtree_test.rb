@@ -4,13 +4,17 @@ require 'minitest/mock'
 require 'minitest/autorun'
 
 require_relative "../../sketchbook/lib/quadtree.rb"
-# require_relative "../../sketchbook/lib/particle.rb" # TODO: remove the dependency on particle.rb
 
 describe Quadtree do
 
   describe "#initialize" do
-    it "doesn't blow up" do
+    it "initializes with valid arguments" do
       -> { Quadtree.new(0...1, 0...1) }.must_be_silent
+    end
+
+    it "requires open-ended range arguments" do
+      -> { Quadtree.new(0, 0) }.must_raise(ArgumentError)
+      -> { Quadtree.new(0..1, 0..1) }.must_raise(ArgumentError)
     end
 
     it "starts of with zero particles" do
