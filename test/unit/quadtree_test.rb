@@ -37,19 +37,19 @@ describe Quadtree do
     end
   end
 
-  describe "#cover?" do
+  describe "#covers?" do
     let(:quadtree) { Quadtree.new(0...1, 0...1) }
 
     it "returns true if the quadtree covers the particle" do
-      quadtree.cover?(mock_particle(0, 0)).must_equal true
-      quadtree.cover?(mock_particle(0.5, 0.5)).must_equal true
-      quadtree.cover?(mock_particle(0.999, 0.999)).must_equal true
+      quadtree.covers?(mock_particle(0, 0)).must_equal true
+      quadtree.covers?(mock_particle(0.5, 0.5)).must_equal true
+      quadtree.covers?(mock_particle(0.999, 0.999)).must_equal true
 
-      quadtree.cover?(mock_particle(1, 0)).must_equal false
-      quadtree.cover?(mock_particle(0, 1)).must_equal false
-      quadtree.cover?(mock_particle(0.5, 2)).must_equal false
-      quadtree.cover?(mock_particle(2, 0.5)).must_equal false
-      quadtree.cover?(mock_particle(10, 10)).must_equal false
+      quadtree.covers?(mock_particle(1, 0)).must_equal false
+      quadtree.covers?(mock_particle(0, 1)).must_equal false
+      quadtree.covers?(mock_particle(0.5, 2)).must_equal false
+      quadtree.covers?(mock_particle(2, 0.5)).must_equal false
+      quadtree.covers?(mock_particle(10, 10)).must_equal false
     end
   end
 

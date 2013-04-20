@@ -13,10 +13,10 @@ class Quadtree
   end
 
   def add(particle)
-    particles.push(particle) if cover?(particle)
+    particles.push(particle) if covers?(particle)
   end
 
-  def cover?(particle)
+  def covers?(particle)
     x_range.cover?(particle.x) && y_range.cover?(particle.y)
   end
 
