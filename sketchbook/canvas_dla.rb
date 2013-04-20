@@ -3,8 +3,8 @@ require File.join(File.dirname(__FILE__), "lib", "dla")
 # TODO: encapsulate canvas <-> viewport coordinate system in an object
 
 CANVAS_DIMENSIONS = [60, 48] # inches
-PARTICLE_DIAMETER = 5 # millimeters
-VIEWPORT_DIMENSIONS = [1200, 700] # pixels
+PARTICLE_DIAMETER = 4 # millimeters
+VIEWPORT_DIMENSIONS = [1280, 720] # 720p
 
 MM_PER_IN = 25.4
 
