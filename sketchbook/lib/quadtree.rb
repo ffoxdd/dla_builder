@@ -16,8 +16,8 @@ class Quadtree
     @particles.push(particle)
   end
 
-  def contains?(particle)
-    x_range.include?(particle.x) && y_range.include?(particle.y)
+  def cover?(particle)
+    x_range.cover?(particle.x) && y_range.cover?(particle.y)
   end
 
   private
