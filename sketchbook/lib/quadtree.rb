@@ -1,6 +1,6 @@
 class Quadtree
 
-  def initialize(x_range, y_range)
+  def initialize(x_range, y_range, options = {})
     raise ArgumentError, "invalid range" unless valid_ranges?(x_range, y_range)
 
     @x_range = x_range

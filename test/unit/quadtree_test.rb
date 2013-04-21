@@ -3,6 +3,8 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
+require 'set'
+
 require_relative "../../sketchbook/lib/quadtree.rb"
 
 describe Quadtree do
@@ -54,27 +56,59 @@ describe Quadtree do
   end
 
   describe "#within" do
-    let(:quadtree) { Quadtree.new(0...10, 0...10) }
+    describe "finding particles" do
+      let(:quadtree) { Quadtree.new(0...10, 0...10) }
 
-    let(:inside_particles) do
-      [ mock_particle(2, 5), mock_particle(3, 6),
-        mock_particle(2.5, 5.1), mock_particle(3, 5.5) ]
+      let(:inside_particles) do
+        [ mock_particle(2, 5), mock_particle(3, 6),
+          mock_particle(2.5, 5.1), mock_particle(3, 5.5) ]
+      end
+
+      let(:outside_particles) do
+        [ mock_particle(1, 5), mock_particle(1.5, 6),
+          mock_particle(2.5, 4.9), mock_particle(3, 10) ]
+      end
+
+      before do
+        inside_particles.each { |particle| quadtree.add(particle) }
+        outside_particles.each { |particle| quadtree.add(particle) }
+      end
+
+      it "returns all particles within the given bounds" do
+        Set.new(quadtree.within(2..3, 5..6)).must_equal Set.new(inside_particles)
+      end
     end
 
-    let(:outside_particles) do
-      [ mock_particle(1, 5), mock_particle(1.5, 6),
-        mock_particle(2.5, 4.9), mock_particle(3, 10) ]
-    end
+    describe "optimized search" do
+      let(:q0_particle) { MiniTest::Mock.new }
+      let(:q3_particle) { MiniTest::Mock.new }
 
-    before do
-      inside_particles.each { |particle| quadtree.add(particle) }
-      outside_particles.each { |particle| quadtree.add(particle) }
-    end
+      before do
+        q0_particle.expect(:x, 1)
+        q0_particle.expect(:y, 1)
 
-    require 'set'
+        q3_particle.expect(:x, 9)
+        q3_particle.expect(:y, 9)
 
-    it "returns all particles within the given bounds" do
-      Set.new(quadtree.within(2..3, 5..6)).must_equal Set.new(inside_particles)
+        quadtree.add(q0_particle)
+        quadtree.add(q3_particle)
+      end
+
+      describe "for a tree of depth 1" do
+        let(:quadtree) { Quadtree.new(0...10, 0...10, :max_depth => 1) }
+
+        it "searches all particles for a tree of depth 1" do
+          q0_particle.expect(:x, 1)
+          q0_particle.expect(:y, 1)
+
+          q3_particle.expect(:x, 9)
+          q3_particle.expect(:y, 9)
+
+          quadtree.within(0..2, 0..2).must_equal [q0_particle]
+          q0_particle.verify
+          q3_particle.verify
+        end
+      end
     end
   end
 
