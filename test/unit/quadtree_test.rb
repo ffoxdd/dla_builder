@@ -19,14 +19,19 @@ describe Quadtree do
       -> { Quadtree.new(0..1, 0..1) }.must_raise(ArgumentError)
     end
 
-    it "starts of with zero particles" do
+    it "starts off with zero particles" do
       quadtree = Quadtree.new(0...1, 0...1)
       quadtree.size.must_equal 0      
+    end
+
+    it "start off with zero depth" do
+      quadtree = Quadtree.new(0...1, 0...1)
+      quadtree.depth.must_equal 0
     end
   end
 
   describe "#add" do
-    let(:quadtree) { Quadtree.new(0...1, 0...1) }
+    let(:quadtree) { Quadtree.new(0...1, 0...1, :max_depth => 3) }
 
     it "adds a particle" do
       quadtree.add(mock_particle(0.5, 0.5))
@@ -36,6 +41,13 @@ describe Quadtree do
     it "doesn't add a particle if it is outside the tree's bounds" do
       quadtree.add(mock_particle(2, 2))
       quadtree.size.must_equal 0
+    end
+
+    it "subdivides to the maximum depth upon adding the first particle" do
+      $DEBUG = true
+      quadtree.add(mock_particle(0.5, 0.5))
+      quadtree.depth.must_equal 3
+      $DEBUG = false
     end
   end
 
@@ -83,21 +95,23 @@ describe Quadtree do
       let(:q0_particle) { MiniTest::Mock.new }
       let(:q3_particle) { MiniTest::Mock.new }
 
-      before do
-        q0_particle.expect(:x, 1)
-        q0_particle.expect(:y, 1)
-
-        q3_particle.expect(:x, 9)
-        q3_particle.expect(:y, 9)
-
-        quadtree.add(q0_particle)
-        quadtree.add(q3_particle)
-      end
-
       describe "for a tree of depth 1" do
         let(:quadtree) { Quadtree.new(0...10, 0...10, :max_depth => 1) }
 
-        it "searches all particles for a tree of depth 1" do
+        before do
+          3.times do
+            q0_particle.expect(:x, 1)
+            q0_particle.expect(:y, 1)
+
+            q3_particle.expect(:x, 9)
+            q3_particle.expect(:y, 9)
+          end
+
+          quadtree.add(q0_particle)
+          quadtree.add(q3_particle)
+        end
+
+        it "searches all particles" do
           q0_particle.expect(:x, 1)
           q0_particle.expect(:y, 1)
 
@@ -108,6 +122,9 @@ describe Quadtree do
           q0_particle.verify
           q3_particle.verify
         end
+      end
+
+      describe "for a tree of depth greater than 1" do
       end
     end
   end
