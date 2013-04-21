@@ -28,6 +28,10 @@ class Particle
     center_distance(particle) - (radius + particle.radius)
   end
 
+  def center_within?(x_range, y_range)
+    x_range.cover?(x) && y_range.cover?(y)
+  end
+
   def step(distance)
     translate(*random_coordinates(distance))
     self
