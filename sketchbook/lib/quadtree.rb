@@ -1,3 +1,5 @@
+require File.join(File.dirname(__FILE__), "range_intersection_calculator")
+
 class Quadtree
 
   def initialize(x_range, y_range, options = {})
@@ -25,9 +27,11 @@ class Quadtree
   end
 
   def within(test_x_range, test_y_range)
+    return [] unless intersects?(test_x_range, test_y_range)
+
     if leaf?
       @particles.select do |particle|
-        test_x_range.cover?(particle.x) && test_y_range.cover?(particle.y) # particle#within? would be better
+        test_x_range.cover?(particle.x) && test_y_range.cover?(particle.y)
       end
     else
       children.flat_map { |child| child.within(test_x_range, test_y_range) }
@@ -39,9 +43,31 @@ class Quadtree
     children.map(&:depth).max + 1
   end
 
+  # def all_children
+  #   children.flat_map(&:all_children) + [self]
+  # end
+
+  # def print(indent = 0)
+  #   puts ("-" * indent) + [x_range, y_range, particles].inspect
+  #   children.each { |c| c.print(indent + 1) }
+  #   nil
+  # end
+
   private
 
   attr_reader :x_range, :y_range, :particles, :max_depth, :children
+
+  def intersects?(test_x_range, test_y_range)
+    x_range_intersects?(test_x_range) && y_range_intersects?(test_y_range)
+  end
+
+  def x_range_intersects?(range)
+    RangeIntersectionCalculator.new(x_range, range).intersect?
+  end
+
+  def y_range_intersects?(range)
+    RangeIntersectionCalculator.new(y_range, range).intersect?
+  end
 
   def child_for(particle)
     children[child_index_for(particle)]

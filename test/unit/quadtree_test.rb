@@ -44,10 +44,8 @@ describe Quadtree do
     end
 
     it "subdivides to the maximum depth upon adding the first particle" do
-      $DEBUG = true
       quadtree.add(mock_particle(0.5, 0.5))
       quadtree.depth.must_equal 3
-      $DEBUG = false
     end
   end
 
@@ -72,13 +70,11 @@ describe Quadtree do
       let(:quadtree) { Quadtree.new(0...10, 0...10) }
 
       let(:inside_particles) do
-        [ mock_particle(2, 5), mock_particle(3, 6),
-          mock_particle(2.5, 5.1), mock_particle(3, 5.5) ]
+        [mock_particle(2, 2), mock_particle(3, 3), mock_particle(2.5, 2.5)]
       end
 
       let(:outside_particles) do
-        [ mock_particle(1, 5), mock_particle(1.5, 6),
-          mock_particle(2.5, 4.9), mock_particle(3, 10) ]
+        [mock_particle(1, 1), mock_particle(2, 3.1), mock_particle(3, 0.5)]
       end
 
       before do
@@ -87,7 +83,7 @@ describe Quadtree do
       end
 
       it "returns all particles within the given bounds" do
-        Set.new(quadtree.within(2..3, 5..6)).must_equal Set.new(inside_particles)
+        Set.new(quadtree.within(2..3, 2..3)).must_equal Set.new(inside_particles)
       end
     end
 
@@ -98,30 +94,30 @@ describe Quadtree do
       describe "for a tree of depth 1" do
         let(:quadtree) { Quadtree.new(0...10, 0...10, :max_depth => 1) }
 
-        before do
-          3.times do
-            q0_particle.expect(:x, 1)
-            q0_particle.expect(:y, 1)
+        # before do
+        #   3.times do
+        #     q0_particle.expect(:x, 1)
+        #     q0_particle.expect(:y, 1)
 
-            q3_particle.expect(:x, 9)
-            q3_particle.expect(:y, 9)
-          end
+        #     q3_particle.expect(:x, 9)
+        #     q3_particle.expect(:y, 9)
+        #   end
 
-          quadtree.add(q0_particle)
-          quadtree.add(q3_particle)
-        end
+        #   quadtree.add(q0_particle)
+        #   quadtree.add(q3_particle)
+        # end
 
-        it "searches all particles" do
-          q0_particle.expect(:x, 1)
-          q0_particle.expect(:y, 1)
+        # it "searches all particles" do
+        #   q0_particle.expect(:x, 1)
+        #   q0_particle.expect(:y, 1)
 
-          q3_particle.expect(:x, 9)
-          q3_particle.expect(:y, 9)
+        #   q3_particle.expect(:x, 9)
+        #   q3_particle.expect(:y, 9)
 
-          quadtree.within(0..2, 0..2).must_equal [q0_particle]
-          q0_particle.verify
-          q3_particle.verify
-        end
+        #   quadtree.within(0..2, 0..2).must_equal [q0_particle]
+        #   q0_particle.verify
+        #   q3_particle.verify
+        # end
       end
 
       describe "for a tree of depth greater than 1" do
@@ -133,8 +129,21 @@ describe Quadtree do
 
   require 'ostruct'
 
-  def mock_particle(x = 1, y = 1)
+  # class MockParticle
+  #   def initialize(x, y, center_within)
+  #     @x, @y, @center_within = x, y, center_within
+  #   end
+
+  #   attr_reader :x, :y
+
+  #   def center_within?(*args)
+  #     @center_within
+  #   end
+  # end
+
+  def mock_particle(x = 1, y = 1, center_within = true)
     OpenStruct.new(:x => x, :y => y)
+    # MockParticle.new(x, y, center_within)
   end
 
 end
