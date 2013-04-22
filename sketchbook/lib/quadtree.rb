@@ -3,8 +3,6 @@ require File.join(File.dirname(__FILE__), "range_intersection_calculator")
 class Quadtree
 
   def initialize(x_range, y_range, options = {})
-    raise ArgumentError, "invalid range" unless valid_ranges?(x_range, y_range)
-
     @x_range = x_range
     @y_range = y_range
     @max_depth = options[:max_depth] || 10
@@ -104,18 +102,6 @@ class Quadtree
 
   def leaf?
     children.empty?
-  end
-
-  def valid_ranges?(*args)
-   ranges?(*args) && open_ended?(*args)
-  end
-
-  def ranges?(*args)
-    args.all? { |arg| arg.is_a?(Range) }
-  end
-
-  def open_ended?(*args)
-    args.all?(&:exclude_end?)
   end
 
 end

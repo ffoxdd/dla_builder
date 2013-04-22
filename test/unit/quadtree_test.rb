@@ -10,15 +10,10 @@ require_relative "../../sketchbook/lib/quadtree.rb"
 describe Quadtree do
 
   describe "#initialize" do
-    it "initializes with valid arguments" do
+    it "doesn't blow up" do
       -> { Quadtree.new(0...1, 0...1) }.must_be_silent
     end
-
-    it "requires open-ended range arguments" do
-      -> { Quadtree.new(0, 0) }.must_raise(ArgumentError)
-      -> { Quadtree.new(0..1, 0..1) }.must_raise(ArgumentError)
-    end
-
+    
     it "starts off with zero particles" do
       quadtree = Quadtree.new(0...1, 0...1)
       quadtree.size.must_equal 0      
