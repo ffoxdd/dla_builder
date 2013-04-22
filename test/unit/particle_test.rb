@@ -85,19 +85,6 @@ describe Particle do
     end
   end
 
-  describe "#center_within?" do
-    let(:particle) { Particle.new(1, 1, 1)}
-
-    it "returns true if the particle's center is within the supplied ranges" do
-      particle.center_within?(0..2, 0..2).must_equal true
-      particle.center_within?(1..3, 1..3).must_equal true
-      particle.center_within?(0..1, 1..2).must_equal true
-
-      particle.center_within?(0...1, 0..2).must_equal false
-      particle.center_within?(5..6, 0...1).must_equal false
-    end
-  end
-
   describe "#step" do
     it "steps the particle the given distance in a random direction" do
       particle = Particle.new(0, 0, 1)
@@ -119,4 +106,3 @@ describe Particle do
   end
 
 end
-
