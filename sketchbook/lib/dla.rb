@@ -5,12 +5,12 @@ require File.join(File.dirname(__FILE__), "grower")
 class Dla
 
   def initialize(options = {})
-    @renderer = options[:renderer] || Renderer.new
-    @grower_source = options[:grower_source] || Grower
-    @persister = options[:persister] || Persister
-    @radius = Float(options.fetch(:radius, 4))
-    @seeds = Array(options.fetch(:seeds, default_seeds))
-    @overlap = Float(options.fetch(:overlap, @radius / 8.0))
+    @renderer = options.fetch(:renderer) { Renderer.new }
+    @grower_source = options.fetch(:grower_source) { Grower }
+    @persister = options.fetch(:persister) { Persister }
+    @radius = Float(options.fetch(:radius) { 4 })
+    @seeds = Array(options.fetch(:seeds) { default_seeds })
+    @overlap = Float(options.fetch(:overlap) { @radius / 8.0 })
     @particles = @seeds.dup
 
     @extent = 0

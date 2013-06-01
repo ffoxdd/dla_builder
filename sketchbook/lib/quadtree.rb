@@ -5,12 +5,12 @@ class Quadtree
   def initialize(x_range, y_range, options = {})
     @x_range = x_range
     @y_range = y_range
-    @max_depth = options[:max_depth] || 10
+    @max_depth = options.fetch(:max_depth) { 10 }
     @particles = []
     @children = []
   end
 
-  def size
+  def size # TODO: find out if this is needed
     leaf? ? particles.size : children.map(&:size).inject(&:+)
   end
 
@@ -36,7 +36,7 @@ class Quadtree
     end
   end
 
-  def depth
+  def depth # TODO: find out if this is needed
     return 0 if leaf?
     children.map(&:depth).max + 1
   end
