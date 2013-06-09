@@ -60,6 +60,16 @@ describe Quadtree do
     end
   end
 
+  describe "Enumerable" do
+    let(:particles) { 4.times.map { mock_particle } }
+    let(:quadtree) { Quadtree.new(0...10, 0...10) }
+    before { particles.each { |particle| quadtree << particle } }
+
+    it "visits all the particles" do
+      Set.new(quadtree.to_a).must_equal Set.new(particles)
+    end
+  end
+
   describe "#within" do
     describe "finding particles" do
       let(:quadtree) { Quadtree.new(0...10, 0...10) }

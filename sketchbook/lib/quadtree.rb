@@ -2,6 +2,8 @@ require File.join(File.dirname(__FILE__), "range_intersection_calculator")
 
 class Quadtree
 
+  include Enumerable
+
   def initialize(x_range, y_range, options = {})
     @x_range = x_range
     @y_range = y_range
@@ -18,6 +20,14 @@ class Quadtree
     return unless covers?(particle)
     subdivide if leaf? && can_subdivide?
     (leaf? ? particles : child_for(particle)) << particle
+  end
+
+  def each(&block)
+    if leaf?
+      particles.each(&block)
+    else
+      children.each { |child| child.each(&block) }
+    end
   end
 
   def covers?(particle)
