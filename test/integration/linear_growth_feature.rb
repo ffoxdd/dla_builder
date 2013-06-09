@@ -5,7 +5,7 @@ require 'minitest/autorun'
 
 require_relative '../../sketchbook/lib/dla.rb'
 
-describe "Simple DLA Growth" do
+describe "Linear DLA Growth" do
 
   let(:seed) { [Particle.new(0, 0, 2)] }
   let(:renderer) { MiniTest::Mock.new }
@@ -16,6 +16,7 @@ describe "Simple DLA Growth" do
   	10.times { renderer.expect(:render, nil, [Particle]) }
 
     -> { 10.times { dla.grow } }.must_be_silent
+    dla.size.must_equal 11
   end
 
 end

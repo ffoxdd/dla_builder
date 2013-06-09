@@ -1,5 +1,4 @@
 require File.join(File.dirname(__FILE__), "particle")
-require File.join(File.dirname(__FILE__), "quadtree")
 require File.join(File.dirname(__FILE__), "persister")
 require File.join(File.dirname(__FILE__), "linear_grower")
 
