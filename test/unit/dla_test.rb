@@ -64,7 +64,7 @@ describe Dla do
     end
 
     it "calls through to the grower and renders a new particle onto the aggregate" do
-      grower_source.expect(:new, grower, [seeds, {:radius => 2.0, :overlap => 0.5}])
+      grower_source.expect(:new, grower, [{:particles => seeds, :radius => 2.0, :overlap => 0.5}])
       grower.expect(:grow, new_particle)
       renderer.expect(:render, true, [new_particle])
 

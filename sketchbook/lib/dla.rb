@@ -50,7 +50,7 @@ class Dla
   attr_reader :renderer, :grower_source, :persister, :seeds, :particles, :overlap, :radius
 
   def grower
-    grower_source.new(particles, :overlap => overlap, :radius => radius)
+    grower_source.new(:particles => particles, :overlap => overlap, :radius => radius)
   end
 
   def add_particle(particle)

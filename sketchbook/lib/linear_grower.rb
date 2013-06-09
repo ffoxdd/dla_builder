@@ -1,7 +1,7 @@
 class LinearGrower
 
-  def initialize(existing_particles, options = {})
-    @existing_particles = existing_particles
+  def initialize(options = {})
+    @particles = options.fetch(:particles)
     @particle_source = options.fetch(:particle_source) { Particle }
     @radius = Float(options.fetch(:radius) { 10 })
     @overlap = Float(options.fetch(:overlap) { 0.2 })
@@ -15,7 +15,7 @@ class LinearGrower
 
   protected
 
-  attr_reader :particle_source, :existing_particles, :overlap, :radius
+  attr_reader :particle_source, :particles, :overlap, :radius
   attr_accessor :test_particle, :closest_particle, :closest_distance
 
   def spawn
@@ -47,11 +47,11 @@ class LinearGrower
   end
 
   def extent
-    existing_particles.map(&:extent).max
+    particles.map(&:extent).max
   end
 
   def calculate_closest
-    self.closest_particle = existing_particles.min_by { |p| test_particle.distance(p) }
+    self.closest_particle = particles.min_by { |p| test_particle.distance(p) }
     self.closest_distance = test_particle.distance(closest_particle)
   end
 
