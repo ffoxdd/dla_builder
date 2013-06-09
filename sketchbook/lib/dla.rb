@@ -1,4 +1,5 @@
 require File.join(File.dirname(__FILE__), "particle")
+require File.join(File.dirname(__FILE__), "quadtree")
 require File.join(File.dirname(__FILE__), "persister")
 require File.join(File.dirname(__FILE__), "linear_grower")
 
@@ -12,6 +13,9 @@ class Dla
     @seeds = Array(options.fetch(:seeds) { default_seeds })
     @overlap = Float(options.fetch(:overlap) { @radius / 8.0 })
     @particles = @seeds.dup
+
+    @quadtree = Quadtree.new(-1000..1000, -1000..1000)
+    particles.each { |particle| quadtree.add(particle) }
 
     @extent = 0
     @x_extent = 0
@@ -47,7 +51,8 @@ class Dla
 
   private
 
-  attr_reader :renderer, :grower_source, :persister, :seeds, :particles, :overlap, :radius
+  attr_reader :renderer, :grower_source, :persister, :seeds, :particles, 
+    :quadtree, :overlap, :radius
 
   def grower
     grower_source.new(:particles => particles, :overlap => overlap, :radius => radius)
@@ -55,6 +60,7 @@ class Dla
 
   def add_particle(particle)
     particles.push(particle)
+    quadtree.add(particle)
     render(particle)
   end
 
