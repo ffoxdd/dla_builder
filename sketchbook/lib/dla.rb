@@ -9,19 +9,19 @@ class Dla
     @renderer = options.fetch(:renderer) { Renderer.new }
     @grower_source = options.fetch(:grower_source) { LinearGrower }
     @persister = options.fetch(:persister) { Persister }
-    @radius = Float(options.fetch(:radius) { 4 })
-    @seeds = Array(options.fetch(:seeds) { default_seeds })
-    @overlap = Float(options.fetch(:overlap) { @radius / 8.0 })
-    @particles = @seeds.dup
 
-    @quadtree = Quadtree.new(-1000..1000, -1000..1000)
-    particles.each { |particle| quadtree << particle }
+    @radius = Float(options.fetch(:radius) { 4 })
+    @overlap = Float(options.fetch(:overlap) { @radius / 8.0 })
+
+    @seeds = Array(options.fetch(:seeds) { default_seeds })
+    @particles = options.fetch(:particles) { [] }
+    seeds.each { |seed| particles << seed }
 
     @extent = 0
     @x_extent = 0
     @y_extent = 0
 
-    check_bounds(@particles)
+    check_bounds(particles)
     render(@particles)
   end
 
@@ -59,8 +59,7 @@ class Dla
   end
 
   def add_particle(particle)
-    particles.push(particle)
-    quadtree << particle
+    particles << particle
     render(particle)
   end
 
