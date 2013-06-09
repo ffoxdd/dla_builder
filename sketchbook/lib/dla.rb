@@ -1,12 +1,12 @@
 require File.join(File.dirname(__FILE__), "particle")
 require File.join(File.dirname(__FILE__), "persister")
-require File.join(File.dirname(__FILE__), "grower")
+require File.join(File.dirname(__FILE__), "linear_grower")
 
 class Dla
 
   def initialize(options = {})
     @renderer = options.fetch(:renderer) { Renderer.new }
-    @grower_source = options.fetch(:grower_source) { Grower }
+    @grower_source = options.fetch(:grower_source) { LinearGrower }
     @persister = options.fetch(:persister) { Persister }
     @radius = Float(options.fetch(:radius) { 4 })
     @seeds = Array(options.fetch(:seeds) { default_seeds })

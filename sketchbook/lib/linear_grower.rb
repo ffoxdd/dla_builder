@@ -1,6 +1,6 @@
-class Grower
+class LinearGrower
 
-  def initialize(existing_particles, options={})
+  def initialize(existing_particles, options = {})
     @existing_particles = existing_particles
     @particle_source = options.fetch(:particle_source) { Particle }
     @radius = Float(options.fetch(:radius) { 10 })
