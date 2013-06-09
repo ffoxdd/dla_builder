@@ -15,7 +15,7 @@ class Dla
     @particles = @seeds.dup
 
     @quadtree = Quadtree.new(-1000..1000, -1000..1000)
-    particles.each { |particle| quadtree.add(particle) }
+    particles.each { |particle| quadtree << particle }
 
     @extent = 0
     @x_extent = 0
@@ -60,7 +60,7 @@ class Dla
 
   def add_particle(particle)
     particles.push(particle)
-    quadtree.add(particle)
+    quadtree << particle
     render(particle)
   end
 

@@ -14,10 +14,10 @@ class Quadtree
     leaf? ? particles.size : children.map(&:size).inject(&:+)
   end
 
-  def add(particle)
+  def <<(particle)
     return unless covers?(particle)
     subdivide if leaf? && can_subdivide?
-    leaf? ? particles.push(particle) : child_for(particle).add(particle)
+    (leaf? ? particles : child_for(particle)) << particle
   end
 
   def covers?(particle)

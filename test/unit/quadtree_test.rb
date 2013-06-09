@@ -25,21 +25,21 @@ describe Quadtree do
     end
   end
 
-  describe "#add" do
+  describe "#<<" do
     let(:quadtree) { Quadtree.new(0...1, 0...1, :max_depth => 3) }
 
     it "adds a particle" do
-      quadtree.add(mock_particle(0.5, 0.5))
+      quadtree << mock_particle(0.5, 0.5)
       quadtree.size.must_equal 1
     end
 
     it "doesn't add a particle if it is outside the tree's bounds" do
-      quadtree.add(mock_particle(2, 2))
+      quadtree << mock_particle(2, 2)
       quadtree.size.must_equal 0
     end
 
     it "subdivides to the maximum depth upon adding the first particle" do
-      quadtree.add(mock_particle(0.5, 0.5))
+      quadtree << mock_particle(0.5, 0.5)
       quadtree.depth.must_equal 3
     end
   end
@@ -73,8 +73,8 @@ describe Quadtree do
       end
 
       before do
-        inside_particles.each { |particle| quadtree.add(particle) }
-        outside_particles.each { |particle| quadtree.add(particle) }
+        inside_particles.each { |particle| quadtree << particle }
+        outside_particles.each { |particle| quadtree << particle }
       end
 
       it "returns all particles within the given bounds" do
@@ -96,8 +96,8 @@ describe Quadtree do
           q3_particle.expect(:x, 9)
           q3_particle.expect(:y, 9)
 
-          quadtree.add(q0_particle)
-          quadtree.add(q3_particle)
+          quadtree << q0_particle
+          quadtree << q3_particle
         end
 
         it "searches all particles" do
@@ -125,8 +125,8 @@ describe Quadtree do
             q3_particle.expect(:y, 9)
           end
 
-          quadtree.add(q0_particle)
-          quadtree.add(q3_particle)
+          quadtree << q0_particle
+          quadtree << q3_particle
         end
 
         it "doesn't search all particles" do
