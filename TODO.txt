@@ -1,0 +1,1 @@
+- [ ] Make Quadtree an enumerable, and use the same interface for both LinearGrower and QuadtreeGrower
