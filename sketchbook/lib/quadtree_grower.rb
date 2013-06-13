@@ -57,10 +57,19 @@ class QuadtreeGrower
   def calculate_closest
     self.closest_particle = closest_neighborhood_particle
     self.closest_distance = (test_particle.distance(closest_particle) if closest_particle)
+
+    if closest_distance > neighborhood_radius
+      self.closest_particle = nil
+      self.closest_distance = nil
+    end
   end
 
   def neighborhood_range(center)
-    (center - neighborhood_radius / 2)..(center + neighborhood_radius / 2)
+    (center - search_radius)..(center + search_radius)
+  end
+
+  def search_radius
+    neighborhood_radius + radius
   end
 
   def neighborhood_particles

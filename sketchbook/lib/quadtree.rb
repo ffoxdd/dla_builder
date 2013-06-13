@@ -7,7 +7,7 @@ class Quadtree
   def initialize(x_range, y_range, options = {})
     @x_range = x_range
     @y_range = y_range
-    @max_depth = options.fetch(:max_depth) { 10 }
+    @max_depth = options.fetch(:max_depth) { 6 }
     @particles = []
     @children = []
   end
@@ -31,7 +31,7 @@ class Quadtree
   end
 
   def covers?(particle)
-    x_range.cover?(particle.x) && y_range.cover?(particle.y)
+    x_range.include?(particle.x) && y_range.include?(particle.y)
   end
 
   def within(test_x_range, test_y_range)
@@ -39,10 +39,10 @@ class Quadtree
 
     if leaf?
       @particles.select do |particle|
-        test_x_range.cover?(particle.x) && test_y_range.cover?(particle.y)
+        test_x_range.include?(particle.x) && test_y_range.include?(particle.y)
       end
     else
-      children.flat_map { |child| child.within(test_x_range, test_y_range) }
+      children.map { |child| child.within(test_x_range, test_y_range) }.flatten # TODO: use flat_map after upgrading ruby
     end
   end
 

@@ -1,4 +1,6 @@
 require File.join(File.dirname(__FILE__), "lib", "dla")
+require File.join(File.dirname(__FILE__), "lib", "quadtree")
+require File.join(File.dirname(__FILE__), "lib", "quadtree_grower")
 
 # TODO: encapsulate canvas <-> viewport coordinate system in an object
 
@@ -32,13 +34,27 @@ def radius
   particle_diameter_inches * pixels_per_inch
 end
 
+def new_dla
+  # @dla = Dla.new \
+  #   :particles => Quadtree.new(-2000..2000, -2000..2000),
+  #   :grower_source => QuadtreeGrower,
+  #   :renderer => Renderer.new,
+  #   :radius => radius,
+  #   :overlap => radius / 1000
+
+  @dla = Dla.new \
+    :renderer => Renderer.new,
+    :radius => radius,
+    :overlap => radius / 1000
+end
+
 def setup
   puts({:dimensions => dimensions, :radius => radius}.inspect)
   
   size *dimensions
   background 0
 
-  @dla = Dla.new(:renderer => Renderer.new, :radius => radius, :overlap => radius / 1000)
+  @dla = new_dla
 end
 
 def draw
