@@ -7,7 +7,7 @@ class AlgorithmBenchmark
     @algorithm = algorithm
 
     @ranges = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
-    @trial_count = 100
+    @trial_count = 10
     @benchmark_trials = {}
   end
 
@@ -41,15 +41,26 @@ class AlgorithmBenchmark
   end
 
   def self.filename
-    File.join(File.dirname(__FILE__), "algorithm_benchmark-001.yml")
+    base_path = "benchmark-quadtree"
+    File.join(File.dirname(__FILE__), "#{base_path}.yml")
   end
   
 end
 
 
 require_relative '../sketchbook/lib/dla.rb'
+require_relative '../sketchbook/lib/quadtree.rb'
+require_relative '../sketchbook/lib/quadtree_grower.rb'
 
-algorithm_benchmark = AlgorithmBenchmark.new { |n| dla = Dla.new; n.times { dla.grow } }
+algorithm_benchmark = AlgorithmBenchmark.new do |n| 
+  quadtree = Quadtree.new(-2000..2000, -2000..2000)
+  dla = Dla.new(:grower_source => QuadtreeGrower, :particles => quadtree)
+
+  # dla = Dla.new
+
+  n.times { dla.grow }
+end
+
 algorithm_benchmark.perform
 
 algorithm_benchmark.save

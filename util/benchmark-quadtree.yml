@@ -1,0 +1,892 @@
+---
+2:
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.020714282989501953
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.019999999999999997
+  total: 0.019999999999999997
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.012750864028930664
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.009999999999999995
+  total: 0.009999999999999995
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.009361028671264648
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.009999999999999995
+  total: 0.009999999999999995
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.022945165634155273
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.020000000000000004
+  total: 0.020000000000000004
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.012405157089233398
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.010000000000000009
+  total: 0.010000000000000009
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.007313728332519531
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.010000000000000009
+  total: 0.010000000000000009
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.013265132904052734
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.009999999999999981
+  total: 0.009999999999999981
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.01769232749938965
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.010000000000000009
+  total: 0.010000000000000009
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.008923053741455078
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.010000000000000009
+  total: 0.010000000000000009
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.0195772647857666
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.01999999999999999
+  total: 0.01999999999999999
+4:
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.014056921005249023
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.010000000000000009
+  total: 0.010000000000000009
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.014333963394165039
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.009999999999999981
+  total: 0.009999999999999981
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.02642512321472168
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.030000000000000027
+  total: 0.030000000000000027
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.017550945281982422
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.019999999999999962
+  total: 0.019999999999999962
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.0272982120513916
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.030000000000000027
+  total: 0.030000000000000027
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.056839942932128906
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.06
+  total: 0.06
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.016852140426635742
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.009999999999999953
+  total: 0.009999999999999953
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.03236198425292969
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.030000000000000027
+  total: 0.030000000000000027
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.021665096282958984
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.019999999999999962
+  total: 0.019999999999999962
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.03312110900878906
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.040000000000000036
+  total: 0.040000000000000036
+8:
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.05599188804626465
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.05999999999999994
+  total: 0.05999999999999994
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.06818413734436035
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.07000000000000006
+  total: 0.07000000000000006
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.06770110130310059
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.06999999999999995
+  total: 0.06999999999999995
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.08490490913391113
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.08999999999999997
+  total: 0.08999999999999997
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.0775139331817627
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.07000000000000006
+  total: 0.07000000000000006
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.05258321762084961
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.04999999999999993
+  total: 0.04999999999999993
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.06717491149902344
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.07000000000000006
+  total: 0.07000000000000006
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.06210899353027344
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.06000000000000005
+  total: 0.06000000000000005
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.10418510437011719
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.09999999999999987
+  total: 0.09999999999999987
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.0897836685180664
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.09000000000000008
+  total: 0.09000000000000008
+16:
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.13061285018920898
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.1299999999999999
+  total: 0.1299999999999999
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.14949607849121094
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.15000000000000013
+  total: 0.15000000000000013
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.17299604415893555
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.17000000000000015
+  total: 0.17000000000000015
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.14304614067077637
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.1399999999999999
+  total: 0.1399999999999999
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.1992168426513672
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.20000000000000018
+  total: 0.20000000000000018
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.2337942123413086
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.2400000000000002
+  total: 0.2400000000000002
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.20165109634399414
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.20000000000000018
+  total: 0.20000000000000018
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.16408395767211914
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.16000000000000014
+  total: 0.16000000000000014
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.18680381774902344
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.01
+  utime: 0.1900000000000004
+  total: 0.2000000000000004
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.13636183738708496
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.14000000000000012
+  total: 0.14000000000000012
+32:
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.39607930183410645
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.3999999999999999
+  total: 0.3999999999999999
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.41535401344299316
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.41000000000000014
+  total: 0.41000000000000014
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.35625696182250977
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.34999999999999964
+  total: 0.34999999999999964
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.42894482612609863
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.4300000000000006
+  total: 0.4300000000000006
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.43952107429504395
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.4400000000000004
+  total: 0.4400000000000004
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.46619582176208496
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.45999999999999996
+  total: 0.45999999999999996
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.44222116470336914
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.4399999999999995
+  total: 0.4399999999999995
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.38760805130004883
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.3799999999999999
+  total: 0.3799999999999999
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.3958768844604492
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.40000000000000036
+  total: 0.40000000000000036
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.357529878616333
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.3600000000000003
+  total: 0.3600000000000003
+64:
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.8993639945983887
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.8999999999999995
+  total: 0.8999999999999995
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.8139111995697021
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.8100000000000005
+  total: 0.8100000000000005
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.8551990985870361
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.8500000000000014
+  total: 0.8500000000000014
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.8344979286193848
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.8399999999999999
+  total: 0.8399999999999999
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.6801562309265137
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.6799999999999997
+  total: 0.6799999999999997
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.7850890159606934
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.7900000000000009
+  total: 0.7900000000000009
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.8161883354187012
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.8200000000000003
+  total: 0.8200000000000003
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.7272830009460449
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.7200000000000006
+  total: 0.7200000000000006
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.8262948989868164
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 0.8200000000000003
+  total: 0.8200000000000003
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 0.9255111217498779
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.010000000000000002
+  utime: 0.9299999999999997
+  total: 0.9399999999999997
+128:
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 1.6098301410675049
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 1.6100000000000012
+  total: 1.6100000000000012
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 1.6763498783111572
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 1.6799999999999997
+  total: 1.6799999999999997
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 1.9124350547790527
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 1.9000000000000021
+  total: 1.9000000000000021
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 1.7287940979003906
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 1.7300000000000004
+  total: 1.7300000000000004
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 1.7275261878967285
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 1.7300000000000004
+  total: 1.7300000000000004
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 1.9874329566955566
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 1.9800000000000004
+  total: 1.9800000000000004
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 1.9928739070892334
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 1.9899999999999984
+  total: 1.9899999999999984
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 1.7264330387115479
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 1.7300000000000004
+  total: 1.7300000000000004
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 1.7650210857391357
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 1.7600000000000016
+  total: 1.7600000000000016
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 2.427069902420044
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 2.429999999999996
+  total: 2.429999999999996
+256:
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 3.608499765396118
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 3.6000000000000014
+  total: 3.6000000000000014
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 3.1206820011138916
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 3.1099999999999994
+  total: 3.1099999999999994
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 4.262952089309692
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 4.259999999999998
+  total: 4.259999999999998
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 4.3302977085113525
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.009999999999999995
+  utime: 4.330000000000005
+  total: 4.340000000000005
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 4.3117640018463135
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 4.310000000000002
+  total: 4.310000000000002
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 4.109789133071899
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 4.1100000000000065
+  total: 4.1100000000000065
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 3.980801820755005
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 3.980000000000004
+  total: 3.980000000000004
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 3.7705211639404297
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.010000000000000009
+  utime: 3.770000000000003
+  total: 3.780000000000003
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 3.4097070693969727
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 3.4099999999999966
+  total: 3.4099999999999966
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 3.6314051151275635
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 3.6299999999999955
+  total: 3.6299999999999955
+512:
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 10.184324979782104
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.009999999999999995
+  utime: 10.170000000000002
+  total: 10.180000000000001
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 9.949924945831299
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.009999999999999995
+  utime: 9.940000000000012
+  total: 9.950000000000012
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 9.80141282081604
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.010000000000000009
+  utime: 9.789999999999992
+  total: 9.799999999999992
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 8.827506065368652
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 8.820000000000007
+  total: 8.820000000000007
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 9.730571985244751
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.009999999999999995
+  utime: 9.719999999999999
+  total: 9.729999999999999
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 9.84103512763977
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 9.830000000000013
+  total: 9.830000000000013
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 10.745809078216553
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.009999999999999995
+  utime: 10.72999999999999
+  total: 10.73999999999999
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 11.480833768844604
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.010000000000000009
+  utime: 11.469999999999999
+  total: 11.479999999999999
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 9.431404113769531
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 9.430000000000007
+  total: 9.430000000000007
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 10.187485933303833
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.0
+  utime: 10.179999999999978
+  total: 10.179999999999978
+1024:
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 28.379899978637695
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.010000000000000009
+  utime: 28.350000000000023
+  total: 28.360000000000024
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 26.714035987854004
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.020000000000000018
+  utime: 26.680000000000007
+  total: 26.700000000000006
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 27.949530839920044
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.009999999999999981
+  utime: 27.92999999999998
+  total: 27.93999999999998
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 28.776495218276978
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.010000000000000009
+  utime: 28.75
+  total: 28.76
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 27.445873260498047
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.009999999999999981
+  utime: 27.420000000000016
+  total: 27.430000000000017
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 30.589337825775146
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.020000000000000018
+  utime: 30.55000000000001
+  total: 30.57000000000001
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 31.970766067504883
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.03
+  utime: 31.930000000000007
+  total: 31.960000000000008
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 28.1718111038208
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.010000000000000009
+  utime: 28.150000000000034
+  total: 28.160000000000036
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 29.518217086791992
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.010000000000000009
+  utime: 29.49000000000001
+  total: 29.50000000000001
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 33.34956121444702
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.019999999999999962
+  utime: 33.32000000000005
+  total: 33.34000000000005
+2048:
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 109.03372716903687
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.08000000000000002
+  utime: 108.90999999999997
+  total: 108.98999999999997
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 93.23798823356628
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.07
+  utime: 93.12
+  total: 93.19
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 100.30973887443542
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.08000000000000002
+  utime: 100.20000000000005
+  total: 100.28000000000004
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 97.77178311347961
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.030000000000000027
+  utime: 97.69999999999993
+  total: 97.72999999999993
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 86.44705390930176
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.06999999999999995
+  utime: 86.34999999999991
+  total: 86.4199999999999
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 83.56864500045776
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.050000000000000044
+  utime: 83.4799999999999
+  total: 83.5299999999999
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 84.98821997642517
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.029999999999999916
+  utime: 84.93000000000006
+  total: 84.96000000000006
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 85.59765911102295
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.040000000000000036
+  utime: 85.51999999999998
+  total: 85.55999999999999
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 85.19164490699768
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.030000000000000027
+  utime: 85.13000000000011
+  total: 85.16000000000011
+- !ruby/object:Benchmark::Tms
+  label: ''
+  real: 91.96059489250183
+  cstime: 0.0
+  cutime: 0.0
+  stime: 0.030000000000000027
+  utime: 91.8900000000001
+  total: 91.9200000000001
