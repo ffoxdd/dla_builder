@@ -35,17 +35,17 @@ def radius
 end
 
 def new_dla
-  # @dla = Dla.new \
-  #   :particles => Quadtree.new(-2000..2000, -2000..2000),
-  #   :grower_source => QuadtreeGrower,
-  #   :renderer => Renderer.new,
-  #   :radius => radius,
-  #   :overlap => radius / 1000
-
   @dla = Dla.new \
+    :particles => Quadtree.new(-2000..2000, -2000..2000),
+    :grower_source => QuadtreeGrower,
     :renderer => Renderer.new,
     :radius => radius,
     :overlap => radius / 1000
+
+  # @dla = Dla.new \
+  #   :renderer => Renderer.new,
+  #   :radius => radius,
+  #   :overlap => radius / 1000
 end
 
 def setup
