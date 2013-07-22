@@ -1,3 +1,4 @@
 - [x] Make Quadtree an enumerable, and use the same interface for both LinearGrower and QuadtreeGrower
 - [ ] Pull the particles argument out of the options hash now that it's standardized across growers
 - [ ] Factor out a common superclass to LinearGrower and QuadtreeGrower
+- [ ] Factor a helper class out of QuadtreeGrower to encapsulate a single particle step (QuadtreeStepper or something)
