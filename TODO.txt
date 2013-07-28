@@ -6,3 +6,4 @@
 - [ ] Make a non application-specific directory (lib or something) and put the intersection calculators in it
 - [ ] Remove the concept of particles from the quadtree code (it only requires knowledge of points)
 - [ ] Make a shared example group for testing subclasses of Grower
+- [ ] Use a delegator to implement LinearParticleCollection
