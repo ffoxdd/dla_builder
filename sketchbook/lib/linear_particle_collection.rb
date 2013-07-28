@@ -1,21 +1,14 @@
+require 'forwardable'
+
 class LinearParticleCollection
 
   include Enumerable
+  extend Forwardable
+
+  def_delegators :particles, :size, :<<, :each
 
   def initialize
     @particles = []
-  end
-
-  def size
-    particles.size
-  end
-
-  def <<(particle)
-    particles << particle
-  end
-
-  def each(&block)
-    particles.each(&block)
   end
 
   def closest_particle(test_particle)
