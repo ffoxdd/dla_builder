@@ -12,7 +12,7 @@ class Quadtree
     @children = []
   end
 
-  def size # TODO: find out if this is needed
+  def size
     leaf? ? particles.size : children.map(&:size).inject(&:+)
   end
 
@@ -46,20 +46,10 @@ class Quadtree
     end
   end
 
-  def depth # TODO: find out if this is needed
+  def depth
     return 0 if leaf?
     children.map(&:depth).max + 1
   end
-
-  # def all_children
-  #   children.flat_map(&:all_children) + [self]
-  # end
-
-  # def print(indent = 0)
-  #   puts ("-" * indent) + [x_range, y_range, particles].inspect
-  #   children.each { |c| c.print(indent + 1) }
-  #   nil
-  # end
 
   private
 

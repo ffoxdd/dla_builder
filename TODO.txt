@@ -4,3 +4,4 @@
 - [ ] Factor a helper class out of QuadtreeGrower to encapsulate a single particle step (QuadtreeStepper or something)
 - [ ] Make a two dimensional range intersection calculator (AreaIntersectionCalculator?)
 - [ ] Make a non application-specific directory (lib or something) and put the intersection calculators in it
+- [ ] Remove the concept of particles from the quadtree code (it only requires knowledge of points)
