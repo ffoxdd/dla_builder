@@ -37,8 +37,7 @@ class QuadtreeGrower
   end
 
   def stuck?
-    return false unless closest_particle
-    test_particle.distance(closest_particle) <= 0
+    closest_distance <= 0
   end
 
   def step_distance

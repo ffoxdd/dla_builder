@@ -16,30 +16,34 @@ class LinearGrower
   protected
 
   attr_reader :particle_source, :particles, :overlap, :radius
-  attr_accessor :test_particle, :closest_particle, :closest_distance
+  attr_accessor :test_particle, :closest_particle
 
   def spawn
     self.test_particle = particle_source.new(0, 0, radius)
     test_particle.step(spawning_radius)
-    calculate_closest
+    find_closest_particle
   end
 
   def step
     test_particle.step(step_distance)
-    calculate_closest
+    find_closest_particle
     spawn if too_far?
   end
 
   def stuck?
-    test_particle.distance(closest_particle) <= 0
+    closest_distance <= 0
+  end
+
+  def closest_distance
+    test_particle.distance(closest_particle)
   end
 
   def step_distance
-    closest_distance + overlap # TODO: write a test that covers this
+    closest_distance + overlap
   end
 
   def spawning_radius
-    extent * 2
+    extent + (radius * 6)
   end
 
   def kill_radius
@@ -50,9 +54,8 @@ class LinearGrower
     particles.map(&:extent).max
   end
 
-  def calculate_closest
+  def find_closest_particle
     self.closest_particle = particles.min_by { |p| test_particle.distance(p) }
-    self.closest_distance = test_particle.distance(closest_particle)
   end
 
   def too_far?
