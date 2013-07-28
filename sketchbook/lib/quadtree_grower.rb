@@ -19,7 +19,6 @@ class QuadtreeGrower
 
   attr_reader :particle_source, :particles, :overlap, :radius, :neighborhood_radius
   attr_accessor :test_particle, :closest_particle
-  attr_writer :closest_distance
 
   def neighborhood_radius(zoom_factor = 1)
     @neighborhood_radius * zoom_factor
@@ -60,9 +59,12 @@ class QuadtreeGrower
 
   def find_closest_particle_within_neighborhood(zoom_factor)
     self.closest_particle = closest_neighborhood_particle(zoom_factor)
-    self.closest_distance = (test_particle.distance(closest_particle) if closest_particle)
+    reset_closest_particle if false_closest_particle?(zoom_factor)
+  end
 
-    reset_closest_particle_information if false_closest_particle?(zoom_factor)
+  def closest_distance
+    return neighborhood_radius unless closest_particle
+    test_particle.distance(closest_particle)
   end
 
   def false_closest_particle?(zoom_factor)
@@ -70,7 +72,7 @@ class QuadtreeGrower
   end
 
   def find_closest_particle
-    reset_closest_particle_information
+    reset_closest_particle
     zoom_factor = 1
 
     begin
@@ -79,13 +81,12 @@ class QuadtreeGrower
     end until closest_particle_found?
   end
 
-  def reset_closest_particle_information
+  def reset_closest_particle
     self.closest_particle = nil
-    self.closest_distance = nil
   end
 
   def closest_particle_found?
-    !!self.closest_particle
+    !!closest_particle
   end
 
   def neighborhood_range(center, zoom_factor)
@@ -102,10 +103,6 @@ class QuadtreeGrower
 
   def closest_neighborhood_particle(zoom_factor)
     neighborhood_particles(zoom_factor).min_by { |particle| test_particle.distance(particle) }
-  end
-
-  def closest_distance
-    @closest_distance || neighborhood_radius
   end
 
   def too_far?

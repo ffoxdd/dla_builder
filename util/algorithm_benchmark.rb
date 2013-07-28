@@ -6,7 +6,8 @@ class AlgorithmBenchmark
     raise ArgumentError unless block_given?
     @algorithm = algorithm
 
-    @ranges = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
+    # @ranges = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
+    @ranges = [128]
     @trial_count = 10
     @benchmark_trials = {}
   end
@@ -20,6 +21,9 @@ class AlgorithmBenchmark
         save
       end
     end
+
+    puts "\nsummary:\n"
+    p @benchmark_trials.map { |n, times| [n, times.inject(&:+) / times.size] }
   end
 
   def save
@@ -62,5 +66,4 @@ algorithm_benchmark = AlgorithmBenchmark.new do |n|
 end
 
 algorithm_benchmark.perform
-
-algorithm_benchmark.save
+# algorithm_benchmark.save
