@@ -12,7 +12,7 @@ describe Dla do
   let(:grower) { MiniTest::Mock.new }
   let(:grower_source) { MiniTest::Mock.new }
 
-  let(:seed) { mock_particle }
+  let(:seed) { mock_particle(1, 1, 1) }
   let(:seeds) { [seed] }
   let(:particles) { LinearParticleCollection.new }
   before { renderer.expect(:render, true, [seed]) }
@@ -68,7 +68,7 @@ describe Dla do
     end
 
     it "calls through to the grower and renders a new particle onto the aggregate" do
-      grower_source.expect(:new, grower, [{:particles => particles, :radius => 2.0, :overlap => 0.5}])
+      grower_source.expect(:new, grower, [{:particles => particles, :radius => 2.0, :overlap => 0.5, :extent => 1}])
       grower.expect(:grow, new_particle)
       renderer.expect(:render, true, [new_particle])
 
@@ -122,8 +122,8 @@ describe Dla do
     before { seeds.each { |seed| renderer.expect(:render, nil, [seed]) } }
 
     it "renders all the particles" do
-      dla = Dla.new(:seeds => seeds, :renderer => renderer)
       seeds.each { |seed| renderer.expect(:render, nil, [seed]) }
+      dla = Dla.new(:seeds => seeds, :renderer => renderer)
 
       dla.render
     end
@@ -145,9 +145,9 @@ describe Dla do
 
   require 'ostruct'
 
-  def mock_particle(x_extent = 1, y_extent = 1)
+  def mock_particle(x_extent = 1, y_extent = 1, extent = 1)
     OpenStruct.new(
-      :extent => Math.hypot(x_extent, y_extent),
+      :extent => extent,
       :x_extent => x_extent, :y_extent => y_extent,
       :x => 1, :y => 1
     )

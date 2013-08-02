@@ -1,8 +1,9 @@
-- [ ] Make a generic Grower class with a more focused set of unit tests (using test doubles)
-- [ ] Make sure all options are getting passed along correctly to all collaborators
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
-- [ ] Stop mocking Particle in the places where it gets out of hand
+- [ ] Stop mocking Particle in dla.rb (it's gotten out of hand)
 - [ ] Pull the particles argument out of the Grower options hash since it's required
 - [ ] Make a two dimensional range intersection calculator (AreaIntersectionCalculator?) -- relates to AxisAlignedBoundingBox
 - [ ] Make a non application-specific directory (lib or something) and put the intersection calculators in it
 - [ ] Pass DLA extent in to the grower
+- [ ] Remove x_extent/y_extent (we aren't using it now)
+- [ ] Audit command query separation violations
+- [ ] Implement a true visitor pattern and implement rendering that way
