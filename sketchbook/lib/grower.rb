@@ -5,6 +5,7 @@ class Grower
     @particle_source = options.fetch(:particle_source) { Particle }
     @radius = Float(options.fetch(:radius) { 10 })
     @overlap = Float(options.fetch(:overlap) { 0.2 })
+    @extent = Float(options.fetch(:extent) { @particles.map(&:extent).max })
   end
 
   def grow
@@ -15,7 +16,7 @@ class Grower
 
   protected
 
-  attr_reader :particle_source, :particles, :overlap, :radius
+  attr_reader :particle_source, :particles, :overlap, :radius, :extent
   attr_accessor :test_particle, :closest_particle
 
   def spawn
@@ -52,10 +53,6 @@ class Grower
 
   def kill_radius
     spawning_radius * 2
-  end
-
-  def extent
-    particles.map(&:extent).max
   end
 
   def too_far?
