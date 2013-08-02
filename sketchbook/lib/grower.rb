@@ -30,6 +30,10 @@ class Grower
     spawn if too_far?
   end
 
+  def find_closest_particle
+    self.closest_particle = particles.closest_particle(test_particle)
+  end
+
   def stuck?
     closest_distance <= 0
   end

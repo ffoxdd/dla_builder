@@ -4,6 +4,7 @@ require 'minitest/mock'
 require 'minitest/autorun'
 
 require_relative "../../sketchbook/lib/dla.rb"
+require_relative "../../sketchbook/lib/linear_particle_collection.rb"
 
 describe Dla do
 
@@ -13,13 +14,15 @@ describe Dla do
 
   let(:seed) { mock_particle }
   let(:seeds) { [seed] }
+  let(:particles) { LinearParticleCollection.new }
   before { renderer.expect(:render, true, [seed]) }
 
   let(:options) do
     { 
       :renderer => renderer, 
       :grower_source => grower_source, 
-      :seeds => seed, 
+      :seeds => seed,
+      :particles => particles,
       :radius => 2.0,
       :overlap => 0.5
     } 
@@ -58,13 +61,14 @@ describe Dla do
         :renderer => renderer,
         :grower_source => grower_source,
         :seeds => seed,
+        :particles => particles,
         :radius => 2.0,
         :overlap => 0.5
       }
     end
 
     it "calls through to the grower and renders a new particle onto the aggregate" do
-      grower_source.expect(:new, grower, [{:particles => seeds, :radius => 2.0, :overlap => 0.5}])
+      grower_source.expect(:new, grower, [{:particles => particles, :radius => 2.0, :overlap => 0.5}])
       grower.expect(:grow, new_particle)
       renderer.expect(:render, true, [new_particle])
 
@@ -144,8 +148,8 @@ describe Dla do
   def mock_particle(x_extent = 1, y_extent = 1)
     OpenStruct.new(
       :extent => Math.hypot(x_extent, y_extent),
-      :x_extent => x_extent,
-      :y_extent => y_extent
+      :x_extent => x_extent, :y_extent => y_extent,
+      :x => 1, :y => 1
     )
   end
 

@@ -57,11 +57,7 @@ require_relative '../sketchbook/lib/quadtree.rb'
 require_relative '../sketchbook/lib/quadtree_grower.rb'
 
 algorithm_benchmark = AlgorithmBenchmark.new do |n| 
-  quadtree = Quadtree.new(-2000..2000, -2000..2000)
-  dla = Dla.new(:grower_source => QuadtreeGrower, :particles => quadtree)
-
-  # dla = Dla.new
-
+  dla = Dla.new(:particles => QuadtreeParticleCollection.new)
   n.times { dla.grow }
 end
 

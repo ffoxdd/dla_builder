@@ -1,4 +1,5 @@
 - [ ] Make a generic Grower class with a more focused set of unit tests (using test doubles)
+- [ ] Stop mocking the Particle object in tests (it's so basic)
 - [ ] Pull the particles argument out of the options hash now that it's standardized across growers
 - [ ] Make a two dimensional range intersection calculator (AreaIntersectionCalculator?)
 - [ ] Make a non application-specific directory (lib or something) and put the intersection calculators in it
