@@ -4,6 +4,5 @@
 - [ ] Make a two dimensional range intersection calculator (AreaIntersectionCalculator?) -- relates to AxisAlignedBoundingBox
 - [ ] Make a non application-specific directory (lib or something) and put the intersection calculators in it
 - [ ] Pass DLA extent in to the grower
-- [ ] Remove x_extent/y_extent (we aren't using it now)
 - [ ] Audit command query separation violations
 - [ ] Implement a true visitor pattern and implement rendering that way

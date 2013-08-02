@@ -18,8 +18,6 @@ class Dla
     seeds.each { |seed| particles << seed }
 
     @extent = 0
-    @x_extent = 0
-    @y_extent = 0
 
     check_bounds(particles)
     render(@particles)
@@ -42,7 +40,7 @@ class Dla
   end
 
   def within_bounds?(x_range, y_range)
-    x_range.include?(@x_extent) && y_range.include?(@y_extent)
+    x_range.include?(x_extent) && y_range.include?(y_extent)
   end
 
   def render(rendered_particles = particles)
@@ -66,12 +64,16 @@ class Dla
     [Particle.new(0, 0, radius)]
   end
 
+  def x_extent
+    particles.map(&:x_extent).max
+  end
+
+  def y_extent
+    particles.map(&:y_extent).max
+  end
+
   def check_bounds(particles)
-    Array(particles).each do |particle|
-      @extent = [@extent, particle.extent].max
-      @x_extent = [@x_extent, particle.x_extent].max
-      @y_extent = [@y_extent, particle.y_extent].max
-    end
+    Array(particles).each { |particle| @extent = [@extent, particle.extent].max }
   end
 
   class Renderer
