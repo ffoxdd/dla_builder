@@ -8,7 +8,7 @@ require_relative '../../sketchbook/lib/dla.rb'
 describe "Quadtree DLA Growth" do
 
   let(:seed) { Particle.new(0, 0, 2) }
-  let(:particles) { QuadtreeParticleCollection.new }
+  let(:particles) { QuadtreeParticleCollection.new(2.0) }
 
   let(:dla) do
   	Dla.new :particles => particles, :seeds => seed, :radius => 2.0, :overlap => 0.5

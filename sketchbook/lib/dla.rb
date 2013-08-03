@@ -14,7 +14,7 @@ class Dla
     @overlap = Float(options.fetch(:overlap) { @radius / 8.0 })
 
     @seeds = Array(options.fetch(:seeds) { default_seeds })
-    @particles = options.fetch(:particles) { QuadtreeParticleCollection.new(:radius => @radius) }
+    @particles = options.fetch(:particles) { QuadtreeParticleCollection.new(@radius) }
     seeds.each { |seed| particles << seed }
 
     @extent = 0
@@ -52,7 +52,7 @@ class Dla
   attr_reader :renderer, :grower_source, :persister, :seeds, :particles, :overlap, :radius, :extent
 
   def grower
-    grower_source.new(:particles => particles, :radius => radius, :overlap => overlap, :extent => extent)
+    grower_source.new(particles, radius, overlap, extent)
   end
 
   def add_particle(particle)

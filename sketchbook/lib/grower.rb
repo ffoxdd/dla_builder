@@ -1,11 +1,12 @@
 class Grower
 
-  def initialize(options = {})
-    @particles = options.fetch(:particles)
+  def initialize(particles, radius, overlap, extent, options = {})
+    @particles = particles
+    @radius = radius
+    @overlap = overlap
+    @extent = extent
+    
     @particle_source = options.fetch(:particle_source) { Particle }
-    @radius = Float(options.fetch(:radius) { 10 })
-    @overlap = Float(options.fetch(:overlap) { 0.2 })
-    @extent = Float(options.fetch(:extent) { @particles.map(&:extent).max })
   end
 
   def grow

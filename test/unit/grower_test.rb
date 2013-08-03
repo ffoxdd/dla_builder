@@ -13,12 +13,7 @@ describe Grower do
 	let(:new_particle) { MiniTest::Mock.new }
 
 	let(:grower) do 
-		Grower.new \
-			:particles => particles, 
-			:particle_source => particle_source, 
-			:radius => 1.0, 
-			:overlap => 0.2,
-			:extent => 4.0
+		Grower.new particles, 1.0, 0.2, 4.0, :particle_source => particle_source
 	end
 
 	describe "#grow" do

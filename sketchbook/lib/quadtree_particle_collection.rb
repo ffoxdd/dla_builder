@@ -9,17 +9,21 @@ class QuadtreeParticleCollection
 
   def_delegators :particles, :size, :<<, :each
 
-  def initialize(options = {})
+  def initialize(particle_radius)
     @particles = Quadtree.new(-2000..2000, -2000..2000)
-    @radius = Float(options.fetch(:radius) { 4 })
+    @particle_radius = particle_radius
   end
 
   def closest_particle(test_particle)
-    QuadtreeClosestParticleFinder.new(particles, test_particle, radius).closest_particle
+    closest_particle_finder(test_particle).closest_particle
   end
 
   private
 
-  attr_reader :particles, :radius
+  attr_reader :particles, :particle_radius
+
+  def closest_particle_finder(test_particle)
+    QuadtreeClosestParticleFinder.new(particles, test_particle, particle_radius)
+  end
 
 end

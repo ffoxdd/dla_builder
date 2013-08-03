@@ -8,11 +8,11 @@ require_relative "../../sketchbook/lib/particle.rb"
 
 describe QuadtreeParticleCollection do
 
-  let(:collection) { QuadtreeParticleCollection.new }
+  let(:collection) { QuadtreeParticleCollection.new(1) }
 
   describe "#initialize" do
     it "does not blow up" do
-      -> { QuadtreeParticleCollection.new }.must_be_silent
+      -> { QuadtreeParticleCollection.new(1) }.must_be_silent
     end
 
     it "starts of with zero particles" do
