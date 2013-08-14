@@ -20,7 +20,6 @@ class Dla
     @extent = 0
 
     check_bounds(particles)
-    render(@particles)
   end
 
   attr_writer :renderer

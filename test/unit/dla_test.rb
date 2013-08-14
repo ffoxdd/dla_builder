@@ -12,16 +12,15 @@ describe Dla do
   let(:grower) { MiniTest::Mock.new }
   let(:grower_source) { MiniTest::Mock.new }
 
-  let(:seed) { mock_particle(1, 1, 1) }
+  let(:seed) { test_particle }
   let(:seeds) { [seed] }
   let(:particles) { LinearParticleCollection.new }
-  before { renderer.expect(:render, true, [seed]) }
 
   let(:options) do
     { 
       :renderer => renderer, 
       :grower_source => grower_source, 
-      :seeds => seed,
+      :seeds => seeds,
       :particles => particles,
       :radius => 2.0,
       :overlap => 0.5
@@ -29,50 +28,31 @@ describe Dla do
   end
   
   describe "#initialize" do
-    it "renders the seeds" do
-      dla = Dla.new(:renderer => renderer, :seeds => seed)
-      renderer.verify
+    it "succeeds when collaborators are passed in" do
+      ->{ Dla.new(options) }.must_be_silent
     end
 
-    describe "multiple seeds" do
-      let(:different_seed) { mock_particle }
-      let(:options) { {:renderer => renderer, :seeds => [seed, different_seed]} }
-
-      it "allows multiple seeds to be passed in" do
-        renderer.expect(:render, true, [different_seed])
-        -> { Dla.new(options) }.must_be_silent
-        renderer.verify
-      end
+    it "succeeds without any arguments" do
+      ->{ Dla.new }.must_be_silent
     end
   end
 
   describe "#size" do
     it "returns the number of seeds when no new particles have been added" do
-      dla = Dla.new(:seeds => seed)
+      dla = Dla.new(:seeds => seeds)
       dla.size.must_equal 1
     end
   end
 
   describe "#grow" do
-    let(:new_particle) { mock_particle }
-
-    let(:options) do
-      {
-        :renderer => renderer,
-        :grower_source => grower_source,
-        :seeds => seed,
-        :particles => particles,
-        :radius => 2.0,
-        :overlap => 0.5
-      }
-    end
+    let(:new_particle) { test_particle }
+    let(:dla) { Dla.new(options) }
 
     it "calls through to the grower and renders a new particle onto the aggregate" do
-      grower_source.expect(:new, grower, [particles, 2.0, 0.5, 1])
+      grower_source.expect(:new, grower, [particles, 2.0, 0.5, 0.5])
       grower.expect(:grow, new_particle)
       renderer.expect(:render, true, [new_particle])
 
-      dla = Dla.new(options)
       dla.grow
 
       grower.verify
@@ -88,43 +68,35 @@ describe Dla do
 
     it "persists by calling through to the persister" do
       persister.expect(:save, nil, [dla, "filename"])
-
       dla.save("filename")
       persister.verify
     end
   end
 
   describe "#within_bounds?" do
-    it "returns true when within the given bounds" do
-      seeds = [mock_particle(1, 1)]
-      dla = Dla.new(:seeds => seeds)
+    let(:seeds) { [test_particle(1, 0, 1), test_particle(0, 1, 1)] }
+    let(:dla) { Dla.new(:seeds => seeds) }
 
+    it "returns true when within the given bounds" do
       dla.within_bounds?(-2..2, -2..2).must_equal true
     end
 
     it "returns false when outside the given x range" do
-      seeds = [mock_particle(1, 1), mock_particle(2.5, 1)]
-      dla = Dla.new(:seeds => seeds)
-
-      dla.within_bounds?(-2..2, -2..2).must_equal false
+      dla.within_bounds?(-1..1, -2..2).must_equal false
     end
 
     it "returns false when outside the given y range" do
-      seeds = [mock_particle(1, 1), mock_particle(1, 2.5)]
-      dla = Dla.new(:seeds => seeds)
-
-      dla.within_bounds?(-2..2, -2..2).must_equal false
+      dla.within_bounds?(-2..2, -1..1).must_equal false
     end
   end
 
   describe "#render" do
-    let(:seeds) { [mock_particle, mock_particle] }
+    let(:seeds) { [test_particle, test_particle] }
     before { seeds.each { |seed| renderer.expect(:render, nil, [seed]) } }
 
     it "renders all the particles" do
       seeds.each { |seed| renderer.expect(:render, nil, [seed]) }
       dla = Dla.new(:seeds => seeds, :renderer => renderer)
-
       dla.render
     end
   end
@@ -136,21 +108,14 @@ describe Dla do
     it "uses the assigned renderer" do
       dla.renderer = renderer
       renderer.expect(:render, nil, [seed])
-
       dla.render
     end
   end
 
   private
 
-  require 'ostruct'
-
-  def mock_particle(x_extent = 1, y_extent = 1, extent = 1)
-    OpenStruct.new(
-      :extent => extent,
-      :x_extent => x_extent, :y_extent => y_extent,
-      :x => 1, :y => 1
-    )
+  def test_particle(x = 0, y = 0, r = 0.5)
+    Particle.new(x, y, 0.5)
   end
 
 end
