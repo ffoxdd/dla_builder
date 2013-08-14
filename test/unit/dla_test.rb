@@ -22,8 +22,11 @@ describe Dla do
       :grower_source => grower_source, 
       :seeds => seeds,
       :particles => particles,
+
       :radius => 2.0,
-      :overlap => 0.5
+      :overlap => 0.5,
+
+      :auto_render => false
     } 
   end
   
@@ -32,8 +35,14 @@ describe Dla do
       ->{ Dla.new(options) }.must_be_silent
     end
 
-    it "succeeds without any arguments" do
-      ->{ Dla.new }.must_be_silent
+    it "succeeds without default collaborators" do
+      ->{ Dla.new(:auto_render => false) }.must_be_silent
+    end
+
+    it "renders the seeds when :auto_render is set to true" do
+      seeds.each { |seed| renderer.expect(:render, nil, [seed]) }
+      Dla.new(:seeds => seeds, :renderer => renderer, :auto_render => true)
+      renderer.verify
     end
   end
 
@@ -91,24 +100,26 @@ describe Dla do
   end
 
   describe "#render" do
-    let(:seeds) { [test_particle, test_particle] }
-    before { seeds.each { |seed| renderer.expect(:render, nil, [seed]) } }
+    let(:dla) { Dla.new(:seeds => seeds, :renderer => renderer, :auto_render => false) }
 
     it "renders all the particles" do
       seeds.each { |seed| renderer.expect(:render, nil, [seed]) }
-      dla = Dla.new(:seeds => seeds, :renderer => renderer)
       dla.render
+      renderer.verify
     end
   end
 
   describe "#renderer=" do
     let(:renderer) { MiniTest::Mock.new }
-    let(:dla) { Dla.new(:seeds => seed) }
+    let(:dla) { Dla.new(:seeds => seeds, :auto_render => false) }
 
     it "uses the assigned renderer" do
-      dla.renderer = renderer
       renderer.expect(:render, nil, [seed])
+
+      dla.renderer = renderer
       dla.render
+
+      renderer.verify
     end
   end
 

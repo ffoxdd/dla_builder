@@ -15,11 +15,12 @@ class Dla
 
     @seeds = Array(options.fetch(:seeds) { default_seeds })
     @particles = options.fetch(:particles) { QuadtreeParticleCollection.new(@radius) }
-    seeds.each { |seed| particles << seed }
+    @seeds.each { |seed| @particles << seed }
 
     @extent = 0
 
     check_bounds(particles)
+    render(seeds) if options.fetch(:auto_render) { true }
   end
 
   attr_writer :renderer
