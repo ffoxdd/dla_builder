@@ -3,7 +3,7 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
-require_relative "../../sketchbook/lib/range_intersection_calculator.rb"
+require_relative "../../app/range_intersection_calculator.rb"
 
 describe RangeIntersectionCalculator do
 

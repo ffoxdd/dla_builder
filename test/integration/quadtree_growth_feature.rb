@@ -3,7 +3,7 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
-require_relative '../../sketchbook/lib/dla.rb'
+require_relative '../../app/dla.rb'
 
 describe "Quadtree DLA Growth" do
 

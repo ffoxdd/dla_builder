@@ -3,9 +3,9 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
-require_relative "../../sketchbook/lib/particle.rb"
-require_relative "../../sketchbook/lib/quadtree.rb"
-require_relative "../../sketchbook/lib/quadtree_closest_particle_finder.rb"
+require_relative "../../app/particle.rb"
+require_relative "../../app/quadtree.rb"
+require_relative "../../app/quadtree_closest_particle_finder.rb"
 
 describe QuadtreeClosestParticleFinder do
 

@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), "lib", "dla")
+require File.join(File.dirname(__FILE__), "..", "app", "dla")
 
 def setup
   size 800, 600

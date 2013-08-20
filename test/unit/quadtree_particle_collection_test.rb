@@ -3,8 +3,8 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
-require_relative "../../sketchbook/lib/quadtree_particle_collection.rb"
-require_relative "../../sketchbook/lib/particle.rb"
+require_relative "../../app/quadtree_particle_collection.rb"
+require_relative "../../app/particle.rb"
 
 describe QuadtreeParticleCollection do
 

@@ -2,7 +2,7 @@ require 'yaml'
 
 class Persister
 
-  DATA_DIRECTORY = File.join(File.dirname(__FILE__), "..", "..", "data")
+  DATA_DIRECTORY = File.join(File.dirname(__FILE__), "..", "data")
 
   def self.save(object, name)
     File.open(filename(name), 'w') do |file|

@@ -3,7 +3,7 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
-require_relative "../../sketchbook/lib/grower.rb"
+require_relative "../../app/grower.rb"
 
 describe Grower do
 

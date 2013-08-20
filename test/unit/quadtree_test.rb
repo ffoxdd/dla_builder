@@ -5,7 +5,7 @@ require 'minitest/autorun'
 
 require 'set'
 
-require_relative "../../sketchbook/lib/quadtree.rb"
+require_relative "../../app/quadtree.rb"
 
 describe Quadtree do
 

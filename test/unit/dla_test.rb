@@ -3,8 +3,8 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
-require_relative "../../sketchbook/lib/dla.rb"
-require_relative "../../sketchbook/lib/linear_particle_collection.rb"
+require_relative "../../app/dla.rb"
+require_relative "../../app/linear_particle_collection.rb"
 
 describe Dla do
 

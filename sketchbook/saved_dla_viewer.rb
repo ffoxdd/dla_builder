@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), "lib", "dla")
+require File.join(File.dirname(__FILE__), "..", "app", "dla")
 
 NAME_ROOT = "canvas_60in-40in-5mm"
 

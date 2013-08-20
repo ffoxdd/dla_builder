@@ -3,8 +3,8 @@ gem 'minitest'
 require 'minitest/mock'
 require 'minitest/autorun'
 
-require_relative "../../sketchbook/lib/linear_particle_collection.rb"
-require_relative "../../sketchbook/lib/particle.rb"
+require_relative "../../app/linear_particle_collection.rb"
+require_relative "../../app/particle.rb"
 
 describe LinearParticleCollection do
 
