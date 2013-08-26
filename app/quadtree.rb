@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), "range_intersection_calculator")
+require File.join(File.dirname(__FILE__), "..", "lib", "range_intersection_calculator")
 
 class Quadtree
 
