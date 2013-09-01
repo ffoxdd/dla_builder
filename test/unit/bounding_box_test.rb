@@ -47,4 +47,39 @@ describe BoundingBox do
     end
   end
 
+  describe "#cover?" do
+    let(:box) { BoundingBox.new(2..4, 2...4) }
+
+    it "returns true if the point is within the x and y range" do
+      point = mock_point(3, 3)
+      box.cover?(point).must_equal true
+    end
+
+    it "returns false if the x coordinate is out of range" do
+      point = mock_point(5, 3)
+      box.cover?(point).must_equal false
+    end
+
+    it "returns false if the y coordinate is out of range" do
+      point = mock_point(3, 5)
+      box.cover?(point).must_equal false
+    end
+
+    it "returns true if it borders on a closed interval" do
+      point = mock_point(4, 3)
+      box.cover?(point).must_equal true
+    end
+
+    it "returns false if it borders on an open interval" do
+      point = mock_point(3, 4)
+      box.cover?(point).must_equal false
+    end
+  end
+
+  private
+
+    def mock_point(x, y)
+      OpenStruct.new(x: x, y: y)
+    end
+
 end
