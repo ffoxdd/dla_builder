@@ -76,6 +76,24 @@ describe BoundingBox do
     end
   end
 
+  describe "#subdivision" do
+    let(:box) { BoundingBox.new(0..4, -2...2) }
+
+    it "returns four equal subdivisions" do
+      box.subdivision(0, 0).x_range.must_equal 0..2
+      box.subdivision(0, 0).y_range.must_equal -2...0
+
+      box.subdivision(1, 0).x_range.must_equal 2..4
+      box.subdivision(1, 0).y_range.must_equal -2...0
+
+      box.subdivision(0, 1).x_range.must_equal 0..2
+      box.subdivision(0, 1).y_range.must_equal 0...2
+
+      box.subdivision(1, 1).x_range.must_equal 2..4
+      box.subdivision(1, 1).y_range.must_equal 0...2
+    end
+  end
+
   private
 
     def mock_point(x, y)
