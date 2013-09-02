@@ -47,50 +47,50 @@ describe BoundingBox do
     end
   end
 
-  describe "#cover?" do
+  describe "#covers?" do
     let(:box) { BoundingBox.new(2..4, 2...4) }
 
     it "returns true if the point is within the x and y range" do
       point = mock_point(3, 3)
-      box.cover?(point).must_equal true
+      box.covers?(point).must_equal true
     end
 
     it "returns false if the x coordinate is out of range" do
       point = mock_point(5, 3)
-      box.cover?(point).must_equal false
+      box.covers?(point).must_equal false
     end
 
     it "returns false if the y coordinate is out of range" do
       point = mock_point(3, 5)
-      box.cover?(point).must_equal false
+      box.covers?(point).must_equal false
     end
 
     it "returns true if it borders on a closed interval" do
       point = mock_point(4, 3)
-      box.cover?(point).must_equal true
+      box.covers?(point).must_equal true
     end
 
     it "returns false if it borders on an open interval" do
       point = mock_point(3, 4)
-      box.cover?(point).must_equal false
+      box.covers?(point).must_equal false
     end
   end
 
-  describe "#subdivision" do
+  describe "#quadtrant" do
     let(:box) { BoundingBox.new(0..4, -2...2) }
 
-    it "returns four equal subdivisions" do
-      box.subdivision(0, 0).x_range.must_equal 0...2
-      box.subdivision(0, 0).y_range.must_equal -2...0
+    it "returns four equal quadtrants" do
+      box.quadtrant(0, 0).x_range.must_equal 0...2
+      box.quadtrant(0, 0).y_range.must_equal -2...0
 
-      box.subdivision(1, 0).x_range.must_equal 2..4
-      box.subdivision(1, 0).y_range.must_equal -2...0
+      box.quadtrant(1, 0).x_range.must_equal 2..4
+      box.quadtrant(1, 0).y_range.must_equal -2...0
 
-      box.subdivision(0, 1).x_range.must_equal 0...2
-      box.subdivision(0, 1).y_range.must_equal 0...2
+      box.quadtrant(0, 1).x_range.must_equal 0...2
+      box.quadtrant(0, 1).y_range.must_equal 0...2
 
-      box.subdivision(1, 1).x_range.must_equal 2..4
-      box.subdivision(1, 1).y_range.must_equal 0...2
+      box.quadtrant(1, 1).x_range.must_equal 2..4
+      box.quadtrant(1, 1).y_range.must_equal 0...2
     end
   end
 

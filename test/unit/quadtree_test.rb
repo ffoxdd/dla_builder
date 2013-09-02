@@ -11,22 +11,22 @@ describe Quadtree do
 
   describe "#initialize" do
     it "doesn't blow up" do
-      -> { Quadtree.new(0...1, 0...1) }.must_be_silent
+      -> { Quadtree.new(BoundingBox.new(0...1, 0...1)) }.must_be_silent
     end
     
     it "starts off with zero particles" do
-      quadtree = Quadtree.new(0...1, 0...1)
+      quadtree = Quadtree.new(BoundingBox.new(0...1, 0...1))
       quadtree.size.must_equal 0      
     end
 
     it "start off with zero depth" do
-      quadtree = Quadtree.new(0...1, 0...1)
+      quadtree = Quadtree.new(BoundingBox.new(0...1, 0...1))
       quadtree.depth.must_equal 0
     end
   end
 
   describe "#<<" do
-    let(:quadtree) { Quadtree.new(0...1, 0...1, :max_depth => 3) }
+    let(:quadtree) { Quadtree.new(BoundingBox.new(0...1, 0...1), :max_depth => 3) }
 
     it "adds a particle" do
       quadtree << mock_particle(0.5, 0.5)
@@ -45,7 +45,7 @@ describe Quadtree do
   end
 
   describe "#covers?" do
-    let(:quadtree) { Quadtree.new(0...1, 0...1) }
+    let(:quadtree) { Quadtree.new(BoundingBox.new(0...1, 0...1)) }
 
     it "returns true if the quadtree covers the particle" do
       quadtree.covers?(mock_particle(0, 0)).must_equal true
@@ -62,7 +62,7 @@ describe Quadtree do
 
   describe "Enumerable" do
     let(:particles) { 4.times.map { mock_particle } }
-    let(:quadtree) { Quadtree.new(0...10, 0...10) }
+    let(:quadtree) { Quadtree.new(BoundingBox.new(0...10, 0...10)) }
     before { particles.each { |particle| quadtree << particle } }
 
     it "visits all the particles" do
@@ -72,7 +72,7 @@ describe Quadtree do
 
   describe "#within" do
     describe "finding particles" do
-      let(:quadtree) { Quadtree.new(0...10, 0...10) }
+      let(:quadtree) { Quadtree.new(BoundingBox.new(0...10, 0...10)) }
 
       let(:inside_particles) do
         [mock_particle(2, 2), mock_particle(3, 3), mock_particle(2.5, 2.5)]
@@ -97,7 +97,7 @@ describe Quadtree do
       let(:q3_particle) { MiniTest::Mock.new }
 
       describe "for a tree of depth 0" do
-        let(:quadtree) { Quadtree.new(0...10, 0...10, :max_depth => 0) }
+        let(:quadtree) { Quadtree.new(BoundingBox.new(0...10, 0...10), :max_depth => 0) }
 
         before do
           q0_particle.expect(:x, 1)
@@ -124,10 +124,10 @@ describe Quadtree do
       end
 
       describe "for a tree of depth greater than 0" do
-        let(:quadtree) { Quadtree.new(0...10, 0...10, :max_depth => 1) }
+        let(:quadtree) { Quadtree.new(BoundingBox.new(0...10, 0...10), :max_depth => 1) }
 
         before do
-          3.times do
+          5.times do
             q0_particle.expect(:x, 1)
             q0_particle.expect(:y, 1)
 

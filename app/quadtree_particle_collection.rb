@@ -10,7 +10,8 @@ class QuadtreeParticleCollection
   def_delegators :particles, :size, :<<, :each
 
   def initialize(particle_radius)
-    @particles = Quadtree.new(-2000..2000, -2000..2000)
+    bounding_box = BoundingBox.new(-2000..2000, -2000..2000)
+    @particles = Quadtree.new(bounding_box)
     @particle_radius = particle_radius
   end
 

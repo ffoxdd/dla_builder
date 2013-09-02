@@ -4,9 +4,8 @@ class Quadtree
 
   include Enumerable
 
-  def initialize(x_range, y_range, options = {})
-    @x_range = x_range
-    @y_range = y_range
+  def initialize(bounding_box, options = {})
+    @bounding_box = bounding_box
     @max_depth = options.fetch(:max_depth) { 6 }
     @points = []
     @children = []
@@ -19,7 +18,12 @@ class Quadtree
   def <<(point)
     return unless covers?(point)
     subdivide if leaf? && can_subdivide?
-    (leaf? ? points : child_for(point)) << point
+
+    if leaf?
+      points << point
+    else
+      children.each { |child| child << point }
+    end
   end
 
   def each(&block)
@@ -31,16 +35,15 @@ class Quadtree
   end
 
   def covers?(point)
-    x_range.include?(point.x) && y_range.include?(point.y)
+    bounding_box.covers?(point)
   end
 
   def within(test_x_range, test_y_range)
-    return [] unless intersects?(test_x_range, test_y_range)
+    test_bounding_box = BoundingBox.new(test_x_range, test_y_range)
+    return [] unless intersects?(test_bounding_box)
 
     if leaf?
-      @points.select do |point|
-        test_x_range.include?(point.x) && test_y_range.include?(point.y)
-      end
+      @points.select { |point| test_bounding_box.covers?(point) }
     else
       children.map { |child| child.within(test_x_range, test_y_range) }.flatten # TODO: use flat_map after upgrading ruby
     end
@@ -53,26 +56,14 @@ class Quadtree
 
   private
 
-  attr_reader :x_range, :y_range, :points, :max_depth, :children
+  attr_reader :bounding_box, :points, :max_depth, :children
 
-  def intersects?(test_x_range, test_y_range)
-    x_range_intersects?(test_x_range) && y_range_intersects?(test_y_range)
+  def leaf?
+    children.empty?
   end
 
-  def x_range_intersects?(range)
-    RangeIntersectionCalculator.new(x_range, range).intersect?
-  end
-
-  def y_range_intersects?(range)
-    RangeIntersectionCalculator.new(y_range, range).intersect?
-  end
-
-  def child_for(point)
-    children[child_index_for(point)]
-  end
-
-  def child_index_for(point)
-    (point.x >= midpoint(x_range) ? 1 : 0) + (point.y >= midpoint(y_range) ? 2 : 0)
+  def intersects?(test_bounding_box)
+    bounding_box.intersects?(test_bounding_box)
   end
 
   def can_subdivide?
@@ -80,28 +71,14 @@ class Quadtree
   end
 
   def subdivide
-    x_ranges = subdivide_range(x_range)
-    y_ranges = subdivide_range(y_range)
-    child_options = {:max_depth => max_depth - 1}
-
-    children[0] = Quadtree.new(x_ranges[0], y_ranges[0], child_options)
-    children[1] = Quadtree.new(x_ranges[1], y_ranges[0], child_options)
-    children[2] = Quadtree.new(x_ranges[0], y_ranges[1], child_options)
-    children[3] = Quadtree.new(x_ranges[1], y_ranges[1], child_options)
+    children[0] = new_child(0, 0)
+    children[1] = new_child(1, 0)
+    children[2] = new_child(0, 1)
+    children[3] = new_child(1, 1)
   end
 
-  def subdivide_range(range)
-    midpoint = midpoint(range)
-    [range.begin...midpoint, midpoint...range.end]
-  end
-
-  def midpoint(range)
-    length = range.end - range.begin
-    range.begin + (length / 2.0)
-  end
-
-  def leaf?
-    children.empty?
+  def new_child(i, j)
+    Quadtree.new(bounding_box.quadtrant(i, j), :max_depth => max_depth - 1)
   end
 
 end

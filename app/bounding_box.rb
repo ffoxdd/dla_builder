@@ -11,11 +11,11 @@ class BoundingBox
     intersects_x_range?(other_box) && intersects_y_range?(other_box)
   end
 
-  def cover?(point)
+  def covers?(point)
     x_range.cover?(point.x) && y_range.cover?(point.y)
   end
 
-  def subdivision(i, j)
+  def quadtrant(i, j)
     BoundingBox.new(range_subdivision(x_range, i), range_subdivision(y_range, j))
   end
 
