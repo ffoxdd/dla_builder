@@ -1,4 +1,5 @@
 require File.join(File.dirname(__FILE__), "..", "lib", "range_intersection_calculator")
+require File.join(File.dirname(__FILE__), "..", "app", "bounding_box")
 
 class Quadtree
 

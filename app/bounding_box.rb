@@ -12,7 +12,7 @@ class BoundingBox
   end
 
   def covers?(point)
-    x_range.cover?(point.x) && y_range.cover?(point.y)
+    x_range.include?(point.x) && y_range.include?(point.y)
   end
 
   def quadtrant(i, j)
