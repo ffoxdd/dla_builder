@@ -20,19 +20,13 @@ class Quadtree
     return unless covers?(point)
     subdivide if leaf? && can_subdivide?
 
-    if leaf?
-      points << point
-    else
-      children.each { |child| child << point }
-    end
+    points << point if leaf?
+    children.each { |child| child << point }
   end
 
   def each(&block)
-    if leaf?
-      points.each(&block)
-    else
-      children.each { |child| child.each(&block) }
-    end
+    points.each(&block)
+    children.each { |child| child.each(&block) }
   end
 
   def covers?(point)
