@@ -1,6 +1,4 @@
 - [ ] Implement a true visitor pattern and implement rendering that way
-- [ ] Make a BoundingBox value object and use it in the quadtree, etc
-- [ ] Make a BoundingBox intersection calculator
 - [ ] Make Persister a normal object and use self delegation from within dla.rb
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
 - [ ] Audit command query separation violations
