@@ -5,30 +5,34 @@ require File.join(File.dirname(__FILE__), "quadtree_particle_collection")
 
 class Dla
 
-  def initialize(options = {})
-    @renderer = options.fetch(:renderer) { Renderer.new }
-    @grower_source = options.fetch(:grower_source) { Grower }
-    @persister = options.fetch(:persister) { Persister }
-
+  def initialize(options = {}, &visitor)
     @radius = Float(options.fetch(:radius) { 4 })
     @overlap = Float(options.fetch(:overlap) { @radius / 8.0 })
 
     @seeds = Array(options.fetch(:seeds) { default_seeds })
     @particles = options.fetch(:particles) { QuadtreeParticleCollection.new(@radius) }
-    @seeds.each { |seed| @particles << seed }
+    @visitor = visitor
+    @live = options.fetch(:live) { true }
+
+    @grower_source = options.fetch(:grower_source) { Grower }
+    @persister = options.fetch(:persister) { Persister }
 
     @extent = 0
 
+    @seeds.each { |seed| @particles << seed }
     check_bounds(particles)
-    render(seeds) if options.fetch(:auto_render) { true }
+    accept if @live
   end
-
-  attr_writer :renderer
 
   def grow
     new_particle = grower.grow # CQS violation
     check_bounds(new_particle)
     add_particle(new_particle)
+  end
+
+  def accept(particle = particles)
+    return unless visitor
+    Array(particle).each { |particle| visitor.yield(particle) }
   end
 
   def size
@@ -43,13 +47,9 @@ class Dla
     x_range.include?(x_extent) && y_range.include?(y_extent)
   end
 
-  def render(rendered_particles = particles)
-    Array(rendered_particles).each { |particle| renderer.render(particle) }
-  end
-
   private
 
-  attr_reader :renderer, :grower_source, :persister, :seeds, :particles, :overlap, :radius, :extent
+  attr_reader :grower_source, :persister, :seeds, :particles, :overlap, :radius, :extent, :visitor, :live
 
   def grower
     grower_source.new(particles, radius, overlap, extent)
@@ -57,7 +57,7 @@ class Dla
 
   def add_particle(particle)
     particles << particle
-    render(particle)
+    accept(particle) if live
   end
 
   def default_seeds
@@ -74,11 +74,6 @@ class Dla
 
   def check_bounds(particles)
     Array(particles).each { |particle| @extent = [@extent, particle.extent].max }
-  end
-
-  class Renderer
-    def render(particle)
-    end
   end
 
 end

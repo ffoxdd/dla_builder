@@ -18,7 +18,6 @@ describe Dla do
 
   let(:options) do
     { 
-      :renderer => renderer, 
       :grower_source => grower_source, 
       :seeds => seeds,
       :particles => particles,
@@ -26,7 +25,7 @@ describe Dla do
       :radius => 2.0,
       :overlap => 0.5,
 
-      :auto_render => false
+      :live => false
     } 
   end
   
@@ -36,13 +35,7 @@ describe Dla do
     end
 
     it "succeeds without default collaborators" do
-      ->{ Dla.new(:auto_render => false) }.must_be_silent
-    end
-
-    it "renders the seeds when :auto_render is set to true" do
-      seeds.each { |seed| renderer.expect(:render, nil, [seed]) }
-      Dla.new(:seeds => seeds, :renderer => renderer, :auto_render => true)
-      renderer.verify
+      ->{ Dla.new(:live => false) }.must_be_silent
     end
   end
 
@@ -60,13 +53,10 @@ describe Dla do
     it "calls through to the grower and renders a new particle onto the aggregate" do
       grower_source.expect(:new, grower, [particles, 2.0, 0.5, 0.5])
       grower.expect(:grow, new_particle)
-      renderer.expect(:render, true, [new_particle])
 
       dla.grow
 
       grower.verify
-      renderer.verify
-
       dla.size.must_equal 2
     end
   end
@@ -99,34 +89,42 @@ describe Dla do
     end
   end
 
-  describe "#render" do
-    let(:dla) { Dla.new(:seeds => seeds, :renderer => renderer, :auto_render => false) }
+  describe "visitor pattern" do
+    let(:visitor) { MiniTest::Mock.new }
+    let(:seed) { test_particle }
 
-    it "renders all the particles" do
-      seeds.each { |seed| renderer.expect(:render, nil, [seed]) }
-      dla.render
-      renderer.verify
+    it "visits seeds" do
+      dla = Dla.new(:seeds => seed, :live => false) { |particle| visitor.visit(particle) }
+      visitor.expect(:visit, nil, [seed])
+
+      dla.accept
+      visitor.verify
     end
-  end
 
-  describe "#renderer=" do
-    let(:renderer) { MiniTest::Mock.new }
-    let(:dla) { Dla.new(:seeds => seeds, :auto_render => false) }
+    it "visits new particles" do
+      visited_particles = []
+      dla = Dla.new(:seeds => seed, :live => false) { |particle| visited_particles << particle }
 
-    it "uses the assigned renderer" do
-      renderer.expect(:render, nil, [seed])
+      2.times { dla.grow }
+      dla.accept
 
-      dla.renderer = renderer
-      dla.render
+      visited_particles.size.must_equal 3
+    end
 
-      renderer.verify
+    it "visits as particles are added with the live options" do
+      visited_particles = []
+      dla = Dla.new(:seeds => seed, :live => true) { |particle| visited_particles << particle }
+      visited_particles.size.must_equal 1
+
+      dla.grow
+      visited_particles.size.must_equal 2
     end
   end
 
   private
 
   def test_particle(x = 0, y = 0, r = 0.5)
-    Particle.new(x, y, 0.5)
+    Particle.new(x, y, r)
   end
 
 end
