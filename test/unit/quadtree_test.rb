@@ -88,7 +88,7 @@ describe Quadtree do
       end
 
       it "returns all particles within the given bounds" do
-        Set.new(quadtree.within(2..3, 2..3)).must_equal Set.new(inside_particles)
+        Set.new(quadtree.within(BoundingBox.new(2..3, 2..3))).must_equal Set.new(inside_particles)
       end
     end
 
@@ -117,7 +117,7 @@ describe Quadtree do
           q3_particle.expect(:x, 9)
           q3_particle.expect(:y, 9)
 
-          quadtree.within(0..2, 0..2).must_equal [q0_particle]
+          quadtree.within(BoundingBox.new(0..2, 0..2)).must_equal [q0_particle]
           q0_particle.verify
           q3_particle.verify
         end
@@ -143,7 +143,7 @@ describe Quadtree do
           q0_particle.expect(:x, 1)
           q0_particle.expect(:y, 1)
 
-          quadtree.within(0..2, 0..2).must_equal [q0_particle]
+          quadtree.within(BoundingBox.new(0..2, 0..2)).must_equal [q0_particle]
           q0_particle.verify
           q3_particle.verify
         end

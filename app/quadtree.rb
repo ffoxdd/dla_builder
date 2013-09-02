@@ -33,14 +33,13 @@ class Quadtree
     bounding_box.covers?(point)
   end
 
-  def within(test_x_range, test_y_range)
-    test_bounding_box = BoundingBox.new(test_x_range, test_y_range)
+  def within(test_bounding_box)
     return [] unless intersects?(test_bounding_box)
 
     if leaf?
       @points.select { |point| test_bounding_box.covers?(point) }
     else
-      children.map { |child| child.within(test_x_range, test_y_range) }.flatten # TODO: use flat_map after upgrading ruby
+      children.map { |child| child.within(test_bounding_box) }.flatten # TODO: use flat_map after upgrading ruby
     end
   end
 

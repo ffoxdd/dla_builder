@@ -55,7 +55,11 @@ class QuadtreeClosestParticleFinder
   end
 
   def neighborhood_particles(zoom_factor)
-    particles.within(
+    particles.within(neighborhood_bounding_box(zoom_factor))
+  end
+
+  def neighborhood_bounding_box(zoom_factor)
+    BoundingBox.new(
       neighborhood_range(test_particle.x, zoom_factor), 
       neighborhood_range(test_particle.y, zoom_factor)
     )
