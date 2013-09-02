@@ -26,7 +26,7 @@ class BoundingBox
     end
 
     def first_half(range)
-      Range.new(range.begin, midpoint(range), range.exclude_end?)
+      Range.new(range.begin, midpoint(range), true)
     end
 
     def second_half(range)
