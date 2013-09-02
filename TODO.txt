@@ -2,3 +2,5 @@
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
 - [ ] Audit command query separation violations
 - [ ] Make a RangeSubdivider to help BoundingBox
+- [ ] Encapsulate the canvas <-> viewport coordinate system transformation in an object
+- [ ] Figure out where Renderer belongs and if it should be tested

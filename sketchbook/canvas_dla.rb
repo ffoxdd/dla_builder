@@ -1,6 +1,21 @@
 require File.join(File.dirname(__FILE__), "..", "app", "dla")
+require File.join(File.dirname(__FILE__), "renderer")
 
-# TODO: encapsulate canvas <-> viewport coordinate system in an object
+def setup
+  puts({:dimensions => dimensions, :radius => radius}.inspect)
+
+  size *dimensions
+  background 0
+
+  @dla = new_dla
+end
+
+def draw
+  @dla.grow
+  puts @dla.size if @dla.size % 250 == 0
+end
+
+###
 
 CANVAS_DIMENSIONS = [60, 48] # inches
 PARTICLE_DIAMETER = 4 # millimeters
@@ -33,55 +48,7 @@ def radius
 end
 
 def new_dla
-  @dla = Dla.new \
-    :renderer => Renderer.new,
-    :radius => radius,
-    :overlap => radius / 1000
-end
-
-def setup
-  puts({:dimensions => dimensions, :radius => radius}.inspect)
-  
-  size *dimensions
-  background 0
-
-  @dla = new_dla
-end
-
-def draw
-  @dla.grow
-  puts @dla.size if @dla.size % 250 == 0
-end
-
-class Renderer
-
-  def render(particle)
-    settings
-    ellipse x(particle), y(particle), particle.radius, particle.radius
+  @dla = Dla.new(:radius => radius, :overlap => radius / 1000) do |particle|
+    Renderer.new(self, particle).render
   end
-
-  private
-
-  def settings
-    noStroke
-    smooth
-    ellipseMode(RADIUS)
-  end
-
-  def x(particle)
-    x_origin + particle.x
-  end
-
-  def y(particle)
-    y_origin + particle.y
-  end
-
-  def x_origin
-    @x_origin ||= width / 2
-  end
-
-  def y_origin
-    @y_origin ||= height / 2
-  end
-  
 end

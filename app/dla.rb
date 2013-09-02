@@ -32,7 +32,7 @@ class Dla
 
   def accept(particle = particles)
     return unless visitor
-    Array(particle).each { |particle| visitor.yield(particle) }
+    Array(particle).each { |particle| visitor.call(particle) }
   end
 
   def size
