@@ -2,3 +2,4 @@
 - [ ] Make Persister a normal object and use self delegation from within dla.rb
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
 - [ ] Audit command query separation violations
+- [ ] Make a RangeSubdivider to help BoundingBox
