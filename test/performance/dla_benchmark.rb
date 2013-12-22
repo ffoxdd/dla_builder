@@ -1,8 +1,4 @@
-require 'rubygems'
-gem 'minitest'
-require 'minitest/benchmark'
-require 'minitest/autorun'
-
+require_relative "../test_helper.rb"
 require_relative '../../app/dla.rb'
 require_relative '../../app/grower.rb'
 require_relative '../../app/particle.rb'

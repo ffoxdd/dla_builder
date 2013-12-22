@@ -1,8 +1,4 @@
-require 'rubygems'
-gem 'minitest'
-require 'minitest/mock'
-require 'minitest/autorun'
-
+require_relative "../test_helper.rb"
 require_relative "../../lib/range_intersection_calculator.rb"
 
 describe RangeIntersectionCalculator do

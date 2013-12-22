@@ -1,8 +1,4 @@
-require 'rubygems'
-gem 'minitest'
-require 'minitest/mock'
-require 'minitest/autorun'
-
+require_relative "../test_helper.rb"
 require_relative "../../app/particle.rb"
 require_relative "../../app/quadtree.rb"
 require_relative "../../app/quadtree_closest_particle_finder.rb"
