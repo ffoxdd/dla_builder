@@ -27,6 +27,10 @@ class Point
     Math.hypot(x - point.x, y - point.y)
   end
 
+  def abs
+    Point.new(x.abs, y.abs)
+  end
+
   private
 
   TWO_PI = 2 * Math::PI

@@ -62,4 +62,10 @@ describe Point do
     end
   end
 
+  describe "#abs" do
+    it "returns a point with the absolute value of both dimensions" do
+      Point.new(-3, -2).abs.must_equal Point.new(3, 2)
+    end
+  end
+
 end
