@@ -27,7 +27,7 @@ class Point
     Math.hypot(x - point.x, y - point.y)
   end
 
-  def abs
+  def extent
     Point.new(x.abs, y.abs)
   end
 
