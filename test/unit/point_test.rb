@@ -68,4 +68,13 @@ describe Point do
     end
   end
 
+  describe "#max" do
+    it "returns a point with the maximum of both points along each dimension" do
+      point_1 = Point.new(1, 2)
+      point_2 = Point.new(-1, 4)
+
+      point_1.max(point_2).must_equal Point.new(1, 4)
+    end
+  end
+
 end

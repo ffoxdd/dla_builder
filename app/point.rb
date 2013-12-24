@@ -31,6 +31,10 @@ class Point
     Point.new(x.abs, y.abs)
   end
 
+  def max(point)
+    Point.new([x, point.x].max, [y, point.y].max)
+  end
+
   private
 
   TWO_PI = 2 * Math::PI
