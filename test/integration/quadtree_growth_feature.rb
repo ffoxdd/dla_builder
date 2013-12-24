@@ -7,7 +7,7 @@ describe "Quadtree DLA Growth" do
   let(:particles) { QuadtreeParticleCollection.new(2.0) }
 
   let(:dla) do
-  	Dla.new :particles => particles, :seeds => seed, :radius => 2.0, :overlap => 0.5
+  	Dla.new particles: particles, seeds: seed, radius: 2.0, overlap: 0.5
   end
 
   it "does not blow up after growing several particles" do

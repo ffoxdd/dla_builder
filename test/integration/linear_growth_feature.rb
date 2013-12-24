@@ -5,7 +5,7 @@ describe "Linear DLA Growth" do
 
   let(:seed) { [Particle.new(0, 0, 2)] }
   let(:renderer) { MiniTest::Mock.new }
-  let(:dla) { Dla.new(:seeds => seed, :radius => 2.0, :overlap => 0.5) }
+  let(:dla) { Dla.new(seeds: seed, radius: 2.0, overlap: 0.5) }
 
   it "does not blow up after growing several particles" do
   	renderer.expect(:render, nil, [seed])

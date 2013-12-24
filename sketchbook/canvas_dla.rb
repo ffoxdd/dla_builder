@@ -2,7 +2,7 @@ require_relative "../app/dla.rb"
 require_relative "./renderer.rb"
 
 def setup
-  puts({:dimensions => dimensions, :radius => radius}.inspect)
+  puts({dimensions: dimensions, radius: radius}.inspect)
 
   size *dimensions
   background 0
@@ -48,7 +48,7 @@ def radius
 end
 
 def new_dla
-  @dla = Dla.new(:radius => radius, :overlap => radius / 1000) do |particle|
+  @dla = Dla.new(radius: radius, overlap: radius / 1000) do |particle|
     Renderer.new(self, particle).render
   end
 end

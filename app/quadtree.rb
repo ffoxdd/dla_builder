@@ -39,7 +39,7 @@ class Quadtree
     if leaf?
       @points.select { |point| test_bounding_box.covers?(point) }
     else
-      children.map { |child| child.within(test_bounding_box) }.flatten # TODO: use flat_map after upgrading ruby
+      children.flat_map { |child| child.within(test_bounding_box) }
     end
   end
 
@@ -72,7 +72,7 @@ class Quadtree
   end
 
   def new_child(i, j)
-    Quadtree.new(bounding_box.quadtrant(i, j), :max_depth => max_depth - 1)
+    Quadtree.new(bounding_box.quadtrant(i, j), max_depth: max_depth - 1)
   end
 
 end
