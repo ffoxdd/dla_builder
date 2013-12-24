@@ -27,6 +27,7 @@ GEM
       pry (>= 0.9.11)
     pry_debug (0.1.0)
       pry (~> 0.9.0)
+    rake (10.0.3)
     ruby-processing (2.4.1)
     slop (3.4.7)
     spoon (0.0.4)
@@ -42,5 +43,6 @@ DEPENDENCIES
   pry
   pry-stack_explorer
   pry_debug
+  rake
   ruby-processing
   spoon
