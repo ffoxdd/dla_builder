@@ -1,35 +1,35 @@
 GIT
   remote: git://github.com/ffi/ffi.git
-  revision: 4fefc67632c8728fb4ad8f2476ccdea7371bd15b
+  revision: 2ae64ccf11a4201ff08d1eb6cfaf9aabdb06580a
   specs:
-    ffi (1.7.0)
+    ffi (1.9.3)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    binding_of_caller (0.7.1)
+    binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    coderay (1.0.9)
+    coderay (1.1.0)
     debug_inspector (0.0.2)
-    method_source (0.8.1)
-    minitest (4.7.0)
-    pry (0.9.12)
-      coderay (~> 1.0.5)
+    method_source (0.8.2)
+    minitest (5.2.0)
+    pry (0.9.12.4)
+      coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
-    pry (0.9.12-java)
-      coderay (~> 1.0.5)
+    pry (0.9.12.4-java)
+      coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
       spoon (~> 0.0)
-    pry-stack_explorer (0.4.9)
+    pry-stack_explorer (0.4.9.1)
       binding_of_caller (>= 0.7)
-      pry (~> 0.9.11)
+      pry (>= 0.9.11)
     pry_debug (0.1.0)
       pry (~> 0.9.0)
-    ruby-processing (1.0.11)
-    slop (3.4.4)
-    spoon (0.0.3)
+    ruby-processing (2.4.1)
+    slop (3.4.7)
+    spoon (0.0.4)
       ffi
 
 PLATFORMS

@@ -1,7 +1,7 @@
 require 'rubygems'
 gem 'minitest'
-require 'minitest/spec'
 require 'minitest/autorun'
+require 'minitest/spec'
 
 MiniTest::Spec.class_eval do
   def self.shared_examples
