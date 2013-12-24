@@ -1,5 +1,5 @@
-require File.join(File.dirname(__FILE__), "..", "app", "dla")
-require File.join(File.dirname(__FILE__), "renderer")
+require_relative "../app/dla.rb"
+require_relative "./renderer.rb"
 
 def setup
   puts({:dimensions => dimensions, :radius => radius}.inspect)

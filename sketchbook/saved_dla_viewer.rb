@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), "..", "app", "dla")
+require_relative "../app/dla.rb"
 
 NAME_ROOT = "canvas_60in-40in-5mm"
 
