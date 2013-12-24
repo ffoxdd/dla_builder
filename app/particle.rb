@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), "point")
+require_relative "point"
 require 'forwardable'
 
 class Particle

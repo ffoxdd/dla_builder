@@ -1,6 +1,6 @@
+require_relative "quadtree"
+require_relative "quadtree_closest_particle_finder"
 require 'forwardable'
-require File.join(File.dirname(__FILE__), "quadtree")
-require File.join(File.dirname(__FILE__), "quadtree_closest_particle_finder")
 
 class QuadtreeParticleCollection
 

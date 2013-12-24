@@ -1,7 +1,7 @@
-require File.join(File.dirname(__FILE__), "particle")
-require File.join(File.dirname(__FILE__), "grower")
-require File.join(File.dirname(__FILE__), "persister")
-require File.join(File.dirname(__FILE__), "quadtree_particle_collection")
+require_relative "particle"
+require_relative "grower"
+require_relative "persister"
+require_relative "quadtree_particle_collection"
 
 class Dla
 
