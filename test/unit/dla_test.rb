@@ -14,14 +14,14 @@ describe Dla do
 
   let(:options) do
     { 
-      :grower_source => grower_source, 
-      :seeds => seeds,
-      :particles => particles,
+      grower_source: grower_source, 
+      seeds: seeds,
+      particles: particles,
 
-      :radius => 2.0,
-      :overlap => 0.5,
+      radius: 2.0,
+      overlap: 0.5,
 
-      :live => false
+      live: false
     } 
   end
   
@@ -31,13 +31,13 @@ describe Dla do
     end
 
     it "succeeds without default collaborators" do
-      ->{ Dla.new(:live => false) }.must_be_silent
+      ->{ Dla.new(live: false) }.must_be_silent
     end
   end
 
   describe "#size" do
     it "returns the number of seeds when no new particles have been added" do
-      dla = Dla.new(:seeds => seeds)
+      dla = Dla.new(seeds: seeds)
       dla.size.must_equal 1
     end
   end
@@ -59,7 +59,7 @@ describe Dla do
 
   describe "#save" do
     let(:persister) { MiniTest::Mock.new }
-    let(:dla) { Dla.new(:persister => persister) }
+    let(:dla) { Dla.new(persister: persister) }
 
     it "persists by calling through to the persister" do
       persister.expect(:save, nil, [dla, "filename"])
@@ -90,7 +90,7 @@ describe Dla do
     let(:seed) { test_particle }
 
     it "visits seeds" do
-      dla = Dla.new(:seeds => seed, :live => false) { |particle| visitor.visit(particle) }
+      dla = Dla.new(seeds: seed, live: false) { |particle| visitor.visit(particle) }
       visitor.expect(:visit, nil, [seed])
 
       dla.accept
@@ -99,7 +99,7 @@ describe Dla do
 
     it "visits new particles" do
       visited_particles = []
-      dla = Dla.new(:seeds => seed, :live => false) { |particle| visited_particles << particle }
+      dla = Dla.new(seeds: seed, live: false) { |particle| visited_particles << particle }
 
       2.times { dla.grow }
       dla.accept
@@ -109,7 +109,7 @@ describe Dla do
 
     it "visits as particles are added with the live options" do
       visited_particles = []
-      dla = Dla.new(:seeds => seed, :live => true) { |particle| visited_particles << particle }
+      dla = Dla.new(seeds: seed, live: true) { |particle| visited_particles << particle }
       visited_particles.size.must_equal 1
 
       dla.grow

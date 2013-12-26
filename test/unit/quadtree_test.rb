@@ -22,7 +22,7 @@ describe Quadtree do
   end
 
   describe "#<<" do
-    let(:quadtree) { Quadtree.new(BoundingBox.new(0...1, 0...1), :max_depth => 3) }
+    let(:quadtree) { Quadtree.new(BoundingBox.new(0...1, 0...1), max_depth: 3) }
 
     it "adds a particle" do
       quadtree << mock_particle(0.5, 0.5)
@@ -93,7 +93,7 @@ describe Quadtree do
       let(:q3_particle) { MiniTest::Mock.new }
 
       describe "for a tree of depth 0" do
-        let(:quadtree) { Quadtree.new(BoundingBox.new(0...10, 0...10), :max_depth => 0) }
+        let(:quadtree) { Quadtree.new(BoundingBox.new(0...10, 0...10), max_depth: 0) }
 
         before do
           q0_particle.expect(:x, 1)
@@ -120,7 +120,7 @@ describe Quadtree do
       end
 
       describe "for a tree of depth greater than 0" do
-        let(:quadtree) { Quadtree.new(BoundingBox.new(0...10, 0...10), :max_depth => 1) }
+        let(:quadtree) { Quadtree.new(BoundingBox.new(0...10, 0...10), max_depth: 1) }
 
         before do
           5.times do
@@ -152,7 +152,7 @@ describe Quadtree do
   require 'ostruct'
 
   def mock_particle(x = 1, y = 1)
-    OpenStruct.new(:x => x, :y => y)
+    OpenStruct.new(x: x, y: y)
   end
 
 end
