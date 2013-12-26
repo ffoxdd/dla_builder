@@ -2,10 +2,13 @@ require 'yaml'
 
 class Persister
 
-  DATA_DIRECTORY = File.join(File.dirname(__FILE__), "..", "data")
+  def initialize(object, name)
+    @object = object
+    @name = name
+  end
 
-  def self.save(object, name)
-    File.open(filename(name), 'w') do |file|
+  def save
+    File.open(Persister.filename(name), 'w') do |file|
       YAML::dump(object, file)
     end
   end
@@ -15,6 +18,10 @@ class Persister
   end
 
   private
+
+    attr_reader :object, :name
+
+    DATA_DIRECTORY = File.join(File.dirname(__FILE__), "..", "data")
 
     def self.filename(name)
       File.join(DATA_DIRECTORY, "#{name}.yml")

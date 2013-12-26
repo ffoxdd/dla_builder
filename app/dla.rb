@@ -15,7 +15,7 @@ class Dla
     @live = options.fetch(:live) { true }
 
     @grower_source = options.fetch(:grower_source) { Grower }
-    @persister = options.fetch(:persister) { Persister }
+    @persister_source = options.fetch(:persister_source) { Persister }
 
     @extent = Point.new(0, 0)
 
@@ -40,7 +40,7 @@ class Dla
   end
 
   def save(name)
-    persister.save(self, name)
+    persister(name).save
   end
 
   def within?(bounding_box)
@@ -49,11 +49,15 @@ class Dla
 
   private
 
-    attr_reader :grower_source, :persister, :seeds, :particles, :overlap, :radius, :visitor, :live
+    attr_reader :grower_source, :persister_source, :seeds, :particles, :overlap, :radius, :visitor, :live
     attr_accessor :extent
 
     def grower
       grower_source.new(particles, radius, overlap, extent)
+    end
+
+    def persister(name)
+      persister_source.new(self, name)
     end
 
     def add_particle(particle)

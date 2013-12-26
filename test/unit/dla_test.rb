@@ -58,11 +58,15 @@ describe Dla do
   end
 
   describe "#save" do
-    let(:persister) { MiniTest::Mock.new }
-    let(:dla) { Dla.new(persister: persister) }
+    let(:persister_source) { MiniTest::Mock.new }
+    let(:persister) { Minitest::Mock.new}
+    let(:dla) { Dla.new(persister_source: persister_source) }
 
     it "persists by calling through to the persister" do
-      persister.expect(:save, nil, [dla, "filename"])
+      # persister.expect(:save, nil, [dla, "filename"])
+      persister_source.expect(:new, persister, [dla, "filename"])
+      persister.expect(:save, nil, [])
+
       dla.save("filename")
       persister.verify
     end
