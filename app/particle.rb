@@ -14,15 +14,7 @@ class Particle
   def_delegators :center, :x, :y, :magnitude
 
   def extent
-    magnitude + radius
-  end
-
-  def x_extent
-    x.abs + radius
-  end
-
-  def y_extent
-    y.abs + radius
+    center.extent + Point.new(radius, radius)
   end
 
   def distance(particle)

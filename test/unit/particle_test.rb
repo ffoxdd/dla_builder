@@ -41,32 +41,6 @@ describe Particle do
     end
   end
 
-  describe "#extent" do
-    it "returns the radius if the particle is at the origin" do
-      particle = Particle.new(0, 0, 2.5)
-      particle.extent.must_equal 2.5
-    end
-
-    it "returns the magnitude plus the radius" do
-      particle = Particle.new(3, 4, 5)
-      particle.extent.must_equal 10
-    end
-  end
-
-  describe "#x_extent" do
-    it "returns the magnitude of the x position plus the radius" do
-      particle = Particle.new(-3, 4, 5)
-      particle.x_extent.must_equal 8 
-    end
-  end
-
-  describe "#y_extent" do
-    it "returns the magnitude of the x position plus the radius" do
-      particle = Particle.new(3, -4, 5)
-      particle.y_extent.must_equal 9
-    end
-  end
-
   describe "#distance" do
     let(:particle) { Particle.new(0, 0, 1) }
 
@@ -103,6 +77,12 @@ describe Particle do
 
       particle.x.wont_equal other_particle.x
       particle.y.wont_equal other_particle.y
+    end
+  end
+
+  describe "#extent" do
+    it "returns a particle with the absolute value of both dimensions" do
+      Particle.new(-3, -2, 0.5).extent.must_equal Point.new(3.5, 2.5)
     end
   end
 

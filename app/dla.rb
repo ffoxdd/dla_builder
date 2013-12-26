@@ -17,7 +17,7 @@ class Dla
     @grower_source = options.fetch(:grower_source) { Grower }
     @persister = options.fetch(:persister) { Persister }
 
-    @extent = 0
+    @extent = Point.new(0, 0)
 
     @seeds.each { |seed| @particles << seed }
     check_bounds(particles)
@@ -43,13 +43,14 @@ class Dla
     persister.save(self, name)
   end
 
-  def within_bounds?(x_range, y_range)
-    x_range.include?(x_extent) && y_range.include?(y_extent)
+  def within?(bounding_box)
+    bounding_box.covers?(extent)
   end
 
   private
 
-  attr_reader :grower_source, :persister, :seeds, :particles, :overlap, :radius, :extent, :visitor, :live
+  attr_reader :grower_source, :persister, :seeds, :particles, :overlap, :radius, :visitor, :live
+  attr_accessor :extent
 
   def grower
     grower_source.new(particles, radius, overlap, extent)
@@ -64,16 +65,8 @@ class Dla
     [Particle.new(0, 0, radius)]
   end
 
-  def x_extent
-    particles.map(&:x_extent).max
-  end
-
-  def y_extent
-    particles.map(&:y_extent).max
-  end
-
   def check_bounds(particles)
-    Array(particles).each { |particle| @extent = [@extent, particle.extent].max }
+    Array(particles).each { |particle| self.extent = extent.max(particle.extent) }
   end
 
 end

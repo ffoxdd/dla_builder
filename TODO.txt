@@ -5,3 +5,6 @@
 - [ ] Encapsulate the canvas <-> viewport coordinate system transformation in an object
 - [ ] Figure out where Renderer belongs and if it should be tested
 - [ ] Record current DLA extent via a Point object and remove all the nasty x_extent/y_extent code
+- [ ] Stop using a factory for Particle in the Dla test
+- [ ] Factor method out of Grower#too_far?
+

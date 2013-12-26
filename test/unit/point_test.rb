@@ -77,13 +77,4 @@ describe Point do
     end
   end
 
-  describe "#max_extent" do
-    it "returns a point with the maximum absolute value along each dimension" do
-      point_1 = Point.new(1, 2)
-      point_2 = Point.new(-3, 4)
-
-      point_1.max_extent(point_2).must_equal Point.new(3, 4)
-    end
-  end
-
 end

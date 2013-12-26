@@ -47,7 +47,7 @@ describe Dla do
     let(:dla) { Dla.new(options) }
 
     it "calls through to the grower and renders a new particle onto the aggregate" do
-      grower_source.expect(:new, grower, [particles, 2.0, 0.5, 0.5])
+      grower_source.expect(:new, grower, [particles, 2.0, 0.5, Point.new(0.5, 0.5)])
       grower.expect(:grow, new_particle)
 
       dla.grow
@@ -68,20 +68,20 @@ describe Dla do
     end
   end
 
-  describe "#within_bounds?" do
-    let(:seeds) { [test_particle(1, 0, 1), test_particle(0, 1, 1)] }
-    let(:dla) { Dla.new(:seeds => seeds) }
+  describe "#within?" do
+    let(:seeds) { [Particle.new(1, 0, 1), Particle.new(0, 1, 1)] }
+    let(:dla) { Dla.new(seeds: seeds) }
 
     it "returns true when within the given bounds" do
-      dla.within_bounds?(-2..2, -2..2).must_equal true
+      dla.within?(BoundingBox.new(-2..2, -2..2)).must_equal true
     end
 
     it "returns false when outside the given x range" do
-      dla.within_bounds?(-1..1, -2..2).must_equal false
+      dla.within?(BoundingBox.new(-1..1, -2..2)).must_equal false
     end
 
     it "returns false when outside the given y range" do
-      dla.within_bounds?(-2..2, -1..1).must_equal false
+      dla.within?(BoundingBox.new(-2..2, -1..1)).must_equal false
     end
   end
 

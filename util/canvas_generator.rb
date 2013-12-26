@@ -4,8 +4,9 @@ require_relative '../sketchbook/lib/dla.rb'
   print "growing dla #{n}"
 
   dla = Dla.new(radius: 2.87073490813648)
+  bounds = BoundingBox.new(-437.5..437.5, -350.0..350.0)
 
-  until !dla.within_bounds?(-437.5..437.5, -350.0..350.0)
+  while dla.within?(bounds)
     dla.grow
     print '.' if dla.size % 250 == 0
   end
