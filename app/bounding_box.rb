@@ -1,3 +1,6 @@
+require_relative "../lib/range_intersection_calculator"
+require_relative "../lib/range_segmenter"
+
 class BoundingBox
 
   def initialize(x_range, y_range)
@@ -7,8 +10,8 @@ class BoundingBox
 
   attr_reader :x_range, :y_range
 
-  def intersects?(other_box)
-    intersects_x_range?(other_box) && intersects_y_range?(other_box)
+  def intersects?(box)
+    ranges_intersect?(x_range, box.x_range) && ranges_intersect?(y_range, box.y_range)
   end
 
   def covers?(point)
@@ -16,37 +19,13 @@ class BoundingBox
   end
 
   def quadtrant(i, j)
-    BoundingBox.new(range_subdivision(x_range, i), range_subdivision(y_range, j))
+    BoundingBox.new(segment(x_range, i), segment(y_range, j))
   end
 
   private
 
-    def range_subdivision(range, i)
-      i == 0 ? first_half(range) : second_half(range)
-    end
-
-    def first_half(range)
-      Range.new(range.begin, midpoint(range), true)
-    end
-
-    def second_half(range)
-      Range.new(midpoint(range), range.end, range.exclude_end?)
-    end
-
-    def length(range)
-      range.end - range.begin
-    end
-
-    def midpoint(range)
-      range.begin + (length(range) / 2.0)
-    end
-
-    def intersects_x_range?(other_box)
-      ranges_intersect?(other_box.x_range, x_range)
-    end
-
-    def intersects_y_range?(other_box)
-      ranges_intersect?(other_box.y_range, y_range)
+    def segment(range, i)
+      RangeSegmenter.new(range, 2).segments[i]
     end
 
     def ranges_intersect?(range_1, range_2)

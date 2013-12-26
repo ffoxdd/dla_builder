@@ -1,4 +1,3 @@
-require_relative "../lib/range_intersection_calculator"
 require_relative "bounding_box"
 
 class Quadtree
