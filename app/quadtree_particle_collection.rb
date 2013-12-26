@@ -21,10 +21,10 @@ class QuadtreeParticleCollection
 
   private
 
-  attr_reader :particles, :particle_radius
+    attr_reader :particles, :particle_radius
 
-  def closest_particle_finder(test_particle)
-    QuadtreeClosestParticleFinder.new(particles, test_particle, particle_radius)
-  end
+    def closest_particle_finder(test_particle)
+      QuadtreeClosestParticleFinder.new(particles, test_particle, particle_radius)
+    end
 
 end

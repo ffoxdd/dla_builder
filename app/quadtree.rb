@@ -49,29 +49,29 @@ class Quadtree
 
   private
 
-  attr_reader :bounding_box, :points, :max_depth, :children
+    attr_reader :bounding_box, :points, :max_depth, :children
 
-  def leaf?
-    children.empty?
-  end
+    def leaf?
+      children.empty?
+    end
 
-  def intersects?(test_bounding_box)
-    bounding_box.intersects?(test_bounding_box)
-  end
+    def intersects?(test_bounding_box)
+      bounding_box.intersects?(test_bounding_box)
+    end
 
-  def can_subdivide?
-    depth < max_depth
-  end
+    def can_subdivide?
+      depth < max_depth
+    end
 
-  def subdivide
-    children[0] = new_child(0, 0)
-    children[1] = new_child(1, 0)
-    children[2] = new_child(0, 1)
-    children[3] = new_child(1, 1)
-  end
+    def subdivide
+      children[0] = new_child(0, 0)
+      children[1] = new_child(1, 0)
+      children[2] = new_child(0, 1)
+      children[3] = new_child(1, 1)
+    end
 
-  def new_child(i, j)
-    Quadtree.new(bounding_box.quadtrant(i, j), max_depth: max_depth - 1)
-  end
+    def new_child(i, j)
+      Quadtree.new(bounding_box.quadtrant(i, j), max_depth: max_depth - 1)
+    end
 
 end

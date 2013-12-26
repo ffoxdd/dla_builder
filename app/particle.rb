@@ -31,6 +31,6 @@ class Particle
 
   protected
 
-  attr_accessor :center # TODO: figure out why this can't be private
+    attr_accessor :center # TODO: figure out why this can't be private
 
 end

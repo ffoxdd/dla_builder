@@ -16,29 +16,29 @@ class Renderer
 
   private
 
-  attr_reader :sketch, :particle
-  def_delegators :sketch, :noStroke, :smooth, :ellipseMode, :ellipse, :width, :height
+    attr_reader :sketch, :particle
+    def_delegators :sketch, :noStroke, :smooth, :ellipseMode, :ellipse, :width, :height
 
-  def settings
-    noStroke
-    smooth
-    ellipseMode(sketch.class::RADIUS)
-  end
+    def settings
+      noStroke
+      smooth
+      ellipseMode(sketch.class::RADIUS)
+    end
 
-  def x(particle)
-    x_origin + particle.x
-  end
+    def x(particle)
+      x_origin + particle.x
+    end
 
-  def y(particle)
-    y_origin + particle.y
-  end
+    def y(particle)
+      y_origin + particle.y
+    end
 
-  def x_origin
-    width / 2
-  end
+    def x_origin
+      width / 2
+    end
 
-  def y_origin
-    height / 2
-  end
+    def y_origin
+      height / 2
+    end
 
 end

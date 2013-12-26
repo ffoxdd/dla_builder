@@ -49,24 +49,24 @@ class Dla
 
   private
 
-  attr_reader :grower_source, :persister, :seeds, :particles, :overlap, :radius, :visitor, :live
-  attr_accessor :extent
+    attr_reader :grower_source, :persister, :seeds, :particles, :overlap, :radius, :visitor, :live
+    attr_accessor :extent
 
-  def grower
-    grower_source.new(particles, radius, overlap, extent)
-  end
+    def grower
+      grower_source.new(particles, radius, overlap, extent)
+    end
 
-  def add_particle(particle)
-    particles << particle
-    accept(particle) if live
-  end
+    def add_particle(particle)
+      particles << particle
+      accept(particle) if live
+    end
 
-  def default_seeds
-    [Particle.new(0, 0, radius)]
-  end
+    def default_seeds
+      [Particle.new(0, 0, radius)]
+    end
 
-  def check_bounds(particles)
-    Array(particles).each { |particle| self.extent = extent.max(particle.extent) }
-  end
+    def check_bounds(particles)
+      Array(particles).each { |particle| self.extent = extent.max(particle.extent) }
+    end
 
 end

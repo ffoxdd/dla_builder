@@ -37,15 +37,15 @@ class Point
 
   private
 
-  TWO_PI = 2 * Math::PI
+    TWO_PI = 2 * Math::PI
 
-  def self.random_theta
-    TWO_PI * rand
-  end
+    def self.random_theta
+      TWO_PI * rand
+    end
 
-  def self.random_coordinates(radius)
-    theta = random_theta
-    [Math.sin(theta) * radius, Math.cos(theta) * radius]
-  end
+    def self.random_coordinates(radius)
+      theta = random_theta
+      [Math.sin(theta) * radius, Math.cos(theta) * radius]
+    end
 
 end

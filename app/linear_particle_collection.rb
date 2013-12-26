@@ -17,6 +17,6 @@ class LinearParticleCollection
 
   private
 
-  attr_reader :particles
+    attr_reader :particles
 
 end

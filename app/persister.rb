@@ -16,8 +16,8 @@ class Persister
 
   private
 
-  def self.filename(name)
-    File.join(DATA_DIRECTORY, "#{name}.yml")
-  end
+    def self.filename(name)
+      File.join(DATA_DIRECTORY, "#{name}.yml")
+    end
 
 end
