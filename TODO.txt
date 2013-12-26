@@ -4,4 +4,3 @@
 - [ ] Make a RangeSubdivider to help BoundingBox
 - [ ] Encapsulate the canvas <-> viewport coordinate system transformation in an object
 - [ ] Figure out where Renderer belongs and if it should be tested
-- [ ] Factor method out of Grower#too_far?

@@ -86,4 +86,14 @@ describe Particle do
     end
   end
 
+  describe "#within_radius?" do
+    it "returns true if the particle is within the radius" do
+      Particle.new(2.5, 3.5, 0.5).within_radius?(5.01).must_equal true
+    end
+
+    it "returns false if the particle is not within the radius" do
+      Particle.new(2.5, 3.5, 0.5).within_radius?(5).must_equal false
+    end
+  end
+
 end

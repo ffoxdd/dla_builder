@@ -57,7 +57,7 @@ class Grower
   end
 
   def too_far?
-    test_particle.extent.magnitude > kill_radius # TODO: factor out this check
+    !test_particle.within_radius?(kill_radius)
   end
 
 end

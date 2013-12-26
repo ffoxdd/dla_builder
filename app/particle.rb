@@ -25,6 +25,10 @@ class Particle
     self.center += Point.random(distance)
   end
 
+  def within_radius?(test_radius)
+    extent.magnitude < test_radius
+  end
+
   protected
 
   attr_accessor :center # TODO: figure out why this can't be private
