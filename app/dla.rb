@@ -25,9 +25,10 @@ class Dla
   end
 
   def grow
-    new_particle = grower.grow # CQS violation
-    check_bounds(new_particle)
-    add_particle(new_particle)
+    grower.grow do |new_particle|
+      check_bounds(new_particle)
+      add_particle(new_particle)
+    end
   end
 
   def accept(particle = particles)
