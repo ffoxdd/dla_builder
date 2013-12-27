@@ -19,15 +19,12 @@ class Dla
 
     @extent = Point.new(0, 0)
 
-    @seeds.each { |seed| @particles << seed }
-    check_bounds(particles)
-    accept if @live
+    @seeds.each { |seed| add_particle(seed) }
   end
 
   def grow
     grower.grow do |new_particle, stuck_particle|
-      check_bounds(new_particle)
-      add_particle(new_particle)
+      add_particle(new_particle, stuck_particle)
     end
   end
 
@@ -61,17 +58,19 @@ class Dla
       persister_source.new(self, name)
     end
 
-    def add_particle(particle)
-      particles << particle
-      accept(particle) if live
+    def add_particle(new_particle, stuck_particle = nil)
+      particles << new_particle
+      stuck_particle.add_child(new_particle) if stuck_particle
+      accept(new_particle) if live
+      check_bounds(new_particle)
     end
 
     def default_seeds
       [Particle.new(0, 0, radius)]
     end
 
-    def check_bounds(particles)
-      Array(particles).each { |particle| self.extent = extent.max(particle.extent) }
+    def check_bounds(particle)
+      self.extent = extent.max(particle.extent)
     end
 
 end

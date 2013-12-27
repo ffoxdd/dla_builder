@@ -4,11 +4,12 @@ require 'forwardable'
 class Particle
 
   extend Forwardable
-  attr_reader :radius
+  attr_reader :radius, :children
 
   def initialize(x, y, radius)
     @center = Point.new(x, y)
     @radius = Float(radius)
+    @children = []
   end
 
   def_delegators :center, :x, :y, :magnitude
@@ -27,6 +28,10 @@ class Particle
 
   def within_radius?(test_radius)
     extent.magnitude < test_radius
+  end
+
+  def add_child(particle)
+    children.push(particle)
   end
 
   protected

@@ -53,7 +53,7 @@ describe Dla do
       dla.grow
 
       grower.verify
-      # dla.size.must_equal 2 # TODO: figure out how to stub a yield
+      # dla.size.must_equal 2 # TODO: stub the yield and assert that it is handled correctly
     end
   end
 

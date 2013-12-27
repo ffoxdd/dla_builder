@@ -96,4 +96,18 @@ describe Particle do
     end
   end
 
+  describe "#children" do
+    it "initializes with no children" do
+      Particle.new(1, 1, 0.5).children.empty?.must_equal true
+    end
+
+    it "can add a child" do
+      particle_1 = Particle.new(1, 1, 0.5)
+      particle_2 = Particle.new(1, 1, 0.5)
+
+      particle_1.add_child(particle_2)
+      particle_1.children.must_equal [particle_2]
+    end
+  end
+
 end
