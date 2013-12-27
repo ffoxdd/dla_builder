@@ -25,7 +25,7 @@ class Dla
   end
 
   def grow
-    grower.grow do |new_particle|
+    grower.grow do |new_particle, stuck_particle|
       check_bounds(new_particle)
       add_particle(new_particle)
     end

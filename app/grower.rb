@@ -12,7 +12,7 @@ class Grower
   def grow
     spawn
     step until stuck?
-    yield(test_particle) if block_given?
+    yield(test_particle, closest_particle) if block_given?
   end
 
   protected
