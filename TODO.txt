@@ -2,3 +2,4 @@
 - [ ] Audit command query separation violations
 - [ ] Figure out where Renderer belongs and if it should be tested
 - [ ] Make injected dependency sources directly callable (rather than relying on #new)
+- [ ] Figure out how to mock/stub that a method yields to a block in minitest
