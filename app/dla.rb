@@ -7,7 +7,7 @@ class Dla
 
   def initialize(options = {}, &visitor)
     @radius = Float(options.fetch(:radius) { 4 })
-    @overlap = Float(options.fetch(:overlap) { @radius / 8.0 })
+    @overlap = Float(options.fetch(:overlap) { @radius / 1000.0 })
 
     @seeds = Array(options.fetch(:seeds) { default_seeds })
     @particles = options.fetch(:particles) { QuadtreeParticleCollection.new(@radius) }
