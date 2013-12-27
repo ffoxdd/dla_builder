@@ -4,3 +4,4 @@
 - [ ] Make injected dependency sources directly callable (rather than relying on #new)
 - [ ] Use minitest stubs instead of method expectations whenever appropriate
 - [ ] Test block yielding in Grower with minitest stubs
+- [ ] Get rid of the old LinearGrowthFeature and fix up the quadtree one
