@@ -9,7 +9,7 @@ class Dla
     @radius = Float(options.fetch(:radius) { 4 })
     @overlap = Float(options.fetch(:overlap) { @radius / 1000.0 })
 
-    @seeds = Array(options.fetch(:seeds) { default_seeds })
+    @seeds = Array(options.fetch(:seeds) { [Particle.new(0, 0, radius)] })
     @particles = options.fetch(:particles) { QuadtreeParticleCollection.new(@radius) }
     @visitor = visitor
     @live = options.fetch(:live) { true }
@@ -63,10 +63,6 @@ class Dla
       stuck_particle.add_child(new_particle) if stuck_particle
       accept(new_particle) if live
       check_bounds(new_particle)
-    end
-
-    def default_seeds
-      [Particle.new(0, 0, radius)]
     end
 
     def check_bounds(particle)
