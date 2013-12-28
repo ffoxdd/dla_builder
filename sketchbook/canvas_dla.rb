@@ -3,7 +3,7 @@ require_relative "../app/canvas.rb"
 require_relative "./renderer.rb"
 
 CANVAS_DIMENSIONS = [60, 48] # inches
-PARTICLE_DIAMETER = 6 # millimeters
+PARTICLE_DIAMETER = 10 # millimeters
 VIEWPORT_DIMENSIONS = [1280, 720] # 720p
 
 def setup
