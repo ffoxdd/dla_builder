@@ -7,11 +7,19 @@ class TreePropertyCalculator
   end
 
   def average_depth
-    particles.map(&:depth).inject(&:+) / particles.size.to_f
+    average_by(&:depth)
+  end
+
+  def average_branching_factor
+    average_by { |particle| particle.children.size }
   end
 
   private
 
     attr_reader :particles
+
+    def average_by(&block)
+      particles.map(&block).inject(&:+) / particles.size.to_f
+    end
 
 end
