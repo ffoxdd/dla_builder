@@ -18,6 +18,7 @@ class Dla
     @seeds.each { |seed| add_particle(seed) }
   end
 
+  attr_reader :particles
   attr_writer :visitor
 
   def grow
@@ -45,7 +46,7 @@ class Dla
 
   private
 
-    attr_reader :seeds, :particles, :overlap, :radius, :visitor, :live
+    attr_reader :seeds, :overlap, :radius, :visitor, :live
     attr_accessor :extent
 
     def grower

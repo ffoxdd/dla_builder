@@ -1,4 +1,5 @@
 require_relative "../app/dla.rb"
+require_relative "../app/tree_property_calculator.rb"
 require_relative "./renderer.rb"
 
 NAME_ROOT = "canvas_60in-48in-10mm"
@@ -30,7 +31,9 @@ end
 
 def draw_dla
   clear_screen
+
   dla = current_dla
+  tree_property_calculator = TreePropertyCalculator.new(dla.particles)
 
   dla.visitor = lambda do |particle|
     Renderer.new(self, particle).render
@@ -38,8 +41,10 @@ def draw_dla
 
   dla.accept
 
-  write_text("name: #{current_name}", 0)
-  write_text("particles: #{dla.size}", 1)
+  write_text "name: #{current_name}", 0
+  write_text "particles: #{dla.size}", 1
+  write_text "average_depth: #{tree_property_calculator.average_depth}", 2
+  write_text "max_depth: #{tree_property_calculator.max_depth}", 3
 end
 
 def clear_screen
