@@ -7,10 +7,6 @@ describe LinearParticleCollection do
   let(:collection) { LinearParticleCollection.new }
 
   describe "#initialize" do
-    it "does not blow up" do
-      -> { LinearParticleCollection.new }.must_be_silent
-    end
-
     it "starts of with zero particles" do
       collection.size.must_equal 0
     end

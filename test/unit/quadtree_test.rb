@@ -6,10 +6,6 @@ require 'set'
 describe Quadtree do
 
   describe "#initialize" do
-    it "doesn't blow up" do
-      -> { Quadtree.new(BoundingBox.new(0...1, 0...1)) }.must_be_silent
-    end
-    
     it "starts off with zero particles" do
       quadtree = Quadtree.new(BoundingBox.new(0...1, 0...1))
       quadtree.size.must_equal 0      

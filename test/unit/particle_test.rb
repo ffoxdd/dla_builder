@@ -4,12 +4,6 @@ require_relative "./shared_examples_for_points.rb"
 
 describe Particle do
 
-  describe "#initialize" do
-    it "doesn't blow up" do
-      -> { Particle.new(0, 0, 1) }.must_be_silent
-    end
-  end
-
   it_behaves_like "A Point" do
     let(:factory) { ->(x, y) { Particle.new(x, y, 1) } }
   end

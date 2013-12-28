@@ -7,10 +7,6 @@ describe QuadtreeParticleCollection do
   let(:collection) { QuadtreeParticleCollection.new(1) }
 
   describe "#initialize" do
-    it "does not blow up" do
-      -> { QuadtreeParticleCollection.new(1) }.must_be_silent
-    end
-
     it "starts of with zero particles" do
       collection.size.must_equal 0
     end

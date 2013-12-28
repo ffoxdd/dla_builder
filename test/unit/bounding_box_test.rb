@@ -3,12 +3,6 @@ require_relative "../../app/bounding_box.rb"
 
 describe BoundingBox do
 
-  describe "#initialize" do
-    it "doesn't blow up" do
-      -> { BoundingBox.new(0..1, 0..1) }.must_be_silent
-    end
-  end
-
   describe "#intersects?" do
     let(:box) { BoundingBox.new(0..3, 0..3) }
 
