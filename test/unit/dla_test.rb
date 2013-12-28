@@ -4,71 +4,55 @@ require_relative "../../app/linear_particle_collection.rb"
 
 describe Dla do
 
-  let(:renderer) { MiniTest::Mock.new }
-  let(:grower) { MiniTest::Mock.new }
-  let(:grower_source) { MiniTest::Mock.new }
-
-  let(:seed) { test_particle }
-  let(:seeds) { [seed] }
-  let(:particles) { LinearParticleCollection.new }
-
-  let(:options) do
-    { 
-      grower_source: grower_source, 
-      seeds: seeds,
-      particles: particles,
-
-      radius: 2.0,
-      overlap: 0.5,
-
-      live: false
-    } 
-  end
-  
-  describe "#initialize" do
-    it "succeeds when collaborators are passed in" do
-      ->{ Dla.new(options) }.must_be_silent
-    end
-
-    it "succeeds without default collaborators" do
-      ->{ Dla.new(live: false) }.must_be_silent
-    end
-  end
-
   describe "#size" do
     it "returns the number of seeds when no new particles have been added" do
-      dla = Dla.new(seeds: seeds)
+      dla = Dla.new(seeds: Particle.new)
       dla.size.must_equal 1
     end
   end
 
   describe "#grow" do
-    let(:new_particle) { test_particle }
-    let(:dla) { Dla.new(options) }
+    let(:grower) { Minitest::Mock.new }
+    let(:particle) { Particle.new(0, 0, 1) }
+    let(:dla) { Dla.new(seeds: particle, radius: 1, overlap: 0.1) }
 
-    it "calls through to the grower and renders a new particle onto the aggregate" do
-      grower_source.expect(:new, grower, [particles, 2.0, 0.5, Point.new(0.5, 0.5)])
-      grower.expect(:grow, new_particle)
+    let(:grower_new_stub) do
+      lambda do |particles, radius, overlap, extent|
+        particles.each { |p| p.must_equal(particle) }
+        radius.must_equal 1
+        overlap.must_equal 0.1
+        extent.must_equal Point.new(1, 1)
+        grower
+      end
+    end
 
-      dla.grow
-
-      grower.verify
-      # dla.size.must_equal 2 # TODO: stub the yield and assert that it is handled correctly
+    it "calls through to the Grower" do
+      Grower.stub(:new, grower_new_stub) do
+        grower.expect(:grow, nil, [])
+        dla.grow # TODO: stub that the yielded block is handled correctly
+        grower.verify
+      end
     end
   end
 
   describe "#save" do
-    let(:persister_source) { MiniTest::Mock.new }
-    let(:persister) { Minitest::Mock.new}
-    let(:dla) { Dla.new(persister_source: persister_source) }
+    let(:persister) { Minitest::Mock.new }
+    let(:dla) { Dla.new }
 
-    it "persists by calling through to the persister" do
-      # persister.expect(:save, nil, [dla, "filename"])
-      persister_source.expect(:new, persister, [dla, "filename"])
-      persister.expect(:save, nil, [])
+    let(:persister_new_stub) do
+      lambda do |persisted_object, name|
+        persisted_object.must_equal dla
+        name.must_equal "filename"
+        persister
+      end
+    end
 
-      dla.save("filename")
-      persister.verify
+    it "calls through to the Persister" do
+      Persister.stub(:new, persister_new_stub) do
+        persister.expect(:save, nil, [])
+        dla.save("filename")
+        persister.verify
+      end
     end
   end
 
@@ -91,7 +75,7 @@ describe Dla do
 
   describe "visitor pattern" do
     let(:visitor) { MiniTest::Mock.new }
-    let(:seed) { test_particle }
+    let(:seed) { Particle.new }
 
     it "visits seeds" do
       dla = Dla.new(seeds: seed, live: false) { |particle| visitor.visit(particle) }
@@ -119,12 +103,6 @@ describe Dla do
       dla.grow
       visited_particles.size.must_equal 2
     end
-  end
-
-  private
-
-  def test_particle(x = 0, y = 0, r = 0.5)
-    Particle.new(x, y, r)
   end
 
 end

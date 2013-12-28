@@ -6,7 +6,7 @@ class Particle
   extend Forwardable
   attr_reader :radius, :children
 
-  def initialize(x, y, radius)
+  def initialize(x = 0, y = 0, radius = 1)
     @center = Point.new(x, y)
     @radius = Float(radius)
     @children = []

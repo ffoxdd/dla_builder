@@ -8,15 +8,11 @@ class Dla
   def initialize(options = {}, &visitor)
     @radius = Float(options.fetch(:radius) { 4 })
     @overlap = Float(options.fetch(:overlap) { @radius / 1000.0 })
-
     @seeds = Array(options.fetch(:seeds) { [Particle.new(0, 0, radius)] })
     @particles = options.fetch(:particles) { QuadtreeParticleCollection.new(@radius) }
-    @visitor = visitor
     @live = options.fetch(:live) { true }
 
-    @grower_source = options.fetch(:grower_source) { Grower }
-    @persister_source = options.fetch(:persister_source) { Persister }
-
+    @visitor = visitor
     @extent = Point.new(0, 0)
 
     @seeds.each { |seed| add_particle(seed) }
@@ -38,7 +34,7 @@ class Dla
   end
 
   def save(name)
-    persister(name).save
+    Persister.new(self, name).save
   end
 
   def within?(bounding_box)
@@ -47,15 +43,11 @@ class Dla
 
   private
 
-    attr_reader :grower_source, :persister_source, :seeds, :particles, :overlap, :radius, :visitor, :live
+    attr_reader :seeds, :particles, :overlap, :radius, :visitor, :live
     attr_accessor :extent
 
     def grower
-      grower_source.new(particles, radius, overlap, extent)
-    end
-
-    def persister(name)
-      persister_source.new(self, name)
+      Grower.new(particles, radius, overlap, extent)
     end
 
     def add_particle(new_particle, stuck_particle = nil)
