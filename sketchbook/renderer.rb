@@ -17,12 +17,13 @@ class Renderer
   private
 
     attr_reader :sketch, :particle
-    def_delegators :sketch, :noStroke, :smooth, :ellipseMode, :ellipse, :width, :height
+    def_delegators :sketch, :noStroke, :smooth, :ellipseMode, :ellipse, :width, :height, :fill
 
     def settings
       noStroke
       smooth
       ellipseMode(sketch.class::RADIUS)
+      fill(255)
     end
 
     def x(particle)

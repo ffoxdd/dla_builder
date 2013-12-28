@@ -103,6 +103,8 @@ describe Dla do
       dla.grow
       visited_particles.size.must_equal 2
     end
+
+    # TODO: test #visitor=
   end
 
 end

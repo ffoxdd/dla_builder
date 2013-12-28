@@ -18,6 +18,8 @@ class Dla
     @seeds.each { |seed| add_particle(seed) }
   end
 
+  attr_writer :visitor
+
   def grow
     grower.grow do |new_particle, stuck_particle|
       add_particle(new_particle, stuck_particle)

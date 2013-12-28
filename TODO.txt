@@ -3,3 +3,4 @@
 - [ ] Figure out where Renderer belongs and if it should be tested
 - [ ] Test block yielding in Grower with minitest stubs
 - [ ] Get rid of the old LinearGrowthFeature and fix up the quadtree one
+- [ ] Test Dla#visitor=

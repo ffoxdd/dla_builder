@@ -4,7 +4,7 @@ require_relative '../app/canvas.rb'
 CANVAS_DIMENSIONS = [60, 48] # inches
 PARTICLE_DIAMETER = 10 # millimeters
 VIEWPORT_DIMENSIONS = [1280, 720] # 720p
-SIZE_LIMIT = 2000
+SIZE_LIMIT = 200
 
 canvas = Canvas.new(VIEWPORT_DIMENSIONS, CANVAS_DIMENSIONS)
 radius = canvas.mm_to_pixels(PARTICLE_DIAMETER) / 2

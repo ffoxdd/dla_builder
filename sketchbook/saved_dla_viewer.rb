@@ -1,13 +1,15 @@
 require_relative "../app/dla.rb"
+require_relative "./renderer.rb"
 
-NAME_ROOT = "canvas_60in-40in-5mm"
+NAME_ROOT = "canvas_60in-48in-10mm"
+
+require 'pry'
 
 def setup
   size 875, 700
   background 0
 
   @index = 0
-  @renderer = Renderer.new
 end
 
 def draw
@@ -28,10 +30,13 @@ end
 
 def draw_dla
   clear_screen
-
   dla = current_dla
-  dla.renderer = @renderer
-  dla.render
+
+  dla.visitor = lambda do |particle|
+    Renderer.new(self, particle).render
+  end
+
+  dla.accept
 
   write_text("name: #{current_name}", 0)
   write_text("particles: #{dla.size}", 1)
@@ -68,38 +73,4 @@ end
 
 def run_numbers
   Dir.glob("./data/#{NAME_ROOT}*").map { |filename| filename.match(/\d{3}/)[0] }
-end
-
-class Renderer
-
-  def render(particle)
-    settings
-    ellipse x(particle), y(particle), particle.radius, particle.radius
-  end
-
-  private
-
-  def settings
-    noStroke
-    smooth
-    ellipseMode(RADIUS)
-    fill(255)
-  end
-
-  def x(particle)
-    x_origin + particle.x
-  end
-
-  def y(particle)
-    y_origin + particle.y
-  end
-
-  def x_origin
-    @x_origin ||= width / 2
-  end
-
-  def y_origin
-    @y_origin ||= height / 2
-  end
-  
 end
