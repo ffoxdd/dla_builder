@@ -29,4 +29,18 @@ describe TreePropertyCalculator do
     end
   end
 
+  describe "max_depth" do
+    it "returns the max depth" do
+      tree_property_calculator = TreePropertyCalculator.new(particles)
+      tree_property_calculator.max_depth.must_equal 2
+    end
+  end
+
+  describe "max_branching_factor" do
+    it "returns the max branching factor" do
+      tree_property_calculator = TreePropertyCalculator.new(particles)
+      tree_property_calculator.max_branching_factor.must_equal 2
+    end
+  end
+
 end
