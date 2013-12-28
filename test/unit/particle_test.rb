@@ -104,4 +104,17 @@ describe Particle do
     end
   end
 
+  describe "#depth" do
+    it "returns zero for a leaf" do
+      Particle.new.depth.must_equal 0
+    end
+
+    it "returns the depth for a non-leaf" do
+      particle = Particle.new
+      particle.add_child(Particle.new)
+
+      particle.depth.must_equal 1
+    end
+  end
+
 end

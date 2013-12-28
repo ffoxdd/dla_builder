@@ -34,8 +34,17 @@ class Particle
     children.push(particle)
   end
 
+  def depth
+    return 0 if leaf?
+    children.map { |child| child.depth + 1 }.max
+  end
+
   protected
 
     attr_accessor :center # TODO: figure out why this can't be private
+
+    def leaf?
+      children.empty?
+    end
 
 end
