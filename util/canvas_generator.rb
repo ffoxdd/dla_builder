@@ -4,12 +4,12 @@ require_relative '../app/canvas.rb'
 CANVAS_DIMENSIONS = [60, 48] # inches
 PARTICLE_DIAMETER = 10 # millimeters
 VIEWPORT_DIMENSIONS = [1280, 720] # 720p
-SIZE_LIMIT = 200
+SIZE_LIMIT = 2000
 
 canvas = Canvas.new(VIEWPORT_DIMENSIONS, CANVAS_DIMENSIONS)
 radius = canvas.mm_to_pixels(PARTICLE_DIAMETER) / 2
 
-(1..100).each do |n|
+(1..1000).each do |n|
   dla_index = "%03d" % n
   print "growing dla #{dla_index} "
 

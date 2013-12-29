@@ -4,8 +4,6 @@ require_relative "./renderer.rb"
 
 NAME_ROOT = "canvas_60in-48in-10mm"
 
-require 'pry'
-
 def setup
   size 875, 700
   background 0
