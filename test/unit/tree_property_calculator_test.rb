@@ -22,17 +22,17 @@ describe TreePropertyCalculator do
     end
   end
 
-  describe "average_branching_factor" do
-    it "returns the average branching factor of the tree" do
-      tree_property_calculator = TreePropertyCalculator.new(particles)
-      tree_property_calculator.average_branching_factor.must_equal(3.0 / 4.0)
-    end
-  end
-
   describe "max_depth" do
     it "returns the max depth" do
       tree_property_calculator = TreePropertyCalculator.new(particles)
       tree_property_calculator.max_depth.must_equal 2
+    end
+  end
+
+  describe "rms_branching_factor" do
+    it "returns the root mean square of the branchng factor" do
+      tree_property_calculator = TreePropertyCalculator.new(particles)
+      tree_property_calculator.rms_branching_factor.must_be_close_to Math.sqrt(5.0 / 4.0), 0.00001
     end
   end
 

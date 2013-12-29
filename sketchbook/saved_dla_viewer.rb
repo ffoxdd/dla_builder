@@ -43,6 +43,7 @@ def draw_dla
   write_text "particles: #{dla.size}", 1
   write_text "average_depth: #{tree_property_calculator.average_depth}", 2
   write_text "max_depth: #{tree_property_calculator.max_depth}", 3
+  write_text "rms_branching_factor: #{tree_property_calculator.rms_branching_factor}", 4
 end
 
 def clear_screen

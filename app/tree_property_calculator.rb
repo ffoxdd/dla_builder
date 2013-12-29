@@ -14,8 +14,8 @@ class TreePropertyCalculator
     max_by(&:depth)
   end
 
-  def average_branching_factor
-    average_by { |particle| particle.children.size }
+  def rms_branching_factor
+    rms_by { |particle| particle.children.size }
   end
 
   def max_branching_factor
@@ -32,6 +32,10 @@ class TreePropertyCalculator
 
     def max_by(&block)
       particles.map(&block).max
+    end
+
+    def rms_by(&block)
+      Math.sqrt(average_by { |particle| block.call(particle) ** 2 })
     end
 
 end
