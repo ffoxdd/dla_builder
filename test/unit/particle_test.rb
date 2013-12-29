@@ -26,12 +26,12 @@ describe Particle do
 
     it "returns the distance from the origin for a particle in quadrant I" do
       particle = Particle.new(1, 1, 1)
-      particle.magnitude.must_equal Math.sqrt(2)
+      particle.magnitude.must_be_close_to Math.sqrt(2), 0.00001
     end
 
     it "returns the distance from the origin for a particle in quadrant III" do
       particle = Particle.new(-2, -3, 1)
-      particle.magnitude.must_equal Math.sqrt(13)
+      particle.magnitude.must_be_close_to Math.sqrt(13), 0.00001
     end
   end
 

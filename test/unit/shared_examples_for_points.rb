@@ -19,12 +19,12 @@ shared_examples_for "A Point" do
 
     it "returns the distance from the origin for a point in quadrant I" do
       point = factory.call(1, 1)
-      point.magnitude.must_equal Math.sqrt(2)
+      point.magnitude.must_be_close_to Math.sqrt(2), 0.00001
     end
 
     it "returns the distance from the origin for a point in quadrant III" do
       point = factory.call(-2, -3)
-      point.magnitude.must_equal Math.sqrt(13)
+      point.magnitude.must_be_close_to Math.sqrt(13), 0.00001
     end
   end
 
