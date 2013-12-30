@@ -33,11 +33,9 @@ def draw_dla
   dla = current_dla
   tree_property_calculator = TreePropertyCalculator.new(dla.particles)
 
-  dla.visitor = lambda do |particle|
+  dla.accept do |particle|
     Renderer.new(self, particle).render
   end
-
-  dla.accept
 
   write_text "name: #{current_name}", 0
   write_text "particles: #{dla.size}", 1

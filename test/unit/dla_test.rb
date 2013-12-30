@@ -78,24 +78,24 @@ describe Dla do
     let(:seed) { Particle.new }
 
     it "visits seeds" do
-      dla = Dla.new(seeds: seed, live: false) { |particle| visitor.visit(particle) }
+      dla = Dla.new(seeds: seed, live: false)
       visitor.expect(:visit, nil, [seed])
 
-      dla.accept
+      dla.accept { |particle| visitor.visit(particle) }
       visitor.verify
     end
 
     it "visits new particles" do
       visited_particles = []
-      dla = Dla.new(seeds: seed, live: false) { |particle| visited_particles << particle }
+      dla = Dla.new(seeds: seed, live: false) 
 
       2.times { dla.grow }
-      dla.accept
+      dla.accept { |particle| visited_particles << particle }
 
       visited_particles.size.must_equal 3
     end
 
-    it "visits as particles are added with the live options" do
+    it "visits as particles are added with the live option" do
       visited_particles = []
       dla = Dla.new(seeds: seed, live: true) { |particle| visited_particles << particle }
       visited_particles.size.must_equal 1
@@ -103,8 +103,6 @@ describe Dla do
       dla.grow
       visited_particles.size.must_equal 2
     end
-
-    # TODO: test #visitor=
   end
 
 end

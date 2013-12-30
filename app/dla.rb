@@ -5,21 +5,18 @@ require_relative "quadtree_particle_collection"
 
 class Dla
 
-  def initialize(options = {}, &visitor)
+  def initialize(options = {}, &live_visitor)
     @radius = Float(options.fetch(:radius) { 4 })
     @overlap = Float(options.fetch(:overlap) { @radius / 1000.0 })
     @seeds = Array(options.fetch(:seeds) { [Particle.new(0, 0, radius)] })
     @particles = options.fetch(:particles) { QuadtreeParticleCollection.new(@radius) }
-    @live = options.fetch(:live) { true }
-
-    @visitor = visitor
+    @live_visitor = live_visitor
     @extent = Point.new(0, 0)
 
     @seeds.each { |seed| add_particle(seed) }
   end
 
   attr_reader :particles
-  attr_writer :visitor
 
   def grow
     grower.grow do |new_particle, stuck_particle|
@@ -27,9 +24,8 @@ class Dla
     end
   end
 
-  def accept(particle = particles)
-    return unless visitor
-    Array(particle).each { |particle| visitor.call(particle) }
+  def accept(&visitor)
+    particles.each { |particle| accept_particle(particle, &visitor) }
   end
 
   def size
@@ -46,7 +42,7 @@ class Dla
 
   private
 
-    attr_reader :seeds, :overlap, :radius, :visitor, :live
+    attr_reader :seeds, :overlap, :radius, :live_visitor
     attr_accessor :extent
 
     def grower
@@ -56,12 +52,17 @@ class Dla
     def add_particle(new_particle, stuck_particle = nil)
       particles << new_particle
       stuck_particle.add_child(new_particle) if stuck_particle
-      accept(new_particle) if live
+      accept_particle(new_particle, &live_visitor)
       check_bounds(new_particle)
     end
 
     def check_bounds(particle)
       self.extent = extent.max(particle.extent)
+    end
+
+    def accept_particle(particle, &visitor)
+      return unless visitor
+      visitor.call(particle)
     end
 
 end
