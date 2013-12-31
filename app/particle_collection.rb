@@ -2,7 +2,7 @@ require_relative "quadtree"
 require_relative "quadtree_closest_particle_finder"
 require 'forwardable'
 
-class QuadtreeParticleCollection
+class ParticleCollection
 
   include Enumerable
   extend Forwardable

@@ -1,7 +1,7 @@
 require_relative "particle"
 require_relative "grower"
 require_relative "persister"
-require_relative "quadtree_particle_collection"
+require_relative "particle_collection"
 
 class Dla
 
@@ -9,8 +9,9 @@ class Dla
     @radius = Float(options.fetch(:radius) { 4 })
     @overlap = Float(options.fetch(:overlap) { @radius / 1000.0 })
     @seeds = Array(options.fetch(:seeds) { [Particle.new(0, 0, radius)] })
-    @particles = options.fetch(:particles) { QuadtreeParticleCollection.new(@radius) }
     @live_visitor = live_visitor
+
+    @particles = ParticleCollection.new(@radius)
     @extent = Point.new(0, 0)
 
     @seeds.each { |seed| add_particle(seed) }

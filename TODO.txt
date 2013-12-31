@@ -1,6 +1,5 @@
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
 - [ ] Figure out where Renderer belongs and if it should be tested
 - [ ] Test block yielding in Grower with minitest stubs
-- [ ] Get rid of the old LinearGrowthFeature and fix up the quadtree one
 - [ ] Test Dla#particles reader
 - [ ] Delegate methods from TreePropertyCalculator onto Dla

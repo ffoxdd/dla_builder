@@ -1,10 +1,11 @@
 require_relative "../test_helper.rb"
-require_relative "../../app/linear_particle_collection.rb"
+require_relative "../../app/particle_collection.rb"
 require_relative "../../app/particle.rb"
+require "set"
 
-describe LinearParticleCollection do
+describe ParticleCollection do
 
-  let(:collection) { LinearParticleCollection.new }
+  let(:collection) { ParticleCollection.new(1) }
 
   describe "#initialize" do
     it "starts of with zero particles" do

@@ -1,6 +1,5 @@
 require_relative "../test_helper.rb"
 require_relative "../../app/dla.rb"
-require_relative "../../app/linear_particle_collection.rb"
 
 describe Dla do
 
