@@ -1,6 +1,7 @@
 require_relative "../test_helper.rb"
 require_relative "../../app/quadtree_particle_collection.rb"
 require_relative "../../app/particle.rb"
+require "set"
 
 describe QuadtreeParticleCollection do
 

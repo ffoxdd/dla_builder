@@ -7,11 +7,11 @@ class QuadtreeParticleCollection
   include Enumerable
   extend Forwardable
 
-  def_delegators :particles, :size, :<<, :each
+  def_delegators :quadtree, :size, :<<, :each
 
   def initialize(particle_radius)
     bounding_box = BoundingBox.new(-2000..2000, -2000..2000)
-    @particles = Quadtree.new(bounding_box)
+    @quadtree = Quadtree.new(bounding_box)
     @particle_radius = particle_radius
   end
 
@@ -21,10 +21,10 @@ class QuadtreeParticleCollection
 
   private
 
-    attr_reader :particles, :particle_radius
+    attr_reader :quadtree, :particle_radius
 
     def closest_particle_finder(test_particle)
-      QuadtreeClosestParticleFinder.new(particles, test_particle, particle_radius)
+      QuadtreeClosestParticleFinder.new(quadtree, test_particle, particle_radius)
     end
 
 end

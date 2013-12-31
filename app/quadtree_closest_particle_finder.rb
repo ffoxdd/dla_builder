@@ -1,7 +1,7 @@
 class QuadtreeClosestParticleFinder
 
-  def initialize(particles, test_particle, particle_radius, options = {})
-    @particles = particles
+  def initialize(quadtree, test_particle, particle_radius, options = {})
+    @quadtree = quadtree
     @test_particle = test_particle
     @particle_radius = particle_radius
     @neighborhood_radius = Float(options.fetch(:neighborhood_radius) { 50 })
@@ -21,7 +21,7 @@ class QuadtreeClosestParticleFinder
 
   protected
 
-    attr_reader :particles, :test_particle, :neighborhood_radius, :particle_radius
+    attr_reader :quadtree, :test_particle, :neighborhood_radius, :particle_radius
     attr_accessor :current_closest_particle
 
     def neighborhood_radius(zoom_factor = 1)
@@ -55,7 +55,7 @@ class QuadtreeClosestParticleFinder
     end
 
     def neighborhood_particles(zoom_factor)
-      particles.within(neighborhood_bounding_box(zoom_factor))
+      quadtree.within(neighborhood_bounding_box(zoom_factor))
     end
 
     def neighborhood_bounding_box(zoom_factor)
