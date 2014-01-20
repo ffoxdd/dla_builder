@@ -12,7 +12,7 @@ describe Dla do
 
   describe "#grow" do
     let(:grower) { Minitest::Mock.new }
-    let(:particle) { Particle.new(0, 0, 1) }
+    let(:particle) { Particle.new }
     let(:dla) { Dla.new(seeds: particle, radius: 1, overlap: 0.1) }
 
     let(:grower_new_stub) do
@@ -56,7 +56,10 @@ describe Dla do
   end
 
   describe "#within?" do
-    let(:seeds) { [Particle.new(1, 0, 1), Particle.new(0, 1, 1)] }
+    let :seeds do
+      [Particle.new(x: 1, y: 0, radius: 1), Particle.new(x: 0, y: 1, radius: 1)]
+    end
+
     let(:dla) { Dla.new(seeds: seeds) }
 
     it "returns true when within the given bounds" do
@@ -107,7 +110,7 @@ describe Dla do
   describe "rotation" do
     it "rotates the particles by the specified radians" do
       visited_particles = []
-      seed = Particle.new(1, 0, 1)
+      seed = Particle.new(x: 1, y: 0, radius: 1)
       dla = Dla.new(seeds: seed, rotation: Math::PI / 2)
 
       dla.accept { |particle| visited_particles << particle }

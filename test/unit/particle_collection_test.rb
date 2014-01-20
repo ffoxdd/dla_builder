@@ -15,13 +15,13 @@ describe ParticleCollection do
 
   describe "#<<" do
     it "adds particles to the collection" do
-      collection << Particle.new(0, 0, 1)
+      collection << Particle.new
       collection.size.must_equal 1
     end
   end
 
   describe "Enumerable" do
-    let(:particles) { 4.times.map { Particle.new(0, 0, 1) } }
+    let(:particles) { 4.times.map { Particle.new } }
     before { particles.each { |particle| collection << particle } }
 
     it "visits all the particles" do
@@ -30,12 +30,12 @@ describe ParticleCollection do
   end
 
   describe "#closest_particle" do
-    let(:closer_particle) { Particle.new(1, 1, 1) }
-    let(:further_particle) { Particle.new(10, 10, 1) }
+    let(:closer_particle) { Particle.new(x: 1, y: 1, radius: 1) }
+    let(:further_particle) { Particle.new(x: 10, y: 10, radius: 1) }
     before { [closer_particle, further_particle].each { |particle| collection << particle } }
 
     it "returns the closest particle" do
-      test_particle = Particle.new(2, 2, 1)
+      test_particle = Particle.new(x: 2, y: 2, radius: 1)
       collection.closest_particle(test_particle).must_equal closer_particle
     end
   end

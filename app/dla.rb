@@ -8,7 +8,7 @@ class Dla
   def initialize(options = {}, &live_visitor)
     @radius = Float(options.fetch(:radius) { 4 })
     @overlap = Float(options.fetch(:overlap) { @radius / 1000.0 })
-    @seeds = Array(options.fetch(:seeds) { [Particle.new(0, 0, radius)] })
+    @seeds = Array(options.fetch(:seeds) { [Particle.new(radius: radius)] })
     @rotation = options.fetch(:rotation) { 0 }
     @live_visitor = live_visitor
 

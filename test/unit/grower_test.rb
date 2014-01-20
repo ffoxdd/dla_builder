@@ -8,11 +8,9 @@ describe Grower do
 	let(:new_particle) { MiniTest::Mock.new }
   let(:grower) { Grower.new(particles, 1.0, 0.2, 4.0) }
 
-	let(:particle_new_stub) do
-		lambda do |x, y, radius|
-			x.must_equal 0
-			y.must_equal 0
-			radius.must_equal 1.0
+	let :particle_new_stub do
+		lambda do |options|
+			options[:radius].must_equal 1.0
 			new_particle
 		end
 	end

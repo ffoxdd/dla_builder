@@ -21,7 +21,7 @@ class Grower
     attr_accessor :test_particle, :closest_particle
 
     def spawn
-      self.test_particle = Particle.new(0, 0, radius)
+      self.test_particle = Particle.new(radius: radius)
       test_particle.step(spawning_radius)
       find_closest_particle
     end
