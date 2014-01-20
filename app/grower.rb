@@ -21,13 +21,12 @@ class Grower
     attr_accessor :test_particle, :closest_particle
 
     def spawn
-      self.test_particle = Particle.new(radius: radius)
-      test_particle.step(spawning_radius)
+      self.test_particle = Particle.new(radius: radius).step(spawning_radius)
       find_closest_particle
     end
 
     def step
-      test_particle.step(step_distance)
+      self.test_particle = test_particle.step(step_distance)
       find_closest_particle
       spawn if too_far?
     end

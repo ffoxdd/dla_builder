@@ -8,6 +8,30 @@ describe Particle do
     let(:factory) { ->(x, y) { Particle.new(x: x, y: y, radius: 1) } }
   end
 
+  describe "initialization" do
+    it "provides sensible defaults" do
+      particle = Particle.new
+
+      particle.x.must_equal 0
+      particle.y.must_equal 0
+      particle.radius.must_equal 1
+    end
+
+    it "respects initial x and y values" do
+      particle = Particle.new(x: 1, y: 2)
+
+      particle.x.must_equal 1
+      particle.y.must_equal 2
+    end
+
+    it "respects an initial center value" do
+      particle = Particle.new(center: Point.new(3, 4))
+
+      particle.x.must_equal 3
+      particle.y.must_equal 4
+    end
+  end
+
   describe "value methods (#x, #y, #radius)" do
     it "returns initialized values" do
       particle = Particle.new(x: 1, y: 2, radius: 3)
@@ -57,7 +81,7 @@ describe Particle do
   describe "#step" do
     it "steps the particle the given distance in a random direction" do
       particle = Particle.new
-      particle.step(3)
+      particle = particle.step(3)
 
       particle.magnitude.must_be_close_to 3, 0.0001
     end
@@ -66,8 +90,8 @@ describe Particle do
       particle = Particle.new
       other_particle = Particle.new
 
-      particle.step(2)
-      other_particle.step(2)
+      particle = particle.step(2)
+      other_particle = other_particle.step(2)
 
       particle.x.wont_equal other_particle.x
       particle.y.wont_equal other_particle.y

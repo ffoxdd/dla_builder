@@ -109,15 +109,17 @@ describe Dla do
 
   describe "rotation" do
     it "rotates the particles by the specified radians" do
-      visited_particles = []
       seed = Particle.new(x: 1, y: 0, radius: 1)
       dla = Dla.new(seeds: seed, rotation: Math::PI / 2)
 
-      dla.accept { |particle| visited_particles << particle }
+      2.times do # we need to assert that it doesn't rotate 2x
+        visited_particles = []
+        dla.accept { |particle| visited_particles << particle }
 
-      visited_particles.size.must_equal 1
-      visited_particles.first.x.must_be_close_to 0, 1e-6
-      visited_particles.first.y.must_be_close_to 1, 1e-6
+        visited_particles.size.must_equal 1
+        visited_particles.first.x.must_be_close_to 0, 1e-6
+        visited_particles.first.y.must_be_close_to 1, 1e-6
+      end
     end
   end
 

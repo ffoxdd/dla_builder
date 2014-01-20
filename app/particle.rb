@@ -39,13 +39,15 @@ class Particle
   end
 
   def step(distance)
-    self.center += Point.random(distance)
-    self
+    Particle.new(center: center + Point.random(distance), radius: radius)
   end
 
   def rotate(theta)
-    self.center = center.rotate(theta)
-    self
+    Particle.new(center: center.rotate(theta), radius: radius)
+  end
+
+  def inspect
+    {x: x, y: y, radius: radius}.inspect
   end
 
   protected

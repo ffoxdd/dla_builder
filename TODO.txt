@@ -3,3 +3,4 @@
 - [ ] Test block yielding in Grower with minitest stubs
 - [ ] Test Dla#particles reader
 - [ ] Delegate methods from TreePropertyCalculator onto Dla
+- [ ] Consider factoring out the tree structure responsibility from the Particle class
