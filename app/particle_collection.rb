@@ -7,7 +7,7 @@ class ParticleCollection
   include Enumerable
   extend Forwardable
 
-  def_delegators :particles, :size, :each
+  def_delegators :particles, :size, :each, :[]
 
   def initialize(particle_radius)
     bounding_box = BoundingBox.new(-2000..2000, -2000..2000)

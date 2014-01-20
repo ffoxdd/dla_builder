@@ -123,4 +123,16 @@ describe Dla do
     end
   end
 
+  describe "particle_limit" do
+    it "doesn't visit more particles than are specified" do
+      seeds = 4.times.map { Particle.new }
+      dla = Dla.new(seeds: seeds, particle_limit: 2)
+
+      visited_particles = []
+      dla.accept { |particle| visited_particles << particle }
+
+      visited_particles.size.must_equal 2
+    end
+  end
+
 end

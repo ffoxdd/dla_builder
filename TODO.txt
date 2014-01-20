@@ -1,4 +1,3 @@
-- [ ] Implement particle_limit option
 - [ ] Implement best_fit option
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
 - [ ] Figure out where Renderer belongs and if it should be tested
