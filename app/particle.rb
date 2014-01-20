@@ -22,10 +22,6 @@ class Particle
     center.distance(particle) - (radius + particle.radius)
   end
 
-  def step(distance)
-    self.center += Point.random(distance)
-  end
-
   def within_radius?(test_radius)
     extent.magnitude < test_radius
   end
@@ -37,6 +33,16 @@ class Particle
   def depth
     return 0 if leaf?
     children.map { |child| child.depth + 1 }.max
+  end
+
+  def step(distance)
+    self.center += Point.random(distance)
+    self
+  end
+
+  def rotate(theta)
+    self.center = center.rotate(theta)
+    self
   end
 
   protected

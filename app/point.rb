@@ -35,6 +35,13 @@ class Point
     Point.new([x, point.x].max, [y, point.y].max)
   end
 
+  def rotate(theta)
+    Point.new(
+      x * Math.cos(theta) - y * Math.sin(theta),
+      y * Math.cos(theta) + x * Math.sin(theta)
+    )
+  end
+
   private
 
     TWO_PI = 2 * Math::PI

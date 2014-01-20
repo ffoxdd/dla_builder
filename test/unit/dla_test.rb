@@ -77,7 +77,7 @@ describe Dla do
     let(:seed) { Particle.new }
 
     it "visits seeds" do
-      dla = Dla.new(seeds: seed, live: false)
+      dla = Dla.new(seeds: seed)
       visitor.expect(:visit, nil, [seed])
 
       dla.accept { |particle| visitor.visit(particle) }
@@ -86,7 +86,7 @@ describe Dla do
 
     it "visits new particles" do
       visited_particles = []
-      dla = Dla.new(seeds: seed, live: false) 
+      dla = Dla.new(seeds: seed)
 
       2.times { dla.grow }
       dla.accept { |particle| visited_particles << particle }
@@ -94,13 +94,27 @@ describe Dla do
       visited_particles.size.must_equal 3
     end
 
-    it "visits as particles are added with the live option" do
+    it "visits as particles are added when initialized with a visitor" do
       visited_particles = []
-      dla = Dla.new(seeds: seed, live: true) { |particle| visited_particles << particle }
+      dla = Dla.new(seeds: seed) { |particle| visited_particles << particle }
       visited_particles.size.must_equal 1
 
       dla.grow
       visited_particles.size.must_equal 2
+    end
+  end
+
+  describe "rotation" do
+    it "rotates the particles by the specified radians" do
+      visited_particles = []
+      seed = Particle.new(1, 0, 1)
+      dla = Dla.new(seeds: seed, rotation: Math::PI / 2)
+
+      dla.accept { |particle| visited_particles << particle }
+
+      visited_particles.size.must_equal 1
+      visited_particles.first.x.must_be_close_to 0, 1e-6
+      visited_particles.first.y.must_be_close_to 1, 1e-6
     end
   end
 

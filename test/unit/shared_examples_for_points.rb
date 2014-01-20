@@ -19,12 +19,22 @@ shared_examples_for "A Point" do
 
     it "returns the distance from the origin for a point in quadrant I" do
       point = factory.call(1, 1)
-      point.magnitude.must_be_close_to Math.sqrt(2), 0.00001
+      point.magnitude.must_be_close_to Math.sqrt(2), 1e-6
     end
 
     it "returns the distance from the origin for a point in quadrant III" do
       point = factory.call(-2, -3)
-      point.magnitude.must_be_close_to Math.sqrt(13), 0.00001
+      point.magnitude.must_be_close_to Math.sqrt(13), 1e-6
+    end
+  end
+
+  describe "#rotate" do
+    it "rotates the particle the specified radians" do
+      point = factory.call(1, 0)
+      rotated_point = point.rotate(Math::PI / 2)
+
+      rotated_point.x.must_be_close_to 0, 1e-6
+      rotated_point.y.must_be_close_to 1, 1e-6
     end
   end
 
