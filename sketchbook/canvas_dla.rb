@@ -9,12 +9,14 @@ VIEWPORT_DIMENSIONS = [1280, 720] # 720p
 def setup
   canvas = Canvas.new(VIEWPORT_DIMENSIONS, CANVAS_DIMENSIONS)
   dimensions = canvas.sketch_dimensions
-  radius = canvas.mm_to_pixels(PARTICLE_DIAMETER) / 2
+  particle_radius = canvas.mm_to_pixels(PARTICLE_DIAMETER) / 2
 
   size *dimensions
   background 0
 
-  @dla = Dla.new(radius: radius) { |particle| Renderer.new(self, particle).render }
+  @dla = Dla.new(particle_radius: particle_radius) do |particle|
+    Renderer.new(self, particle).render
+  end
 end
 
 def draw

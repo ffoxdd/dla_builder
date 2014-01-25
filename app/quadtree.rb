@@ -6,7 +6,7 @@ class Quadtree
 
   def initialize(bounding_box, options = {})
     @bounding_box = bounding_box
-    @max_depth = options.fetch(:max_depth) { 6 }
+    @max_depth = options.fetch(:max_depth, 6)
     @points = []
     @children = []
   end

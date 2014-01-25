@@ -5,3 +5,4 @@
 - [ ] Test Dla#particles reader
 - [ ] Delegate methods from TreePropertyCalculator onto Dla
 - [ ] Consider factoring out the tree structure responsibility from the Particle class
+- [ ] Make QuadtreeClosestParticleFinder#closest_particle yield the found particle rather than return it

@@ -8,10 +8,13 @@ class Particle
 
   def initialize(options = {})
     @center = options.fetch(:center) do
-      Point.new(options.fetch(:x, 0), options.fetch(:y, 0))
+      x = options.fetch(:x, 0)
+      y = options.fetch(:y, 0)
+
+      Point.new(x, y)
     end
 
-    @radius = options.fetch(:radius) { 1 }
+    @radius = options.fetch(:radius, 1)
     @children = []
   end
 

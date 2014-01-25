@@ -22,8 +22,8 @@ class Renderer
     def settings
       noStroke
       smooth
-      ellipseMode(sketch.class::RADIUS)
-      fill(255)
+      ellipseMode sketch.class::RADIUS
+      fill 255
     end
 
     def x(particle)

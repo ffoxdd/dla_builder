@@ -13,12 +13,12 @@ describe Dla do
   describe "#grow" do
     let(:grower) { Minitest::Mock.new }
     let(:particle) { Particle.new }
-    let(:dla) { Dla.new(seeds: particle, radius: 1, overlap: 0.1) }
+    let(:dla) { Dla.new(seeds: particle, particle_radius: 1, overlap: 0.1) }
 
     let(:grower_new_stub) do
-      lambda do |particles, radius, overlap, extent|
+      lambda do |particles, particle_radius, overlap, extent|
         particles.each { |p| p.must_equal(particle) }
-        radius.must_equal 1
+        particle_radius.must_equal 1
         overlap.must_equal 0.1
         extent.must_equal Point.new(1, 1)
         grower

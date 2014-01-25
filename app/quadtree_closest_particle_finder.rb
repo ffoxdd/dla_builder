@@ -4,7 +4,7 @@ class QuadtreeClosestParticleFinder
     @quadtree = quadtree
     @test_particle = test_particle
     @particle_radius = particle_radius
-    @neighborhood_radius = Float(options.fetch(:neighborhood_radius) { 50 })
+    @neighborhood_radius = options.fetch(:neighborhood_radius, 50)
   end
 
   def closest_particle
