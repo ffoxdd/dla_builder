@@ -9,10 +9,6 @@ class Dla
     @particle_radius = Float( options.fetch(:particle_radius, 4) ) # radius of each particle
     @overlap = Float( options.fetch(:overlap) { @particle_radius / 1000.0 } )
     @seeds = Array( options.fetch(:seeds) { [Particle.new(radius: particle_radius)] } )
-
-    @rotation = options.fetch(:rotation, 0)
-    @particle_limit = options.fetch(:particle_limit, nil)
-
     @live_visitor = live_visitor
 
     @particles = ParticleCollection.new(@particle_radius)
@@ -30,7 +26,7 @@ class Dla
   end
 
   def accept(&visitor)
-    accepted_particles.each { |particle| accept_particle(particle, &visitor) }
+    particles.each { |particle| accept_particle(particle, &visitor) }
   end
 
   def size
@@ -47,7 +43,7 @@ class Dla
 
   private
 
-    attr_reader :seeds, :overlap, :particle_radius, :rotation, :particle_limit, :live_visitor
+    attr_reader :seeds, :overlap, :particle_radius, :live_visitor
     attr_accessor :extent
 
     def grower
@@ -67,17 +63,7 @@ class Dla
 
     def accept_particle(particle, &visitor)
       return unless visitor
-      visitor.call(transformed_particle(particle))
-    end
-
-    def transformed_particle(particle)
-      return particle if rotation.zero?
-      particle.rotate(rotation)
-    end
-
-    def accepted_particles
-      return particles unless particle_limit
-      particles.first(particle_limit)
+      visitor.call(particle)
     end
 
 end
