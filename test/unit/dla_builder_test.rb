@@ -26,9 +26,9 @@ describe DlaBuilder do
     end
   end
 
-  describe "#grow" do
+  describe "#build" do
     describe "with the limit option" do
-      let :dla do
+      let :mock_dla do
         OpenStruct.new(size: 1).tap do |o|
           def o.grow; self.size += 1; end
         end
@@ -37,8 +37,10 @@ describe DlaBuilder do
       let(:builder) { DlaBuilder.new(limit: 3) }
 
       it "grows the specified number of particles" do
-        Dla.stub(:new, dla) { builder.grow }
-        dla.size.must_equal 3
+        Dla.stub(:new, mock_dla) do
+          dla = builder.build
+          dla.size.must_equal 3
+        end
       end
     end
   end

@@ -4,19 +4,27 @@ class DlaBuilder
 
   def initialize(options = {})
     @limit = options.fetch(:limit, 1000)
-    @dla = Dla.new(options)
+    @options = options
   end
 
-  def grow
-    dla.grow until done?
+  def build
+    new_dla.tap { |dla| grow(dla) }
   end
 
   private
 
-    attr_reader :dla, :limit
+    attr_reader :dla, :limit, :options
 
-    def done?
+    def grow(dla)
+      dla.grow until done?(dla)
+    end
+
+    def done?(dla)
       dla.size >= limit
+    end
+
+    def new_dla
+      Dla.new(options)
     end
 
 end
