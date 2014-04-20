@@ -43,6 +43,24 @@ describe DlaBuilder do
         end
       end
     end
+
+    describe "with the within option" do
+      let :mock_dla do
+        OpenStruct.new(size: 1).tap do |o|
+          def o.grow; self.size += 1; end
+          def o.within?(bb); size < 4; end
+        end
+      end
+
+      let(:builder) { DlaBuilder.new(within: [0..1, 0..1]) }
+
+      it "grows until the dla is not within the bounding box" do
+        Dla.stub(:new, mock_dla) do
+          dla = builder.build
+          dla.size.must_equal 4
+        end
+      end
+    end
   end
 
 end

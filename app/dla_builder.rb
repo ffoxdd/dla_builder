@@ -3,7 +3,8 @@ require_relative "dla.rb"
 class DlaBuilder
 
   def initialize(options = {})
-    @limit = options.fetch(:limit, 1000)
+    @limit = options.fetch(:limit, 10_000)
+    @bounds = options[:within]
     @options = options
   end
 
@@ -13,14 +14,23 @@ class DlaBuilder
 
   private
 
-    attr_reader :dla, :limit, :options
+    attr_reader :dla, :options, :limit, :bounds
 
     def grow(dla)
       dla.grow until done?(dla)
     end
 
     def done?(dla)
+      reached_limit?(dla) || outside_bounds?(dla)
+    end
+
+    def reached_limit?(dla)
       dla.size >= limit
+    end
+
+    def outside_bounds?(dla)
+      return false unless bounds
+      !dla.within?(bounds)
     end
 
     def new_dla
