@@ -15,6 +15,15 @@ class Point
     Point.new(x + point.x, y + point.y)
   end
 
+  def -(point)
+    Point.new(x - point.x, y - point.y)
+  end
+
+  def [](index)
+    raise IndexError unless [0, 1].include?(index)
+    index == 0 ? x : y
+  end
+
   def ==(point)
     (x == point.x) && (y == point.y)
   end

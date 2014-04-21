@@ -9,7 +9,7 @@ describe Point do
   end
 
   describe "+" do
-    it "adds two points together" do
+    it "adds, element-wise" do
       point_1 = Point.new(1, 1)
       point_2 = Point.new(3, 4)
 
@@ -17,6 +17,29 @@ describe Point do
       
       result.x.must_equal 4
       result.y.must_equal 5
+    end
+  end
+
+  describe "-" do
+    it "subtracts, element-wise" do
+      point_1 = Point.new(1, 1)
+      point_2 = Point.new(3, 4)
+
+      result = point_1 - point_2
+
+      result.x.must_equal -2
+      result.y.must_equal -3
+    end
+  end
+
+  describe "[]" do
+    it "allows indexing" do
+      point = Point.new(2, 3)
+
+      point[0].must_equal 2
+      point[1].must_equal 3
+
+      -> { point[2] }.must_raise(IndexError)
     end
   end
 
