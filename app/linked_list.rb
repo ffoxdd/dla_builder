@@ -16,6 +16,16 @@ class LinkedList
     self.previous_node = node
   end
 
+  def next_edge
+    return unless next_node
+    [element, next_node.element]
+  end
+
+  def previous_edge
+    return unless previous_node
+    [previous_node.element, element]
+  end
+
   attr_reader :element, :previous_node, :next_node
 
   protected
