@@ -2,14 +2,22 @@ require_relative "linked_list"
 
 class ConvexHull
 
+  include Enumerable
+
   def initialize(point)
     @root = LinkedList.new(point)
     self_link_root
   end
 
-  def points
-    [].tap do |result|
-      each_point { |point| result.push(point) }
+  alias_method :points, :to_a
+
+  def each(&block)
+    root.tap do |current_node|
+      loop do
+        yield(current_node.element)
+        current_node = current_node.next_node
+        break if current_node == root
+      end
     end
   end
 
@@ -24,16 +32,6 @@ class ConvexHull
     def self_link_root
       root.link_next(root)
       root.link_previous(root)
-    end
-
-    def each_point(&block)
-      current_node = root
-
-      loop do
-        yield(current_node.element)
-        current_node = current_node.next_node
-        break if current_node == root
-      end
     end
 
     def insert_point(point, p0, p1)
