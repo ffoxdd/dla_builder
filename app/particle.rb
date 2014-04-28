@@ -4,7 +4,7 @@ require 'forwardable'
 class Particle
 
   extend Forwardable
-  attr_reader :radius, :children
+  attr_reader :center, :radius, :children
 
   def initialize(options = {})
     @center = options.fetch(:center) do
@@ -55,7 +55,7 @@ class Particle
 
   protected
 
-    attr_accessor :center # TODO: figure out why this can't be private
+    attr_writer :center
 
     def leaf?
       children.empty?
