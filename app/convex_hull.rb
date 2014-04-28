@@ -36,7 +36,7 @@ class ConvexHull
 
   private
 
-    attr_reader :root
+    attr_accessor :root
 
     def singleton?
       root.next_node == root
@@ -91,6 +91,7 @@ class ConvexHull
       node = LinkedList.new(point)
       n0.link_next(node)
       n1.link_previous(node)
+      self.root = node
     end
 
 end
