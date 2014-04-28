@@ -43,22 +43,30 @@ class ConvexHull
     end
 
     def upper_tangency_node(point)
-      current_node = root
-
-      loop do
-        return current_node if upper_tangency_point?(point, current_node)
-        current_node = current_node.next_node
-        return if current_node == root
-      end
+      find_next { |node| upper_tangency_point?(point, node) }
     end
 
     def lower_tangency_node(point)
-      current_node = root
+      find_previous { |node| lower_tangency_point?(point, node) }
+    end
 
-      loop do
-        return current_node if lower_tangency_point?(point, current_node)
-        current_node = current_node.previous_node
-        return if current_node == root
+    def find_next(&block)
+      root.tap do |current_node|
+        loop do
+          return current_node if yield(current_node)
+          current_node = current_node.next_node
+          return if current_node == root
+        end
+      end
+    end
+
+    def find_previous(&block)
+      root.tap do |current_node|
+        loop do
+          return current_node if yield(current_node)
+          current_node = current_node.previous_node
+          return if current_node == root
+        end
       end
     end
 
