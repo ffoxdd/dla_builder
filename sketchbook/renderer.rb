@@ -4,26 +4,28 @@ class Renderer
 
   extend Forwardable
 
-  def initialize(sketch, particle)
+  def initialize(sketch, particle, options = {})
     @sketch = sketch
     @particle = particle
+
+    @fill_color = options.fetch(:fill_color, 255)
   end
 
   def render
     settings
-    ellipse x(particle), y(particle), particle.radius, particle.radius
+    ellipse x(particle), y(particle), radius, radius
   end
 
   private
 
-    attr_reader :sketch, :particle
-    def_delegators :sketch, :noStroke, :smooth, :ellipseMode, :ellipse, :width, :height, :fill
+    attr_reader :sketch, :particle, :fill_color
+    def_delegators :sketch, :noStroke, :smooth, :ellipseMode, :ellipse, :width, :height, :fill, :color
 
     def settings
       noStroke
       smooth
-      ellipseMode sketch.class::RADIUS
-      fill 255
+      ellipseMode(sketch.class::RADIUS)
+      fill(fill_color)
     end
 
     def x(particle)
@@ -42,4 +44,7 @@ class Renderer
       height / 2
     end
 
+    def radius
+      particle.radius rescue 1
+    end
 end

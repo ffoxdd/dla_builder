@@ -1,5 +1,6 @@
 - [ ] Implement best_fit option
 - [ ] Change "Point" to "Vector"
+- [ ] DRY the top corner -> center coordinate system transformation
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
 - [ ] Figure out where Renderer belongs and if it should be tested
 - [ ] Test block yielding in Grower with minitest stubs
