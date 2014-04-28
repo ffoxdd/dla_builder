@@ -71,14 +71,7 @@ class ConvexHull
     end
 
     def can_see?(point, edge)
-      v0 = edge[1] - edge[0]
-      v1 = point - edge[0]
-
-      determinant(v0, v1) > 0
-    end
-
-    def determinant(v0, v1)
-      v0[0] * v1[1] - v0[1] * v1[0]
+      point.left_of?(edge)
     end
 
     def self_link_root

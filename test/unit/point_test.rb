@@ -94,4 +94,26 @@ describe Point do
     end
   end
 
+  describe "#determinant" do
+    it "returns the determinant of two vectors" do
+      v0 = Point.new(1, 2)
+      v1 = Point.new(3, 4)
+
+      v0.determinant(v1).must_equal -2
+    end
+  end
+
+  describe "#left_of?" do
+    it "returns true if the point is to the left of the edge" do
+      edge = [Point.new(0, 0), Point.new(0, 1)]
+      left_point = Point.new(-1, 0)
+      center_point = Point.new(0, 0)
+      right_point = Point.new(1, 0)
+
+      left_point.left_of?(edge).must_equal true
+      center_point.left_of?(edge).must_equal false
+      right_point.left_of?(edge).must_equal false
+    end
+  end
+
 end
