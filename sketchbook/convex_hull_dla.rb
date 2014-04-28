@@ -6,25 +6,28 @@ def setup
   size 800, 600
   background 0
 
-  @convex_hull = nil
+  @convex_hull = ConvexHull.new
 
   @dla = Dla.new do |particle|
-    if @convex_hull
-      @convex_hull.add_point(particle.center)
-    else
-      @convex_hull = ConvexHull.new(particle.center)
-    end
+    render(particle)
 
-    Renderer.new(self, particle).render
-
-    beginShape
-    @convex_hull.points.each { |point| vertex(x(point.x), y(point.y)) }
-    endShape(CLOSE)
+    @convex_hull.add_point(particle.center)
+    render_convex_hull
   end
 end
 
 def draw
   @dla.grow
+end
+
+def render(particle)
+  Renderer.new(self, particle).render
+end
+
+def render_convex_hull
+  beginShape
+  @convex_hull.points.each { |point| vertex(x(point.x), y(point.y)) }
+  endShape(CLOSE)
 end
 
 def x(x_)

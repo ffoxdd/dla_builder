@@ -4,14 +4,11 @@ class ConvexHull
 
   include Enumerable
 
-  def initialize(point)
-    @root = LinkedList.new(point)
-    self_link_root
-  end
-
   alias_method :points, :to_a
 
   def each(&block)
+    return if empty?
+
     root.tap do |current_node|
       loop do
         yield(current_node.element)
@@ -22,24 +19,30 @@ class ConvexHull
   end
 
   def add_point(point)
-    if singleton?
-      insert_point(point, root, root)
-      return
-    end
+    seed(point) and return if empty?
+    insert_point(point, root, root) and return if singleton?
 
-    n0 = lower_tangency_node(point)
-    n1 = upper_tangency_node(point)
-
-    return unless n0 && n1
-    insert_point(point, n0, n1)
+    add_to_hull(point)
   end
 
   private
 
     attr_accessor :root
 
+    def add_to_hull(point)
+      n0 = lower_tangency_node(point)
+      n1 = upper_tangency_node(point)
+
+      return unless n0 && n1
+      insert_point(point, n0, n1)
+    end
+
     def singleton?
       root.next_node == root
+    end
+
+    def empty?
+      !root
     end
 
     def upper_tangency_node(point)
@@ -82,9 +85,14 @@ class ConvexHull
       point.left_of?(edge)
     end
 
-    def self_link_root
-      root.link_next(root)
-      root.link_previous(root)
+    def seed(point)
+      self.root = LinkedList.new(point)
+      self_link(root)
+    end
+
+    def self_link(node)
+      node.link_next(node)
+      node.link_previous(node)
     end
 
     def insert_point(point, n0, n1)

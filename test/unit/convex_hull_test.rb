@@ -24,20 +24,21 @@ Array.infect_an_assertion :assert_cyclically_equal, :must_cyclically_equal
 describe ConvexHull do
 
   describe "#initialize" do
-    it "starts off with a single point" do
-      p0 = Object.new
-      convex_hull = ConvexHull.new(p0)
-
-      convex_hull.points.must_equal [p0]
+    it "starts off with no points" do
+      convex_hull = ConvexHull.new
+      convex_hull.points.must_equal []
     end
   end
 
   describe "#add_point" do
     it "incrementally adds points to the hull" do
-      p0 = Point.new(0, 0)
-      p1 = Point.new(1, 0)
-      convex_hull = ConvexHull.new(p0)
+      convex_hull = ConvexHull.new
 
+      p0 = Point.new(0, 0)
+      convex_hull.add_point(p0)
+      convex_hull.points.must_cyclically_equal [p0] # seeding
+
+      p1 = Point.new(1, 0)
       convex_hull.add_point(p1)
       convex_hull.points.must_cyclically_equal [p0, p1] # simple addition
 
