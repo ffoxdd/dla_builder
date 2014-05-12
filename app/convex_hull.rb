@@ -1,22 +1,12 @@
 require_relative "linked_list"
+require 'forwardable'
 
 class ConvexHull
 
   include Enumerable
+  extend Forwardable
 
   alias_method :points, :to_a
-
-  def each(&block)
-    return if empty?
-
-    root.tap do |current_node|
-      loop do
-        yield(current_node.element)
-        current_node = current_node.next_node
-        return if current_node == root
-      end
-    end
-  end
 
   def add_point(point)
     seed(point) and return if empty?
@@ -25,9 +15,35 @@ class ConvexHull
     add_to_hull(point)
   end
 
+  def_delegators :enumerator, :each
+
   private
 
     attr_accessor :root
+
+    def previous_enumerator
+      linked_list_enumerator(&:next_node)
+    end
+
+    def next_enumerator
+      linked_list_enumerator(&:next_node)
+    end
+
+    alias_method :enumerator, :next_enumerator
+
+    def linked_list_enumerator(&iterator)
+      Enumerator.new do |y|
+        next if empty?
+
+        root.tap do |current_node|
+          loop do
+            y.yield(current_node.element)
+            current_node = iterator.call(current_node)
+            break if current_node == root
+          end
+        end
+      end
+    end
 
     def add_to_hull(point)
       insert_point(point, lower_tangency_node(point), upper_tangency_node(point))
