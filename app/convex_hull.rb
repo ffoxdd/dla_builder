@@ -24,25 +24,16 @@ class ConvexHull
     attr_accessor :root
 
     def previous_enumerator
-      linked_list_enumerator(&:previous_node)
+      enumerator(&:previous_enumerator)
     end
 
     def next_enumerator
-      linked_list_enumerator(&:next_node)
+      enumerator(&:next_enumerator)
     end
 
-    def linked_list_enumerator(&iterator)
-      Enumerator.new do |y|
-        next if empty?
-
-        root.tap do |current_node|
-          loop do
-            y.yield(current_node)
-            current_node = iterator.call(current_node)
-            break if current_node == root
-          end
-        end
-      end
+    def enumerator(&iterator)
+      return Enumerator.new { } if empty?
+      yield(root)
     end
 
     def add_to_hull(point)

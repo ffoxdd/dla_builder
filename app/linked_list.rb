@@ -26,10 +26,30 @@ class LinkedList
     [previous_node.element, element]
   end
 
+  def next_enumerator
+    enumerator(&:next_node)
+  end
+
+  def previous_enumerator
+    enumerator(&:previous_node)
+  end
+
   attr_reader :element, :previous_node, :next_node
 
   protected
 
     attr_writer :previous_node, :next_node
+
+    def enumerator(&iterator)
+      Enumerator.new do |y|
+        self.tap do |current_node|
+          loop do
+            y.yield(current_node)
+            current_node = iterator.call(current_node)
+            break if current_node == self
+          end
+        end
+      end
+    end
 
 end

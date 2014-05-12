@@ -56,4 +56,9 @@ describe LinkedList do
       node.previous_edge.must_equal nil
     end
   end
+
+  # def "#next_enumerator/previous_enumerator" do
+  #   it "returns enumerators for the linked list" do
+  #   end
+  # end
 end
