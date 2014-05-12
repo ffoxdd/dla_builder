@@ -30,11 +30,7 @@ class ConvexHull
     attr_accessor :root
 
     def add_to_hull(point)
-      n0 = lower_tangency_node(point)
-      n1 = upper_tangency_node(point)
-
-      return unless n0 && n1
-      insert_point(point, n0, n1)
+      insert_point(point, lower_tangency_node(point), upper_tangency_node(point))
     end
 
     def singleton?
@@ -96,6 +92,8 @@ class ConvexHull
     end
 
     def insert_point(point, n0, n1)
+      return unless n0 && n1
+
       node = LinkedList.new(point)
       n0.link_next(node)
       n1.link_previous(node)
