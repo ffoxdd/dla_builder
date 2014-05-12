@@ -1,10 +1,8 @@
 require_relative "linked_list"
-require 'forwardable'
 
 class ConvexHull
 
   include Enumerable
-  extend Forwardable
 
   alias_method :points, :to_a
 
