@@ -15,7 +15,9 @@ class ConvexHull
     add_to_hull(point)
   end
 
-  def_delegators :enumerator, :each
+  def each
+    next_enumerator.each { |node| yield(node.element) }
+  end
 
   private
 
@@ -29,15 +31,13 @@ class ConvexHull
       linked_list_enumerator(&:next_node)
     end
 
-    alias_method :enumerator, :next_enumerator
-
     def linked_list_enumerator(&iterator)
       Enumerator.new do |y|
         next if empty?
 
         root.tap do |current_node|
           loop do
-            y.yield(current_node.element)
+            y.yield(current_node)
             current_node = iterator.call(current_node)
             break if current_node == root
           end
