@@ -2,10 +2,6 @@ require_relative "linked_list"
 
 class ConvexHull
 
-  include Enumerable
-
-  alias_method :points, :to_a
-
   def add_point(point)
     seed(point) and return if empty?
     insert_point(point, root, root) and return if singleton?
@@ -13,8 +9,8 @@ class ConvexHull
     add_to_hull(point)
   end
 
-  def each
-    next_enumerator.each { |node| yield(node.element) }
+  def points
+    next_enumerator.map(&:element)
   end
 
   private
