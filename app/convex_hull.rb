@@ -24,7 +24,7 @@ class ConvexHull
     attr_accessor :root
 
     def previous_enumerator
-      linked_list_enumerator(&:next_node)
+      linked_list_enumerator(&:previous_node)
     end
 
     def next_enumerator
@@ -66,23 +66,11 @@ class ConvexHull
     end
 
     def find_next(&block)
-      root.tap do |current_node|
-        loop do
-          return current_node if yield(current_node)
-          current_node = current_node.next_node
-          return if current_node == root
-        end
-      end
+      next_enumerator.find { |node| yield(node) }
     end
 
     def find_previous(&block)
-      root.tap do |current_node|
-        loop do
-          return current_node if yield(current_node)
-          current_node = current_node.previous_node
-          return if current_node == root
-        end
-      end
+      previous_enumerator.find { |node| yield(node) }
     end
 
     def upper_tangency_point?(point, node)
