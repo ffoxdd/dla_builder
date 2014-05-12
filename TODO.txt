@@ -1,10 +1,11 @@
 - [ ] Implement best_fit option
-- [ ] Change "Point" to "Vector"
+- [ ] Split apart Point and Vector
+- [ ] Use ConvexHull rather than extent
 - [ ] DRY the top corner -> center coordinate system transformation
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
 - [ ] Figure out where Renderer belongs and if it should be tested
 - [ ] Test block yielding in Grower with minitest stubs
 - [ ] Test Dla#particles reader
-- [ ] Delegate methods from TreePropertyCalculator onto Dla
-- [ ] Consider factoring out the tree structure responsibility from the Particle class
+- [ ] Revisit TreePropertyCalculator interface
+- [ ] Factor out tree structure responsibility from the Particle class
 - [ ] Make QuadtreeClosestParticleFinder#closest_particle yield the found particle rather than return it
