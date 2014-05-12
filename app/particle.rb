@@ -25,7 +25,7 @@ class Particle
   end
 
   def distance(particle)
-    center.distance(particle) - (radius + particle.radius)
+    center.distance(particle.center) - (radius + particle.radius)
   end
 
   def within_radius?(test_radius)

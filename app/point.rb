@@ -1,10 +1,22 @@
+require 'matrix'
+require 'forwardable'
+
 class Point
 
-  attr_reader :x, :y
+  extend Forwardable
 
   def initialize(x, y)
     @x = Float(x)
     @y = Float(y)
+
+    @vector = Vector[@x, @y]
+  end
+
+  attr_reader :x, :y
+  def_delegators :vector, :[], :magnitude
+
+  def self.from_vector(vector)
+    new(*vector.to_a)
   end
 
   def self.random(radius)
@@ -12,32 +24,23 @@ class Point
   end
 
   def +(point)
-    Point.new(x + point.x, y + point.y)
+    Point.from_vector(vector + point.vector)
   end
 
   def -(point)
-    Point.new(x - point.x, y - point.y)
-  end
-
-  def [](index)
-    raise IndexError unless [0, 1].include?(index)
-    index == 0 ? x : y
+    Point.from_vector(vector - point.vector)
   end
 
   def ==(point)
-    (x == point.x) && (y == point.y)
-  end
-
-  def magnitude
-    Math.hypot(x, y)
+    vector == point.vector
   end
 
   def distance(point)
-    Math.hypot(x - point.x, y - point.y)
+    (self - point).magnitude
   end
 
   def extent
-    Point.new(x.abs, y.abs)
+    Point.from_vector(vector.map(&:abs))
   end
 
   def max(point)
@@ -45,14 +48,11 @@ class Point
   end
 
   def rotate(theta)
-    Point.new(
-      x * Math.cos(theta) - y * Math.sin(theta),
-      y * Math.cos(theta) + x * Math.sin(theta)
-    )
+    Point.from_vector(rotation_matrix(theta) * vector)
   end
 
   def determinant(v1)
-    self[0] * v1[1] - self[1] * v1[0]
+    Matrix[vector, v1.vector].determinant
   end
 
   def left_of?(edge)
@@ -62,9 +62,17 @@ class Point
     v0.determinant(v1) > 0
   end
 
+  protected
+
+    attr_reader :vector
+
   private
 
     TWO_PI = 2 * Math::PI
+
+    def rotation_matrix(theta)
+      Matrix[[Math.cos(theta), -Math.sin(theta)], [Math.sin(theta), Math.cos(theta)]]
+    end
 
     def self.random_theta
       TWO_PI * rand
