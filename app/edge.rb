@@ -22,6 +22,10 @@ class Edge
     v_a.determinant(v_b) <=> 0
   end
 
+  def point_to_the_left?(point)
+    relative_position(point) > 0
+  end
+
   private
 
     attr_reader :vertices

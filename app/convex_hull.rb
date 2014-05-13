@@ -1,4 +1,5 @@
 require_relative "linked_list"
+require_relative "edge"
 
 class ConvexHull
 
@@ -59,15 +60,23 @@ class ConvexHull
     end
 
     def upper_tangency_point?(point, node)
-      can_see?(point, node.previous_pair) && !can_see?(point, node.next_pair)
+      can_see?(point, previous_edge(node)) && !can_see?(point, next_edge(node))
     end
 
     def lower_tangency_point?(point, node)
-      !can_see?(point, node.previous_pair) && can_see?(point, node.next_pair)
+      !can_see?(point, previous_edge(node)) && can_see?(point, next_edge(node))
+    end
+
+    def previous_edge(node)
+      Edge.new(node.previous_pair)
+    end
+
+    def next_edge(node)
+      Edge.new(node.next_pair)
     end
 
     def can_see?(point, edge)
-      point.left_of?(edge)
+      edge.point_to_the_left?(point)
     end
 
     def seed(point)
