@@ -26,6 +26,10 @@ class Edge
     relative_position(point) > 0
   end
 
+  def angle
+    displacement_vector.angle
+  end
+
   private
 
     attr_reader :vertices
