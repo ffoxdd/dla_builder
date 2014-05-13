@@ -59,11 +59,11 @@ class ConvexHull
     end
 
     def upper_tangency_point?(point, node)
-      can_see?(point, node.previous_edge) && !can_see?(point, node.next_edge)
+      can_see?(point, node.previous_pair) && !can_see?(point, node.next_pair)
     end
 
     def lower_tangency_point?(point, node)
-      !can_see?(point, node.previous_edge) && can_see?(point, node.next_edge)
+      !can_see?(point, node.previous_pair) && can_see?(point, node.next_pair)
     end
 
     def can_see?(point, edge)

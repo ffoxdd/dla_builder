@@ -7,13 +7,11 @@ class Particle
   attr_reader :center, :radius, :children
 
   def initialize(options = {})
-    @center = options.fetch(:center) do
-      x = options.fetch(:x, 0)
-      y = options.fetch(:y, 0)
+    coordinates = options.fetch(:center) do
+      [options.fetch(:x, 0), options.fetch(:y, 0)]
+    end.to_a
 
-      Point[x, y]
-    end
-
+    @center = Point.new(coordinates)
     @radius = options.fetch(:radius, 1)
     @children = []
   end
@@ -21,7 +19,7 @@ class Particle
   def_delegators :center, :x, :y, :magnitude
 
   def extent
-    center.extent + Point[radius, radius]
+    Point.new(center.extent + Point[radius, radius])
   end
 
   def distance(particle)

@@ -16,12 +16,12 @@ class LinkedList
     self.previous_node = node
   end
 
-  def next_edge
+  def next_pair
     return unless next_node
     [element, next_node.element]
   end
 
-  def previous_edge
+  def previous_pair
     return unless previous_node
     [previous_node.element, element]
   end

@@ -17,13 +17,13 @@ shared_examples_for "A Vector" do
 
   describe "#+" do
     it "adds, element-wise" do
-      (factory.call(1, 1) + factory.call(3, 4)).must_equal factory.call(4, 5)
+      (factory.call(1, 1) + factory.call(3, 4)).to_a.must_equal [4, 5]
     end
   end
 
   describe "#-" do
     it "subtracts, element-wise" do
-      (factory.call(1, 1) - factory.call(3, 4)).must_equal factory.call(-2, -3)
+      (factory.call(1, 1) - factory.call(3, 4)).to_a.must_equal [-2, -3]
     end
   end
 
