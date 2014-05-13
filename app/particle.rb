@@ -11,7 +11,7 @@ class Particle
       x = options.fetch(:x, 0)
       y = options.fetch(:y, 0)
 
-      Point.new(x, y)
+      Point[x, y]
     end
 
     @radius = options.fetch(:radius, 1)
@@ -21,7 +21,7 @@ class Particle
   def_delegators :center, :x, :y, :magnitude
 
   def extent
-    center.extent + Point.new(radius, radius)
+    center.extent + Point[radius, radius]
   end
 
   def distance(particle)

@@ -12,7 +12,7 @@ class Dla
     @live_visitor = live_visitor
 
     @particles = ParticleCollection.new(@particle_radius)
-    @extent = Point.new(0, 0)
+    @extent = Point[0, 0]
 
     @seeds.each { |seed| add_particle(seed) }
   end

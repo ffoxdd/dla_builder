@@ -1,34 +1,39 @@
 require 'matrix'
 require 'forwardable'
+require_relative 'vector2d'
 
 class Point
 
   extend Forwardable
 
-  def initialize(x, y)
-    @x = Float(x)
-    @y = Float(y)
-
-    @vector = Vector[@x, @y]
-  end
-
-  attr_reader :x, :y
-  def_delegators :vector, :[], :magnitude, :to_a
-
-  def self.from_vector(vector)
-    new(*vector.to_a)
+  def self.[](*coordinates)
+    new(coordinates)
   end
 
   def self.random(radius)
-    new(*random_coordinates(radius))
+    new(Vector2D.random(radius))
   end
 
+  def initialize(coordinates)
+    @vector = Vector2D[*coordinates]
+  end
+
+  def x
+    vector[0]
+  end
+
+  def y
+    vector[1]
+  end
+
+  def_delegators :vector, :[], :magnitude, :to_a
+
   def +(point)
-    Point.from_vector(vector + point.vector)
+    Point.new(vector + point.vector)
   end
 
   def -(point)
-    Point.from_vector(vector - point.vector)
+    Point.new(vector - point.vector)
   end
 
   def ==(point)
@@ -36,7 +41,7 @@ class Point
   end
 
   def map(&block)
-    Point.from_vector(vector.map(&block))
+    Point.new(vector.map(&block))
   end
 
   def distance(point)
@@ -44,19 +49,19 @@ class Point
   end
 
   def extent
-    Point.from_vector(vector.map(&:abs))
+    Point.new(vector.map(&:abs))
   end
 
   def max(point)
-    Point.new([x, point.x].max, [y, point.y].max)
+    Point[[x, point.x].max, [y, point.y].max]
   end
 
   def rotate(theta)
-    Point.from_vector(rotation_matrix(theta) * vector)
+    Point.new(vector.rotate(theta))
   end
 
   def determinant(v1)
-    Matrix[vector, v1.vector].determinant
+    vector.determinant(v1.vector)
   end
 
   def left_of?(edge)
@@ -72,19 +77,19 @@ class Point
 
   private
 
-    TWO_PI = 2 * Math::PI
+    # TWO_PI = 2 * Math::PI
 
-    def rotation_matrix(theta)
-      Matrix[[Math.cos(theta), -Math.sin(theta)], [Math.sin(theta), Math.cos(theta)]]
-    end
+    # def rotation_matrix(theta)
+    #   Matrix[[Math.cos(theta), -Math.sin(theta)], [Math.sin(theta), Math.cos(theta)]]
+    # end
 
-    def self.random_theta
-      TWO_PI * rand
-    end
-
-    def self.random_coordinates(radius)
-      theta = random_theta
-      [Math.sin(theta) * radius, Math.cos(theta) * radius]
-    end
+    # def self.random_theta
+    #   TWO_PI * rand
+    # end
+    #
+    # def self.random_coordinates(radius)
+    #   theta = random_theta
+    #   [Math.sin(theta) * radius, Math.cos(theta) * radius]
+    # end
 
 end

@@ -20,7 +20,7 @@ describe Dla do
         particles.each { |p| p.must_equal(particle) }
         particle_radius.must_equal 1
         overlap.must_equal 0.1
-        extent.must_equal Point.new(1, 1)
+        extent.must_equal Point[1, 1]
         grower
       end
     end

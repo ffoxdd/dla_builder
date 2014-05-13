@@ -25,7 +25,7 @@ describe Particle do
     end
 
     it "respects an initial center value" do
-      particle = Particle.new(center: Point.new(3, 4))
+      particle = Particle.new(center: Point[3, 4])
 
       particle.x.must_equal 3
       particle.y.must_equal 4
@@ -100,7 +100,7 @@ describe Particle do
 
   describe "#extent" do
     it "returns a particle with the absolute value of both dimensions" do
-      Particle.new(x: -3, y: -2, radius: 0.5).extent.must_equal Point.new(3.5, 2.5)
+      Particle.new(x: -3, y: -2, radius: 0.5).extent.must_equal Point[3.5, 2.5]
     end
   end
 
