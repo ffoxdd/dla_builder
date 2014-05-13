@@ -23,12 +23,6 @@ class Vector2D
     vector == rhs.vector
   end
 
-  # def self.delegate_operation(operation)
-  #   define_method(operation) do |*args|
-  #     Vector2D.new(vector.send(operation, args.map(&:vector)))
-  #   end
-  # end
-
   def +(rhs)
     Vector2D.new(vector + rhs.vector)
   end

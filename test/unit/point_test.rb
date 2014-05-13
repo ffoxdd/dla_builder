@@ -1,61 +1,16 @@
 require_relative "../test_helper.rb"
 require_relative "../../app/point.rb"
+require_relative "./shared_examples_for_vectors.rb"
 require_relative "./shared_examples_for_points.rb"
 
 describe Point do
 
-  it_behaves_like "A Point" do
+  it_behaves_like "A Vector" do
     let(:factory) { Point.method(:new) }
   end
 
-  # TODO: .from_vector
-
-  describe "+" do
-    it "adds, element-wise" do
-      point_1 = Point.new(1, 1)
-      point_2 = Point.new(3, 4)
-
-      result = point_1 + point_2
-
-      result.x.must_equal 4
-      result.y.must_equal 5
-    end
-  end
-
-  describe "-" do
-    it "subtracts, element-wise" do
-      point_1 = Point.new(1, 1)
-      point_2 = Point.new(3, 4)
-
-      result = point_1 - point_2
-
-      result.x.must_equal -2
-      result.y.must_equal -3
-    end
-  end
-
-  describe "[]" do
-    it "allows indexing" do
-      point = Point.new(2, 3)
-
-      point[0].must_equal 2
-      point[1].must_equal 3
-      point[2].must_equal nil
-    end
-  end
-
-  describe "equality" do
-    it "returns true for points with equal values" do
-      point = Point.new(0, 0)
-      same_point = Point.new(0, 0)
-      different_point = Point.new(1, 1)
-
-      (point == same_point).must_equal true
-      (point == different_point).must_equal false
-
-      (point != same_point).must_equal false
-      (point != different_point).must_equal true
-    end
+  it_behaves_like "A Point" do
+    let(:factory) { Point.method(:new) }
   end
 
   describe "#distance" do
@@ -92,15 +47,6 @@ describe Point do
       point_2 = Point.new(-3, 4)
 
       point_1.max(point_2).must_equal Point.new(1, 4)
-    end
-  end
-
-  describe "#determinant" do
-    it "returns the determinant of two vectors" do
-      v0 = Point.new(1, 2)
-      v1 = Point.new(3, 4)
-
-      v0.determinant(v1).must_equal -2
     end
   end
 
