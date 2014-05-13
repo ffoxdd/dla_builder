@@ -43,6 +43,16 @@ class Vector2D
     Vector2D.new(rotation_matrix(theta) * vector)
   end
 
+  def inner_product(v1)
+    vector.inner_product(v1.vector)
+  end
+
+  def angle
+    basis = Vector2D[1, 0]
+    cosine_theta = inner_product(basis) / (magnitude)
+    Math.acos(cosine_theta)
+  end
+
   protected
 
     attr_reader :vector

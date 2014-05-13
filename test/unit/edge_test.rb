@@ -34,4 +34,7 @@ describe Edge do
     end
   end
 
+  # describe "#angle" do
+  # end
+
 end

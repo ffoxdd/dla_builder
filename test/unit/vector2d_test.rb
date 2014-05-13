@@ -21,4 +21,18 @@ describe Vector2D do
     end
   end
 
+  describe "#inner_product" do
+    it "returns the inner product of two vectors" do
+      Vector2D[4, 7].inner_product(Vector2D[10, 1]).must_equal 47
+    end
+  end
+
+  describe "#angle" do
+    it "returns the angle of the vector relative to [1, 0]" do
+      Vector2D[1, 0].angle.must_be_close_to 0, 1e-6
+      Vector2D[0, 1].angle.must_be_close_to Math::PI / 2, 1e-6
+      Vector2D[-1, 1].angle.must_be_close_to 3 * Math::PI / 4, 1e-6
+    end
+  end
+
 end
