@@ -2,6 +2,12 @@ require_relative "../test_helper.rb"
 
 shared_examples_for "A Vector" do
 
+  describe "#to_a" do
+    it "returns the elements as an array" do
+      factory.call(6, 7).to_a.must_equal [6, 7]
+    end
+  end
+
   describe "#==" do
     it "returns true for equal vectors" do
       factory.call(1, 3).must_equal factory.call(1, 3)
@@ -18,6 +24,14 @@ shared_examples_for "A Vector" do
   describe "#-" do
     it "subtracts, element-wise" do
       (factory.call(1, 1) - factory.call(3, 4)).must_equal factory.call(-2, -3)
+    end
+  end
+
+  describe "#map" do
+    it "maps the elements" do
+      vector = factory.call(1, 2)
+      doubled = vector.map { |e| e * 2 }
+      doubled.must_equal factory.call(2, 4)
     end
   end
 

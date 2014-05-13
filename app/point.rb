@@ -13,7 +13,7 @@ class Point
   end
 
   attr_reader :x, :y
-  def_delegators :vector, :[], :magnitude
+  def_delegators :vector, :[], :magnitude, :to_a
 
   def self.from_vector(vector)
     new(*vector.to_a)
@@ -33,6 +33,10 @@ class Point
 
   def ==(point)
     vector == point.vector
+  end
+
+  def map(&block)
+    Point.from_vector(vector.map(&block))
   end
 
   def distance(point)

@@ -17,7 +17,7 @@ class Vector2D
     @vector = Vector[*elements.to_a]
   end
 
-  def_delegators :vector, :magnitude, :[]
+  def_delegators :vector, :magnitude, :[], :to_a
 
   def ==(rhs)
     vector == rhs.vector
@@ -29,6 +29,10 @@ class Vector2D
 
   def -(rhs)
     Vector2D.new(vector - rhs.vector)
+  end
+
+  def map(&block)
+    Vector2D.new(vector.map(&block))
   end
 
   def determinant(v1)
