@@ -1,5 +1,6 @@
 require_relative "../test_helper.rb"
 require_relative "../../app/particle.rb"
+require_relative "./shared_examples_for_vectors.rb"
 require_relative "./shared_examples_for_points.rb"
 
 describe Particle do
@@ -95,6 +96,16 @@ describe Particle do
 
       particle.x.wont_equal other_particle.x
       particle.y.wont_equal other_particle.y
+    end
+  end
+
+  describe "#rotate" do
+    it "rotates the particle the specified radians" do
+      particle = Particle.new(center: Point[1, 0])
+      rotated_particle = particle.rotate(Math::PI / 2)
+
+      rotated_particle.x.must_be_close_to 0, 1e-6
+      rotated_particle.y.must_be_close_to 1, 1e-6
     end
   end
 

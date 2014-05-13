@@ -75,21 +75,4 @@ class Point
 
     attr_reader :vector
 
-  private
-
-    # TWO_PI = 2 * Math::PI
-
-    # def rotation_matrix(theta)
-    #   Matrix[[Math.cos(theta), -Math.sin(theta)], [Math.sin(theta), Math.cos(theta)]]
-    # end
-
-    # def self.random_theta
-    #   TWO_PI * rand
-    # end
-    #
-    # def self.random_coordinates(radius)
-    #   theta = random_theta
-    #   [Math.sin(theta) * radius, Math.cos(theta) * radius]
-    # end
-
 end

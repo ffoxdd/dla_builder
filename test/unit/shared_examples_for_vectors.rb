@@ -61,7 +61,7 @@ shared_examples_for "A Vector" do
   end
 
   describe "#rotate" do
-    it "rotates the particle the specified radians" do
+    it "rotates the vector the specified radians" do
       vector = factory.call(1, 0)
       rotated_vector = vector.rotate(Math::PI / 2)
 
