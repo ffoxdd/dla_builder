@@ -64,13 +64,6 @@ class Point
     vector.determinant(v1.vector)
   end
 
-  def left_of?(edge)
-    v0 = edge[1] - edge[0]
-    v1 = self - edge[0]
-
-    v0.determinant(v1) > 0
-  end
-
   protected
 
     attr_reader :vector

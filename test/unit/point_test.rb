@@ -50,17 +50,4 @@ describe Point do
     end
   end
 
-  describe "#left_of?" do
-    it "returns true if the point is to the left of the edge" do
-      edge = [Point[0, 0], Point[0, 1]]
-      left_point = Point[-1, 0]
-      center_point = Point[0, 0]
-      right_point = Point[1, 0]
-
-      left_point.left_of?(edge).must_equal true
-      center_point.left_of?(edge).must_equal false
-      right_point.left_of?(edge).must_equal false
-    end
-  end
-
 end
