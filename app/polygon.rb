@@ -22,11 +22,11 @@ class Polygon
   end
 
   def find_next(&block)
-    next_enumerator.find { |node| yield(node.element, node) }
+    next_enumerator.find { |node| yield(node.element, previous_edge(node), next_edge(node)) }
   end
 
   def find_previous(&block)
-    previous_enumerator.find { |node| yield(node.element, node) }
+    next_enumerator.find { |node| yield(node.element, previous_edge(node), next_edge(node)) }
   end
 
   alias_method :find, :find_next
@@ -65,6 +65,14 @@ class Polygon
     def self_link(node)
       node.link_next(node)
       node.link_previous(node)
+    end
+
+    def previous_edge(node)
+      Edge.new(node.previous_pair)
+    end
+
+    def next_edge(node)
+      Edge.new(node.next_pair)
     end
 
 end

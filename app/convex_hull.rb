@@ -30,27 +30,23 @@ class ConvexHull
     end
 
     def upper_tangency_node(point)
-      find_next { |p, node| upper_tangency_point?(point, node) }
+      find_next do |test_point, previous_edge, next_edge|
+        upper_tangency_point?(point, previous_edge, next_edge)
+      end
     end
 
     def lower_tangency_node(point)
-      find_previous { |p, node| lower_tangency_point?(point, node) }
+      find_previous do |test_point, previous_edge, next_edge|
+        lower_tangency_point?(point, previous_edge, next_edge)
+      end
     end
 
-    def upper_tangency_point?(point, node)
-      can_see?(point, previous_edge(node)) && !can_see?(point, next_edge(node))
+    def upper_tangency_point?(point, previous_edge, next_edge)
+      can_see?(point, previous_edge) && !can_see?(point, next_edge)
     end
 
-    def lower_tangency_point?(point, node)
-      !can_see?(point, previous_edge(node)) && can_see?(point, next_edge(node))
-    end
-
-    def previous_edge(node)
-      Edge.new(node.previous_pair)
-    end
-
-    def next_edge(node)
-      Edge.new(node.next_pair)
+    def lower_tangency_point?(point, previous_edge, next_edge)
+      !can_see?(point, previous_edge) && can_see?(point, next_edge)
     end
 
     def can_see?(point, edge)

@@ -67,17 +67,14 @@ describe Polygon do
       node.element.must_equal Point[1, 1]
     end
 
-    it "finds by node" do
+    it "finds by edges" do
       polygon = test_square
 
-      node = polygon.find { |point, node| node.element == Point[1, 0] }
-      node.element.must_equal Point[1, 0]
-
-      node = polygon.find_next { |point, node| node.element == Point[0, 1] }
-      node.element.must_equal Point[0, 1]
-
-      node = polygon.find_previous { |point, node| node.element == Point[1, 1] }
+      node = polygon.find { |point, previous_edge, next_edge| previous_edge.angle == 0 }
       node.element.must_equal Point[1, 1]
+
+      node = polygon.find { |point, previous_edge, next_edge| next_edge.angle == 0 }
+      node.element.must_equal Point[0, 1]
     end
   end
 
