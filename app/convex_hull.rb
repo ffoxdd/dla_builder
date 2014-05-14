@@ -19,8 +19,6 @@ class ConvexHull
   private
 
     attr_reader :polygon
-    attr_accessor :root
-
     def_delegators :polygon, :points, :degenerate?, :find_next, :find_previous, :insert_point
 
     def add_to_hull(point)
