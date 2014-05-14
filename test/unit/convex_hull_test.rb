@@ -12,27 +12,6 @@ describe ConvexHull do
     end
   end
 
-  describe "#empty?" do
-    it "returns true if the hull has no points" do
-      convex_hull.empty?.must_equal true
-
-      convex_hull.add_point(Point[0, 0])
-      convex_hull.empty?.must_equal false
-    end
-  end
-
-  describe "#singleton?" do
-    it "returns true if the hull has exactly one point" do
-      convex_hull.singleton?.must_equal false
-
-      convex_hull.add_point(Point[0, 0])
-      convex_hull.singleton?.must_equal true
-
-      convex_hull.add_point(Point[0, 0])
-      convex_hull.singleton?.must_equal false
-    end
-  end
-
   describe "#add_point" do
     it "incrementally adds points to the hull" do
       p0 = Point[0, 0]

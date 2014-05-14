@@ -14,18 +14,18 @@ class ConvexHull
     next_enumerator.map(&:element)
   end
 
-  def empty?
-    !root
-  end
-
-  def singleton?
-    return false if empty?
-    root.next_node == root
-  end
-
   private
 
     attr_accessor :root
+
+    def empty?
+      !root
+    end
+
+    def singleton?
+      return false if empty?
+      root.next_node == root
+    end
 
     def previous_enumerator
       enumerator(&:previous_enumerator)
