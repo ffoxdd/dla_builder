@@ -14,6 +14,15 @@ class ConvexHull
     next_enumerator.map(&:element)
   end
 
+  def empty?
+    !root
+  end
+
+  def singleton?
+    return false if empty?
+    root.next_node == root
+  end
+
   private
 
     attr_accessor :root
@@ -33,14 +42,6 @@ class ConvexHull
 
     def add_to_hull(point)
       insert_point(point, lower_tangency_node(point), upper_tangency_node(point))
-    end
-
-    def singleton?
-      root.next_node == root
-    end
-
-    def empty?
-      !root
     end
 
     def upper_tangency_node(point)

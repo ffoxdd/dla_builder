@@ -23,17 +23,37 @@ Array.infect_an_assertion :assert_cyclically_equal, :must_cyclically_equal
 
 describe ConvexHull do
 
+  let(:convex_hull) { ConvexHull.new }
+
   describe "#initialize" do
     it "starts off with no points" do
-      convex_hull = ConvexHull.new
       convex_hull.points.must_equal []
+    end
+  end
+
+  describe "#empty?" do
+    it "returns true if the hull has no points" do
+      convex_hull.empty?.must_equal true
+
+      convex_hull.add_point(Point[0, 0])
+      convex_hull.empty?.must_equal false
+    end
+  end
+
+  describe "#singleton?" do
+    it "returns true if the hull has exactly one point" do
+      convex_hull.singleton?.must_equal false
+
+      convex_hull.add_point(Point[0, 0])
+      convex_hull.singleton?.must_equal true
+
+      convex_hull.add_point(Point[0, 0])
+      convex_hull.singleton?.must_equal false
     end
   end
 
   describe "#add_point" do
     it "incrementally adds points to the hull" do
-      convex_hull = ConvexHull.new
-
       p0 = Point[0, 0]
       convex_hull.add_point(p0)
       convex_hull.points.must_cyclically_equal [p0] # seeding

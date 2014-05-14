@@ -10,6 +10,10 @@ class BoundingBox
 
   attr_reader :x_range, :y_range
 
+  def ==(box)
+    (x_range == box.x_range) && (y_range == box.y_range)
+  end
+
   def intersects?(box)
     ranges_intersect?(x_range, box.x_range) && ranges_intersect?(y_range, box.y_range)
   end
