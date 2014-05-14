@@ -66,6 +66,19 @@ describe Polygon do
       node = polygon.find_previous { |point| point == Point[1, 1] }
       node.element.must_equal Point[1, 1]
     end
+
+    it "finds by node" do
+      polygon = test_square
+
+      node = polygon.find { |point, node| node.element == Point[1, 0] }
+      node.element.must_equal Point[1, 0]
+
+      node = polygon.find_next { |point, node| node.element == Point[0, 1] }
+      node.element.must_equal Point[0, 1]
+
+      node = polygon.find_previous { |point, node| node.element == Point[1, 1] }
+      node.element.must_equal Point[1, 1]
+    end
   end
 
   describe "#insert_point" do

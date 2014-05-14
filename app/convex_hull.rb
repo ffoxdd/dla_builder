@@ -1,63 +1,40 @@
 require_relative "linked_list"
+require_relative "polygon"
 require_relative "edge"
+require 'forwardable'
 
 class ConvexHull
 
-  def add_point(point)
-    seed(point) and return if empty?
-    insert_point(point, root, root) and return if singleton?
+  extend Forwardable
 
-    add_to_hull(point)
+  def initialize
+    @polygon = Polygon.new
   end
 
-  def points
-    next_enumerator.map(&:element)
+  def add_point(point)
+    polygon.add_point(point) and return if (empty? || singleton?)
+    add_to_hull(point)
   end
 
   private
 
+    attr_reader :polygon
     attr_accessor :root
 
-    def empty?
-      !root
-    end
-
-    def singleton?
-      return false if empty?
-      root.next_node == root
-    end
-
-    def previous_enumerator
-      enumerator(&:previous_enumerator)
-    end
-
-    def next_enumerator
-      enumerator(&:next_enumerator)
-    end
-
-    def enumerator(&iterator)
-      return Enumerator.new { } if empty?
-      yield(root)
-    end
+    def_delegators :polygon,
+      :points, :empty?, :singleton?,
+      :find_next, :find_previous, :insert_point
 
     def add_to_hull(point)
       insert_point(point, lower_tangency_node(point), upper_tangency_node(point))
     end
 
     def upper_tangency_node(point)
-      find_next { |node| upper_tangency_point?(point, node) }
+      find_next { |p, node| upper_tangency_point?(point, node) }
     end
 
     def lower_tangency_node(point)
-      find_previous { |node| lower_tangency_point?(point, node) }
-    end
-
-    def find_next(&block)
-      next_enumerator.find { |node| yield(node) }
-    end
-
-    def find_previous(&block)
-      previous_enumerator.find { |node| yield(node) }
+      find_previous { |p, node| lower_tangency_point?(point, node) }
     end
 
     def upper_tangency_point?(point, node)
@@ -78,25 +55,6 @@ class ConvexHull
 
     def can_see?(point, edge)
       edge.point_to_the_left?(point)
-    end
-
-    def seed(point)
-      self.root = LinkedList.new(point)
-      self_link(root)
-    end
-
-    def self_link(node)
-      node.link_next(node)
-      node.link_previous(node)
-    end
-
-    def insert_point(point, n0, n1)
-      return unless n0 && n1
-
-      node = LinkedList.new(point)
-      n0.link_next(node)
-      n1.link_previous(node)
-      self.root = node
     end
 
 end
