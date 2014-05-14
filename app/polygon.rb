@@ -27,12 +27,7 @@ class Polygon
   alias_method :find, :find_next
 
   def insert_point(point, n0, n1)
-    return unless n0 && n1
-
-    node = LinkedList.new(point)
-    n0.link_next(node)
-    n1.link_previous(node)
-    self.root = node
+    insert_node(LinkedList.new(point), n0, n1)
   end
 
   private
@@ -69,6 +64,12 @@ class Polygon
     def singleton?
       return false if empty?
       root.next_node == root
+    end
+
+    def insert_node(node, n0, n1)
+      n0.link_next(node)
+      n1.link_previous(node)
+      self.root = node
     end
 
     def previous_edge(node)

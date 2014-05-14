@@ -22,7 +22,10 @@ class ConvexHull
     def_delegators :polygon, :points, :degenerate?, :find_next, :find_previous, :insert_point
 
     def add_to_hull(point)
-      insert_point(point, lower_tangency_node(point), upper_tangency_node(point))
+      lower_node, upper_node = lower_tangency_node(point), upper_tangency_node(point)
+      return unless lower_node && upper_node
+
+      insert_point(point, lower_node, upper_node)
     end
 
     def upper_tangency_node(point)
