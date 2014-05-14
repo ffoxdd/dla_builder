@@ -77,6 +77,7 @@ describe Polygon do
   describe "#insert_point" do
     it "inserts the point between the specified nodes" do
       polygon = test_square
+
       n0 = polygon.find { |point| point == Point[0, 1] }
       n1 = polygon.find { |point| point == Point[1, 0] }
 
@@ -91,16 +92,7 @@ describe Polygon do
 end
 
 def test_square
-  Polygon.new.tap do |polygon|
-    polygon.add_point(Point[0, 0])
-    polygon.add_point(Point[0, 1])
-
-    n0 = polygon.find { |point| point == Point[0, 1] }
-    n1 = polygon.find { |point| point == Point[0, 0] }
-    polygon.insert_point(Point[1, 1], n0, n1)
-
-    n0 = polygon.find { |point| point == Point[1, 1] }
-    n1 = polygon.find { |point| point == Point[0, 0] }
-    polygon.insert_point(Point[1, 0], n0, n1)
-  end
+  Polygon.new(
+    Point[0, 0], Point[0, 1], Point[1, 1], Point[1, 0]
+  )
 end
