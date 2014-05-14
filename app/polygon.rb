@@ -21,7 +21,7 @@ class Polygon
   end
 
   def find_previous(&block)
-    next_enumerator.find { |node| yield(node.element, previous_edge(node), next_edge(node)) }
+    previous_enumerator.find { |node| yield(node.element, previous_edge(node), next_edge(node)) }
   end
 
   alias_method :find, :find_next
