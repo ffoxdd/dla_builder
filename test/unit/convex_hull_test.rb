@@ -2,25 +2,6 @@ require_relative "../test_helper.rb"
 require_relative "../../app/convex_hull.rb"
 require_relative "../../app/point.rb"
 
-
-module MiniTest::Assertions
-  def assert_cyclically_equal(a1, a2)
-    assert cyclically_equal?(a1, a2), "Expected #{a1} to be cyclically equal to #{a2}"
-  end
-
-  private
-    def cyclically_equal?(a0, a1)
-      cyclic_permutations(a0).any? { |a| a == a1 }
-    end
-
-    def cyclic_permutations(array)
-      array.size.times.map { array.unshift(array.pop).dup }
-    end
-end
-
-Array.infect_an_assertion :assert_cyclically_equal, :must_cyclically_equal
-
-
 describe ConvexHull do
 
   let(:convex_hull) { ConvexHull.new }
