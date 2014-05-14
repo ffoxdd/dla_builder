@@ -1,5 +1,4 @@
 - [ ] Implement best_fit option
-- [ ] Split apart Point and Vector
 - [ ] Use ConvexHull rather than extent
 - [ ] DRY the top corner -> center coordinate system transformation
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
