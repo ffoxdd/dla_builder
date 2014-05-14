@@ -12,13 +12,8 @@ class Polygon
     next_enumerator.map(&:element)
   end
 
-  def empty?
-    !root
-  end
-
-  def singleton?
-    return false if empty?
-    root.next_node == root
+  def degenerate?
+    empty? || singleton?
   end
 
   def find_next(&block)
@@ -65,6 +60,15 @@ class Polygon
     def self_link(node)
       node.link_next(node)
       node.link_previous(node)
+    end
+
+    def empty?
+      !root
+    end
+
+    def singleton?
+      return false if empty?
+      root.next_node == root
     end
 
     def previous_edge(node)

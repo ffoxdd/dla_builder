@@ -12,7 +12,7 @@ class ConvexHull
   end
 
   def add_point(point)
-    polygon.add_point(point) and return if (empty? || singleton?)
+    polygon.add_point(point) and return if degenerate?
     add_to_hull(point)
   end
 
@@ -21,9 +21,7 @@ class ConvexHull
     attr_reader :polygon
     attr_accessor :root
 
-    def_delegators :polygon,
-      :points, :empty?, :singleton?,
-      :find_next, :find_previous, :insert_point
+    def_delegators :polygon, :points, :degenerate?, :find_next, :find_previous, :insert_point
 
     def add_to_hull(point)
       insert_point(point, lower_tangency_node(point), upper_tangency_node(point))

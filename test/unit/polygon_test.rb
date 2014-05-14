@@ -13,24 +13,15 @@ describe Polygon do
     end
   end
 
-  describe "#empty?" do
-    it "returns true if the hull has no points" do
-      polygon.empty?.must_equal true
+  describe "#degenerate?" do
+    it "returns true if the polygon has 0 or 1 point (i.e. no edges)" do
+      polygon.degenerate?.must_equal true
 
       polygon.add_point(Point[0, 0])
-      polygon.empty?.must_equal false
-    end
-  end
+      polygon.degenerate?.must_equal true
 
-  describe "#singleton?" do
-    it "returns true if the hull has exactly one point" do
-      polygon.singleton?.must_equal false
-
-      polygon.add_point(Point[0, 0])
-      polygon.singleton?.must_equal true
-
-      polygon.add_point(Point[0, 0])
-      polygon.singleton?.must_equal false
+      polygon.add_point(Point[1, 0])
+      polygon.degenerate?.must_equal false
     end
   end
 
