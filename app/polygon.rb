@@ -3,9 +3,15 @@ require_relative "edge"
 
 class Polygon
 
+  def initialize(*points)
+    return if points.empty?
+    seed(points.shift)
+    root.tap { |start| points.each { |point| insert_before(point, start) }}
+  end
+
   def add_point(point)
     seed(point) and return if empty?
-    insert_point(point, root.previous_node, root)
+    insert_before(point, root)
   end
 
   def points
@@ -78,6 +84,10 @@ class Polygon
 
     def next_edge(node)
       Edge.new(node.next_pair)
+    end
+
+    def insert_before(point, node)
+      insert_point(point, node.previous_node, node)
     end
 
 end

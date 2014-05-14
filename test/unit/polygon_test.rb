@@ -11,6 +11,11 @@ describe Polygon do
     it "starts off with no points" do
       polygon.points.must_equal []
     end
+
+    it "allows specifying initial points" do
+      polygon = Polygon.new(Point[0, 0], Point[0, 1], Point[1, 0])
+      polygon.points.must_cyclically_equal [Point[0, 0], Point[0, 1], Point[1, 0]]
+    end
   end
 
   describe "#degenerate?" do
