@@ -10,3 +10,4 @@
 - [ ] Make QuadtreeClosestParticleFinder#closest_particle yield the found particle rather than return it
 - [ ] Check for a performance regression from before the Vector/Point/Particle split
 - [ ] Audit convenience constructors to minimize new object creation
+- [ ] Reimplement BoundingBox with a vector of ranges
