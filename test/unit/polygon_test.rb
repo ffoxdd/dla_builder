@@ -89,16 +89,16 @@ describe Polygon do
     end
   end
 
-  describe "#extreme_points" do
+  describe "#extreme_nodes" do
     it "returns extreme (min/max) x and y points" do
       polygon = Polygon.new(Point[0, 0], Point[-1, 1], Point[1, 1])
 
-      (min_x, max_x), (min_y, max_y) = polygon.extreme_points
+      (min_x, max_x), (min_y, max_y) = polygon.extreme_nodes
 
-      min_x.must_equal Point[-1, 1]
-      max_x.must_equal Point[1, 1]
-      min_y.must_equal Point[0, 0]
-      [Point[-1, 1], Point[1, 1]].must_include max_y
+      min_x.element.must_equal Point[-1, 1]
+      max_x.element.must_equal Point[1, 1]
+      min_y.element.must_equal Point[0, 0]
+      [Point[-1, 1], Point[1, 1]].must_include max_y.element
     end
   end
 

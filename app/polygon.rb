@@ -36,8 +36,8 @@ class Polygon
     insert_node(LinkedList.new(point), n0, n1)
   end
 
-  def extreme_points
-    ExtremePointFinder.new(points).extreme_points
+  def extreme_nodes
+    ExtremeNodeFinder.new(enumerator).extreme_nodes
   end
 
   private
@@ -51,6 +51,8 @@ class Polygon
     def next_enumerator
       linked_list_enumerator(:next_enumerator)
     end
+
+    alias_method :enumerator, :next_enumerator
 
     def linked_list_enumerator(enumerator_method)
       return Enumerator.new { } if empty?
@@ -94,30 +96,30 @@ class Polygon
       insert_point(point, node.previous_node, node)
     end
 
-    class ExtremePointFinder
-      def initialize(points)
-        @points = points
+    class ExtremeNodeFinder
+      def initialize(enumerator)
+        @enumerator = enumerator
         @min_x, @max_x, @min_y, @max_y = nil
-        test_all_points
+        test_all_nodes
       end
 
-      def extreme_points
+      def extreme_nodes
         [[min_x, max_x], [min_y, max_y]]
       end
 
       private
-        attr_reader :points
+        attr_reader :enumerator
         attr_accessor :min_x, :max_x, :min_y, :max_y
 
-        def test_all_points
-          points.each { |point| test_point(point) }
+        def test_all_nodes
+          enumerator.each { |node| test_node(node) }
         end
 
-        def test_point(point)
-          self.min_x = [min_x, point].compact.min_by(&:x)
-          self.max_x = [max_x, point].compact.max_by(&:x)
-          self.min_y = [min_y, point].compact.min_by(&:y)
-          self.max_y = [max_y, point].compact.max_by(&:y)
+        def test_node(node)
+          self.min_x = [min_x, node].compact.min_by { |node| node.element.x }
+          self.max_x = [max_x, node].compact.max_by { |node| node.element.x }
+          self.min_y = [min_y, node].compact.min_by { |node| node.element.y }
+          self.max_y = [max_y, node].compact.max_by { |node| node.element.y }
         end
     end
 
