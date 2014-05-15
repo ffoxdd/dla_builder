@@ -1,5 +1,7 @@
 - [ ] Implement best_fit option
 - [ ] Use ConvexHull rather than extent
+- [ ] Incrementally calculate Polygon#extreme_points
+- [ ] Incrementally calculate the minimum bounding box
 - [ ] DRY the top corner -> center coordinate system transformation
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
 - [ ] Figure out where Renderer belongs and if it should be tested
