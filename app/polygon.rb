@@ -36,6 +36,10 @@ class Polygon
     insert_node(LinkedList.new(point), n0, n1)
   end
 
+  def extreme_points
+    ExtremePointFinder.new(points).extreme_points
+  end
+
   private
 
     attr_accessor :root
@@ -88,6 +92,33 @@ class Polygon
 
     def insert_before(point, node)
       insert_point(point, node.previous_node, node)
+    end
+
+    class ExtremePointFinder
+      def initialize(points)
+        @points = points
+        @min_x, @max_x, @min_y, @max_y = nil
+        test_all_points
+      end
+
+      def extreme_points
+        [[min_x, max_x], [min_y, max_y]]
+      end
+
+      private
+        attr_reader :points
+        attr_accessor :min_x, :max_x, :min_y, :max_y
+
+        def test_all_points
+          points.each { |point| test_point(point) }
+        end
+
+        def test_point(point)
+          self.min_x = [min_x, point].compact.min_by(&:x)
+          self.max_x = [max_x, point].compact.max_by(&:x)
+          self.min_y = [min_y, point].compact.min_by(&:y)
+          self.max_y = [max_y, point].compact.max_by(&:y)
+        end
     end
 
 end

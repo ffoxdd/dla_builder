@@ -89,6 +89,19 @@ describe Polygon do
     end
   end
 
+  describe "#extreme_points" do
+    it "returns extreme (min/max) x and y points" do
+      polygon = Polygon.new(Point[0, 0], Point[-1, 1], Point[1, 1])
+
+      (min_x, max_x), (min_y, max_y) = polygon.extreme_points
+
+      min_x.must_equal Point[-1, 1]
+      max_x.must_equal Point[1, 1]
+      min_y.must_equal Point[0, 0]
+      [Point[-1, 1], Point[1, 1]].must_include max_y
+    end
+  end
+
 end
 
 def test_square
