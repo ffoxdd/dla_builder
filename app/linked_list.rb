@@ -6,6 +6,8 @@ class LinkedList
     @next_node = next_node
   end
 
+  attr_reader :element, :previous_node, :next_node
+
   def link_next(node)
     self.next_node = node
     node.previous_node = self
@@ -14,6 +16,11 @@ class LinkedList
   def link_previous(node)
     node.next_node = self
     self.previous_node = node
+  end
+
+  def insert_between(n0, n1)
+    link_previous(n0)
+    link_next(n1)
   end
 
   def next_pair
@@ -34,7 +41,18 @@ class LinkedList
     enumerator(&:previous_node)
   end
 
-  attr_reader :element, :previous_node, :next_node
+  def self_link
+    link_next(self)
+  end
+
+  def singleton?
+    return true if unlinked?
+    next_node == self
+  end
+
+  def elements
+    next_enumerator.map(&:element)
+  end
 
   protected
 
@@ -46,10 +64,14 @@ class LinkedList
           loop do
             y.yield(current_node)
             current_node = iterator.call(current_node)
-            break if current_node == self
+            break if current_node.nil? || current_node == self
           end
         end
       end
+    end
+
+    def unlinked?
+      !previous_node && !next_node
     end
 
 end

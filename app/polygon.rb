@@ -1,72 +1,56 @@
 require_relative "linked_list"
+require_relative "polygon_node"
 require_relative "edge"
 
 class Polygon
 
   def initialize(*points)
-    return if points.empty?
-    seed(points.shift)
-    root.tap { |start| points.each { |point| insert_before(point, start) }}
+    self.root = PolygonNode.build(points)
   end
 
   def add_point(point)
     seed(point) and return if empty?
-    insert_before(point, root)
+    add_to_end(point)
   end
 
   def points
-    next_enumerator.map(&:element)
+    return [] if empty?
+    root.points
   end
 
   def degenerate?
     empty? || singleton?
   end
 
-  def find_next(&block)
-    next_enumerator.find { |node| yield(node.element, previous_edge(node), next_edge(node)) }
-  end
-
   def find_previous(&block)
-    previous_enumerator.find { |node| yield(node.element, previous_edge(node), next_edge(node)) }
+    return if empty?
+    root.previous_enumerator.find { |node| yield(node) }
   end
 
-  alias_method :find, :find_next
+  def find_next(&block)
+    return if empty?
+    root.next_enumerator.find { |node| yield(node) }
+  end
 
   def insert_point(point, n0, n1)
-    insert_node(LinkedList.new(point), n0, n1)
+    PolygonNode.new(point: point, previous_node: n0, next_node: n1)
   end
 
-  def extreme_nodes
-    ExtremeNodeFinder.new(enumerator).extreme_nodes
+  def extreme_point_enumerators
+    ExtremePointEnumeratorFinder.new(nodes).enumerators
   end
 
   private
 
     attr_accessor :root
 
-    def previous_enumerator
-      linked_list_enumerator(:previous_enumerator)
-    end
-
-    def next_enumerator
-      linked_list_enumerator(:next_enumerator)
-    end
-
-    alias_method :enumerator, :next_enumerator
-
-    def linked_list_enumerator(enumerator_method)
-      return Enumerator.new { } if empty?
-      root.send(enumerator_method)
+    def add_to_end(point)
+      root.insert_point_before(point)
     end
 
     def seed(point)
-      self.root = LinkedList.new(point)
-      self_link(root)
-    end
-
-    def self_link(node)
-      node.link_next(node)
-      node.link_previous(node)
+      self.root = PolygonNode.new(point: point)
+      root.self_link
     end
 
     def empty?
@@ -75,52 +59,48 @@ class Polygon
 
     def singleton?
       return false if empty?
-      root.next_node == root
-    end
-
-    def insert_node(node, n0, n1)
-      n0.link_next(node)
-      n1.link_previous(node)
-      self.root = node
-    end
-
-    def previous_edge(node)
-      Edge.new(node.previous_pair)
-    end
-
-    def next_edge(node)
-      Edge.new(node.next_pair)
+      root.singleton?
     end
 
     def insert_before(point, node)
       insert_point(point, node.previous_node, node)
     end
 
-    class ExtremeNodeFinder
-      def initialize(enumerator)
-        @enumerator = enumerator
-        @min_x, @max_x, @min_y, @max_y = nil
-        test_all_nodes
-      end
-
-      def extreme_nodes
-        [[min_x, max_x], [min_y, max_y]]
-      end
-
-      private
-        attr_reader :enumerator
-        attr_accessor :min_x, :max_x, :min_y, :max_y
-
-        def test_all_nodes
-          enumerator.each { |node| test_node(node) }
-        end
-
-        def test_node(node)
-          self.min_x = [min_x, node].compact.min_by { |node| node.element.x }
-          self.max_x = [max_x, node].compact.max_by { |node| node.element.x }
-          self.min_y = [min_y, node].compact.min_by { |node| node.element.y }
-          self.max_y = [max_y, node].compact.max_by { |node| node.element.y }
-        end
-    end
+    # class ExtremePointEnumeratorFinder
+    #   def initialize(nodes)
+    #     @nodes = nodes
+    #     @min_x, @max_x, @min_y, @max_y = nil
+    #     test_all_nodes
+    #   end
+    #
+    #   def enumerators
+    #     [ [min_x.next_enumerator, max_x.next_enumerator],
+    #       [min_y.next_enumerator, max_y.next_enumerator] ]
+    #   end
+    #
+    #   private
+    #     attr_reader :nodes
+    #     attr_accessor :min_x, :max_x, :min_y, :max_y
+    #
+    #     def test_all_nodes
+    #       nodes.each { |node| test_node(node) }
+    #     end
+    #
+    #     def test_node(node)
+    #       self.min_x = [min_x, node].compact.min_by { |node| node.element.x }
+    #       self.max_x = [max_x, node].compact.max_by { |node| node.element.x }
+    #       self.min_y = [min_y, node].compact.min_by { |node| node.element.y }
+    #       self.max_y = [max_y, node].compact.max_by { |node| node.element.y }
+    #     end
+    #
+    #     def next_edge_enumerator(node)
+    #       node.next_enumerator.tap do |enum|
+    #         Enumerator.new do |y|
+    #           node = enum.next
+    #           loop { yield(node.element node.next_edge  } # not gonna work -- need PolygonNode
+    #         end
+    #       end
+    #     end
+    # end
 
 end
