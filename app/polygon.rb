@@ -36,16 +36,21 @@ class Polygon
     PolygonNode.new(point: point, previous_node: n0, next_node: n1)
   end
 
-  def extreme_point_enumerators
-    ExtremePointEnumeratorFinder.new(nodes).enumerators
-  end
+  # def extreme_point_enumerators
+  #   ExtremePointEnumeratorFinder.new(nodes).enumerators
+  # end
 
   private
 
     attr_accessor :root
 
     def add_to_end(point)
-      root.insert_point_before(point)
+      old_end = root.previous_node
+      PolygonNode.new(point: point, previous_node: old_end, next_node: root)
+    end
+
+    def last_node
+      root.previous_node
     end
 
     def seed(point)
@@ -62,9 +67,9 @@ class Polygon
       root.singleton?
     end
 
-    def insert_before(point, node)
-      insert_point(point, node.previous_node, node)
-    end
+    # def insert_before(point, node)
+    #   insert_point(point, node.previous_node, node)
+    # end
 
     # class ExtremePointEnumeratorFinder
     #   def initialize(nodes)

@@ -19,7 +19,7 @@ class ConvexHull
   private
 
     attr_reader :polygon
-    def_delegators :polygon, :points, :degenerate?, :find_next, :find_previous, :insert_point
+    def_delegators :polygon, :degenerate?, :find_next, :find_previous, :insert_point
 
     def add_to_hull(point)
       lower_node, upper_node = lower_tangency_node(point), upper_tangency_node(point)
