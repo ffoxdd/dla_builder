@@ -59,7 +59,11 @@ class PolygonNode
   private
 
     def wrap_enumerator(enumerator)
-      Enumerator.new { |y| loop{ y.yield(PolygonNode[enumerator.next]) }}
+      Enumerator.new do |yielder|
+        loop do
+          yielder.yield PolygonNode.new(point: enumerator.next.element)
+        end
+      end
     end
 
     # def insert_between(n0, n1)
@@ -83,20 +87,20 @@ class PolygonNode
       attr_accessor :root_node
 
       private
-        attr_reader :points
+      attr_reader :points
 
-        def build_nodes
-          previous_node = nil
+      def build_nodes
+        previous_node = nil
 
-          until points.empty?
-            point = points.shift
-            next_node = root_node if points.empty?
+        until points.empty?
+          point = points.shift
+          next_node = root_node if points.empty?
 
-            node = PolygonNode.new(point: point, previous_node: previous_node, next_node: next_node)
-            self.root_node ||= node
-            previous_node = node
-          end
+          node = PolygonNode.new(point: point, previous_node: previous_node, next_node: next_node)
+          self.root_node ||= node
+          previous_node = node
         end
+      end
     end
 
 end

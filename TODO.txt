@@ -13,4 +13,4 @@
 - [ ] Check for a performance regression from before the Vector/Point/Particle split
 - [ ] Audit convenience constructors to minimize new object creation
 - [ ] Reimplement BoundingBox with a vector of ranges
-- [ ] Consider making a PolygonNode wrapper around LinkedList that knows about edges and whatnot
+- [ ] Make LinkedList enumerators yield elements, not liked list nodes

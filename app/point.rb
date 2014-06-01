@@ -64,6 +64,10 @@ class Point
     vector.determinant(v1.vector)
   end
 
+  def inspect
+    "Point[#{x}, #{y}]"
+  end
+
   protected
 
     attr_reader :vector

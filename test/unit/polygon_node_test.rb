@@ -49,4 +49,10 @@ describe PolygonNode do
     end
   end
 
+  describe "#previous_enumerator" do
+  end
+
+  describe "next_enumerator" do
+  end
+
 end

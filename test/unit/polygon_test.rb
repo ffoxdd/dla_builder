@@ -45,39 +45,13 @@ describe Polygon do
       polygon.points.must_cyclically_equal [p0, p1, p2]
     end
   end
-  #
-  # describe "#find/find_next/find_previous" do
-  #
-  #   it "finds nodes in the polygon by their point" do
-  #     polygon = test_square
-  #
-  #     node = polygon.find { |point| point == Point[1, 0] }
-  #     node.element.must_equal Point[1, 0]
-  #
-  #     node = polygon.find_next { |point| point == Point[0, 1] }
-  #     node.element.must_equal Point[0, 1]
-  #
-  #     node = polygon.find_previous { |point| point == Point[1, 1] }
-  #     node.element.must_equal Point[1, 1]
-  #   end
-  #
-  #   it "finds by edges" do
-  #     polygon = test_square
-  #
-  #     node = polygon.find { |point, previous_edge, next_edge| previous_edge.angle == 0 }
-  #     node.element.must_equal Point[1, 1]
-  #
-  #     node = polygon.find { |point, previous_edge, next_edge| next_edge.angle == 0 }
-  #     node.element.must_equal Point[0, 1]
-  #   end
-  # end
-  #
+
   # describe "#insert_point" do
   #   it "inserts the point between the specified nodes" do
   #     polygon = test_square
   #
-  #     n0 = polygon.find { |point| point == Point[0, 1] }
-  #     n1 = polygon.find { |point| point == Point[1, 0] }
+  #     n0 = polygon.find_next { |point| point == Point[0, 1] }
+  #     n1 = polygon.find_next { |point| point == Point[1, 0] }
   #
   #     polygon.insert_point(Point[2, 2], n0, n1)
   #
@@ -87,10 +61,31 @@ describe Polygon do
   #   end
   # end
 
+  describe "#find/find_next/find_previous" do
+
+    it "finds nodes in the polygon by their point" do
+      polygon = test_square
+
+      node = polygon.find_next { |node| node.point == Point[0, 1] }
+      node.point.must_equal Point[0, 1]
+
+      node = polygon.find_previous { |node| node.point == Point[1, 1] }
+      node.point.must_equal Point[1, 1]
+    end
+
+    # it "finds by edges" do
+    #   polygon = test_square
+    #
+    #   node = polygon.find { |point, previous_edge, next_edge| previous_edge.angle == 0 }
+    #   node.element.must_equal Point[1, 1]
+    #
+    #   node = polygon.find { |point, previous_edge, next_edge| next_edge.angle == 0 }
+    #   node.element.must_equal Point[0, 1]
+    # end
+  end
 end
 
 def test_square
-  Polygon.new(
-    Point[0, 0], Point[0, 1], Point[1, 1], Point[1, 0]
-  )
+  points = [[0, 0], [0, 1], [1, 1], [1, 0]].map { |x, y| Point[x, y] }
+  Polygon.new(*points)
 end
