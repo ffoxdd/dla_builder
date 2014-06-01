@@ -30,23 +30,21 @@ describe Polygon do
     end
   end
 
-  # describe "#add_point" do
-  #   it "adds points to the polygon" do
-  #     p0 = Point[0, 0]
-  #     polygon.add_point(p0)
-  #     polygon.points.must_cyclically_equal [p0]
-  #
-  #     p1 = Point[1, 0]
-  #     polygon.add_point(p1)
-  #     polygon.points.must_cyclically_equal [p0, p1]
-  #
-  #     # note that order is not maintained after n=2
-  #
-  #     p2 = Point[2, 0]
-  #     polygon.add_point(p2)
-  #     Set.new(polygon.points).must_equal Set.new([p0, p1, p2])
-  #   end
-  # end
+  describe "#add_point" do
+    it "adds points to the polygon" do
+      p0 = Point[0, 0]
+      polygon.add_point(p0)
+      polygon.points.must_cyclically_equal [p0]
+
+      p1 = Point[1, 0]
+      polygon.add_point(p1)
+      polygon.points.must_cyclically_equal [p0, p1]
+
+      p2 = Point[2, 0]
+      polygon.add_point(p2)
+      polygon.points.must_cyclically_equal [p0, p1, p2]
+    end
+  end
   #
   # describe "#find/find_next/find_previous" do
   #

@@ -5,12 +5,16 @@ require_relative "edge"
 class Polygon
 
   def initialize(*points)
-    self.root = PolygonNode.build(points)
+    self.root = PolygonNode.build(*points)
   end
 
   def add_point(point)
     seed(point) and return if empty?
     add_to_end(point)
+  end
+
+  def insert_point(point, n0, n1)
+    PolygonNode.new(point: point, previous_node: n0, next_node: n1)
   end
 
   def points
@@ -30,10 +34,6 @@ class Polygon
   def find_next(&block)
     return if empty?
     root.next_enumerator.find { |node| yield(node) }
-  end
-
-  def insert_point(point, n0, n1)
-    PolygonNode.new(point: point, previous_node: n0, next_node: n1)
   end
 
   # def extreme_point_enumerators
