@@ -68,6 +68,10 @@ class Point
     "Point[#{x}, #{y}]"
   end
 
+  def to_v
+    vector
+  end
+
   protected
 
     attr_reader :vector

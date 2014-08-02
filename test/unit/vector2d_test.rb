@@ -60,4 +60,10 @@ describe Vector2D do
     end
   end
 
+  describe "#to_v" do
+    it "returns the same object" do
+      Vector2D[1, 2].to_v.must_equal Vector2D[1, 2]
+    end
+  end
+
 end

@@ -50,4 +50,10 @@ describe Point do
     end
   end
 
+  describe "#to_v" do
+    it "returns the point's center as a vector" do
+      Point[1, 2].to_v.must_equal Vector2D[1, 2]
+    end
+  end
+
 end

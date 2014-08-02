@@ -53,6 +53,10 @@ class Vector2D
     Math.acos(cosine_theta)
   end
 
+  def to_v
+    self
+  end
+
   protected
 
     attr_reader :vector
