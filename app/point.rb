@@ -28,12 +28,12 @@ class Point
 
   def_delegators :vector, :[], :magnitude, :to_a
 
-  def +(point)
-    Point.new(vector + point.vector)
+  def +(offset)
+    Point.new(vector + offset.to_v)
   end
 
-  def -(point)
-    Point.new(vector - point.vector)
+  def -(offset)
+    Point.new(vector - offset.to_v)
   end
 
   def ==(point)

@@ -13,6 +13,18 @@ describe Point do
     let(:factory) { Point.method(:[]) }
   end
 
+  describe "#+" do
+    it "adds a vector to the point's center" do
+      (Point[1, 2] + Vector2D[3, 4]).must_equal Point[4, 6]
+    end
+  end
+
+  describe "#-" do
+    it "subtracts a vector from the point's center" do
+      (Point[1, 2] - Vector2D[3, 4]).must_equal Point[-2, -2]
+    end
+  end
+
   describe "#distance" do
     it "returns the distance between the two points" do
       point_1 = Point[0, 0]

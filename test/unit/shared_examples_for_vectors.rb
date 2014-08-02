@@ -15,18 +15,6 @@ shared_examples_for "A Vector" do
     end
   end
 
-  describe "#+" do
-    it "adds, element-wise" do
-      (factory.call(1, 1) + factory.call(3, 4)).to_a.must_equal [4, 5]
-    end
-  end
-
-  describe "#-" do
-    it "subtracts, element-wise" do
-      (factory.call(1, 1) - factory.call(3, 4)).to_a.must_equal [-2, -3]
-    end
-  end
-
   describe "#map" do
     it "maps the elements" do
       vector = factory.call(1, 2)
