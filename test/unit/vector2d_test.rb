@@ -27,6 +27,31 @@ describe Vector2D do
     end
   end
 
+  describe "#determinant" do
+    it "returns the determinant of two vectors" do
+      Vector2D[1, 2].determinant(Vector2D[3, 4]).must_equal -2
+    end
+  end
+
+  describe "#+" do
+    it "adds two vectors" do
+      (Vector2D[1, 2] + Vector2D[3, 4]).must_equal Vector2D[4, 6]
+    end
+  end
+
+  describe "#-" do
+    it "subtracts two vectors" do
+      (Vector2D[1, 2] - Vector2D[3, 4]).must_equal Vector2D[-2, -2]
+    end
+  end
+
+  ## TODO: make matcher for being close in 2d space
+  # describe "#rotate" do
+  #   it "rotates the vector" do
+  #     Vector2D[0, 1].rotate(Math::PI).must_equal Vector2D[-1, 0]
+  #   end
+  # end
+
   describe "#angle" do
     it "returns the angle of the vector relative to [1, 0]" do
       Vector2D[1, 0].angle.must_be_close_to 0, 1e-6
