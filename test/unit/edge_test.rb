@@ -3,13 +3,6 @@ require_relative "../../app/edge.rb"
 
 describe Edge do
 
-  describe "#displacement_vector" do
-    it "returns a vector representing the displacement between the two vertices" do
-      edge = Edge[[1, 1], [2, 3]]
-      edge.displacement_vector.must_equal Vector2D[1, 2]
-    end
-  end
-
   describe "#relative_position/#point_to_the_left?" do
     let(:e0) { Point[0, 0] }
     let(:e1) { Point[0, 3] }

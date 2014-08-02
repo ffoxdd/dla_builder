@@ -25,6 +25,12 @@ describe Point do
     end
   end
 
+  describe "#displacement" do
+    it "returns a vector representing the distance between to points" do
+      Point[1, 2].displacement(Point[3, 4]).must_equal Vector2D[2, 2]
+    end
+  end
+
   describe "#distance" do
     it "returns the distance between the two points" do
       point_1 = Point[0, 0]

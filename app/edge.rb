@@ -11,13 +11,9 @@ class Edge
     @vertices = vertices.map { |v| Point.new(v) }
   end
 
-  def displacement_vector
-    Vector2D.new((v1 - v0).to_a)
-  end
-
   def relative_position(point)
     v_a = displacement_vector
-    v_b = point - v0
+    v_b = v0.displacement(point)
 
     v_a.determinant(v_b) <=> 0
   end
@@ -40,6 +36,10 @@ class Edge
 
     def v1
       vertices[1]
+    end
+
+    def displacement_vector
+      v0.displacement(v1)
     end
 
 end

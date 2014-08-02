@@ -44,8 +44,12 @@ class Point
     Point.new(vector.map(&block))
   end
 
+  def displacement(point)
+    point.vector - vector
+  end
+
   def distance(point)
-    (self - point).magnitude
+    displacement(point).magnitude
   end
 
   def extent
