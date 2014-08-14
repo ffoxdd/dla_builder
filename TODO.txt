@@ -7,6 +7,7 @@
 - [ ] Figure out where Renderer belongs and if it should be tested
 - [ ] Test block yielding in Grower with minitest stubs
 - [ ] Test Dla#particles reader
+- [ ] Test Polygon#insert_point
 - [ ] Revisit TreePropertyCalculator interface
 - [ ] Factor out tree structure responsibility from the Particle class
 - [ ] Make QuadtreeClosestParticleFinder#closest_particle yield the found particle rather than return it

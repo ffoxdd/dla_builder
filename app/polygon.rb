@@ -36,10 +36,6 @@ class Polygon
     root.next_enumerator.find { |node| yield(node) }
   end
 
-  # def extreme_point_enumerators
-  #   ExtremePointEnumeratorFinder.new(nodes).enumerators
-  # end
-
   private
 
     attr_accessor :root
@@ -66,46 +62,5 @@ class Polygon
       return false if empty?
       root.singleton?
     end
-
-    # def insert_before(point, node)
-    #   insert_point(point, node.previous_node, node)
-    # end
-
-    # class ExtremePointEnumeratorFinder
-    #   def initialize(nodes)
-    #     @nodes = nodes
-    #     @min_x, @max_x, @min_y, @max_y = nil
-    #     test_all_nodes
-    #   end
-    #
-    #   def enumerators
-    #     [ [min_x.next_enumerator, max_x.next_enumerator],
-    #       [min_y.next_enumerator, max_y.next_enumerator] ]
-    #   end
-    #
-    #   private
-    #     attr_reader :nodes
-    #     attr_accessor :min_x, :max_x, :min_y, :max_y
-    #
-    #     def test_all_nodes
-    #       nodes.each { |node| test_node(node) }
-    #     end
-    #
-    #     def test_node(node)
-    #       self.min_x = [min_x, node].compact.min_by { |node| node.element.x }
-    #       self.max_x = [max_x, node].compact.max_by { |node| node.element.x }
-    #       self.min_y = [min_y, node].compact.min_by { |node| node.element.y }
-    #       self.max_y = [max_y, node].compact.max_by { |node| node.element.y }
-    #     end
-    #
-    #     def next_edge_enumerator(node)
-    #       node.next_enumerator.tap do |enum|
-    #         Enumerator.new do |y|
-    #           node = enum.next
-    #           loop { yield(node.element node.next_edge  } # not gonna work -- need PolygonNode
-    #         end
-    #       end
-    #     end
-    # end
 
 end
