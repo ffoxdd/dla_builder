@@ -61,7 +61,7 @@ class PolygonNode
     def wrap_enumerator(enumerator)
       Enumerator.new do |yielder|
         loop do
-          yielder.yield PolygonNode.new(point: enumerator.next.element)
+          yielder.yield PolygonNode.new(linked_list: enumerator.next)
         end
       end
     end
