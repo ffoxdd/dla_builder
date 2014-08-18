@@ -88,18 +88,6 @@ describe LinkedList do
     end
   end
 
-  describe "#insert_between" do
-    it "inserts the node between two other nodes" do
-      node = LinkedList.new(nil)
-      new_previous_node = LinkedList.new(nil)
-      new_next_node = LinkedList.new(nil)
-      node.insert_between(new_previous_node, new_next_node)
-
-      node.previous_node.must_equal new_previous_node
-      node.next_node.must_equal new_next_node
-    end
-  end
-
   describe "#elements" do
     it "returns all elements" do
       node_0 = LinkedList.new(0)
@@ -110,8 +98,6 @@ describe LinkedList do
     end
   end
 
-  # def "#next_enumerator/previous_enumerator" do
-  #   it "returns enumerators for the linked list" do
-  #   end
-  # end
+  # TODO: #next_enumerator/previous_enumerator"
+
 end

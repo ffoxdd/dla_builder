@@ -9,7 +9,7 @@ class BoundingBoxFinder
   end
 
   def bounding_box
-    seed_calipers(*polygon.extreme_nodes)
+    # seed_calipers(*polygon.extreme_nodes)
 
     # iterate
     #  - find the smallest angle to an adjacent edge

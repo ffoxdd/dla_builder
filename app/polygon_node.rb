@@ -66,10 +66,6 @@ class PolygonNode
       end
     end
 
-    # def insert_between(n0, n1)
-    #   linked_list.insert_between(n0.linked_list, n1.linked_list)
-    # end
-
     def link_previous(polygon_node)
       linked_list.link_previous(polygon_node.linked_list)
     end

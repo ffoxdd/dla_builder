@@ -18,11 +18,6 @@ class LinkedList
     self.previous_node = node
   end
 
-  def insert_between(n0, n1)
-    link_previous(n0)
-    link_next(n1)
-  end
-
   def next_pair
     return unless next_node
     [element, next_node.element]
