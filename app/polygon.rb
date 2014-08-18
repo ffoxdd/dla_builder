@@ -14,7 +14,7 @@ class Polygon
   end
 
   def insert_point(point, n0, n1)
-    PolygonNode.new(point: point, previous_node: n0, next_node: n1)
+    self.root = PolygonNode.new(point: point, previous_node: n0, next_node: n1)
   end
 
   def points

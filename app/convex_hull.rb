@@ -16,6 +16,8 @@ class ConvexHull
     add_to_hull(point)
   end
 
+  def_delegators :polygon, :points
+
   private
 
     attr_reader :polygon
@@ -29,14 +31,14 @@ class ConvexHull
     end
 
     def upper_tangency_node(point)
-      find_next do |test_point, previous_edge, next_edge|
-        upper_tangency_point?(point, previous_edge, next_edge)
+      find_next do |node|
+        upper_tangency_point?(point, node.previous_edge, node.next_edge)
       end
     end
 
     def lower_tangency_node(point)
-      find_previous do |test_point, previous_edge, next_edge|
-        lower_tangency_point?(point, previous_edge, next_edge)
+      find_previous do |node|
+        lower_tangency_point?(point, node.previous_edge, node.next_edge)
       end
     end
 
