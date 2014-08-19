@@ -46,20 +46,20 @@ describe Polygon do
     end
   end
 
-  # describe "#insert_point" do
-  #   it "inserts the point between the specified nodes" do
-  #     polygon = test_square
-  #
-  #     n0 = polygon.find_next { |point| point == Point[0, 1] }
-  #     n1 = polygon.find_next { |point| point == Point[1, 0] }
-  #
-  #     polygon.insert_point(Point[2, 2], n0, n1)
-  #
-  #     polygon.points.must_cyclically_equal(
-  #       [Point[0, 0], Point[0, 1], Point[2, 2], Point[1, 0]]
-  #     )
-  #   end
-  # end
+  describe "#insert_point" do
+    it "inserts the point between the specified nodes" do
+      polygon = test_square
+
+      n0 = polygon.find_next { |node| node.point == Point[0, 1] }
+      n1 = polygon.find_next { |node| node.point == Point[1, 0] }
+
+      polygon.insert_point(Point[2, 2], n0, n1)
+
+      polygon.points.must_cyclically_equal(
+        [Point[0, 0], Point[0, 1], Point[2, 2], Point[1, 0]]
+      )
+    end
+  end
 
   describe "#find/find_next/find_previous" do
     it "finds nodes in the polygon by their point" do
