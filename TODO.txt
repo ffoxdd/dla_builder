@@ -16,3 +16,4 @@
 - [ ] Make LinkedList enumerators yield elements, not liked list nodes
 - [ ] Factor out tree structure responsibility from the Particle class
 - [ ] Particle#add_child is preventing it from being truly immutable
+- [ ] Rename PolygonNode -> PolygonVertex
