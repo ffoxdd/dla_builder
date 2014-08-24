@@ -1,4 +1,5 @@
 require_relative 'edge'
+require 'forwardable'
 
 class BoundingBoxFinder
 
@@ -9,7 +10,7 @@ class BoundingBoxFinder
   end
 
   def bounding_box
-    # seed_calipers(*polygon.extreme_nodes)
+    seed_calipers
 
     # iterate
     #  - find the smallest angle to an adjacent edge
@@ -24,30 +25,30 @@ class BoundingBoxFinder
     attr_reader :polygon, :calipers
     attr_accessor :total_rotation
 
-    def seed_calipers((min_x, max_x), (min_y, max_y))
+    def seed_calipers
+      min_x, min_y = polygon.min_nodes
+      max_x, max_y = polygon.max_nodes
+
       calipers << Caliper.new(min_x, Point[0, 1])
+      calipers << Caliper.new(max_y, Point[1, 0])
       calipers << Caliper.new(max_x, Point[0, -1])
       calipers << Caliper.new(min_y, Point[-1, 0])
-      calipers << Caliper.new(max_y, Point[1, 0])
     end
 
     class Caliper
+      extend Forwardable
+
       def initialize(node, displacement_vector)
         @node = node
-        @edge = new_edge(displacement_vector)
+        @ray = Ray.new(point, displacement_vector)
       end
 
       private
-        def point
-          node.element
-        end
+        attr_reader :node, :edge
+        def_delegators :node, :point
 
         def adjacent_edge
           node.next_edge
-        end
-
-        def new_edge(displacement_vector)
-          Edge[point, point + displacement_vector]
         end
     end
 

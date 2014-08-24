@@ -13,7 +13,7 @@ describe BoundingBoxFinder do
       finder = BoundingBoxFinder.new(polygon)
 
       finder.bounding_box.wont_equal nil
-      finder.bounding_box.must_equal BoundingBox.new(0..1, 0..1)
+      finder.bounding_box.must_equal BoundingBox.new(-1..1, 0..1)
     end
   end
 
