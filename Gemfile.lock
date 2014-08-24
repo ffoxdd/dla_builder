@@ -2,6 +2,8 @@ GEM
   remote: https://rubygems.org/
   specs:
     minitest (5.2.0)
+    minitest-line (0.6.2)
+      minitest (~> 5.0)
     rake (10.0.3)
     ruby-processing (2.4.1)
 
@@ -11,5 +13,6 @@ PLATFORMS
 
 DEPENDENCIES
   minitest
+  minitest-line
   rake
   ruby-processing
