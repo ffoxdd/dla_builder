@@ -6,7 +6,7 @@ describe Edge do
   describe "#relative_position/#point_to_the_left?" do
     let(:e0) { Point[0, 0] }
     let(:e1) { Point[0, 3] }
-    let(:edge) { Edge[e0, e1] }
+    let(:edge) { Edge.new(e0, e1) }
 
     it "returns 1 if point is to the left of the edge" do
       p = Point[-1, 0]
@@ -29,7 +29,7 @@ describe Edge do
 
   describe "#angle" do
     it "returns the angle of the edge relative to [1, 0]" do
-      edge = Edge[[2, 2], [2, 3]]
+      edge = Edge.new([2, 2], [2, 3])
       edge.angle.must_be_close_to Math::PI / 2, 1e-6
     end
   end

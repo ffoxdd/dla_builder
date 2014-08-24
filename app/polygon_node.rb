@@ -34,11 +34,11 @@ class PolygonNode
   end
 
   def previous_edge
-    Edge.new(linked_list.previous_pair)
+    Edge.new(*linked_list.previous_pair)
   end
 
   def next_edge
-    Edge.new(linked_list.next_pair)
+    Edge.new(*linked_list.next_pair)
   end
 
   def previous_enumerator
