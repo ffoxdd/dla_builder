@@ -28,14 +28,6 @@ describe PolygonNode do
     end
   end
 
-  describe ".build" do
-    it "builds a connected set of nodes based on a list of points" do
-      points = [Point[0, 0], Point[0, 0], Point[0, 0]]
-      node = PolygonNode.build(*points)
-      node.points.must_cyclically_equal points
-    end
-  end
-
   # TODO: test :singleton?, :self_link
 
   describe "#previous_node/#next_node" do

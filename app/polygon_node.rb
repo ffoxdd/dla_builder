@@ -6,10 +6,6 @@ class PolygonNode
 
   extend Forwardable
 
-  def PolygonNode.build(*points)
-    PolygonBuilder.new(points).root_node
-  end
-
   def initialize(options = {})
     raise ArgumentError unless options[:linked_list] || options[:point]
     @linked_list = options.fetch(:linked_list) { LinkedList.new(options[:point]) }
@@ -73,31 +69,6 @@ class PolygonNode
 
     def link_next(polygon_node)
       linked_list.link_next(polygon_node.linked_list)
-    end
-
-    class PolygonBuilder
-      def initialize(points)
-        @points = points
-        build_nodes
-      end
-
-      attr_accessor :root_node
-
-      private
-      attr_reader :points
-
-      def build_nodes
-        previous_node = nil
-
-        until points.empty?
-          point = points.shift
-          next_node = root_node if points.empty?
-
-          node = PolygonNode.new(point: point, previous_node: previous_node, next_node: next_node)
-          self.root_node ||= node
-          previous_node = node
-        end
-      end
     end
 
 end
