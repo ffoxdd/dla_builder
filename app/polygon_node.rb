@@ -19,6 +19,7 @@ class PolygonNode
   end
 
   def_delegators :linked_list, :singleton?, :self_link
+  def_delegators :point, :[]
 
   def points
     linked_list.elements

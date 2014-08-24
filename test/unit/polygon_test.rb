@@ -82,6 +82,15 @@ describe Polygon do
       node.point.must_equal Point[0, 1]
     end
   end
+
+  describe "#min_nodes, #max_nodes" do
+    it "calculates the bounding nodes" do
+      polygon = Polygon.new(Point[0, 0])
+
+      polygon.min_nodes.map(&:point).must_equal [Point[0, 0], Point[0, 0]]
+      polygon.max_nodes.map(&:point).must_equal [Point[0, 0], Point[0, 0]]
+    end
+  end
 end
 
 def test_square
