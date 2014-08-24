@@ -1,6 +1,5 @@
 - [ ] Implement best_fit option
 - [ ] Use ConvexHull rather than extent
-- [ ] Incrementally calculate Polygon#extreme_points
 - [ ] Incrementally calculate the minimum bounding box
 - [ ] DRY the top corner -> center coordinate system transformation
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
@@ -12,7 +11,6 @@
 - [ ] Check for a performance regression from before the Vector/Point/Particle split
 - [ ] Audit convenience constructors to minimize new object creation
 - [ ] Reimplement BoundingBox with a vector of ranges
-- [ ] Make LinkedList enumerators yield elements, not liked list nodes
 - [ ] Factor out tree structure responsibility from the Particle class
 - [ ] Particle#add_child is preventing it from being truly immutable
 - [ ] Rename PolygonNode -> PolygonVertex
