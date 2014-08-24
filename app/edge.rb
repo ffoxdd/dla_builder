@@ -3,17 +3,18 @@ require_relative 'vector2d'
 
 class Edge
 
-  def self.[](*vertices)
-    new(vertices)
+  def self.[](initial_point, terminal_point)
+    new(initial_point, terminal_point)
   end
 
-  def initialize(vertices)
-    @vertices = vertices.map { |v| Point.new(v) }
+  def initialize(initial_point, terminal_point)
+    @initial_point = Point.new(initial_point)
+    @terminal_point = Point.new(terminal_point)
   end
 
   def relative_position(point)
     v_a = displacement_vector
-    v_b = v0.displacement(point)
+    v_b = initial_point.displacement(point)
 
     v_a.determinant(v_b) <=> 0
   end
@@ -28,18 +29,10 @@ class Edge
 
   private
 
-    attr_reader :vertices
-
-    def v0
-      vertices[0]
-    end
-
-    def v1
-      vertices[1]
-    end
+    attr_reader :initial_point, :terminal_point
 
     def displacement_vector
-      v0.displacement(v1)
+      @displacement_vector ||= initial_point.displacement(terminal_point)
     end
 
 end
