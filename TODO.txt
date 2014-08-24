@@ -10,6 +10,7 @@
 - [ ] Make QuadtreeClosestParticleFinder#closest_particle yield the found particle rather than return it
 - [ ] Check for a performance regression from before the Vector/Point/Particle split
 - [ ] Audit convenience constructors to minimize new object creation
+- [ ] Audit bracket initializers -- remove where there isn't much value
 - [ ] Reimplement BoundingBox with a vector of ranges
 - [ ] Factor out tree structure responsibility from the Particle class
 - [ ] Particle#add_child is preventing it from being truly immutable
