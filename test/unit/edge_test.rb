@@ -27,11 +27,4 @@ describe Edge do
     end
   end
 
-  describe "#angle" do
-    it "returns the angle of the edge relative to [1, 0]" do
-      edge = Edge.new([2, 2], [2, 3])
-      edge.angle.must_be_close_to Math::PI / 2, 1e-6
-    end
-  end
-
 end

@@ -47,4 +47,10 @@ describe PolygonNode do
   describe "next_enumerator" do
   end
 
+  describe "previous_edge" do
+  end
+
+  describe "next_edge" do
+  end
+
 end

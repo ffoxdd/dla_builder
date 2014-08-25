@@ -71,16 +71,6 @@ describe Polygon do
       node = polygon.find_previous { |node| node.point == Point[1, 1] }
       node.point.must_equal Point[1, 1]
     end
-
-    it "finds by edges" do
-      polygon = test_square
-
-      node = polygon.find_next { |node| node.previous_edge.angle == 0 }
-      node.point.must_equal Point[1, 1]
-
-      node = polygon.find_previous { |node| node.next_edge.angle == 0 }
-      node.point.must_equal Point[0, 1]
-    end
   end
 
   describe "#min_nodes, #max_nodes" do

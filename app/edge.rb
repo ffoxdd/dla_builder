@@ -12,7 +12,7 @@ class Edge
     @terminal_point = Point.new(terminal_point)
   end
 
-  def_delegators :ray, :relative_position, :point_to_the_left?, :angle
+  def_delegators :ray, :relative_position, :point_to_the_left?
 
   private
 

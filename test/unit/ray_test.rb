@@ -4,13 +4,6 @@ require_relative "../../app/point.rb"
 
 describe Ray do
 
-  describe "#angle" do
-    it "returns the angle of the ray relative to [1, 0]" do
-      ray = Ray.new(Point[0, 0], Vector2D[0, 1])
-      ray.angle.must_be_close_to Math::PI / 2, 1e-6
-    end
-  end
-
   describe "#relative_position/#point_to_the_left?" do
     let(:ray) { Ray.new(Point[0, 0], Vector2D[0, 3]) }
 

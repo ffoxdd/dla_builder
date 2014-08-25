@@ -9,7 +9,7 @@ class Ray
     @displacement_vector = displacement_vector
   end
 
-  def_delegators :displacement_vector, :angle
+  def_delegators :displacement_vector
 
   def relative_position(test_point)
     v_a = displacement_vector
