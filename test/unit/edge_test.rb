@@ -27,4 +27,17 @@ describe Edge do
     end
   end
 
+  describe "#angle_between" do
+    let(:edge) { Edge.new(Point[0, 0], Point[0, 1]) }
+
+    it "calculates the angle to a vector" do
+      edge.angle_between(Vector2D[1, 0]).must_be_close_to Math::PI / 2, 1e-6
+    end
+
+    it "calculates the angle to a edge" do
+      other_edge = Edge.new(Point[0, 0], Point[0, -1])
+      edge.angle_between(other_edge).must_be_close_to Math::PI, 1e-6
+    end
+  end
+
 end

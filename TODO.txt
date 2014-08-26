@@ -15,3 +15,4 @@
 - [ ] Factor out tree structure responsibility from the Particle class
 - [ ] Particle#add_child is preventing it from being truly immutable
 - [ ] Rename PolygonNode -> PolygonVertex
+- [ ] Make shared example group for #angle_between

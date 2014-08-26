@@ -47,8 +47,10 @@ class Vector2D
     vector.inner_product(v1.vector)
   end
 
-  def angle_between(vector)
-    cosine_theta = inner_product(vector) / (magnitude * vector.magnitude)
+  def angle_between(other_vector)
+    v = other_vector.to_v
+
+    cosine_theta = inner_product(v) / (magnitude * v.magnitude)
     Math.acos(cosine_theta)
   end
 
