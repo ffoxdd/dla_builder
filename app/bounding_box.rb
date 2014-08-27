@@ -26,6 +26,10 @@ class BoundingBox
     BoundingBox.new(segment(x_range, i), segment(y_range, j))
   end
 
+  def perimeter
+    (measure(x_range) + measure(y_range)) * 2
+  end
+
   private
 
     def segment(range, i)
@@ -34,6 +38,10 @@ class BoundingBox
 
     def ranges_intersect?(range_1, range_2)
       RangeIntersectionCalculator.new(range_1, range_2).intersect?
+    end
+
+    def measure(range)
+      range.last - range.first
     end
 
 end

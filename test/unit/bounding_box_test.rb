@@ -92,4 +92,10 @@ describe BoundingBox do
     end
   end
 
+  describe "#perimeter" do
+    it "returns the perimeter" do
+      BoundingBox.new(0..2, 0..3).perimeter.must_equal 10
+    end
+  end
+
 end
