@@ -1,26 +1,21 @@
 - [ ] Make all vector operations work with both normal and homogeneous coordinates
-- [ ] Pull Caliper out to its own file and unit test
 - [ ] Implement best_fit option
 - [ ] Use ConvexHull rather than extent
 - [ ] Incrementally calculate the minimum bounding box
 - [ ] DRY the top corner -> center coordinate system transformation
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
 - [ ] Figure out where Renderer belongs and if it should be tested
-- [ ] Test block yielding in Grower with minitest stubs
 - [ ] Test Dla#particles reader
 - [ ] Revisit TreePropertyCalculator interface
 - [ ] Make QuadtreeClosestParticleFinder#closest_particle yield the found particle rather than return it
-- [ ] Check for a performance regression from before the Vector/Point/Particle split
 - [ ] Audit convenience constructors to minimize new object creation
 - [ ] Audit bracket initializers -- remove where there isn't much value
-- [ ] Reimplement BoundingBox with a vector of ranges
 - [ ] Factor out tree structure responsibility from the Particle class
-- [ ] Particle#add_child is preventing it from being truly immutable
 - [ ] Rename PolygonNode -> PolygonVertex
-- [ ] Make shared example group for #angle_between
+- [ ] Make shared example group for vector-like assertions
 - [ ] Use Array#combination for assert_cyclically_equal implementation
-- [ ] Consider making Ray into a Line class specified by a colinear point
+- [ ] Rename Ray -> Line
 - [ ] Consider making an Interval class to replace the use of Range
-- [ ] Make a delta matcher for Matrix/Vector
+- [ ] Make a delta matcher for Matrix/Vector/Point
 - [ ] Find a common place to put FreeBoundingBox.rotation_matrix
-- [ ] Make a shared example group for boudning boxes
+- [ ] Make a shared example group for bounding boxes
