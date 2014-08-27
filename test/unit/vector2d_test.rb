@@ -45,12 +45,21 @@ describe Vector2D do
     end
   end
 
-  ## TODO: make matcher for being close in 2d space
-  # describe "#rotate" do
-  #   it "rotates the vector" do
-  #     Vector2D[0, 1].rotate(Math::PI).must_equal Vector2D[-1, 0]
-  #   end
-  # end
+  describe "#*" do
+    it "performs scalar multiplication" do
+      (Vector2D[1, 2] * -1).must_equal Vector2D[-1, -2]
+    end
+  end
+
+  describe "#rotate" do
+    it "rotates the vector" do
+      vector = Vector2D[0, 1].rotate(Math::PI)
+
+      # needs matcher
+      vector[0].must_be_close_to 0, 1e-10
+      vector[1].must_be_close_to -1, 1e-10
+    end
+  end
 
   describe "#angle_between" do
     it "returns the angle between two vectors" do

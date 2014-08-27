@@ -31,6 +31,10 @@ class Vector2D
     Vector2D.new(vector - rhs.vector)
   end
 
+  def *(rhs)
+    Vector2D.new(vector * rhs)
+  end
+
   def map(&block)
     Vector2D.new(vector.map(&block))
   end
