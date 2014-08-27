@@ -18,3 +18,4 @@
 - [ ] Make shared example group for #angle_between
 - [ ] Use Array#combination for assert_cyclically_equal implementation
 - [ ] Consider making Ray into a Line class specified by a colinear point
+- [ ] Consider making an Interval class to replace the use of Range
