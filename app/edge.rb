@@ -14,16 +14,16 @@ class Edge
 
   def_delegators :ray, :relative_position, :point_to_the_left?, :angle_between, :to_v
 
+  def displacement_vector
+    @displacement_vector ||= initial_point.displacement(terminal_point)
+  end
+
+  def ray
+    @ray ||= Ray.new(initial_point, displacement_vector)
+  end
+
   private
 
     attr_reader :initial_point, :terminal_point
-
-    def displacement_vector
-      @displacement_vector ||= initial_point.displacement(terminal_point)
-    end
-
-    def ray
-      @ray ||= Ray.new(initial_point, displacement_vector)
-    end
 
 end
