@@ -1,3 +1,5 @@
+- [ ] Make all vector operations work with both normal and homogeneous coordinates
+- [ ] Pull Caliper out to its own file and unit test
 - [ ] Implement best_fit option
 - [ ] Use ConvexHull rather than extent
 - [ ] Incrementally calculate the minimum bounding box
@@ -20,3 +22,5 @@
 - [ ] Consider making Ray into a Line class specified by a colinear point
 - [ ] Consider making an Interval class to replace the use of Range
 - [ ] Make a delta matcher for Matrix/Vector
+- [ ] Find a common place to put FreeBoundingBox.rotation_matrix
+- [ ] Make a shared example group for boudning boxes
