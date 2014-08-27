@@ -1,5 +1,7 @@
-require_relative 'edge'
-require 'forwardable'
+require_relative "edge"
+require_relative "free_bounding_box"
+require_relative "caliper"
+require "forwardable"
 
 class BoundingBoxFinder
 
@@ -7,49 +9,66 @@ class BoundingBoxFinder
     @polygon = polygon
     @calipers = []
     @total_rotation = 0
-  end
 
-  def bounding_box
     seed_calipers
-
-    # iterate
-    #  - find the smallest angle to an adjacent edge
-    #  - move the caliper with that angle along that edge
-    #  - rotate the other calipers about their point the given theta
-
-    # stop iterating whent the total rotation amount is > 90 (probably 90.0001 or something?)
+    find_bounding_box
   end
+
+  attr_reader :bounding_box
 
   private
 
     attr_reader :polygon, :calipers
     attr_accessor :total_rotation
+    attr_writer :bounding_box
+
+    def find_bounding_box
+      until done?
+        rotate_calipers
+        check_bounding_box
+      end
+    end
+
+    def rotate_calipers
+      angle = closest_angle
+      calipers.each { |caliper| caliper.rotate(angle) }
+      self.total_rotation = total_rotation + angle
+    end
+
+    def done?
+      total_rotation > Math::PI / 2
+    end
 
     def seed_calipers
       min_x, min_y = polygon.min_nodes
       max_x, max_y = polygon.max_nodes
 
-      calipers << Caliper.new(min_x, Point[0, 1])
-      calipers << Caliper.new(max_y, Point[1, 0])
-      calipers << Caliper.new(max_x, Point[0, -1])
-      calipers << Caliper.new(min_y, Point[-1, 0])
+      calipers << Caliper.new(min_x, Vector2D[0, 1])
+      calipers << Caliper.new(max_y, Vector2D[1, 0])
+      calipers << Caliper.new(max_x, Vector2D[0, -1])
+      calipers << Caliper.new(min_y, Vector2D[-1, 0])
     end
 
-    class Caliper
-      extend Forwardable
+    def check_bounding_box
+      self.bounding_box = current_optimal_bounding_box
+    end
 
-      def initialize(node, displacement_vector)
-        @node = node
-        @ray = Ray.new(point, displacement_vector)
-      end
+    def current_optimal_bounding_box
+      return current_bounding_box if !bounding_box
+      [current_bounding_box, bounding_box].min_by(&:perimeter)
+    end
 
-      private
-        attr_reader :node, :edge
-        def_delegators :node, :point
+    def current_bounding_box
+      FreeBoundingBox.from_vertices(intersection_points)
+    end
 
-        def adjacent_edge
-          node.next_edge
-        end
+    def intersection_points
+      [ calipers[0].intersection(calipers[1]), calipers[1].intersection(calipers[2]),
+        calipers[2].intersection(calipers[3]), calipers[3].intersection(calipers[0]) ]
+    end
+
+    def closest_angle
+      calipers.map(&:angle).min
     end
 
 end

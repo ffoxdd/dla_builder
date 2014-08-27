@@ -20,8 +20,8 @@ class Caliper
     ray.angle_between(edge)
   end
 
-  def rotate(angle)
-    self.ray = ray.rotate(-angle)
+  def rotate(offset_angle)
+    self.ray = ray.rotate(-offset_angle)
     snap_to_edge if approximately_aligned_with_edge?
   end
 
@@ -54,7 +54,7 @@ class Caliper
       self.ray = Ray.new(node.point, ray.displacement_vector)
     end
 
-    ANGLE_EQUALITY_THRESHOLD = 1e-10
+    ANGLE_EQUALITY_THRESHOLD = 1e-6
 
     def approximately_aligned_with_edge?
       ray.angle_between(edge).abs < ANGLE_EQUALITY_THRESHOLD
