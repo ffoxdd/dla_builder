@@ -39,20 +39,20 @@ describe Ray do
     end
   end
 
-  describe "#signed_angle_to" do
+  describe "#right_handed?" do
     let(:ray) { Ray.new(Point[0, 0], Vector2D[1, 0]) }
 
-    it "returns a positive angle to a right-handed vector" do
-      ray.signed_angle_to(Vector2D[0, 1]).must_equal Math::PI / 2
+    it "returns true for a right-handed vector" do
+      ray.right_handed?(Vector2D[0, 1]).must_equal true
     end
 
-    it "returns a negative angle to a left-handed vector" do
-      ray.signed_angle_to(Vector2D[0, -1]).must_equal -Math::PI / 2
+    it "returns false for a left-handed vector" do
+      ray.right_handed?(Vector2D[0, -1]).must_equal false
     end
 
-    it "can calculate angles for a ray" do
+    it "can calculate handedness for a ray" do
       other_ray = Ray.new(Point[0, 0], Vector2D[0 ,1])
-      ray.signed_angle_to(other_ray).must_equal Math::PI / 2
+      ray.right_handed?(other_ray).must_equal true
     end
   end
 

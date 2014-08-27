@@ -47,4 +47,21 @@ describe Edge do
     end
   end
 
+  describe "#right_handed?" do
+    let(:edge) { Edge.new(Point[0, 0], Point[1, 0]) }
+
+    it "returns true for a right-handed vector" do
+      edge.right_handed?(Vector2D[0, 1]).must_equal true
+    end
+
+    it "returns false for a left-handed vector" do
+      edge.right_handed?(Vector2D[0, -1]).must_equal false
+    end
+
+    it "can calculate handedness for an edge" do
+      other_edge = Edge.new(Point[0, 0], Point[0 ,1])
+      edge.right_handed?(other_edge).must_equal true
+    end
+  end
+
 end
