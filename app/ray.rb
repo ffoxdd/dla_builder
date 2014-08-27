@@ -9,6 +9,9 @@ class Ray
     @displacement_vector = displacement_vector
   end
 
+  attr_reader :point, :displacement_vector
+  alias_method :to_v, :displacement_vector
+
   def_delegators :displacement_vector, :angle_between
 
   def relative_position(test_point)
@@ -22,12 +25,18 @@ class Ray
     relative_position(point) > 0
   end
 
-  def to_v
-    displacement_vector
+  def rotate(theta)
+    Ray.new(point, displacement_vector.rotate(theta))
+  end
+
+  def ==(ray)
+    point == ray.point && same_direction?(displacement_vector, ray.displacement_vector)
   end
 
   private
 
-    attr_reader :point, :displacement_vector
+    def same_direction?(v1, v2)
+      v1.determinant(v2) == 0
+    end
 
 end

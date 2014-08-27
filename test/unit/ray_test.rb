@@ -26,7 +26,7 @@ describe Ray do
     end
   end
 
-  describe "angle_between" do
+  describe "#angle_between" do
     let(:ray) { Ray.new(Point[0, 0], Vector2D[0, 1]) }
 
     it "calculates the angle to a vector" do
@@ -36,6 +36,31 @@ describe Ray do
     it "calculates the angle to a ray" do
       other_ray = Ray.new(Point[0, 0], Vector2D[0, -1])
       ray.angle_between(other_ray).must_be_close_to Math::PI, 1e-6
+    end
+  end
+
+  describe "#==" do
+    it "returns true when both the point and displacement vectors are identical" do
+      Ray.new(Point[0, 0], Vector2D[0, 1]).must_equal Ray.new(Point[0, 0], Vector2D[0, 1])
+
+      Ray.new(Point[0, 0], Vector2D[0, 1]).wont_equal Ray.new(Point[2, 0], Vector2D[0, 1])
+      Ray.new(Point[0, 0], Vector2D[0, 1]).wont_equal Ray.new(Point[0, 0], Vector2D[1, 1])
+    end
+
+    it "handles equivalent rays with differing representations" do
+      Ray.new(Point[0, 0], Vector2D[0, 1]).must_equal Ray.new(Point[0, 0], Vector2D[0, 2])
+    end
+  end
+
+  describe "#rotate" do
+    it "rotates the ray" do
+      ray = Ray.new(Point[0, 0], Vector2D[0, 1])
+      rotated_ray = ray.rotate(Math::PI)
+
+      rotated_ray.displacement_vector[0].must_be_close_to 0, 1e-6
+      rotated_ray.displacement_vector[1].must_be_close_to -1, 1e-6
+
+      rotated_ray.point.must_equal Point[0, 0]
     end
   end
 
