@@ -64,4 +64,20 @@ describe Ray do
     end
   end
 
+  describe "#intersection" do
+    it "returns the point of intersection with another ray" do
+      r1 = Ray.new(Point[1, 0], Vector2D[1, 0])
+      r2 = Ray.new(Point[1, 1], Vector2D[0, 1])
+
+      r1.intersection(r2).must_equal Point[1, 0]
+    end
+
+    it "returns nil for parallel rays" do
+      r1 = Ray.new(Point[1, 0], Vector2D[1, 0])
+      r2 = Ray.new(Point[2, 0], Vector2D[1, 0])
+
+      r1.intersection(r2).must_equal nil
+    end
+  end
+
 end

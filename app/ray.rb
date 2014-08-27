@@ -33,6 +33,23 @@ class Ray
     point == ray.point && same_direction?(displacement_vector, ray.displacement_vector)
   end
 
+  def defining_points
+    [point, point + displacement_vector]
+  end
+
+  def intersection(ray) # http://en.wikipedia.org/wiki/Line-line_intersection
+    (x1, y1), (x2, y2) = defining_points.map(&:to_a)
+    (x3, y3), (x4, y4) = ray.defining_points.map(&:to_a)
+
+    denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+    return if denominator == 0
+
+    x = ((x1*y2 - y1*x2) * (x3 - x4) - (x1 - x2) * (x3*y4 - y3*x4)) / denominator
+    y = ((x1*y2 - y1*x2) * (y3 - y4) - (y1 - y2) * (x3*y4 - y3*x4)) / denominator
+
+    Point[x, y]
+  end
+
   private
 
     def same_direction?(v1, v2)
