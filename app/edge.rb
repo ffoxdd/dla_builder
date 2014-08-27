@@ -22,6 +22,10 @@ class Edge
     @ray ||= Ray.new(initial_point, displacement_vector)
   end
 
+  def length
+    initial_point.distance(terminal_point)
+  end
+
   private
 
     attr_reader :initial_point, :terminal_point

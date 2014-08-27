@@ -40,4 +40,11 @@ describe Edge do
     end
   end
 
+  describe "#length" do
+    it "returns the length of the edge" do
+      edge = Edge.new(Point[-1, -1], Point[2, 3])
+      edge.length.must_equal 5
+    end
+  end
+
 end
