@@ -62,6 +62,14 @@ class Vector2D
     self
   end
 
+  def right_handed?(other_vector)
+    determinant(other_vector.to_v) >= 0
+  end
+
+  def signed_angle_to(other_vector)
+    angle_between(other_vector) * (right_handed?(other_vector) ? 1 : -1)
+  end
+
   protected
 
     attr_reader :vector

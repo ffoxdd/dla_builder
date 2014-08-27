@@ -75,4 +75,28 @@ describe Vector2D do
     end
   end
 
+  describe "#right_handed?" do
+    it "returns true if the rhs lies in the right handed direction relative to the first" do
+      Vector2D[1, 0].right_handed?(Vector2D[0, 1]).must_equal true
+    end
+
+    it "returns false if the rhs lies in the right handed direction relative to the first" do
+      Vector2D[0, 1].right_handed?(Vector2D[1, 0]).must_equal false
+    end
+
+    it "returns true if the vectors are colinear" do
+      Vector2D[1, 0].right_handed?(Vector2D[1, 0]).must_equal true
+    end
+  end
+
+  describe "#signed_angle_to" do
+    it "returns a positive angle to a right-handed vector" do
+      Vector2D[1, 0].signed_angle_to(Vector2D[0, 1]).must_equal Math::PI/2
+    end
+
+    it "returns a negative angle to a left-handed vector" do
+      Vector2D[1, 0].signed_angle_to(Vector2D[0, -1]).must_equal -Math::PI/2
+    end
+  end
+
 end

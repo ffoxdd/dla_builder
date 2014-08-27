@@ -39,6 +39,23 @@ describe Ray do
     end
   end
 
+  describe "#signed_angle_to" do
+    let(:ray) { Ray.new(Point[0, 0], Vector2D[1, 0]) }
+
+    it "returns a positive angle to a right-handed vector" do
+      ray.signed_angle_to(Vector2D[0, 1]).must_equal Math::PI / 2
+    end
+
+    it "returns a negative angle to a left-handed vector" do
+      ray.signed_angle_to(Vector2D[0, -1]).must_equal -Math::PI / 2
+    end
+
+    it "can calculate angles for a ray" do
+      other_ray = Ray.new(Point[0, 0], Vector2D[0 ,1])
+      ray.signed_angle_to(other_ray).must_equal Math::PI / 2
+    end
+  end
+
   describe "#==" do
     it "returns true when both the point and displacement vectors are identical" do
       Ray.new(Point[0, 0], Vector2D[0, 1]).must_equal Ray.new(Point[0, 0], Vector2D[0, 1])

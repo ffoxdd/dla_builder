@@ -12,7 +12,7 @@ class Ray
   attr_reader :point, :displacement_vector
   alias_method :to_v, :displacement_vector
 
-  def_delegators :displacement_vector, :angle_between
+  def_delegators :displacement_vector, :angle_between, :signed_angle_to
 
   def relative_position(test_point)
     v_a = displacement_vector
