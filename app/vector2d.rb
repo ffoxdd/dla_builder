@@ -53,9 +53,8 @@ class Vector2D
 
   def angle_between(other_vector)
     v = other_vector.to_v
-
     cosine_theta = inner_product(v) / (magnitude * v.magnitude)
-    Math.acos(cosine_theta)
+    Math.acos(clip(cosine_theta, -1..1))
   end
 
   def to_v
@@ -90,6 +89,12 @@ class Vector2D
         [Math.cos(theta), -Math.sin(theta)],
         [Math.sin(theta),  Math.cos(theta)]
       ]
+    end
+
+    def clip(n, range)
+      return range.begin if n < range.begin
+      return range.end if n > range.end
+      n
     end
 
 end
