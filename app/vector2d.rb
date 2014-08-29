@@ -39,22 +39,22 @@ class Vector2D
     Vector2D.new(vector.map(&block))
   end
 
-  def determinant(v1)
-    Matrix[vector, v1.vector].determinant
+  def determinant(other_vector)
+    Matrix[vector, other_vector.vector].determinant
   end
 
   def rotate(theta)
     Vector2D.new(rotation_matrix(theta) * vector)
   end
 
-  def inner_product(v1)
-    vector.inner_product(v1.vector)
+  def inner_product(other_vector)
+    vector.inner_product(other_vector.vector)
   end
 
   def angle_between(other_vector)
     v = other_vector.to_v
     cosine_theta = inner_product(v) / (magnitude * v.magnitude)
-    Math.acos(clip(cosine_theta, -1..1))
+    acos(cosine_theta)
   end
 
   def to_v
@@ -89,6 +89,10 @@ class Vector2D
         [Math.cos(theta), -Math.sin(theta)],
         [Math.sin(theta),  Math.cos(theta)]
       ]
+    end
+
+    def acos(x)
+      Math.acos(clip(x, -1..1))
     end
 
     def clip(n, range)
