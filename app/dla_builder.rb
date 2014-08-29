@@ -4,7 +4,7 @@ class DlaBuilder
 
   def initialize(options = {})
     @limit = options.fetch(:limit, 10_000)
-    @bounds = options[:within]
+    @axis_aligned_bounds = options[:within]
     @options = options
   end
 
@@ -14,7 +14,7 @@ class DlaBuilder
 
   private
 
-    attr_reader :dla, :options, :limit, :bounds
+    attr_reader :dla, :options, :limit, :axis_aligned_bounds
 
     def grow(dla)
       dla.grow until done?(dla)
@@ -29,8 +29,8 @@ class DlaBuilder
     end
 
     def outside_bounds?(dla)
-      return false unless bounds
-      !dla.within?(bounds)
+      return false unless axis_aligned_bounds
+      !dla.within?(axis_aligned_bounds)
     end
 
     def new_dla
