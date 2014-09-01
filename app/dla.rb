@@ -37,7 +37,7 @@ class Dla
     Persister.new(self, name).save
   end
 
-  def within?(bounding_box)
+  def within?(bounding_box, options = {})
     bounding_box.covers?(extent)
   end
 

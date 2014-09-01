@@ -1,5 +1,5 @@
 require_relative "edge"
-require_relative "free_bounding_box"
+require_relative "bounding_box"
 require_relative "caliper"
 require "forwardable"
 
@@ -59,7 +59,7 @@ class BoundingBoxFinder
     end
 
     def current_bounding_box
-      FreeBoundingBox.from_vertices(intersection_points)
+      BoundingBox.from_vertices(intersection_points)
     end
 
     def intersection_points

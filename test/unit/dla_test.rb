@@ -1,5 +1,6 @@
 require_relative "../test_helper.rb"
 require_relative "../../app/dla.rb"
+require_relative "../../app/bounding_box.rb"
 
 describe Dla do
 
@@ -56,22 +57,36 @@ describe Dla do
   end
 
   describe "#within?" do
-    let :seeds do
-      [Particle.new(x: 1, y: 0, radius: 1), Particle.new(x: 0, y: 1, radius: 1)]
+    describe "axis-aligned" do
+      let :seeds do
+        [Particle.new(x: 1, y: 0, radius: 1), Particle.new(x: 0, y: 1, radius: 1)]
+      end
+
+      let(:dla) { Dla.new(seeds: seeds) }
+
+      it "returns true when within the given bounds" do
+        dla.within?(BoundingBox.new(-2..2, -2..2)).must_equal true
+      end
+
+      it "returns false when outside the given x range" do
+        dla.within?(BoundingBox.new(-1..1, -2..2)).must_equal false
+      end
+
+      it "returns false when outside the given y range" do
+        dla.within?(BoundingBox.new(-2..2, -1..1)).must_equal false
+      end
     end
 
-    let(:dla) { Dla.new(seeds: seeds) }
+    describe "arbitrary orientation" do
+      let :seeds do
+        [Particle.new(x: 1, y: 1, radius: 1), Particle.new(x: 3, y: 1, radius: 1)]
+      end
 
-    it "returns true when within the given bounds" do
-      dla.within?(BoundingBox.new(-2..2, -2..2)).must_equal true
-    end
+      let(:dla) { Dla.new(seeds: seeds) }
 
-    it "returns false when outside the given x range" do
-      dla.within?(BoundingBox.new(-1..1, -2..2)).must_equal false
-    end
-
-    it "returns false when outside the given y range" do
-      dla.within?(BoundingBox.new(-2..2, -1..1)).must_equal false
+      it "returns true when it fits within the box for some orientation" do
+        dla.within?(BoundingBox.new(-1..1, -2..2), arbitrary_orientation: true).must_equal true
+      end
     end
   end
 

@@ -1,5 +1,6 @@
 require_relative "quadtree"
 require_relative "quadtree_closest_particle_finder"
+require_relative "axis_aligned_bounding_box"
 require 'forwardable'
 
 class ParticleCollection
@@ -10,7 +11,7 @@ class ParticleCollection
   def_delegators :particles, :size, :each, :[]
 
   def initialize(particle_radius)
-    bounding_box = BoundingBox.new(-2000..2000, -2000..2000)
+    bounding_box = AxisAlignedBoundingBox.new(-2000..2000, -2000..2000)
     @quadtree = Quadtree.new(bounding_box)
     @particles = []
     @particle_radius = particle_radius

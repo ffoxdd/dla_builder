@@ -8,7 +8,7 @@ describe QuadtreeClosestParticleFinder do
   describe "#closest_particle" do
     let(:closer_particle) { Particle.new(x: 1, y: 1, radius: 1) }
     let(:further_particle) { Particle.new(x: 10, y: 10, radius: 1) }
-    let(:particles) { Quadtree.new(BoundingBox.new(-100..100, -100..100)) }
+    let(:particles) { Quadtree.new(AxisAlignedBoundingBox.new(-100..100, -100..100)) }
     before { [closer_particle, further_particle].each { |particle| particles << particle } }
 
     it "returns the closest particle" do

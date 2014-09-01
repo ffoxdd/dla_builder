@@ -1,3 +1,5 @@
+require_relative "axis_aligned_bounding_box"
+
 class QuadtreeClosestParticleFinder
 
   def initialize(quadtree, test_particle, particle_radius, options = {})
@@ -59,8 +61,8 @@ class QuadtreeClosestParticleFinder
     end
 
     def neighborhood_bounding_box(zoom_factor)
-      BoundingBox.new(
-        neighborhood_range(test_particle.x, zoom_factor), 
+      AxisAlignedBoundingBox.new(
+        neighborhood_range(test_particle.x, zoom_factor),
         neighborhood_range(test_particle.y, zoom_factor)
       )
     end

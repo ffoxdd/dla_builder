@@ -1,5 +1,3 @@
-require_relative "bounding_box"
-
 class Quadtree
 
   include Enumerable

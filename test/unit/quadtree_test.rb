@@ -1,5 +1,6 @@
 require_relative "../test_helper.rb"
 require_relative "../../app/quadtree.rb"
+require_relative "../../app/axis_aligned_bounding_box.rb"
 
 require 'set'
 
@@ -7,18 +8,18 @@ describe Quadtree do
 
   describe "#initialize" do
     it "starts off with zero particles" do
-      quadtree = Quadtree.new(BoundingBox.new(0...1, 0...1))
-      quadtree.size.must_equal 0      
+      quadtree = Quadtree.new(AxisAlignedBoundingBox.new(0...1, 0...1))
+      quadtree.size.must_equal 0
     end
 
     it "start off with zero depth" do
-      quadtree = Quadtree.new(BoundingBox.new(0...1, 0...1))
+      quadtree = Quadtree.new(AxisAlignedBoundingBox.new(0...1, 0...1))
       quadtree.depth.must_equal 0
     end
   end
 
   describe "#<<" do
-    let(:quadtree) { Quadtree.new(BoundingBox.new(0...1, 0...1), max_depth: 3) }
+    let(:quadtree) { Quadtree.new(AxisAlignedBoundingBox.new(0...1, 0...1), max_depth: 3) }
 
     it "adds a particle" do
       quadtree << mock_particle(0.5, 0.5)
@@ -37,7 +38,7 @@ describe Quadtree do
   end
 
   describe "#covers?" do
-    let(:quadtree) { Quadtree.new(BoundingBox.new(0...1, 0...1)) }
+    let(:quadtree) { Quadtree.new(AxisAlignedBoundingBox.new(0...1, 0...1)) }
 
     it "returns true if the quadtree covers the particle" do
       quadtree.covers?(mock_particle(0, 0)).must_equal true
@@ -54,7 +55,7 @@ describe Quadtree do
 
   describe "Enumerable" do
     let(:particles) { 4.times.map { mock_particle } }
-    let(:quadtree) { Quadtree.new(BoundingBox.new(0...10, 0...10)) }
+    let(:quadtree) { Quadtree.new(AxisAlignedBoundingBox.new(0...10, 0...10)) }
     before { particles.each { |particle| quadtree << particle } }
 
     it "visits all the particles" do
@@ -64,7 +65,7 @@ describe Quadtree do
 
   describe "#within" do
     describe "finding particles" do
-      let(:quadtree) { Quadtree.new(BoundingBox.new(0...10, 0...10)) }
+      let(:quadtree) { Quadtree.new(AxisAlignedBoundingBox.new(0...10, 0...10)) }
 
       let(:inside_particles) do
         [mock_particle(2, 2), mock_particle(3, 3), mock_particle(2.5, 2.5)]
@@ -80,7 +81,7 @@ describe Quadtree do
       end
 
       it "returns all particles within the given bounds" do
-        Set.new(quadtree.within(BoundingBox.new(2..3, 2..3))).must_equal Set.new(inside_particles)
+        Set.new(quadtree.within(AxisAlignedBoundingBox.new(2..3, 2..3))).must_equal Set.new(inside_particles)
       end
     end
 
@@ -89,7 +90,7 @@ describe Quadtree do
       let(:q3_particle) { MiniTest::Mock.new }
 
       describe "for a tree of depth 0" do
-        let(:quadtree) { Quadtree.new(BoundingBox.new(0...10, 0...10), max_depth: 0) }
+        let(:quadtree) { Quadtree.new(AxisAlignedBoundingBox.new(0...10, 0...10), max_depth: 0) }
 
         before do
           q0_particle.expect(:x, 1)
@@ -109,14 +110,14 @@ describe Quadtree do
           q3_particle.expect(:x, 9)
           q3_particle.expect(:y, 9)
 
-          quadtree.within(BoundingBox.new(0..2, 0..2)).must_equal [q0_particle]
+          quadtree.within(AxisAlignedBoundingBox.new(0..2, 0..2)).must_equal [q0_particle]
           q0_particle.verify
           q3_particle.verify
         end
       end
 
       describe "for a tree of depth greater than 0" do
-        let(:quadtree) { Quadtree.new(BoundingBox.new(0...10, 0...10), max_depth: 1) }
+        let(:quadtree) { Quadtree.new(AxisAlignedBoundingBox.new(0...10, 0...10), max_depth: 1) }
 
         before do
           5.times do
@@ -135,7 +136,7 @@ describe Quadtree do
           q0_particle.expect(:x, 1)
           q0_particle.expect(:y, 1)
 
-          quadtree.within(BoundingBox.new(0..2, 0..2)).must_equal [q0_particle]
+          quadtree.within(AxisAlignedBoundingBox.new(0..2, 0..2)).must_equal [q0_particle]
           q0_particle.verify
           q3_particle.verify
         end

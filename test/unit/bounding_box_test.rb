@@ -5,43 +5,14 @@ require_relative "../../app/point.rb"
 describe BoundingBox do
 
   describe "#==" do
-    it "returns true if the boxes have equal ranges" do
-      BoundingBox.new(1..2, 3..4).must_equal BoundingBox.new(1..2, 3..4)
-      BoundingBox.new(1..2, 3..4).wont_equal BoundingBox.new(5..6, 7..8)
-    end
-  end
+    it "returns true if the boxes are the same" do
+      box = BoundingBox.new(1..2, 3..4)
 
-  describe "#intersects?" do
-    let(:box) { BoundingBox.new(0..3, 0..3) }
+      box.must_equal BoundingBox.new(1..2, 3..4)
+      box.must_equal BoundingBox.new(0..1, 2..3, translation: Vector2D[1, 1])
 
-    it "returns true if one box completely contains the other" do
-      other_box = BoundingBox.new(1..2, 1..2)
-      box.intersects?(other_box).must_equal true
-    end
-
-    it "returns true if the boxes partially intersect" do
-      other_box = BoundingBox.new(2..4, 2..4)
-      box.intersects?(other_box).must_equal true
-    end
-
-    it "returns false if the x-ranges don't intersect" do
-      other_box = BoundingBox.new(4..5, 1..2)
-      box.intersects?(other_box).must_equal false
-    end
-
-    it "returns false if the y-ranges don't intersect" do
-      other_box = BoundingBox.new(1..2, -2..-1)
-      box.intersects?(other_box).must_equal false
-    end
-
-    it "returns true for closed intervals that intersect on an edge" do
-      other_box = BoundingBox.new(3..4, 0..3)
-      box.intersects?(other_box).must_equal true
-    end
-
-    it "returns false for open intervals that intersect on the open edge" do
-      other_box = BoundingBox.new(-1...0, 0..3)
-      box.intersects?(other_box).must_equal false
+      box.wont_equal BoundingBox.new(5..6, 7..8)
+      box.wont_equal BoundingBox.new(1..2, 3..4, rotation: Math::PI)
     end
   end
 
@@ -74,27 +45,21 @@ describe BoundingBox do
     end
   end
 
-  describe "#quadtrant" do
-    let(:box) { BoundingBox.new(0..4, -2...2) }
-
-    it "returns four equal quadtrants" do
-      box.quadtrant(0, 0).x_range.must_equal 0...2
-      box.quadtrant(0, 0).y_range.must_equal -2...0
-
-      box.quadtrant(1, 0).x_range.must_equal 2..4
-      box.quadtrant(1, 0).y_range.must_equal -2...0
-
-      box.quadtrant(0, 1).x_range.must_equal 0...2
-      box.quadtrant(0, 1).y_range.must_equal 0...2
-
-      box.quadtrant(1, 1).x_range.must_equal 2..4
-      box.quadtrant(1, 1).y_range.must_equal 0...2
-    end
-  end
-
   describe "#perimeter" do
     it "returns the perimeter" do
       BoundingBox.new(0..2, 0..3).perimeter.must_equal 10
+    end
+  end
+
+  describe ".from_vertices" do
+    it "builds a bounding box from the locations of its four corners" do
+      pi, rt2 = Math::PI, Math.sqrt(2)
+      points = [Point[0, rt2/2], Point[rt2/2, rt2], Point[rt2, rt2/2], Point[rt2/2, 0]]
+      bounding_box = BoundingBox.from_vertices(points)
+
+      bounding_box.must_equal BoundingBox.new(
+        0..1, 0..1, rotation: -pi/4, translation: Vector2D[0, rt2/2]
+      )
     end
   end
 

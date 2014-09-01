@@ -1,4 +1,3 @@
-- [ ] Make BoundingBox be a general-purpose bounding box that builds off of AxisAlignedBoundingBox
 - [ ] Make all vector operations work with both normal and homogeneous coordinates
 - [ ] Implement best_fit option
 - [ ] Use ConvexHull rather than extent

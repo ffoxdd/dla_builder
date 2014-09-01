@@ -98,4 +98,31 @@ describe AxisAlignedBoundingBox do
     end
   end
 
+  describe "#offset" do
+    it "returns the displacement from the lower-left corner to the origin" do
+      AxisAlignedBoundingBox.new(-3..-1, 4..5).offset.must_equal Vector2D[-3, 4]
+    end
+  end
+
+  describe "#at_origin" do
+    it "returns a copy of the bounding box, translated to the origin" do
+      bounding_box = AxisAlignedBoundingBox.new(-3..-1, 4..5)
+      bounding_box.at_origin.must_equal AxisAlignedBoundingBox.new(0..2, 0..1)
+    end
+  end
+
+  describe "#+" do
+    it "returns a translated bounding box" do
+      bounding_box = AxisAlignedBoundingBox.new(-3..-1, 4..5)
+      (bounding_box + Vector2D[2, 2]).must_equal AxisAlignedBoundingBox.new(-1..1, 6..7)
+    end
+  end
+
+  describe "#-" do
+    it "returns a translated bounding box" do
+      bounding_box = AxisAlignedBoundingBox.new(-3..-1, 4..5)
+      (bounding_box - Vector2D[2, 2]).must_equal AxisAlignedBoundingBox.new(-5..-3, 2..3)
+    end
+  end
+
 end
