@@ -1,4 +1,5 @@
 - [ ] Fix confusion re: translation/rotation order in BoundingBox constructor
+- [ ] Make a method that returns the signed angle between two vectors
 - [ ] Make all vector operations work with both normal and homogeneous coordinates
 - [ ] Implement best_fit option
 - [ ] Use ConvexHull rather than extent

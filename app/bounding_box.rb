@@ -26,18 +26,19 @@ class BoundingBox
 
   def self.from_vertices(vertices)
     translation = vertices[0].displacement(Point[0, 0])
-    translated_vertices = vertices.map { |vertex| vertex + translation }
+    vertices_before_translation = vertices.map { |vertex| vertex - translation }
 
-    edge_x = Edge.new(translated_vertices[0], translated_vertices[1])
-    edge_y = Edge.new(translated_vertices[1], translated_vertices[2])
+    edge_x = Edge.new(vertices_before_translation[0], vertices_before_translation[1])
+    edge_y = Edge.new(vertices_before_translation[1], vertices_before_translation[2])
 
     x_basis = Edge.new(Point[0, 0], Point[1, 0])
-    rotation = edge_x.angle_between(x_basis)
+    rotation = x_basis.angle_between(edge_x)
+    rotation *= -1 if !x_basis.right_handed?(edge_x)
 
     x_length = edge_x.length
     y_length = edge_y.length
 
-    BoundingBox.new(0..x_length, 0..y_length, rotation: -rotation, translation: translation * -1)
+    BoundingBox.new(0..x_length, 0..y_length, rotation: rotation, translation: translation)
   end
 
   def vertices

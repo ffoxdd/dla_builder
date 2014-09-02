@@ -51,19 +51,20 @@ describe BoundingBox do
     end
   end
 
-  describe ".from_vertices" do
-    it "builds a bounding box from the locations of its four corners" do
-      pi, rt2 = Math::PI, Math.sqrt(2)
-      points = [Point[0, rt2/2], Point[rt2/2, rt2], Point[rt2, rt2/2], Point[rt2/2, 0]]
-      bounding_box = BoundingBox.from_vertices(points)
-
-      bounding_box.must_equal BoundingBox.new(
-        0..1, 0..1, rotation: -pi/4, translation: Vector2D[0, rt2/2]
-      )
-    end
-  end
-
   # TODO: fill this out there's a point delta matcher
+
+  # describe ".from_vertices" do
+  #   it "builds a bounding box from the locations of its four corners" do
+  #     pi, rt2 = Math::PI, Math.sqrt(2)
+  #     points = [Point[0, rt2/2], Point[rt2/2, rt2], Point[rt2, rt2/2], Point[rt2/2, 0]]
+  #     bounding_box = BoundingBox.from_vertices(points)
+  #
+  #     bounding_box.must_equal BoundingBox.new(
+  #       0..1, 0..1, rotation: pi/4, translation: Vector2D[0, -rt2/2]
+  #     )
+  #   end
+  # end
+
   # describe "vertices" do
   #   it "returns the four corners of the box" do
   #     pi, rt2 = Math::PI, Math.sqrt(2)
