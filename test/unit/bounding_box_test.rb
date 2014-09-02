@@ -63,4 +63,16 @@ describe BoundingBox do
     end
   end
 
+  # TODO: fill this out there's a point delta matcher
+  # describe "vertices" do
+  #   it "returns the four corners of the box" do
+  #     pi, rt2 = Math::PI, Math.sqrt(2)
+  #     box = BoundingBox.new(0..1, 0..1, rotation: pi/4)
+  #
+  #     box.vertices.must_cyclically_equal [
+  #       Point[0, 0], Point[-rt2/2, -rt2/2], Point[0, rt2], Point[rt2/2, rt2/2]
+  #     ]
+  #   end
+  # end
+
 end

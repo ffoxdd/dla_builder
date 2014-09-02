@@ -40,6 +40,10 @@ class BoundingBox
     BoundingBox.new(0..x_length, 0..y_length, rotation: -rotation, translation: translation * -1)
   end
 
+  def vertices
+    axis_aligned_bounding_box.vertices.map { |vertex| vertex.rotate(rotation) + offset }
+  end
+
   protected
 
     attr_reader :offset, :rotation, :axis_aligned_bounding_box

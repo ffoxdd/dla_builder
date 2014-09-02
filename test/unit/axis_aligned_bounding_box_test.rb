@@ -125,4 +125,14 @@ describe AxisAlignedBoundingBox do
     end
   end
 
+  describe "#vertices" do
+    it "returns the vertices of the box" do
+      bounding_box = AxisAlignedBoundingBox.new(-3..-1, 4..5)
+
+      bounding_box.vertices.must_cyclically_equal([
+        Point[-3, 4], Point[-3, 5], Point[-1, 5], Point[-1, 4]
+      ])
+    end
+  end
+
 end

@@ -39,6 +39,15 @@ class AxisAlignedBoundingBox
     self - offset
   end
 
+  def vertices
+    [
+      Point[x_range.begin, y_range.begin],
+      Point[x_range.begin, y_range.end],
+      Point[x_range.end, y_range.end],
+      Point[x_range.end, y_range.begin]
+    ]
+  end
+
   def +(vector)
     AxisAlignedBoundingBox.new(
       translate_range(x_range, vector[0]),
