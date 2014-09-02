@@ -21,10 +21,13 @@ def draw
 end
 
 def render(particle)
-  Renderer.new(self, particle).render
+  # Renderer.new(self, particle).render
 end
 
 def render_convex_hull
+  noFill
+  stroke(255)
+
   beginShape
   @convex_hull.points.each { |point| vertex(x(point.x), y(point.y)) }
   endShape(CLOSE)
