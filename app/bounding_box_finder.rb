@@ -23,6 +23,8 @@ class BoundingBoxFinder
     attr_writer :bounding_box
 
     def find_bounding_box
+      return if polygon.points.size < 3
+
       until done?
         rotate_calipers
         check_bounding_box
