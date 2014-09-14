@@ -12,9 +12,10 @@ describe BoundingBoxFinder do
     it "finds a minimum-perimeter bounding box" do
       finder = BoundingBoxFinder.new(polygon)
       finder.bounding_box.perimeter.must_be_close_to Math.sqrt(2) * 4, 1e-10
+      # TODO: assert result with a within delta matcher for bounding boxes
     end
 
-    it "returns nil if there are less than 3 vertices" do
+    it "returns nil if there are fewer than 3 vertices" do
       polygon = Polygon.new(Point[0, 0], Point[0, 1])
       BoundingBoxFinder.new(polygon).bounding_box.must_equal nil
     end

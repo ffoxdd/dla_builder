@@ -25,15 +25,21 @@ class BoundingBox
   def_delegators :offset_bounding_box, :covers?
 
   def self.from_vertices(vertices)
-    translation = vertices[0].displacement(Point[0, 0])
-    vertices_before_translation = vertices.map { |vertex| vertex - translation }
+    inverse_translation = vertices[0].displacement(Point[0, 0])
+    translation = -inverse_translation
 
-    edge_x = Edge.new(vertices_before_translation[0], vertices_before_translation[1])
-    edge_y = Edge.new(vertices_before_translation[1], vertices_before_translation[2])
+    vertices_at_origin = vertices.map { |vertex| vertex + inverse_translation }
+
+    edge_1 = Edge.new(vertices_at_origin[0], vertices_at_origin[1])
+    edge_2 = Edge.new(vertices_at_origin[0], vertices_at_origin[3])
+
+    edge_x, edge_y = edge_1.right_handed?(edge_2) ? [edge_1, edge_2] : [edge_2, edge_1]
 
     x_basis = Edge.new(Point[0, 0], Point[1, 0])
-    rotation = x_basis.angle_between(edge_x)
-    rotation *= -1 if !x_basis.right_handed?(edge_x)
+    inverse_rotation = x_basis.angle_between(edge_x)
+    inverse_rotation *= -1 if !edge_x.right_handed?(x_basis) # TODO: use signed_angle_to
+
+    rotation = -inverse_rotation
 
     x_length = edge_x.length
     y_length = edge_y.length

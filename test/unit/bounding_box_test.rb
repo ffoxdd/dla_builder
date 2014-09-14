@@ -51,19 +51,36 @@ describe BoundingBox do
     end
   end
 
-  # TODO: fill this out there's a point delta matcher
+  describe ".from_vertices" do
+    it "builds a bounding box from the locations of its four corners" do
+      points = [Point[1, 1], Point[0, 0], Point[-1, 1], Point[0, 2]]
+      bounding_box = BoundingBox.from_vertices(points)
 
-  # describe ".from_vertices" do
-  #   it "builds a bounding box from the locations of its four corners" do
-  #     pi, rt2 = Math::PI, Math.sqrt(2)
-  #     points = [Point[0, rt2/2], Point[rt2/2, rt2], Point[rt2, rt2/2], Point[rt2/2, 0]]
-  #     bounding_box = BoundingBox.from_vertices(points)
-  #
-  #     bounding_box.must_equal BoundingBox.new(
-  #       0..1, 0..1, rotation: pi/4, translation: Vector2D[0, -rt2/2]
-  #     )
-  #   end
-  # end
+      vertices = bounding_box.vertices
+
+      # TODO: clean up with a within_delta matcher for bounding_boxes
+      vertices[0].distance(points[0]).must_be_close_to 0, 1e-10
+      vertices[1].distance(points[1]).must_be_close_to 0, 1e-10
+      vertices[2].distance(points[2]).must_be_close_to 0, 1e-10
+      vertices[3].distance(points[3]).must_be_close_to 0, 1e-10
+    end
+
+    it "works with vertices indicated in the opposite direction" do
+      points = [Point[0, 2], Point[-1, 1], Point[0, 0], Point[1, 1]]
+      bounding_box = BoundingBox.from_vertices(points)
+
+      vertices = bounding_box.vertices
+      # TODO: implement with a within_delta matcher for bounding boxes
+    end
+
+    it "works in the case, lol" do
+      points = [Point[-1.0, 1.0], Point[1.0, 1.0], Point[1.0, 0.0], Point[-1.0, -0.0]]
+      bounding_box = BoundingBox.from_vertices(points)
+
+      vertices = bounding_box.vertices
+      # TODO: implement with a within_delta matcher for bounding boxes
+    end
+  end
 
   # describe "vertices" do
   #   it "returns the four corners of the box" do
