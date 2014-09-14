@@ -35,6 +35,10 @@ class Vector2D
     Vector2D.new(vector * rhs)
   end
 
+  def -@
+    self * -1
+  end
+
   def map(&block)
     Vector2D.new(vector.map(&block))
   end

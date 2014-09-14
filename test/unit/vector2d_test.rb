@@ -99,4 +99,10 @@ describe Vector2D do
     end
   end
 
+  describe "#-@" do
+    it "returns a direction with equal magnitude in the opposite direction" do
+      (-Vector2D[1, 2]).must_equal(Vector2D[-1, -2])
+    end
+  end
+
 end
