@@ -14,7 +14,7 @@ class Edge
 
   def_delegators :ray,
     :relative_position, :point_to_the_left?,
-    :angle_between, :to_v, :right_handed?
+    :angle_to, :signed_angle_to, :to_v, :right_handed?
 
   def displacement_vector
     @displacement_vector ||= initial_point.displacement(terminal_point)

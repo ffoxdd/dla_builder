@@ -36,9 +36,8 @@ class BoundingBox
     edge_x, edge_y = edge_1.right_handed?(edge_2) ? [edge_1, edge_2] : [edge_2, edge_1]
 
     x_basis = Edge.new(Point[0, 0], Point[1, 0])
-    inverse_rotation = x_basis.angle_between(edge_x)
-    inverse_rotation *= -1 if !edge_x.right_handed?(x_basis) # TODO: use signed_angle_to
 
+    inverse_rotation = -x_basis.signed_angle_to(edge_x)
     rotation = -inverse_rotation
 
     x_length = edge_x.length

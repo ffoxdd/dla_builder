@@ -55,7 +55,7 @@ class Vector2D
     vector.inner_product(other_vector.vector)
   end
 
-  def angle_between(other_vector)
+  def angle_to(other_vector)
     v = other_vector.to_v
     cosine_theta = inner_product(v) / (magnitude * v.magnitude)
     acos(cosine_theta)
@@ -70,7 +70,7 @@ class Vector2D
   end
 
   def signed_angle_to(other_vector)
-    angle_between(other_vector) * (right_handed?(other_vector) ? 1 : -1)
+    angle_to(other_vector) * sign(other_vector)
   end
 
   protected
@@ -86,6 +86,10 @@ class Vector2D
     def self.random_coordinates(radius)
       theta = random_theta
       [Math.sin(theta) * radius, Math.cos(theta) * radius]
+    end
+
+    def sign(other_vector)
+      right_handed?(other_vector) ? 1 : -1
     end
 
     def rotation_matrix(theta)

@@ -17,7 +17,7 @@ class Caliper
   alias_method :fulcrum, :point
 
   def angle
-    ray.angle_between(edge)
+    ray.angle_to(edge)
   end
 
   def rotate(offset_angle)
@@ -57,7 +57,7 @@ class Caliper
     ANGLE_EQUALITY_THRESHOLD = 1e-6
 
     def approximately_aligned_with_edge?
-      ray.angle_between(edge).abs < ANGLE_EQUALITY_THRESHOLD
+      ray.angle_to(edge).abs < ANGLE_EQUALITY_THRESHOLD
     end
 
 end

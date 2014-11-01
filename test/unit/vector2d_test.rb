@@ -61,11 +61,11 @@ describe Vector2D do
     end
   end
 
-  describe "#angle_between" do
+  describe "#angle_to" do
     it "returns the angle between two vectors" do
-      Vector2D[1, 0].angle_between(Vector2D[1, 0]).must_equal 0
-      Vector2D[2, 0].angle_between(Vector2D[0, 3]).must_be_close_to Math::PI / 2, 1e-6
-      Vector2D[1, 1].angle_between(Vector2D[-1, -1]).must_be_close_to Math::PI, 1e-6
+      Vector2D[1, 0].angle_to(Vector2D[1, 0]).must_equal 0
+      Vector2D[2, 0].angle_to(Vector2D[0, 3]).must_be_close_to Math::PI / 2, 1e-6
+      Vector2D[1, 1].angle_to(Vector2D[-1, -1]).must_be_close_to Math::PI, 1e-6
     end
   end
 
