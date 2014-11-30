@@ -1,7 +1,7 @@
 - [ ] Fix confusion re: translation/rotation order in BoundingBox constructor
 - [ ] Make all vector operations work with both normal and homogeneous coordinates
 - [ ] Implement best_fit option
-- [ ] Use ConvexHull rather than extent
+- [ ] Use ConvexHull rather than extent - implement ConvexHull#(axis_aligned_)bounding_box
 - [ ] DRY the top corner -> center coordinate system transformation
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
 - [ ] Figure out where Renderer belongs and if it should be tested
@@ -18,3 +18,5 @@
 - [ ] Make shared example group for vector-like assertions
 - [ ] Use Array#combination for assert_cyclically_equal implementation
 - [ ] Make a delta matcher for Matrix/Vector/Point
+- [ ] Expose methods from service objects as class methods
+- [ ] Figure out a slicker way of accepting various proc arity for dla visitors

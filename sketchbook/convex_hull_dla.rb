@@ -6,13 +6,9 @@ def setup
   size 800, 600
   background 0
 
-  @convex_hull = ConvexHull.new
-
-  @dla = Dla.new do |particle|
+  @dla = Dla.new do |particle, dla|
     render(particle)
-
-    @convex_hull.add_point(particle.center)
-    render_convex_hull
+    render_convex_hull(dla.convex_hull)
   end
 end
 
@@ -24,12 +20,12 @@ def render(particle)
   # Renderer.new(self, particle).render
 end
 
-def render_convex_hull
+def render_convex_hull(convex_hull)
   noFill
   stroke(255)
 
   beginShape
-  @convex_hull.points.each { |point| vertex(x(point.x), y(point.y)) }
+  convex_hull.points.each { |point| vertex(x(point.x), y(point.y)) }
   endShape(CLOSE)
 end
 

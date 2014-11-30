@@ -12,6 +12,10 @@ describe ConvexHull do
     end
   end
 
+  describe "#polygon" do
+    # TODO
+  end
+
   describe "#add_point" do
     it "incrementally adds points to the hull" do
       p0 = Point[0, 0]
