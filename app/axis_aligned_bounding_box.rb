@@ -23,6 +23,10 @@ class AxisAlignedBoundingBox
     x_range.include?(point.x) && y_range.include?(point.y)
   end
 
+  def fits_within?(box)
+    range_fits_within?(x_range, box.x_range) && range_fits_within?(y_range, box.y_range)
+  end
+
   def quadtrant(i, j)
     AxisAlignedBoundingBox.new(segment(x_range, i), segment(y_range, j))
   end
@@ -67,6 +71,10 @@ class AxisAlignedBoundingBox
 
     def ranges_intersect?(range_1, range_2)
       RangeIntersectionCalculator.new(range_1, range_2).intersect?
+    end
+
+    def range_fits_within?(inner_range, outer_range)
+      measure(inner_range) <= measure(outer_range)
     end
 
     def width

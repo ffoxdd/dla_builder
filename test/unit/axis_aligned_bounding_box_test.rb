@@ -74,6 +74,25 @@ describe AxisAlignedBoundingBox do
     end
   end
 
+  describe "#fits_within?" do
+    let(:box) { AxisAlignedBoundingBox.new(2..4, 2...4) }
+
+    it "returns true when it fits within the other box" do
+      other_box = AxisAlignedBoundingBox.new(1..5, 1..5)
+      box.fits_within?(other_box).must_equal true
+    end
+
+    it "returns false when the x range is too large" do
+      other_box = AxisAlignedBoundingBox.new(2..3, 1..5)
+      box.fits_within?(other_box).must_equal false
+    end
+
+    it "returns false when the y range is too large" do
+      other_box = AxisAlignedBoundingBox.new(1..5, 2..3)
+      box.fits_within?(other_box).must_equal false
+    end
+  end
+
   describe "#quadtrant" do
     let(:box) { AxisAlignedBoundingBox.new(0..4, -2...2) }
 
