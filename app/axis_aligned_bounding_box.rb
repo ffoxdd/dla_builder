@@ -11,6 +11,10 @@ class AxisAlignedBoundingBox
 
   attr_reader :x_range, :y_range
 
+  def axis_aligned
+    self
+  end
+
   def ==(box)
     (x_range == box.x_range) && (y_range == box.y_range)
   end

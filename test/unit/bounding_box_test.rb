@@ -16,6 +16,15 @@ describe BoundingBox do
     end
   end
 
+  describe "#axis_aligned" do
+    it "returns the axis aligned bounding box" do
+      box = BoundingBox.new(0..2, 0..4)
+      aabb = AxisAlignedBoundingBox.new(0..2, 0..4)
+
+      box.axis_aligned.must_equal aabb
+    end
+  end
+
   describe "#covers?" do
     let(:box) { BoundingBox.new(2..4, 2...4) }
 
@@ -49,6 +58,10 @@ describe BoundingBox do
     it "returns the perimeter" do
       BoundingBox.new(0..2, 0..3).perimeter.must_equal 10
     end
+  end
+
+  describe "#fits_within?" do
+    # TODO
   end
 
   describe ".from_vertices" do

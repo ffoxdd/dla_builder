@@ -11,6 +11,11 @@ describe AxisAlignedBoundingBox do
     end
   end
 
+  it "returns self" do
+    box = AxisAlignedBoundingBox.new(1..2, 3..4)
+    box.axis_aligned.must_equal box
+  end
+
   describe "#intersects?" do
     let(:box) { AxisAlignedBoundingBox.new(0..3, 0..3) }
 

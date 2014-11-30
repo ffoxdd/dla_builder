@@ -24,6 +24,10 @@ class BoundingBox
   def_delegators :axis_aligned_bounding_box, :perimeter
   def_delegators :offset_bounding_box, :covers?
 
+  def axis_aligned
+    axis_aligned_bounding_box
+  end
+
   def self.from_vertices(vertices)
     inverse_translation = vertices[0].displacement(Point[0, 0])
     translation = -inverse_translation
@@ -48,6 +52,10 @@ class BoundingBox
 
   def vertices
     axis_aligned_bounding_box.vertices.map { |vertex| vertex.rotate(rotation) + offset }
+  end
+
+  def fits_within?(box)
+    axis_aligned_bounding_box.fits_within?(box.axis_aligned)
   end
 
   protected
