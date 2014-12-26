@@ -40,8 +40,12 @@ class Dla
     Persister.new(self, name).save
   end
 
-  def within?(bounding_box, options = {})
-    bounding_box.covers?(extent)
+  def within?(box)
+    box.covers?(extent)
+  end
+
+  def fits_within?(box)
+    bounding_box.fits_within?(box)
   end
 
   private

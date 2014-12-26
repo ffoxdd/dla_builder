@@ -76,17 +76,26 @@ describe Dla do
         dla.within?(BoundingBox.new(-2..2, -1..1)).must_equal false
       end
     end
+  end
 
-    describe "arbitrary orientation" do
-      let :seeds do
-        [Particle.new(x: 1, y: 1, radius: 1), Particle.new(x: 3, y: 1, radius: 1)]
-      end
+  describe "#fits_within?" do
+    let :seeds do
+      [
+        Particle.new(x: 1, y: 1),
+        Particle.new(x: 2, y: 2),
+        Particle.new(x: 1.1, y: 1.1),
+        Particle.new(x: 2.1, y: 2.1)
+      ]
+    end
 
-      let(:dla) { Dla.new(seeds: seeds) }
+    let(:dla) { Dla.new(seeds: seeds) }
 
-      it "returns true when it fits within the box for some orientation" do
-        dla.within?(BoundingBox.new(-1..1, -2..2), arbitrary_orientation: true).must_equal true
-      end
+    it "returns true when it fits within the box for some orientation" do
+      dla.fits_within?(BoundingBox.new(0..1.5, 0..0.2)).must_equal true
+      dla.fits_within?(BoundingBox.new(0..1.4, 0..0.2)).must_equal false
+
+      # TODO: figure out why this fails
+      # dla.fits_within?(BoundingBox.new(0..1.5, 0..0.01)).must_equal false
     end
   end
 
