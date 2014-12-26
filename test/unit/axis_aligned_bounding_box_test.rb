@@ -120,6 +120,14 @@ describe AxisAlignedBoundingBox do
     it "returns the perimeter" do
       AxisAlignedBoundingBox.new(0..2, 0..3).perimeter.must_equal 10
     end
+
+    it "works with a single-point bounding box" do
+      AxisAlignedBoundingBox.new(1..1, 1..1).perimeter.must_equal 0
+    end
+
+    it "works with a degenerate bounding box" do
+      AxisAlignedBoundingBox.new(1..2, 1..2).perimeter.must_equal 4
+    end
   end
 
   describe "#offset" do
@@ -156,6 +164,11 @@ describe AxisAlignedBoundingBox do
       bounding_box.vertices.must_cyclically_equal([
         Point[-3, 4], Point[-3, 5], Point[-1, 5], Point[-1, 4]
       ])
+    end
+
+    it "works with a degenerate bounding box" do
+      bounding_box = AxisAlignedBoundingBox.new(1..1, 1..1)
+      bounding_box.vertices.must_equal([Point[1, 1], Point[1, 1], Point[1, 1], Point[1, 1]])
     end
   end
 
