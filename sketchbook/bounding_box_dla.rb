@@ -7,16 +7,9 @@ def setup
   size 800, 600
   background 0
 
-  @convex_hull = ConvexHull.new
-  @bounding_box = nil
-
-  @dla = Dla.new do |particle|
-    render(particle)
-
-    @convex_hull.add_point(particle.center)
-    @bounding_box = BoundingBoxFinder.new(@convex_hull.send(:polygon)).bounding_box
-
-    render_bounding_box
+  @dla = Dla.new do |particle, dla|
+    render_particle(particle)
+    render_bounding_box(dla.bounding_box)
   end
 end
 
@@ -24,18 +17,17 @@ def draw
   @dla.grow
 end
 
-def render(particle)
+def render_particle(particle)
   Renderer.new(self, particle).render
 end
 
-def render_bounding_box
-  return unless @bounding_box
-
+def render_bounding_box(bounding_box)
+  return unless bounding_box
   noFill
   stroke(255)
 
   beginShape
-  @bounding_box.vertices.each { |point| vertex(x(point.x), y(point.y)) }
+  bounding_box.vertices.each { |point| vertex(x(point.x), y(point.y)) }
   endShape(CLOSE)
 end
 
