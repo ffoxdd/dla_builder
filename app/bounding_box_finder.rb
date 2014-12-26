@@ -23,7 +23,10 @@ class BoundingBoxFinder
     attr_writer :bounding_box
 
     def find_bounding_box
-      return if polygon.points.size < 3
+      if polygon.degenerate?
+        self.bounding_box = degenerate_bounding_box
+        return
+      end
 
       until done?
         rotate_calipers
@@ -73,4 +76,8 @@ class BoundingBoxFinder
       calipers.map(&:angle).min
     end
 
+    def degenerate_bounding_box
+      point = polygon.points.first
+      BoundingBox.new(point.x..point.x, point.y..point.y)
+    end
 end

@@ -15,9 +15,16 @@ describe BoundingBoxFinder do
       # TODO: assert result with a within delta matcher for bounding boxes
     end
 
-    it "returns nil if there are fewer than 3 vertices" do
+    it "handles the 2-vertex case" do
       polygon = Polygon.new(Point[0, 0], Point[0, 1])
-      BoundingBoxFinder.new(polygon).bounding_box.must_equal nil
+      finder = BoundingBoxFinder.new(polygon)
+      finder.bounding_box.perimeter.must_equal 2
+    end
+
+    it "handes the 1-vertex case" do
+      polygon = Polygon.new(Point[1, 1])
+      finder = BoundingBoxFinder.new(polygon)
+      finder.bounding_box.perimeter.must_equal 0
     end
   end
 

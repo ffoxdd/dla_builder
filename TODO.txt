@@ -20,3 +20,4 @@
 - [ ] Make a delta matcher for Matrix/Vector/Point
 - [ ] Expose methods from service objects as class methods
 - [ ] Figure out a slicker way of accepting various proc arity for dla visitors
+- [ ] Make BoundingBoxFinder more functional by taking work out of the initializer

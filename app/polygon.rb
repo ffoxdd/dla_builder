@@ -38,6 +38,15 @@ class Polygon
 
   attr_reader :min_nodes, :max_nodes
 
+  def empty?
+    !root
+  end
+
+  def singleton?
+    return false if empty?
+    root.singleton?
+  end
+
   private
 
     attr_accessor :root
@@ -74,15 +83,6 @@ class Polygon
 
     def last_node
       root.previous_node
-    end
-
-    def empty?
-      !root
-    end
-
-    def singleton?
-      return false if empty?
-      root.singleton?
     end
 
 end
