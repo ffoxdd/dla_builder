@@ -74,7 +74,7 @@ class Dla
 
     def update_bounding_box(particle)
       convex_hull.add_point(particle.center)
-      self.bounding_box = BoundingBoxFinder.new(convex_hull.polygon).bounding_box
+      self.bounding_box = convex_hull.bounding_box
     end
 
     def accept_particle(particle, &visitor)

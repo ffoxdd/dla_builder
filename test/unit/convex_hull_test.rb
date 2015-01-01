@@ -13,7 +13,6 @@ describe ConvexHull do
   end
 
   describe "#polygon" do
-    # TODO
   end
 
   describe "#add_point" do
@@ -55,6 +54,9 @@ describe ConvexHull do
       convex_hull.add_point(p7)
       convex_hull.points.must_cyclically_equal [p7, p4, p5, p1] # can handle root point removal
     end
+  end
+
+  describe "#bounding_box" do
   end
 
 end
