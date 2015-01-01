@@ -100,15 +100,15 @@ describe Dla do
   end
 
   describe "visitor pattern" do
-    let(:visitor) { MiniTest::Mock.new }
     let(:seed) { Particle.new }
 
     it "visits seeds" do
       dla = Dla.new(seeds: seed)
-      visitor.expect(:visit, nil, [seed])
 
-      dla.accept { |particle| visitor.visit(particle) }
-      visitor.verify
+      dla.accept do |particle|
+        particle.x.must_equal 0
+        particle.y.must_equal 0
+      end
     end
 
     it "visits new particles" do
@@ -128,6 +128,19 @@ describe Dla do
 
       dla.grow
       visited_particles.size.must_equal 2
+    end
+
+    it "allows transforms to be specified" do
+      seed = Particle.new(x: 1, y: 0)
+      dla = Dla.new(seeds: seed)
+
+      rotation = Math::PI / 2
+      offset = Vector2D[1, 1]
+
+      dla.accept(rotation: rotation, offset: offset) do |particle|
+        particle.x.must_equal 1
+        particle.y.must_equal 2
+      end
     end
   end
 end

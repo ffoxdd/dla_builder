@@ -51,12 +51,26 @@ class Particle
     {x: x, y: y, radius: radius}.inspect
   end
 
+  def +(offset)
+    Particle.new(center: center + offset, radius: radius)
+  end
+
+  def -(offset)
+    Particle.new(center - offset, radius: radius)
+  end
+
+  def transform(options = {})
+    offset = options.fetch(:offset) { Vector2D[0, 0] }
+    rotation = options.fetch(:rotation) { 0 }
+
+    rotate(rotation) + offset
+  end
+
   protected
+  attr_writer :center
 
-    attr_writer :center
-
-    def leaf?
-      children.empty?
-    end
+  def leaf?
+    children.empty?
+  end
 
 end

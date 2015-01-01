@@ -28,8 +28,10 @@ class Dla
     end
   end
 
-  def accept(&visitor)
-    particles.each { |particle| accept_particle(particle, &visitor) }
+  def accept(options = {}, &visitor)
+    particles.each do |particle|
+      accept_particle(particle.transform(options), &visitor)
+    end
   end
 
   def size

@@ -152,4 +152,13 @@ describe Particle do
     end
   end
 
+  describe "#+" do
+  end
+
+  describe "#-" do
+  end
+
+  describe "#transform" do
+  end
+
 end
