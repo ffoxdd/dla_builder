@@ -8,7 +8,7 @@ require_relative "bounding_box_finder"
 class Dla
 
   def initialize(options = {}, &live_visitor)
-    @particle_radius = Float( options.fetch(:particle_radius, 4) ) # radius of each particle
+    @particle_radius = Float( options.fetch(:particle_radius, 4) )
     @overlap = Float( options.fetch(:overlap) { @particle_radius / 1000.0 } )
     @seeds = Array( options.fetch(:seeds) { [Particle.new(radius: particle_radius)] } )
     @live_visitor = live_visitor
