@@ -48,7 +48,7 @@ class Vector2D
   end
 
   def rotate(theta)
-    Vector2D.new(rotation_matrix(theta) * vector)
+    Vector2D.new(Vector2D.rotation_matrix(theta) * vector)
   end
 
   def inner_product(other_vector)
@@ -73,6 +73,13 @@ class Vector2D
     angle_to(other_vector) * sign(other_vector)
   end
 
+  def self.rotation_matrix(theta)
+    Matrix[
+      [Math.cos(theta), -Math.sin(theta)],
+      [Math.sin(theta),  Math.cos(theta)]
+    ]
+  end
+
   protected
 
     attr_reader :vector
@@ -90,13 +97,6 @@ class Vector2D
 
     def sign(other_vector)
       right_handed?(other_vector) ? 1 : -1
-    end
-
-    def rotation_matrix(theta)
-      Matrix[
-        [Math.cos(theta), -Math.sin(theta)],
-        [Math.sin(theta),  Math.cos(theta)]
-      ]
     end
 
     def acos(x)

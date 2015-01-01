@@ -51,6 +51,16 @@ describe Vector2D do
     end
   end
 
+  describe ".rotation_matrix" do
+    it "returns a rotation matrix for the given theta" do
+      matrix = Vector2D.rotation_matrix(Math::PI)
+      expected_matrix = Matrix[[-1, 0], [0, -1]]
+      error = (matrix - expected_matrix).map(&:abs).reduce(&:+)
+
+      error.must_be_close_to 0, 1e-10
+    end
+  end
+
   describe "#rotate" do
     it "rotates the vector" do
       vector = Vector2D[0, 1].rotate(Math::PI)

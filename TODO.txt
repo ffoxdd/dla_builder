@@ -12,7 +12,6 @@
 - [ ] Rename Ray -> Line
 - [ ] Consider making an Interval class to replace the use of Range
 - [ ] Consider using an R-tree for particle index
-- [ ] Find a common place to put FreeBoundingBox.rotation_matrix
 - [ ] Make a shared example group for bounding boxes
 - [ ] Make shared example group for vector-like assertions
 - [ ] Use Array#combination for assert_cyclically_equal implementation
