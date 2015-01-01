@@ -1,6 +1,5 @@
 - [ ] Fix confusion re: translation/rotation order in BoundingBox constructor
 - [ ] Make all vector operations work with both normal and homogeneous coordinates
-- [ ] Implement best_fit option
 - [ ] Use ConvexHull rather than extent - implement ConvexHull#(axis_aligned_)bounding_box
 - [ ] DRY the top corner -> center coordinate system transformation
 - [ ] Convert the assertions that used to be in linear_grower_test to integration tests
