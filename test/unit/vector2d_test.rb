@@ -1,5 +1,6 @@
 require_relative "../test_helper.rb"
 require_relative "../../app/vector2d.rb"
+require_relative "../../app/transformation.rb"
 require_relative "./shared_examples_for_vectors.rb"
 
 describe Vector2D do
@@ -46,8 +47,14 @@ describe Vector2D do
   end
 
   describe "#*" do
-    it "performs scalar multiplication" do
+    it "performs scalar multiplication when given a scalar" do
       (Vector2D[1, 2] * -1).must_equal Vector2D[-1, -2]
+    end
+
+    it "applies a transformation when given a transformation object" do
+      vector = Vector2D[1, 0]
+      transformation = Transformation.new(rotation: Math::PI/2, translation: Vector2D[1, 1])
+      (vector * transformation).must_equal Vector2D[1, 2]
     end
   end
 

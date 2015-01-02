@@ -7,7 +7,6 @@ class Transformation
     @translation = options.fetch(:translation) { Vector2D[0, 0] }
   end
 
-  private
   attr_reader :rotation, :translation
 
 end
