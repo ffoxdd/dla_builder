@@ -7,4 +7,7 @@ describe Transformation do
       -> { Transformation.new }.must_be_silent
     end
   end
+
+  describe "#==" do
+  end
 end

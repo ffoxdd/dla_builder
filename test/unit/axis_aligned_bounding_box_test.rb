@@ -172,4 +172,11 @@ describe AxisAlignedBoundingBox do
     end
   end
 
+  describe "#center" do
+    it "returns a vector for the center of the box" do
+      bounding_box = AxisAlignedBoundingBox.new(0..2, 4..6)
+      bounding_box.center.must_equal Vector2D[1, 5]
+    end
+  end
+
 end

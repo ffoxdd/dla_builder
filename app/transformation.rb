@@ -9,4 +9,8 @@ class Transformation
 
   attr_reader :rotation, :translation
 
+  def ==(rhs)
+    rotation == rhs.rotation && translation == rhs.translation
+  end
+
 end

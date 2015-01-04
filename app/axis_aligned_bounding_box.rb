@@ -67,6 +67,10 @@ class AxisAlignedBoundingBox
     self + (vector * -1)
   end
 
+  def center
+    offset + Vector2D[width / 2.0, height / 2.0]
+  end
+
   private
 
     def segment(range, i)

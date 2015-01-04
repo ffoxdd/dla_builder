@@ -1,5 +1,6 @@
 require_relative "axis_aligned_bounding_box"
 require_relative "edge"
+require_relative "transformation"
 require_relative "../lib/range_intersection_calculator"
 require_relative "../lib/range_segmenter"
 require "forwardable"
@@ -56,6 +57,12 @@ class BoundingBox
 
   def fits_within?(box)
     axis_aligned_bounding_box.fits_within?(box.axis_aligned)
+  end
+
+  def centering_transformation
+    Transformation.new(
+      rotation: -rotation, translation: -offset - axis_aligned_bounding_box.center
+    )
   end
 
   protected
