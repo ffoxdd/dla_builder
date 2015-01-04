@@ -76,6 +76,10 @@ class Point
     vector
   end
 
+  def *(transformation)
+    Point.new(vector * transformation)
+  end
+
   protected
 
     attr_reader :vector

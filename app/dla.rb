@@ -29,8 +29,10 @@ class Dla
   end
 
   def accept(options = {}, &visitor)
+    transformation = options.fetch(:transformation) { Transformation.new }
+
     particles.each do |particle|
-      accept_particle(particle.transform(options), &visitor)
+      accept_particle(particle * transformation, &visitor)
     end
   end
 

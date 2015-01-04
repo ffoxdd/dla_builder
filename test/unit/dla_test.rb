@@ -130,14 +130,12 @@ describe Dla do
       visited_particles.size.must_equal 2
     end
 
-    it "allows transforms to be specified" do
+    it "allows transforms to be specified with Transformation objects" do
       seed = Particle.new(x: 1, y: 0)
       dla = Dla.new(seeds: seed)
+      transformation = Transformation.new(rotation: Math::PI / 2, translation: Vector2D[1, 1])
 
-      rotation = Math::PI / 2
-      offset = Vector2D[1, 1]
-
-      dla.accept(rotation: rotation, offset: offset) do |particle|
+      dla.accept(transformation: transformation) do |particle|
         particle.x.must_equal 1
         particle.y.must_equal 2
       end

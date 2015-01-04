@@ -56,14 +56,11 @@ class Particle
   end
 
   def -(offset)
-    Particle.new(center - offset, radius: radius)
+    Particle.new(center: center - offset, radius: radius)
   end
 
-  def transform(options = {})
-    offset = options.fetch(:offset) { Vector2D[0, 0] }
-    rotation = options.fetch(:rotation) { 0 }
-
-    rotate(rotation) + offset
+  def *(transformation)
+    Particle.new(center: center * transformation, radius: radius)
   end
 
   protected
