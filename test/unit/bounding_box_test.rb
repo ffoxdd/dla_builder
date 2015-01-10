@@ -106,16 +106,4 @@ describe BoundingBox do
   #   end
   # end
 
-  describe "#centering_transformation" do
-    it "returns the transformation needed to center the box" do
-      box = BoundingBox.new(0..2, 0..4, rotation: Math::PI/4)
-
-      expected_transformation = Transformation.new(
-        rotation: -Math::PI/4, translation: Vector2D[-1, -2]
-      )
-
-      box.centering_transformation.must_equal expected_transformation
-    end
-  end
-
 end

@@ -59,12 +59,6 @@ class BoundingBox
     axis_aligned_bounding_box.fits_within?(box.axis_aligned)
   end
 
-  def centering_transformation
-    Transformation.new(
-      rotation: -rotation, translation: -offset - axis_aligned_bounding_box.center
-    )
-  end
-
   protected
 
     attr_reader :offset, :rotation, :axis_aligned_bounding_box
