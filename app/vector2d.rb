@@ -32,10 +32,11 @@ class Vector2D
   end
 
   def *(rhs)
-    # TODO: remove this nasty branch when homogeneous coordinates are implemented
-    return Vector2D.new(vector * rhs) if rhs.respond_to?(:*)
+    Vector2D.new(vector * rhs)
+  end
 
-    rotate(rhs.rotation) + rhs.translation
+  def transform(transformation)
+    rotate(transformation.rotation) + transformation.translation
   end
 
   def -@

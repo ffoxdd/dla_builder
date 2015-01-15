@@ -77,7 +77,7 @@ class Point
   end
 
   def *(transformation)
-    Point.new(vector * transformation)
+    Point.new(vector.transform(transformation))
   end
 
   protected

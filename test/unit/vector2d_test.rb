@@ -50,11 +50,13 @@ describe Vector2D do
     it "performs scalar multiplication when given a scalar" do
       (Vector2D[1, 2] * -1).must_equal Vector2D[-1, -2]
     end
+  end
 
-    it "applies a transformation when given a transformation object" do
+  describe "#transform" do
+    it "applies a transformation" do
       vector = Vector2D[1, 0]
       transformation = Transformation.new(rotation: Math::PI/2, translation: Vector2D[1, 1])
-      (vector * transformation).must_equal Vector2D[1, 2]
+      vector.transform(transformation).must_equal Vector2D[1, 2]
     end
   end
 
