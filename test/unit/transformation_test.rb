@@ -8,6 +8,22 @@ describe Transformation do
     end
   end
 
+  describe "#==" do
+    it "is true if the transformations are equal" do
+      t_1 = Transformation.new(rotation: Math::PI/2, translation: Vector2D[3, 5])
+      t_2 = Transformation.new(rotation: Math::PI/2, translation: Vector2D[3, 5])
+
+      t_1.must_equal t_2
+    end
+
+    it "is false if they are not" do
+      t_1 = Transformation.new(rotation: Math::PI/2, translation: Vector2D[3, 5])
+      t_2 = Transformation.new(rotation: -Math::PI/2, translation: Vector2D[3, 5])
+
+      t_1.wont_equal t_2
+    end
+  end
+
   describe "#apply" do
     describe "rotation" do
       it "applies the rotation to the given vector" do

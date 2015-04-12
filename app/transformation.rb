@@ -10,12 +10,18 @@ class Transformation
     @transformation_matrix = translation_matrix(translation) * rotation_matrix(rotation)
   end
 
+  def ==(rhs)
+    transformation_matrix == rhs.transformation_matrix
+  end
+
   def apply(vector)
     Vector2D.new (transformation_matrix * vector.to_m.t).t
   end
 
-  private
+  protected
   attr_reader :transformation_matrix
+
+  private
 
   def rotation_matrix(theta)
     Matrix[
