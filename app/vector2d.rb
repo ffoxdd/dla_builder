@@ -14,7 +14,7 @@ class Vector2D
   end
 
   def initialize(elements)
-    @vector = Vector[*elements.to_a]
+    @vector = Vector[*standard_coordinates(elements.to_a.flatten)]
   end
 
   def_delegators :vector, :magnitude, :[], :to_a
@@ -36,7 +36,7 @@ class Vector2D
   end
 
   def transform(transformation)
-    rotate(transformation.rotation) + transformation.translation
+    transformation.apply(self)
   end
 
   def -@
@@ -67,6 +67,10 @@ class Vector2D
 
   def to_v
     self
+  end
+
+  def to_m
+    Matrix[homogeneous_coordinates]
   end
 
   def right_handed?(other_vector)
@@ -111,6 +115,15 @@ class Vector2D
       return range.begin if n < range.begin
       return range.end if n > range.end
       n
+    end
+
+    def homogeneous_coordinates
+      [vector[0], vector[1], 1]
+    end
+
+    def standard_coordinates(coordinates) # normalizes homogeneous coordinates
+      return coordinates if coordinates.length <= 2
+      coordinates.first(2).map { |e| e / coordinates[2].to_f }
     end
 
 end
