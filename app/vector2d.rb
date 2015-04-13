@@ -52,7 +52,7 @@ class Vector2D
   end
 
   def rotate(theta)
-    Vector2D.new(Vector2D.rotation_matrix(theta) * vector)
+    Transformation.new(rotation: theta).apply(self)
   end
 
   def inner_product(other_vector)
@@ -81,49 +81,42 @@ class Vector2D
     angle_to(other_vector) * sign(other_vector)
   end
 
-  def self.rotation_matrix(theta)
-    Matrix[
-      [Math.cos(theta), -Math.sin(theta)],
-      [Math.sin(theta),  Math.cos(theta)]
-    ]
-  end
-
   protected
 
-    attr_reader :vector
+  attr_reader :vector
 
-    TWO_PI = 2 * Math::PI
+  TWO_PI = 2 * Math::PI
 
-    def self.random_theta
-      TWO_PI * rand
-    end
+  def self.random_theta
+    TWO_PI * rand
+  end
 
-    def self.random_coordinates(radius)
-      theta = random_theta
-      [Math.sin(theta) * radius, Math.cos(theta) * radius]
-    end
+  def self.random_coordinates(radius)
+    theta = random_theta
+    [Math.sin(theta) * radius, Math.cos(theta) * radius]
+  end
 
-    def sign(other_vector)
-      right_handed?(other_vector) ? 1 : -1
-    end
+  def sign(other_vector)
+    right_handed?(other_vector) ? 1 : -1
+  end
 
-    def acos(x)
-      Math.acos(clip(x, -1..1))
-    end
+  def acos(x)
+    Math.acos(clip(x, -1..1))
+  end
 
-    def clip(n, range)
-      return range.begin if n < range.begin
-      return range.end if n > range.end
-      n
-    end
+  def clip(n, range)
+    return range.begin if n < range.begin
+    return range.end if n > range.end
+    n
+  end
 
-    def homogeneous_coordinates
-      [vector[0], vector[1], 1]
-    end
+  def homogeneous_coordinates
+    [vector[0], vector[1], 1]
+  end
 
-    def standard_coordinates(coordinates) # normalizes homogeneous coordinates
-      return coordinates if coordinates.length <= 2
-      coordinates.first(2).map { |e| e / coordinates[2].to_f }
-    end
+  def standard_coordinates(coordinates) # normalizes homogeneous coordinates
+    return coordinates if coordinates.length <= 2
+    coordinates.first(2).map { |e| e / coordinates[2].to_f }
+  end
 
 end
