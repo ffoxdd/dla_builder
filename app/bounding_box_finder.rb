@@ -1,6 +1,7 @@
 require_relative "edge"
 require_relative "bounding_box"
 require_relative "caliper"
+require_relative "vertices_bounding_box_builder"
 require "forwardable"
 
 class BoundingBoxFinder
