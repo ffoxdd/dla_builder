@@ -12,12 +12,17 @@ class BoundingBox
   def initialize(x_range, y_range, options = {})
     input_box = AxisAlignedBoundingBox.new(x_range, y_range)
 
-    translation = input_box.offset + options.fetch(:translation) { Vector2D[0, 0] }
-    rotation = options.fetch(:rotation, 0)
+    translation = options.fetch(:translation) { Vector2D[0, 0] }
+    rotation = options.fetch(:rotation) { 0 }
+
+    input_box_transformation = input_box.transformation
+    specified_transformation = Transformation.new(rotation: rotation, translation: translation)
 
     @axis_aligned_bounding_box = input_box.at_origin
-    @transformation = Transformation.new(rotation: rotation, translation: translation)
+    @transformation = specified_transformation * input_box_transformation
   end
+
+  attr_reader :transformation
 
   def ==(box)
     transformation == box.transformation &&
@@ -49,7 +54,7 @@ class BoundingBox
 
   protected
 
-  attr_reader :axis_aligned_bounding_box, :transformation
+  attr_reader :axis_aligned_bounding_box
 
   class VerticesBoundingBoxBuilder
     def self.bounding_box(*args)

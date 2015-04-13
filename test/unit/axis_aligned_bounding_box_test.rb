@@ -143,6 +143,13 @@ describe AxisAlignedBoundingBox do
     end
   end
 
+  describe "#transformation" do
+    it "returns the transformation from the origin" do
+      bounding_box = AxisAlignedBoundingBox.new(2..4, 3..6)
+      bounding_box.transformation.must_equal Transformation.new(translation: Vector2D[2, 3])
+    end
+  end
+
   describe "#+" do
     it "returns a translated bounding box" do
       bounding_box = AxisAlignedBoundingBox.new(-3..-1, 4..5)

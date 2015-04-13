@@ -6,9 +6,8 @@ class Transformation
     rotation = options.fetch(:rotation) { 0 }
     translation = options.fetch(:translation) { Vector2D[0, 0] }
 
-    # rotations are applied first
     @transformation_matrix = options.fetch(:transformation_matrix) do
-      translation_matrix(translation) * rotation_matrix(rotation)
+      translation_matrix(translation) * rotation_matrix(rotation) # rotation first
     end
   end
 
@@ -23,6 +22,12 @@ class Transformation
   def apply(vector)
     Vector2D.new (transformation_matrix * vector.to_m.t).t
   end
+
+  def compose(rhs)
+    Transformation.new(transformation_matrix: transformation_matrix * rhs.transformation_matrix)
+  end
+
+  alias_method :*, :compose
 
   protected
   attr_reader :transformation_matrix

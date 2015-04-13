@@ -1,4 +1,5 @@
 require_relative "vector2d"
+require_relative "transformation"
 require_relative "../lib/range_intersection_calculator"
 require_relative "../lib/range_segmenter"
 
@@ -41,6 +42,10 @@ class AxisAlignedBoundingBox
 
   def offset
     Vector2D[x_range.begin, y_range.begin]
+  end
+
+  def transformation
+    Transformation.new(translation: offset)
   end
 
   def at_origin

@@ -60,6 +60,19 @@ describe Transformation do
     end
   end
 
+  describe "#compose/#*" do
+    it "composes transformations" do
+      transformation_1 = Transformation.new(translation: Vector2D[1, 1])
+      transformation_2 = Transformation.new(translation: Vector2D[2, 2])
+
+      transformation_1.compose(transformation_2)
+        .must_equal Transformation.new(translation: Vector2D[3, 3])
+
+      (transformation_1 * transformation_2)
+        .must_equal Transformation.new(translation: Vector2D[3, 3])
+    end
+  end
+
   describe "#inverse" do
     it "returns the inverse of the specified transformation" do
       transformation = Transformation.new(rotation: Math::PI/2, translation: Vector2D[1, 1] )
