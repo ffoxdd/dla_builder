@@ -9,10 +9,7 @@ describe BoundingBox do
       box = BoundingBox.new(1..2, 3..4)
 
       box.must_equal BoundingBox.new(1..2, 3..4)
-      box.must_equal BoundingBox.new(0..1, 2..3, translation: Vector2D[1, 1])
-
       box.wont_equal BoundingBox.new(5..6, 7..8)
-      box.wont_equal BoundingBox.new(1..2, 3..4, rotation: Math::PI)
     end
   end
 

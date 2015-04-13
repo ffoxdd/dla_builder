@@ -29,7 +29,12 @@ class VerticesBoundingBoxBuilder
     x_length = edge_x.length
     y_length = edge_y.length
 
-    BoundingBox.new(0..x_length, 0..y_length, rotation: rotation, translation: translation)
+    rotation_transformation = Transformation.new(rotation: rotation)
+    translation_transformation = Transformation.new(translation: translation)
+
+    transformation = translation_transformation * rotation_transformation
+
+    BoundingBox.new(0..x_length, 0..y_length, transformation: transformation)
   end
 
   private

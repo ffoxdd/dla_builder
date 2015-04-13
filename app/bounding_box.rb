@@ -11,12 +11,8 @@ class BoundingBox
 
   def initialize(x_range, y_range, options = {})
     input_box = AxisAlignedBoundingBox.new(x_range, y_range)
-
-    translation = options.fetch(:translation) { Vector2D[0, 0] }
-    rotation = options.fetch(:rotation) { 0 }
-
     input_box_transformation = input_box.transformation
-    specified_transformation = Transformation.new(rotation: rotation, translation: translation)
+    specified_transformation = options.fetch(:transformation) { Transformation.new }
 
     @axis_aligned_bounding_box = input_box.at_origin
     @transformation = specified_transformation * input_box_transformation
