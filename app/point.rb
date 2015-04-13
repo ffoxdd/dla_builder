@@ -76,12 +76,20 @@ class Point
     vector
   end
 
+  def to_m
+    Matrix[homogeneous_coordinates]
+  end
+
   def *(transformation)
     Point.new(vector.transform(transformation))
   end
 
   protected
 
-    attr_reader :vector
+  attr_reader :vector
+
+  def homogeneous_coordinates
+    [vector[0], vector[1], 1]
+  end
 
 end

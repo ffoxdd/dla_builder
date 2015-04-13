@@ -7,11 +7,17 @@ class Transformation
     translation = options.fetch(:translation) { Vector2D[0, 0] }
 
     # rotations are applied first
-    @transformation_matrix = translation_matrix(translation) * rotation_matrix(rotation)
+    @transformation_matrix = options.fetch(:transformation_matrix) do
+      translation_matrix(translation) * rotation_matrix(rotation)
+    end
   end
 
   def ==(rhs)
     transformation_matrix == rhs.transformation_matrix
+  end
+
+  def inverse
+    Transformation.new(transformation_matrix: transformation_matrix.inverse)
   end
 
   def apply(vector)

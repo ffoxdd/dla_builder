@@ -24,7 +24,7 @@ class AxisAlignedBoundingBox
   end
 
   def covers?(point)
-    x_range.include?(point.x) && y_range.include?(point.y)
+    x_range.include?(point[0]) && y_range.include?(point[1])
   end
 
   def fits_within?(box)

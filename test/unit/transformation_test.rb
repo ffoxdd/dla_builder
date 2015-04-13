@@ -59,4 +59,19 @@ describe Transformation do
       end
     end
   end
+
+  describe "#inverse" do
+    it "returns the inverse of the specified transformation" do
+      transformation = Transformation.new(rotation: Math::PI/2, translation: Vector2D[1, 1] )
+      inverse_transformation = transformation.inverse
+      vector = Vector2D[1, 0]
+
+      result = inverse_transformation.apply(vector)
+
+      # first takes (1, 0) to (0, -1) then rotates ccw 1/4 turn... (-1, 0)
+
+      result[0].must_be_close_to -1, 1e-10
+      result[1].must_be_close_to 0, 1e-10
+    end
+  end
 end
