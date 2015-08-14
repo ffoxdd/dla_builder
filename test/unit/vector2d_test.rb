@@ -9,6 +9,22 @@ describe Vector2D do
     let(:factory) { Vector2D.method(:[]) }
   end
 
+  describe "#initialize" do
+    describe "standard coordinates" do
+      it "builds a vector with the specified magnitude" do
+        vector = Vector2D[1, 2]
+        [vector[0], vector[1]].must_equal [1, 2]
+      end
+    end
+
+    describe "homogeneous coordinates" do
+      it "builds a normalized vector on the [x, y, 1] plane" do
+        vector = Vector2D[4, 8, 2]
+        [vector[0], vector[1]].must_equal [2, 4]
+      end
+    end
+  end
+
   describe ".random" do
     it "builds a vector with the specified magnitude in a random direction" do
       Vector2D.random(3).magnitude.must_be_close_to 3, 0.00001
@@ -91,6 +107,12 @@ describe Vector2D do
   describe "#to_v" do
     it "returns the same object" do
       Vector2D[1, 2].to_v.must_equal Vector2D[1, 2]
+    end
+  end
+
+  describe "#to_m" do
+    it "returns a matrix representation of the vector in homogeneous coordinates" do
+      Vector2D[1, 2].to_m.must_equal Matrix[Vector[1, 2, 1]]
     end
   end
 
