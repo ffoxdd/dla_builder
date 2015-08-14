@@ -3,7 +3,7 @@ require_relative '../../app/dla.rb'
 require_relative '../../app/grower.rb'
 require_relative '../../app/particle.rb'
 
-class DlaBenchmark < MiniTest::Unit::TestCase
+class DlaBenchmark < Minitest::Benchmark
 
   def self.bench_range
   	[1, 10, 100, 1000]
