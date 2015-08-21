@@ -1,5 +1,5 @@
 require_relative "multi_benchmark"
-require_relative "../app/dla"
+require_relative "../../app/dla"
 require "forwardable"
 require "yaml"
 
