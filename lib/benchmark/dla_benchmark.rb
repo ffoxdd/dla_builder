@@ -23,9 +23,9 @@ class DlaBenchmark
   def tests
     [
       {particle_count: 8, trial_count: 8},
-      {particle_count: 32, trial_count: 4},
-      # {particle_count: 128, trial_count: 2},
-      # {particle_count: 1024, trial_count: 1},
+      {particle_count: 32, trial_count: 8},
+      {particle_count: 128, trial_count: 8},
+      {particle_count: 1024, trial_count: 8},
     ]
   end
 
