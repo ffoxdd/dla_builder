@@ -1,12 +1,8 @@
 require_relative "multi_benchmark"
 require_relative "../../app/dla"
-require "forwardable"
 require "yaml"
 
 class DlaBenchmark
-
-  extend Forwardable
-  def_delegators :multi_benchmark, :print
 
   def to_h
     {context_hash => results_hash}

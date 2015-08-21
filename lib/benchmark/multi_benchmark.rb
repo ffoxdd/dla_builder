@@ -8,10 +8,6 @@ class MultiBenchmark
     @test_block = test_block
   end
 
-  def print
-    puts to_h.to_yaml
-  end
-
   def to_h
     benchmark_tests.map(&:to_h)
   end
