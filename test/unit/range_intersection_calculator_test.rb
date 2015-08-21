@@ -1,5 +1,5 @@
 require_relative "../test_helper.rb"
-require_relative "../../lib/range_intersection_calculator.rb"
+require_relative "../../lib/ranges/range_intersection_calculator.rb"
 
 describe RangeIntersectionCalculator do
 

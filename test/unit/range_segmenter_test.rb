@@ -1,5 +1,5 @@
 require_relative "../test_helper.rb"
-require_relative "../../lib/range_segmenter.rb"
+require_relative "../../lib/ranges/range_segmenter.rb"
 
 describe RangeSegmenter do
 

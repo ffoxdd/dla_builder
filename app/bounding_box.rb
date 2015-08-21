@@ -1,8 +1,8 @@
 require_relative "axis_aligned_bounding_box"
 require_relative "edge"
 require_relative "transformation"
-require_relative "../lib/range_intersection_calculator"
-require_relative "../lib/range_segmenter"
+require_relative "../lib/ranges/range_intersection_calculator"
+require_relative "../lib/ranges/range_segmenter"
 require "forwardable"
 
 class BoundingBox

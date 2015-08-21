@@ -1,6 +1,6 @@
 require_relative "vector2d"
-require_relative "../lib/range_intersection_calculator"
-require_relative "../lib/range_segmenter"
+require_relative "../lib/ranges/range_intersection_calculator"
+require_relative "../lib/ranges/range_segmenter"
 
 class AxisAlignedBoundingBox
 
