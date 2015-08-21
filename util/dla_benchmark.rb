@@ -8,12 +8,8 @@ class DlaBenchmark
   extend Forwardable
   def_delegators :multi_benchmark, :print
 
-  def result_hash
-    {
-      sha: sha,
-      ruby_version: ruby_version,
-      results: multi_benchmark.result_hashes
-    }
+  def to_h
+    {context_hash => results_hash}
   end
 
   private
@@ -25,17 +21,28 @@ class DlaBenchmark
   end
 
   def tests
-    [[8, 8], [32, 4], [128, 2], [1024, 1]]
+    # [[8, 8], [32, 4], [128, 2], [1024, 1]]
+    [[8, 8], [32, 4]]
   end
 
   def sha
-    system "git rev-parse HEAD"
+    `git rev-parse HEAD`.strip
   end
 
   def ruby_version
     "#{RUBY_ENGINE} #{RUBY_VERSION}"
   end
 
-end
+  def computer_name
+    `hostname -s`.strip
+  end
 
-puts DlaBenchmark.new.result_hash.to_yaml
+  def context_hash
+    {computer_name: computer_name, ruby_version: ruby_version, sha: sha}
+  end
+
+  def results_hash
+    {results: multi_benchmark.result_hashes}
+  end
+
+end

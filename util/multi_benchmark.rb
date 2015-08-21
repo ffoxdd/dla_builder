@@ -20,15 +20,15 @@ class MultiBenchmark
   attr_reader :tests, :test_block
 
   def benchmark_tests
-    @benchmark_tests ||= tests.map do |n, trials|
-      BenchmarkTest.new(n, trials, &test_block)
+    @benchmark_tests ||= tests.map do |n, trial_count|
+      BenchmarkTest.new(n, trial_count, &test_block)
     end
   end
 
   class BenchmarkTest
-    def initialize(n, trials, &test_block)
+    def initialize(n, trial_count, &test_block)
       @n = n
-      @trials = trials
+      @trial_count = trial_count
       @test_block = test_block
     end
 
@@ -37,16 +37,18 @@ class MultiBenchmark
     end
 
     private
-    attr_reader :n, :trials, :test_block
+    attr_reader :n, :trial_count, :test_block
 
-    def result
-      @result ||= Benchmark.measure do
-        trials.times.map { test_block.call(n) }
-      end
+    def trials
+      @trials ||= trial_count.times.map { trial_real_time }
+    end
+
+    def trial_real_time
+      Benchmark.measure { test_block.call(n) }.real
     end
 
     def average_time
-      result.real / trials
+      trials.inject(&:+) / trial_count
     end
   end
 
