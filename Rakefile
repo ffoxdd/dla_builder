@@ -18,3 +18,9 @@ Rake::TestTask.new("test:integration") do |t|
   t.test_files = FileList['test/integration/*.rb']
   t.verbose = true
 end
+
+desc "Run benchmarks and save the results"
+task :benchmark do
+  require "./lib/benchmark/dla_benchmark_runner"
+  DlaBenchmarkRunner.run
+end
