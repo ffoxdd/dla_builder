@@ -15,34 +15,46 @@ class DlaBenchmark
   private
 
   def multi_benchmark
-    @multi_benchmark ||= MultiBenchmark.new(tests) do |n|
-      Dla.new.tap { |dla| n.times { dla.grow }}
+    @multi_benchmark ||= MultiBenchmark.new(tests) do |test_parameters|
+      Dla.new.tap { |dla| test_parameters[:n].times { dla.grow }}
     end
   end
 
   def tests
-    # [[8, 8], [32, 4], [128, 2], [1024, 1]]
-    [[8, 8], [32, 4]]
-  end
-
-  def sha
-    `git rev-parse HEAD`.strip
-  end
-
-  def ruby_version
-    "#{RUBY_ENGINE} #{RUBY_VERSION}"
-  end
-
-  def computer_name
-    `hostname -s`.strip
+    [
+      {n: 8, trial_count: 8},
+      {n: 32, trial_count: 4},
+      # {n: 128, trial_count: 2},
+      # {n: 1024, trial_count: 1},
+    ]
   end
 
   def context_hash
-    {computer_name: computer_name, ruby_version: ruby_version, sha: sha}
+    Context.new.to_h
   end
 
   def results_hash
-    {results: multi_benchmark.result_hashes}
+    {results: multi_benchmark.to_h}
+  end
+
+  class Context
+    def to_h
+      {computer_name: computer_name, ruby_version: ruby_version, sha: sha}
+    end
+
+    private
+
+    def ruby_version
+      "#{RUBY_ENGINE} #{RUBY_VERSION}"
+    end
+
+    def computer_name
+      `hostname -s`.strip
+    end
+
+    def sha
+      `git rev-parse HEAD`.strip
+    end
   end
 
 end

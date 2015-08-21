@@ -4,47 +4,47 @@ require "yaml"
 class MultiBenchmark
 
   def initialize(tests, &test_block)
-    @tests = tests # [[n, trials], ...]
+    @tests = tests # an array of test parameter hashes
     @test_block = test_block
   end
 
   def print
-    puts result_hashes.to_yaml
+    puts to_h.to_yaml
   end
 
-  def result_hashes
-    benchmark_tests.map(&:result_hash)
+  def to_h
+    benchmark_tests.map(&:to_h)
   end
 
   private
   attr_reader :tests, :test_block
 
   def benchmark_tests
-    @benchmark_tests ||= tests.map do |n, trial_count|
-      BenchmarkTest.new(n, trial_count, &test_block)
+    @benchmark_tests ||= tests.map do |test_parameters|
+      BenchmarkTest.new(test_parameters, &test_block)
     end
   end
 
   class BenchmarkTest
-    def initialize(n, trial_count, &test_block)
-      @n = n
-      @trial_count = trial_count
+    def initialize(test_parameters = {}, &test_block)
+      @test_parameters = test_parameters
+      @trial_count = test_parameters.delete(:trial_count) || 1
       @test_block = test_block
     end
 
-    def result_hash
-      {n: n, trials: trials, average_time: average_time}
+    def to_h
+      test_parameters.merge(trials: trials, average_time: average_time)
     end
 
     private
-    attr_reader :n, :trial_count, :test_block
+    attr_reader :test_parameters, :trial_count, :test_block
 
     def trials
-      @trials ||= trial_count.times.map { trial_real_time }
+      @trials ||= trial_count.times.map { trial_time }
     end
 
-    def trial_real_time
-      Benchmark.measure { test_block.call(n) }.real
+    def trial_time
+      Benchmark.measure { test_block.call(test_parameters) }.real
     end
 
     def average_time
