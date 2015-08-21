@@ -16,16 +16,20 @@ class DlaBenchmark
 
   def multi_benchmark
     @multi_benchmark ||= MultiBenchmark.new(tests) do |test_parameters|
-      Dla.new.tap { |dla| test_parameters[:n].times { dla.grow }}
+      grow_dla(test_parameters[:particle_count])
     end
+  end
+
+  def grow_dla(particle_count)
+    Dla.new.tap { |dla| particle_count.times { dla.grow }}
   end
 
   def tests
     [
-      {n: 8, trial_count: 8},
-      {n: 32, trial_count: 4},
-      # {n: 128, trial_count: 2},
-      # {n: 1024, trial_count: 1},
+      {particle_count: 8, trial_count: 8},
+      {particle_count: 32, trial_count: 4},
+      # {particle_count: 128, trial_count: 2},
+      # {particle_count: 1024, trial_count: 1},
     ]
   end
 
