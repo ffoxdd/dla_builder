@@ -23,13 +23,15 @@ class MultiBenchmark
 
   class BenchmarkTest
     def initialize(test_parameters = {}, &test_block)
+      @trial_count = test_parameters.delete(:trial_count)
       @test_parameters = test_parameters
-      @trial_count = test_parameters.delete(:trial_count) || 1
       @test_block = test_block
     end
 
     def to_h
-      test_parameters.merge(trials: trials, average_time: average_time)
+      indicate_progress do
+        test_parameters.merge(trials: trials, average_time: average_time)
+      end
     end
 
     private
@@ -40,11 +42,26 @@ class MultiBenchmark
     end
 
     def trial_time
-      Benchmark.measure { test_block.call(test_parameters) }.real
+      indicate_partial_progress do
+        Benchmark.realtime { test_block.call(test_parameters) }
+      end
     end
 
     def average_time
       trials.inject(&:+) / trial_count
+    end
+
+    def indicate_progress(&block)
+      print(progress_header)
+      yield.tap { puts }
+    end
+
+    def indicate_partial_progress(&block)
+      yield.tap { print '.' }
+    end
+
+    def progress_header
+      test_parameters.inspect + ' '
     end
   end
 
