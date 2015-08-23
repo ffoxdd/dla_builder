@@ -27,4 +27,11 @@ describe Canvas do
     end
   end
 
+  describe "#inches_to_pixels" do
+    it "converts inches to pixels" do
+      canvas = Canvas.new([100, 100], [5, 5]) # 20px/in
+      canvas.inches_to_pixels(0.5).must_equal 10.0
+    end
+  end
+
 end
