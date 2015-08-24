@@ -17,6 +17,7 @@ GEM
       slop (~> 3.4)
       spoon (~> 0.0)
     rake (10.4.2)
+    rasem (0.6.1)
     ruby-processing (2.6.14)
     slop (3.6.0)
     spoon (0.0.4)
@@ -31,4 +32,8 @@ DEPENDENCIES
   minitest-line
   pry
   rake
+  rasem
   ruby-processing
+
+BUNDLED WITH
+   1.10.6
