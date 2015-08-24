@@ -5,6 +5,8 @@ require 'minitest/autorun'
 require 'minitest/spec'
 require 'minitest/benchmark'
 
+require 'pry'
+
 MiniTest::Spec.class_eval do
   def self.shared_examples
     @shared_examples ||= {}
