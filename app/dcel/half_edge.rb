@@ -26,6 +26,17 @@ class DCEL::HalfEdge
     twin_half_edge.twin = self
   end
 
+  def each_perimeter
+    Enumerator.new do |y|
+      self.tap do |current_half_edge|
+        loop do
+          y << current_half_edge
+          current_half_edge = current_half_edge.next
+          break if current_half_edge.nil? || current_half_edge == self
+        end
+      end
+    end
+  end
 
   protected
 

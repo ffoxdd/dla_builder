@@ -50,6 +50,20 @@ describe DCEL::HalfEdge do
       half_edge_2.twin.must_equal(half_edge_1)
     end
   end
+
+  describe "#each_perimeter" do
+    it "iterates over all perimeter half edges" do
+      half_edge_1 = DCEL::HalfEdge.new(origin: test_vertex)
+      half_edge_2 = DCEL::HalfEdge.new(origin: test_vertex)
+      half_edge_3 = DCEL::HalfEdge.new(origin: test_vertex)
+
+      half_edge_1.link_next(half_edge_2)
+      half_edge_2.link_next(half_edge_3)
+      half_edge_3.link_next(half_edge_1)
+
+      half_edge_1.each_perimeter.to_a.must_cyclically_equal [half_edge_1, half_edge_2, half_edge_3]
+    end
+
   end
 
 end
