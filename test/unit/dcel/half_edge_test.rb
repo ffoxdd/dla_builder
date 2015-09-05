@@ -25,23 +25,31 @@ describe DCEL::HalfEdge do
     end
   end
 
-  describe "#link_next/#link_previous" do
+  describe "#link_next/#link_previous/#link_twin" do
     let(:half_edge_1) { DCEL::HalfEdge.new(origin: test_vertex) }
     let(:half_edge_2) { DCEL::HalfEdge.new(origin: test_vertex) }
 
-    it "creates a link to the next edge" do
+    it "creates a link to the next half edge" do
       half_edge_1.link_next(half_edge_2)
 
       half_edge_1.next.must_equal(half_edge_2)
       half_edge_2.previous.must_equal(half_edge_1)
     end
 
-    it "creates a link to the previous edge" do
+    it "creates a link to the previous half edge" do
       half_edge_1.link_previous(half_edge_2)
 
       half_edge_1.previous.must_equal(half_edge_2)
       half_edge_2.next.must_equal(half_edge_1)
     end
+
+    it "creates a link to the twin half edge" do
+      half_edge_1.link_twin(half_edge_2)
+
+      half_edge_1.twin.must_equal(half_edge_2)
+      half_edge_2.twin.must_equal(half_edge_1)
+    end
+  end
   end
 
 end

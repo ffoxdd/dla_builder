@@ -9,6 +9,8 @@ class DCEL::HalfEdge
     @twin = options.fetch(:twin, nil)
   end
 
+  attr_reader :origin, :previous, :next, :twin
+
   def link_next(next_half_edge)
     self.next = next_half_edge
     next_half_edge.previous = self
@@ -19,9 +21,14 @@ class DCEL::HalfEdge
     previous_half_edge.next = self
   end
 
-  attr_reader :origin, :previous, :next, :twin
+  def link_twin(twin_half_edge)
+    self.twin = twin_half_edge
+    twin_half_edge.twin = self
+  end
+
 
   protected
-  attr_writer :next, :previous
+
+  attr_writer :next, :previous, :twin
 
 end
