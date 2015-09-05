@@ -12,18 +12,19 @@ class DCEL::HalfEdge
   attr_reader :origin, :previous, :next, :twin
 
   def link_next(next_half_edge)
+    self.next.previous = nil if self.next
     self.next = next_half_edge
     next_half_edge.previous = self
   end
 
   def link_previous(previous_half_edge)
     self.previous = previous_half_edge
-    previous_half_edge.next = self
+    previous_half_edge.next = self if previous_half_edge
   end
 
   def link_twin(twin_half_edge)
     self.twin = twin_half_edge
-    twin_half_edge.twin = self
+    twin_half_edge.twin = self if twin_half_edge
   end
 
   def each_perimeter
