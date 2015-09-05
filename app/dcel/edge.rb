@@ -9,10 +9,6 @@ class DCEL::Edge
     @twin = options.fetch(:twin, nil)
   end
 
-  attr_reader :previous, :next, :twin
-
-  private
-
-  attr_reader :origin
+  attr_reader :origin, :previous, :next, :twin
 
 end
