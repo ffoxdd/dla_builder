@@ -25,4 +25,23 @@ describe DCEL::Edge do
     end
   end
 
+  describe "#link_next/#link_previous" do
+    let(:edge_1) { DCEL::Edge.new(origin: test_vertex) }
+    let(:edge_2) { DCEL::Edge.new(origin: test_vertex) }
+
+    it "creates a link to the next edge" do
+      edge_1.link_next(edge_2)
+
+      edge_1.next.must_equal(edge_2)
+      edge_2.previous.must_equal(edge_1)
+    end
+
+    it "creates a link to the previous edge" do
+      edge_1.link_previous(edge_2)
+
+      edge_1.previous.must_equal(edge_2)
+      edge_2.next.must_equal(edge_1)
+    end
+  end
+
 end
