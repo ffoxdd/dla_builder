@@ -20,3 +20,4 @@
 - [ ] Figure out a slicker way of accepting various proc arity for dla visitors
 - [ ] Make BoundingBoxFinder more functional by taking work out of the initializer
 - [ ] Use Translation wherever rotation/offset pairs are used
+- [ ] Consider factoring out linked list behavior from DCEL::HalfEdge
