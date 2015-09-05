@@ -30,13 +30,14 @@ module MiniTest::Assertions
   end
 
   private
-    def cyclically_equal?(a0, a1)
-      cyclic_permutations(a0).any? { |a| a == a1 }
-    end
 
-    def cyclic_permutations(array)
-      array.size.times.map { array.unshift(array.pop).dup }
-    end
+  def cyclically_equal?(a0, a1)
+    cyclic_permutations(a0).any? { |a| a == a1 }
+  end
+
+  def cyclic_permutations(array)
+    array.cycle.each_cons(array.size).first(array.size)
+  end
 end
 
 Array.infect_an_assertion :assert_cyclically_equal, :must_cyclically_equal
