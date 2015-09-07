@@ -30,7 +30,25 @@ class DCEL::HalfEdge
     twin_half_edge.twin_half_edge = self if twin_half_edge
   end
 
-  def each_perimeter
+  def triangle?
+    each_face_half_edge.to_a.size == 3
+  end
+
+  # def each_perimeter
+  #   Enumerator.new do |y|
+  #     self.tap do |current_half_edge|
+  #       loop do
+  #         y << current_half_edge
+  #         current_half_edge = current_half_edge.next_half_edge
+  #         break if current_half_edge.nil? || current_half_edge == self
+  #       end
+  #     end
+  #   end
+  # end
+
+  protected
+
+  def each_face_half_edge
     Enumerator.new do |y|
       self.tap do |current_half_edge|
         loop do
@@ -42,7 +60,7 @@ class DCEL::HalfEdge
     end
   end
 
-  protected
+
 
   attr_writer :origin, :next_half_edge, :previous_half_edge, :twin_half_edge
 

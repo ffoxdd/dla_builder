@@ -32,6 +32,27 @@ describe DCEL::HalfEdge do
     end
   end
 
+  describe "#triangle?" do
+    it "returns false when the half edge is part of a degenerate mesh" do
+
+    end
+
+    it "returns true when the half edge is part of a closed triangle" do
+      half_edge_0 = test_half_edge
+      half_edge_1 = test_half_edge
+      half_edge_2 = test_half_edge
+
+      half_edge_0.link_next(half_edge_1)
+      half_edge_1.link_next(half_edge_2)
+      half_edge_2.link_next(half_edge_0)
+
+      half_edge_0.triangle?.must_equal(true)
+    end
+
+    it "returns false when the half edge is part of the mesh perimeter" do
+    end
+  end
+
   describe "#link_next" do
     it "creates a link to the next half edge and updates any other immediate linkages" do
       half_edge = test_half_edge
@@ -68,75 +89,54 @@ describe DCEL::HalfEdge do
     end
   end
 
-  # describe "#link_next/#link_previous/#link_twin" do
-  #   let(:half_edge_1) { test_half_edge }
-  #   let(:half_edge_2) { test_half_edge }
-  #
-  #   it "creates a link to the next half edge" do
-  #     half_edge_1.link_next(half_edge_2)
-  #
-  #     half_edge_1.next.must_equal(half_edge_2)
-  #     half_edge_2.previous.must_equal(half_edge_1)
-  #   end
-  #
-  #   it "creates a link to the previous half edge" do
-  #     half_edge_1.link_previous(half_edge_2)
-  #
-  #     half_edge_1.previous.must_equal(half_edge_2)
-  #     half_edge_2.next.must_equal(half_edge_1)
-  #   end
-  #
-  #   it "creates a link to the twin half edge" do
-  #     half_edge_1.link_twin(half_edge_2)
-  #
-  #     half_edge_1.twin.must_equal(half_edge_2)
-  #     half_edge_2.twin.must_equal(half_edge_1)
+  # describe "#link_twin" do
+  #   it "creates a link to the twin half edge and updates any other immediate linkages" do
   #   end
   # end
 
-  describe "#each_perimeter" do
-    it "iterates over all perimeter half edges" do
-      half_edge_1 = test_half_edge
-      half_edge_2 = test_half_edge
-      half_edge_3 = test_half_edge
-
-      half_edge_1.link_next(half_edge_2)
-      half_edge_2.link_next(half_edge_3)
-      half_edge_3.link_next(half_edge_1)
-
-      half_edge_1.each_perimeter.to_a.must_cyclically_equal [half_edge_1, half_edge_2, half_edge_3]
-    end
-
-    it "ignores inner linkages" do
-      #    2
-      #  / | \
-      # 0  |  3
-      #  \ | /
-      #    1
-
-      vertices = 4.times.map { Object.new }
-
-      e_0_1 = DCEL::HalfEdge.new(origin: vertices[0])
-      e_1_0 = DCEL::HalfEdge.new(origin: vertices[1])
-
-      e_1_2 = DCEL::HalfEdge.new(origin: vertices[1])
-      e_2_1 = DCEL::HalfEdge.new(origin: vertices[2])
-
-      e_2_0 = DCEL::HalfEdge.new(origin: vertices[2])
-      e_0_2 = DCEL::HalfEdge.new(origin: vertices[0])
-
-      e_1_3 = DCEL::HalfEdge.new(origin: vertices[1])
-      e_3_1 = DCEL::HalfEdge.new(origin: vertices[3])
-
-      e_3_2 = DCEL::HalfEdge.new(origin: vertices[3])
-      e_2_3 = DCEL::HalfEdge.new(origin: vertices[2])
-
-      e_0_1.link_twin(e_1_0)
-      e_1_2.link_twin(e_2_1)
-      e_2_0.link_twin(e_0_2)
-      e_1_3.link_twin(e_3_1)
-      e_3_2.link_twin(e_2_3)
-    end
-  end
+  # describe "#each_perimeter" do
+  #   it "iterates over all perimeter half edges" do
+  #     half_edge_1 = test_half_edge
+  #     half_edge_2 = test_half_edge
+  #     half_edge_3 = test_half_edge
+  #
+  #     half_edge_1.link_next(half_edge_2)
+  #     half_edge_2.link_next(half_edge_3)
+  #     half_edge_3.link_next(half_edge_1)
+  #
+  #     half_edge_1.each_perimeter.to_a.must_cyclically_equal [half_edge_1, half_edge_2, half_edge_3]
+  #   end
+  #
+  #   it "ignores inner linkages" do
+  #     #    2
+  #     #  / | \
+  #     # 0  |  3
+  #     #  \ | /
+  #     #    1
+  #
+  #     vertices = 4.times.map { Object.new }
+  #
+  #     e_0_1 = DCEL::HalfEdge.new(origin: vertices[0])
+  #     e_1_0 = DCEL::HalfEdge.new(origin: vertices[1])
+  #
+  #     e_1_2 = DCEL::HalfEdge.new(origin: vertices[1])
+  #     e_2_1 = DCEL::HalfEdge.new(origin: vertices[2])
+  #
+  #     e_2_0 = DCEL::HalfEdge.new(origin: vertices[2])
+  #     e_0_2 = DCEL::HalfEdge.new(origin: vertices[0])
+  #
+  #     e_1_3 = DCEL::HalfEdge.new(origin: vertices[1])
+  #     e_3_1 = DCEL::HalfEdge.new(origin: vertices[3])
+  #
+  #     e_3_2 = DCEL::HalfEdge.new(origin: vertices[3])
+  #     e_2_3 = DCEL::HalfEdge.new(origin: vertices[2])
+  #
+  #     e_0_1.link_twin(e_1_0)
+  #     e_1_2.link_twin(e_2_1)
+  #     e_2_0.link_twin(e_0_2)
+  #     e_1_3.link_twin(e_3_1)
+  #     e_3_2.link_twin(e_2_3)
+  #   end
+  # end
 
 end
