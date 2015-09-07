@@ -14,6 +14,7 @@ class DCEL::HalfEdge
   def link_next(next_half_edge)
     self.next_half_edge.previous_half_edge = nil if self.next_half_edge
     self.next_half_edge = next_half_edge
+    twin_half_edge.origin = next_half_edge.origin if twin_half_edge
     next_half_edge.previous_half_edge = self
   end
 
@@ -41,6 +42,6 @@ class DCEL::HalfEdge
 
   protected
 
-  attr_writer :next_half_edge, :previous_half_edge, :twin_half_edge
+  attr_writer :origin, :next_half_edge, :previous_half_edge, :twin_half_edge
 
 end

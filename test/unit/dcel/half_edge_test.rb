@@ -46,6 +46,7 @@ describe DCEL::HalfEdge do
       half_edge.link_next(new_next_half_edge)
 
       half_edge.next_half_edge.must_equal(new_next_half_edge)
+      twin_half_edge.origin.must_equal(new_next_half_edge.origin)
       old_next_half_edge.previous_half_edge.must_equal(nil)
     end
   end
