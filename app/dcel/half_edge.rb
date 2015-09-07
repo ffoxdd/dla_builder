@@ -4,27 +4,27 @@ class DCEL::HalfEdge
 
   def initialize(options = {})
     @origin = options.fetch(:origin)
-    @previous = options.fetch(:previous, nil)
-    @next = options.fetch(:next, nil)
-    @twin = options.fetch(:twin, nil)
+    @previous_half_edge = options.fetch(:previous_half_edge, nil)
+    @next_half_edge = options.fetch(:next_half_edge, nil)
+    @twin_half_edge = options.fetch(:twin_half_edge, nil)
   end
 
-  attr_reader :origin, :previous, :next, :twin
+  attr_reader :origin, :previous_half_edge, :next_half_edge, :twin_half_edge
 
   def link_next(next_half_edge)
-    self.next.previous = nil if self.next
-    self.next = next_half_edge
-    next_half_edge.previous = self
+    self.next_half_edge.previous_half_edge = nil if self.next_half_edge
+    self.next_half_edge = next_half_edge
+    next_half_edge.previous_half_edge = self
   end
 
   def link_previous(previous_half_edge)
-    self.previous = previous_half_edge
-    previous_half_edge.next = self if previous_half_edge
+    self.previous_half_edge = previous_half_edge
+    previous_half_edge.next_half_edge = self if previous_half_edge
   end
 
   def link_twin(twin_half_edge)
-    self.twin = twin_half_edge
-    twin_half_edge.twin = self if twin_half_edge
+    self.twin_half_edge = twin_half_edge
+    twin_half_edge.twin_half_edge = self if twin_half_edge
   end
 
   def each_perimeter
@@ -32,7 +32,7 @@ class DCEL::HalfEdge
       self.tap do |current_half_edge|
         loop do
           y << current_half_edge
-          current_half_edge = current_half_edge.next
+          current_half_edge = current_half_edge.next_half_edge
           break if current_half_edge.nil? || current_half_edge == self
         end
       end
@@ -41,6 +41,6 @@ class DCEL::HalfEdge
 
   protected
 
-  attr_writer :next, :previous, :twin
+  attr_writer :next_half_edge, :previous_half_edge, :twin_half_edge
 
 end

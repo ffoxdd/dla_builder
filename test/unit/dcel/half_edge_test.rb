@@ -11,21 +11,24 @@ end
 
 describe DCEL::HalfEdge do
 
-  describe "#next/#previous/#twin/#origin" do
+  describe "#next_half_edge/#previous_half_edge/#twin_half_edge/#origin" do
     it "has readers for connected components" do
       origin_vertex = test_vertex
       previous_half_edge = test_half_edge
       next_half_edge = test_half_edge
       twin_half_edge = test_half_edge
 
-      edge = DCEL::HalfEdge.new(
-        origin: origin_vertex, previous: previous_half_edge, next: next_half_edge, twin: twin_half_edge
+      half_edge = DCEL::HalfEdge.new(
+        origin: origin_vertex,
+        previous_half_edge: previous_half_edge,
+        next_half_edge: next_half_edge,
+        twin_half_edge: twin_half_edge
       )
 
-      edge.origin.must_equal(origin_vertex)
-      edge.previous.must_equal(previous_half_edge)
-      edge.next.must_equal(next_half_edge)
-      edge.twin.must_equal(twin_half_edge)
+      half_edge.origin.must_equal(origin_vertex)
+      half_edge.previous_half_edge.must_equal(previous_half_edge)
+      half_edge.next_half_edge.must_equal(next_half_edge)
+      half_edge.twin_half_edge.must_equal(twin_half_edge)
     end
   end
 
@@ -42,8 +45,8 @@ describe DCEL::HalfEdge do
 
       half_edge.link_next(new_next_half_edge)
 
-      half_edge.next.must_equal(new_next_half_edge)
-      old_next_half_edge.previous.must_equal(nil)
+      half_edge.next_half_edge.must_equal(new_next_half_edge)
+      old_next_half_edge.previous_half_edge.must_equal(nil)
     end
   end
 
