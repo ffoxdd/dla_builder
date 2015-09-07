@@ -36,7 +36,6 @@ describe DCEL::HalfEdge do
     it "creates a link to the next half edge and updates any other immediate linkages" do
       half_edge = test_half_edge
       twin_half_edge = test_half_edge
-
       old_next_half_edge = test_half_edge
       new_next_half_edge = test_half_edge
 
@@ -48,6 +47,24 @@ describe DCEL::HalfEdge do
       half_edge.next_half_edge.must_equal(new_next_half_edge)
       twin_half_edge.origin.must_equal(new_next_half_edge.origin)
       old_next_half_edge.previous_half_edge.must_equal(nil)
+    end
+  end
+
+  describe "#link_previous" do
+    it "creates a link to the previous half edge and updates any other immediate linkages" do
+      half_edge = test_half_edge
+      old_previous_half_edge = test_half_edge
+      new_previous_half_edge = test_half_edge
+      new_previous_twin_half_edge = test_half_edge
+
+      new_previous_half_edge.link_twin(new_previous_twin_half_edge)
+      half_edge.link_previous(old_previous_half_edge)
+
+      half_edge.link_previous(new_previous_half_edge)
+
+      half_edge.previous_half_edge.must_equal(new_previous_half_edge)
+      new_previous_twin_half_edge.origin.must_equal(half_edge.origin)
+      old_previous_half_edge.next_half_edge.must_equal(nil)
     end
   end
 

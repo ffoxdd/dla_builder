@@ -11,16 +11,18 @@ class DCEL::HalfEdge
 
   attr_reader :origin, :previous_half_edge, :next_half_edge, :twin_half_edge
 
-  def link_next(next_half_edge)
-    self.next_half_edge.previous_half_edge = nil if self.next_half_edge
-    self.next_half_edge = next_half_edge
-    twin_half_edge.origin = next_half_edge.origin if twin_half_edge
-    next_half_edge.previous_half_edge = self
+  def link_next(new_half_edge)
+    self.next_half_edge.previous_half_edge = nil if next_half_edge
+    self.next_half_edge = new_half_edge
+    twin_half_edge.origin = new_half_edge.origin if twin_half_edge
+    new_half_edge.previous_half_edge = self
   end
 
-  def link_previous(previous_half_edge)
-    self.previous_half_edge = previous_half_edge
-    previous_half_edge.next_half_edge = self if previous_half_edge
+  def link_previous(new_half_edge)
+    previous_half_edge.next_half_edge = nil if previous_half_edge
+    self.previous_half_edge = new_half_edge
+    new_half_edge.twin_half_edge.origin = origin if new_half_edge.twin_half_edge
+    new_half_edge.next_half_edge = self
   end
 
   def link_twin(twin_half_edge)
