@@ -10,7 +10,7 @@ def test_half_edge
 end
 
 def test_triangle
-  DCEL::HalfEdge.degenerate(origin: test_vertex).tap do |half_edge|
+  DCEL::HalfEdge.singleton(origin: test_vertex).tap do |half_edge|
     half_edge.link_vertex(test_vertex)
     half_edge.next_half_edge.link_vertex(test_vertex)
   end
@@ -39,11 +39,11 @@ describe DCEL::HalfEdge do
     end
   end
 
-  describe ".degenerate" do
+  describe ".singleton" do
     it "creates a half-edge that is it's own twin, next and previous edge" do
       origin = Object.new
 
-      half_edge = DCEL::HalfEdge.degenerate(origin: origin)
+      half_edge = DCEL::HalfEdge.singleton(origin: origin)
       half_edge.twin_half_edge.must_equal(half_edge)
       half_edge.next_half_edge.must_equal(half_edge)
       half_edge.previous_half_edge.must_equal(half_edge)
@@ -51,11 +51,11 @@ describe DCEL::HalfEdge do
   end
 
   describe "#link_vertex" do
-    it "links a degenerate half-edge to a new vertex by creating a new half edge" do
+    it "links a singleton half-edge to a new vertex by creating a new half edge" do
       vertex_0 = Object.new
       vertex_1 = Object.new
 
-      half_edge_0 = DCEL::HalfEdge.degenerate(origin: vertex_0)
+      half_edge_0 = DCEL::HalfEdge.singleton(origin: vertex_0)
 
       half_edge_0.link_vertex(vertex_1)
       half_edge_1 = half_edge_0.twin_half_edge
@@ -74,7 +74,7 @@ describe DCEL::HalfEdge do
   end
 
   #   it "links a connected half-edge by connecting a new triangle" do
-  #     half_edge_0 = DCEL::HalfEdge.degenerate(origin: Object.new)
+  #     half_edge_0 = DCEL::HalfEdge.singleton(origin: Object.new)
   #     half_edge_0.link_vertex(Object.new)
   #
   #     half_edge = half_edge_0.next_half_edge

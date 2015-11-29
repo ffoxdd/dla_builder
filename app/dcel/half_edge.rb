@@ -19,7 +19,7 @@ class DCEL::HalfEdge
 
   attr_reader :origin, :previous_half_edge, :next_half_edge, :twin_half_edge
 
-  def self.degenerate(options = {})
+  def self.singleton(options = {})
     new(options).tap(&:self_link)
   end
 
