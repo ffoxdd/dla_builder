@@ -64,7 +64,7 @@ describe DCEL::HalfEdge do
   end
 
   describe "#link_vertex" do
-    it "links a singleton half-edge to a new vertex by creating a new half edge" do
+    it "links a singleton half edge to a new vertex by creating a new half edge" do
       vertex_0 = Object.new
       vertex_1 = Object.new
 
@@ -84,24 +84,35 @@ describe DCEL::HalfEdge do
       half_edge_1.next_half_edge.must_equal(half_edge_0)
       half_edge_1.twin_half_edge.must_equal(half_edge_0)
     end
-  end
 
-  #   it "links a connected half-edge by connecting a new triangle" do
-  #     half_edge_0 = DCEL::HalfEdge.singleton(origin: Object.new)
-  #     half_edge_0.link_vertex(Object.new)
-  #
-  #     half_edge = half_edge_0.next_half_edge
-  #     next_vertex = Object.new
-  #
-  #     half_edge.link_vertex(next_vertex)
-  #
-  #     half_edge.next_half_edge.wont_equal(nil)
-  #     half_edge.next_half_edge.origin.must_equal(next_vertex)
-  #     half_edge.twin_half_edge.origin.must_equal(next_vertex)
-  #
-  #     half_edge.next_half_edge.twin_half_edge.wont_equal(nil)
-  #     half_edge.next_half_edge.twin_half_edge.origin.must_equal(half_edge_0.origin) # triangle
-  #   end
-  # end
+    it "links a connected half edge by connecting a new triangle" do
+      vertex_0 = Object.new
+      vertex_1 = Object.new
+      vertex_2 = Object.new
+
+      half_edge_0 = DCEL::HalfEdge.singleton(origin: vertex_0)
+
+      half_edge_0.link_vertex(vertex_1)
+      half_edge_1 = half_edge_0.next_half_edge
+
+      half_edge_1.link_vertex(vertex_2)
+      half_edge_2 = half_edge_1.next_half_edge
+
+      half_edge_2.wont_equal(half_edge_0) # temp
+      half_edge_2.wont_equal(half_edge_1) # temp
+
+      half_edge_2.previous_half_edge.must_equal(half_edge_1)
+      half_edge_2.next_half_edge.must_equal(half_edge_0)
+
+      half_edge_0.previous_half_edge.must_equal(half_edge_2)
+      half_edge_1.next_half_edge.must_equal(half_edge_2)
+
+      new_twin = half_edge_2.twin_half_edge
+      new_twin.origin.must_equal(vertex_0)
+
+      new_twin.previous_half_edge.must_equal(half_edge_0.twin_half_edge)
+      new_twin.next_half_edge.must_equal(half_edge_1.twin_half_edge)
+    end
+  end
 
 end
