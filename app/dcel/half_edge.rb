@@ -38,22 +38,25 @@ class DCEL::HalfEdge
   end
 
   def subdivide_triangle(inner_vertex)
-    triangle_edges = face_edges
-
-    triangle_edges.each do |face_edge|
-      inward_edge = DCEL::HalfEdge.new(origin: face_edge.next_vertex)
-      outward_edge = DCEL::HalfEdge.new(origin: inner_vertex)
-
-      Builder.new.cyclically_link([face_edge, inward_edge, outward_edge])
-    end
-
-    DCEL.cyclical_each_pair(triangle_edges) do |previous_half_edge, next_half_edge|
-      inward_edge = previous_half_edge.next_half_edge
-      outward_edge = next_half_edge.previous_half_edge
-
-      Builder.new.link_twin(inward_edge, outward_edge)
-    end
+    Subdivider.new(self, inner_vertex).subdivide_triangle
   end
+
+    # triangle_edges = face_edges
+    #
+    # triangle_edges.each do |face_edge|
+    #   inward_edge = DCEL::HalfEdge.new(origin: face_edge.next_vertex)
+    #   outward_edge = DCEL::HalfEdge.new(origin: inner_vertex)
+    #
+    #   Builder.new.cyclically_link([face_edge, inward_edge, outward_edge])
+    # end
+    #
+    # DCEL.cyclical_each_pair(triangle_edges) do |previous_half_edge, next_half_edge|
+    #   inward_edge = previous_half_edge.next_half_edge
+    #   outward_edge = next_half_edge.previous_half_edge
+    #
+    #   Builder.new.link_twin(inward_edge, outward_edge)
+    # end
+  # end
 
   protected
 
@@ -78,6 +81,47 @@ class DCEL::HalfEdge
     [:previous_half_edge, :next_half_edge, :twin_half_edge].map do |m|
       "#{m}=#{send(m).id if send(m)}"
     end.join(", ")
+  end
+
+  class Subdivider
+    def initialize(half_edge, inner_vertex)
+      @inner_vertex = inner_vertex
+      @original_face_edges = half_edge.face_edges
+    end
+
+    def subdivide_triangle
+      build_inner_triangles
+      link_spokes
+    end
+
+    private
+    attr_reader :inner_vertex, :original_face_edges
+
+    def link_spokes
+      each_spoke do |inward_edge, outward_edge|
+        Builder.new.link_twin(inward_edge, outward_edge)
+      end
+    end
+
+    def build_inner_triangles
+      original_face_edges.each { |half_edge| build_inner_triangle(half_edge) }
+    end
+
+    def each_spoke
+      DCEL.cyclical_each_pair(original_face_edges) do |previous_half_edge, next_half_edge|
+        inward_edge = previous_half_edge.next_half_edge
+        outward_edge = next_half_edge.previous_half_edge
+
+        yield(inward_edge, outward_edge)
+      end
+    end
+
+    def build_inner_triangle(perimeter_half_edge)
+      inward_edge = DCEL::HalfEdge.new(origin: perimeter_half_edge.next_vertex)
+      outward_edge = DCEL::HalfEdge.new(origin: inner_vertex)
+
+      Builder.new.cyclically_link([perimeter_half_edge, inward_edge, outward_edge])
+    end
   end
 
   class Builder
