@@ -39,6 +39,46 @@ describe DCEL::HalfEdge do
     end
   end
 
+  describe ".triangle" do
+    # TODO: make a matcher to check that an array of half edges are circularly linked
+
+    it "creates a fully linked triangle from 3 vertices" do
+      vertices = 3.times.map { test_vertex }
+
+      half_edge_0 = DCEL::HalfEdge.triangle(vertices)
+      half_edge_1 = half_edge_0.next_half_edge
+      half_edge_2 = half_edge_1.next_half_edge
+
+      half_edge_0.origin.must_equal(vertices[0])
+      half_edge_1.origin.must_equal(vertices[1])
+      half_edge_2.origin.must_equal(vertices[2])
+
+      half_edge_0.next_half_edge.must_equal(half_edge_1)
+      half_edge_1.next_half_edge.must_equal(half_edge_2)
+      half_edge_2.next_half_edge.must_equal(half_edge_0)
+
+      half_edge_0.previous_half_edge.must_equal(half_edge_2)
+      half_edge_1.previous_half_edge.must_equal(half_edge_0)
+      half_edge_2.previous_half_edge.must_equal(half_edge_1)
+
+      twin_half_edge_0 = half_edge_0.twin_half_edge
+      twin_half_edge_1 = half_edge_1.twin_half_edge
+      twin_half_edge_2 = half_edge_2.twin_half_edge
+
+      twin_half_edge_0.origin.must_equal(vertices[1])
+      twin_half_edge_1.origin.must_equal(vertices[2])
+      twin_half_edge_2.origin.must_equal(vertices[0])
+
+      twin_half_edge_0.next_half_edge.must_equal(twin_half_edge_2)
+      twin_half_edge_1.next_half_edge.must_equal(twin_half_edge_0)
+      twin_half_edge_2.next_half_edge.must_equal(twin_half_edge_1)
+
+      twin_half_edge_0.previous_half_edge.must_equal(twin_half_edge_1)
+      twin_half_edge_1.previous_half_edge.must_equal(twin_half_edge_2)
+      twin_half_edge_2.previous_half_edge.must_equal(twin_half_edge_0)
+    end
+  end
+
   # describe ".singleton" do
   #   it "creates a half-edge that is it's own twin, next and previous edge" do
   #     origin = test_vertex
