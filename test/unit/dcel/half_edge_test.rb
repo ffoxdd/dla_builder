@@ -16,7 +16,45 @@ def test_triangle
   end
 end
 
+module MiniTest::Assertions
+  # TODO: find a better place for this assertion
+
+  def assert_half_edge_cycle(_, half_edges)
+    assert cycle?(half_edges), "Expected half edges to form a face"
+  end
+
+  private
+
+  def cycle?(half_edges)
+    DCEL.cyclical_each_pair(half_edges).all? do |previous_half_edge, next_half_edge|
+      sequentially_linked?(previous_half_edge, next_half_edge)
+    end
+  end
+
+  def sequentially_linked?(previous_half_edge, next_half_edge)
+    previous_half_edge.next_half_edge == next_half_edge &&
+    next_half_edge.previous_half_edge == previous_half_edge
+  end
+end
+
+Array.infect_an_assertion :assert_half_edge_cycle, :must_form_a_half_edge_cycle
+
 describe DCEL::HalfEdge do
+
+  describe "test test test" do
+    it "works" do
+      e0 = DCEL::HalfEdge.new(origin: test_vertex)
+      e1 = DCEL::HalfEdge.new(origin: test_vertex)
+
+      e0.next_half_edge = e1
+      e1.previous_half_edge = e0
+
+      e1.next_half_edge = e0
+      e0.previous_half_edge = e1
+
+      [e0, e1].must_form_a_half_edge_cycle
+    end
+  end
 
   describe "#next_half_edge/#previous_half_edge/#twin_half_edge/#origin" do
     it "has readers for connected components" do
@@ -40,8 +78,6 @@ describe DCEL::HalfEdge do
   end
 
   describe ".triangle" do
-    # TODO: make a matcher to check that an array of half edges are circularly linked
-
     it "raises ArgumentError when given less than 3 vertices" do
       proc { DCEL::HalfEdge.triangle(2.times.map { test_vertex }) }.must_raise(ArgumentError)
     end
@@ -57,33 +93,20 @@ describe DCEL::HalfEdge do
       half_edge_1 = half_edge_0.next_half_edge
       half_edge_2 = half_edge_1.next_half_edge
 
-      half_edge_0.origin.must_equal(vertices[0])
-      half_edge_1.origin.must_equal(vertices[1])
-      half_edge_2.origin.must_equal(vertices[2])
+      half_edges = [half_edge_0, half_edge_1, half_edge_2]
+      half_edges.map(&:origin).must_equal(vertices)
+      half_edges.must_form_a_half_edge_cycle
 
-      half_edge_0.next_half_edge.must_equal(half_edge_1)
-      half_edge_1.next_half_edge.must_equal(half_edge_2)
-      half_edge_2.next_half_edge.must_equal(half_edge_0)
+      twin_half_edges = half_edges.map(&:twin_half_edge)
+      twin_half_edges.map(&:origin).must_equal([vertices[1], vertices[2], vertices[0]])
+      twin_half_edges.reverse.must_form_a_half_edge_cycle
+    end
+  end
 
-      half_edge_0.previous_half_edge.must_equal(half_edge_2)
-      half_edge_1.previous_half_edge.must_equal(half_edge_0)
-      half_edge_2.previous_half_edge.must_equal(half_edge_1)
-
-      twin_half_edge_0 = half_edge_0.twin_half_edge
-      twin_half_edge_1 = half_edge_1.twin_half_edge
-      twin_half_edge_2 = half_edge_2.twin_half_edge
-
-      twin_half_edge_0.origin.must_equal(vertices[1])
-      twin_half_edge_1.origin.must_equal(vertices[2])
-      twin_half_edge_2.origin.must_equal(vertices[0])
-
-      twin_half_edge_0.next_half_edge.must_equal(twin_half_edge_2)
-      twin_half_edge_1.next_half_edge.must_equal(twin_half_edge_0)
-      twin_half_edge_2.next_half_edge.must_equal(twin_half_edge_1)
-
-      twin_half_edge_0.previous_half_edge.must_equal(twin_half_edge_1)
-      twin_half_edge_1.previous_half_edge.must_equal(twin_half_edge_2)
-      twin_half_edge_2.previous_half_edge.must_equal(twin_half_edge_0)
+  describe "#subdivide" do
+    it "subdivides a triangle about an interior vertex" do
+      vertices = 3.times.map { test_vertex }
+      half_edge_0 = DCEL::HalfEdge.triangle(vertices)
     end
   end
 

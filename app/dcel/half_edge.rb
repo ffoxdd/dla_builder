@@ -1,4 +1,10 @@
-module DCEL; end
+module DCEL
+  # TODO: find a better place for this helper code
+
+  def self.cyclical_each_pair(enumerable, &block)
+    enumerable.cycle.each_cons(2).take(enumerable.size).each(&block)
+  end
+end
 
 class DCEL::HalfEdge
 
@@ -38,35 +44,16 @@ class DCEL::HalfEdge
   end
 
   def self.circular_link(half_edges)
-    cyclical_each_pair(half_edges) do |previous_half_edge, next_half_edge|
+    DCEL.cyclical_each_pair(half_edges) do |previous_half_edge, next_half_edge|
       previous_half_edge.next_half_edge = next_half_edge
       next_half_edge.previous_half_edge = previous_half_edge
     end
-  end
-
-  def self.cyclical_each_pair(enumerable, &block)
-    enumerable.cycle.each_cons(2).take(enumerable.size).each(&block)
   end
 
   protected
 
   # attr_writer :origin
   attr_reader :id # utility / for testing
-
-  # def link_next(half_edge)
-  #   self.next_half_edge = half_edge
-  #   half_edge.previous_half_edge = self
-  # end
-
-  # def link_previous(half_edge)
-  #   self.previous_half_edge = half_edge
-  #   half_edge.next_half_edge = self
-  # end
-  #
-  # def link_twin(half_edge)
-  #   self.twin_half_edge = half_edge
-  #   half_edge.twin_half_edge = self
-  # end
 
   private
 
