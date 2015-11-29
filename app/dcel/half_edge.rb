@@ -23,11 +23,20 @@ class DCEL::HalfEdge
     new(options).tap(&:self_link)
   end
 
+  def singleton?
+    twin_half_edge == self
+  end
+
   def self_link
     link_all(self)
   end
 
   def link_vertex(vertex)
+    (link_degenerate_vertex(vertex) && return) if singleton?
+    raise
+  end
+
+  def link_degenerate_vertex(vertex)
     new_half_edge = DCEL::HalfEdge.new(
       origin: vertex,
       previous_half_edge: self,
@@ -37,10 +46,6 @@ class DCEL::HalfEdge
 
     link_all(new_half_edge)
   end
-
-  # def triangle?
-  #   next_half_edge.next_half_edge.next_half_edge == self
-  # end
 
   protected
 

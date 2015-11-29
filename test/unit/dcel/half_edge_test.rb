@@ -41,12 +41,25 @@ describe DCEL::HalfEdge do
 
   describe ".singleton" do
     it "creates a half-edge that is it's own twin, next and previous edge" do
-      origin = Object.new
+      origin = test_vertex
 
       half_edge = DCEL::HalfEdge.singleton(origin: origin)
       half_edge.twin_half_edge.must_equal(half_edge)
       half_edge.next_half_edge.must_equal(half_edge)
       half_edge.previous_half_edge.must_equal(half_edge)
+    end
+  end
+
+  describe "#singleton?" do
+    it "returns true for a singleton (self-linked half edge)" do
+      vertex_0 = test_vertex
+      vertex_1 = test_vertex
+
+      half_edge = DCEL::HalfEdge.singleton(origin: vertex_0)
+      half_edge.singleton?.must_equal(true)
+
+      half_edge.link_vertex(vertex_1)
+      half_edge.singleton?.must_equal(false)
     end
   end
 
@@ -88,12 +101,6 @@ describe DCEL::HalfEdge do
   #
   #     half_edge.next_half_edge.twin_half_edge.wont_equal(nil)
   #     half_edge.next_half_edge.twin_half_edge.origin.must_equal(half_edge_0.origin) # triangle
-  #   end
-  # end
-  #
-  # describe "#triangle?" do
-  #   it "returns true when an edge is part of a closed triangle" do
-  #     test_triangle.triangle?.must_equal(true)
   #   end
   # end
 
