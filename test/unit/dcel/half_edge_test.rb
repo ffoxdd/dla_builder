@@ -42,6 +42,14 @@ describe DCEL::HalfEdge do
   describe ".triangle" do
     # TODO: make a matcher to check that an array of half edges are circularly linked
 
+    it "raises ArgumentError when given less than 3 vertices" do
+      proc { DCEL::HalfEdge.triangle(2.times.map { test_vertex }) }.must_raise(ArgumentError)
+    end
+
+    it "raises ArgumentError when given more than 3 vertices" do
+      proc { DCEL::HalfEdge.triangle(4.times.map { test_vertex }) }.must_raise(ArgumentError)
+    end
+
     it "creates a fully linked triangle from 3 vertices" do
       vertices = 3.times.map { test_vertex }
 
