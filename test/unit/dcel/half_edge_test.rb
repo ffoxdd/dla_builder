@@ -41,21 +41,6 @@ Array.infect_an_assertion :assert_half_edge_cycle, :must_form_a_half_edge_cycle
 
 describe DCEL::HalfEdge do
 
-  describe "test test test" do
-    it "works" do
-      e0 = DCEL::HalfEdge.new(origin: test_vertex)
-      e1 = DCEL::HalfEdge.new(origin: test_vertex)
-
-      e0.next_half_edge = e1
-      e1.previous_half_edge = e0
-
-      e1.next_half_edge = e0
-      e0.previous_half_edge = e1
-
-      [e0, e1].must_form_a_half_edge_cycle
-    end
-  end
-
   describe "#next_half_edge/#previous_half_edge/#twin_half_edge/#origin" do
     it "has readers for connected components" do
       origin_vertex = test_vertex
@@ -75,6 +60,10 @@ describe DCEL::HalfEdge do
       half_edge.next_half_edge.must_equal(next_half_edge)
       half_edge.twin_half_edge.must_equal(twin_half_edge)
     end
+  end
+
+  describe "#next_vertex" do
+    # TODO
   end
 
   describe ".triangle" do
