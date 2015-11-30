@@ -15,7 +15,7 @@ describe DCEL::Subdivider do
       triangle = DCEL::Builder.triangle(vertices)
       half_edges = triangle.half_edges
 
-      DCEL::Subdivider.new(half_edges[0], inner_vertex).subdivide_triangle
+      DCEL::Subdivider.new(triangle, inner_vertex).subdivide_triangle
 
       half_edges[0].must_be_face_for([vertices[0], vertices[1], inner_vertex])
       half_edges[1].must_be_face_for([vertices[1], vertices[2], inner_vertex])

@@ -5,9 +5,9 @@ require_relative "builder"
 module DCEL; end
 
 class DCEL::Subdivider
-  def initialize(half_edge, inner_vertex)
+  def initialize(face, inner_vertex)
     @inner_vertex = inner_vertex
-    @original_face_edges = DCEL::Face.new(half_edge).half_edges
+    @original_face_edges = face.half_edges
   end
 
   def subdivide_triangle

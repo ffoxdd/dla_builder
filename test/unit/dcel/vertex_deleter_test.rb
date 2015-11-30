@@ -17,7 +17,7 @@ describe DCEL::VertexDeleter do
 
     before do
       original_triangle_edges
-      DCEL::Subdivider.new(original_triangle_edges[0], inner_vertex).subdivide_triangle
+      DCEL::Subdivider.new(triangle, inner_vertex).subdivide_triangle
     end
 
     it "can delete an inner vertex" do
