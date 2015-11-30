@@ -33,6 +33,10 @@ class DCEL::HalfEdge
     next_half_edge.origin
   end
 
+  def adjacent_half_edge
+    twin_half_edge.next_half_edge
+  end
+
   def face_edges
     next_enumerator.to_a
   end
@@ -41,6 +45,9 @@ class DCEL::HalfEdge
     Subdivider.new(self, inner_vertex).subdivide_triangle
   end
 
+  def delete_vertex
+    all_half_edges_from_origin.each { |half_edge| delete_edge(half_edge) }
+  end
 
   protected
 
@@ -48,6 +55,29 @@ class DCEL::HalfEdge
   attr_reader :id # utility
 
   private
+
+  def delete_edge(half_edge)
+    new_corner_previous_half_edge = half_edge.twin_half_edge.previous_half_edge
+    new_corner_next_half_edge = half_edge.next_half_edge
+
+    Builder.new.link_sequentially(new_corner_previous_half_edge, new_corner_next_half_edge)
+  end
+
+  def all_half_edges_from_origin
+    half_edges_from_origin_enumerator.to_a
+  end
+
+  def half_edges_from_origin_enumerator
+    Enumerator.new do |y|
+      self.tap do |current_half_edge|
+        loop do
+          y.yield(current_half_edge)
+          current_half_edge = current_half_edge.adjacent_half_edge
+          break if current_half_edge.nil? || current_half_edge == self
+        end
+      end
+    end
+  end
 
   def next_enumerator
     Enumerator.new do |y|

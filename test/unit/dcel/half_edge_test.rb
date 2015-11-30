@@ -78,6 +78,10 @@ describe DCEL::HalfEdge do
     # TODO
   end
 
+  describe "#adjacent_half_edge" do
+    # TODO
+  end
+
   describe ".triangle" do
     it "raises ArgumentError when given less than 3 vertices" do
       proc { DCEL::HalfEdge.triangle(2.times.map { test_vertex }) }.must_raise(ArgumentError)
@@ -114,6 +118,21 @@ describe DCEL::HalfEdge do
       half_edges[1].must_be_face_for([vertices[1], vertices[2], inner_vertex])
       half_edges[2].must_be_face_for([vertices[2], vertices[0], inner_vertex])
 
+      half_edges[0].twin_half_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
+    end
+  end
+
+  describe "#delete_vertex" do
+    it "can delete an inner vertex" do
+      vertices = 3.times.map { test_vertex }
+      inner_vertex = test_vertex
+      half_edges = DCEL::HalfEdge.triangle(vertices).face_edges
+      half_edges[0].subdivide_triangle(inner_vertex)
+      inner_vertex_edge = half_edges[0].previous_half_edge
+
+      inner_vertex_edge.delete_vertex
+
+      half_edges[0].must_be_face_for(vertices)
       half_edges[0].twin_half_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
     end
   end
