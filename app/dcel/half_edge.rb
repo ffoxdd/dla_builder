@@ -36,10 +36,6 @@ class DCEL::HalfEdge
     enumerator(&:adjacent_half_edge).to_a
   end
 
-  def delete_vertex
-    VertexDeleter.new.delete_vertex(self)
-  end
-
   def enumerator(&next_procedure)
     Enumerator.new do |y|
       self.tap do |current_half_edge|
