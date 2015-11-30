@@ -29,7 +29,6 @@ class DCEL::HalfEdge
   end
 
   def next_vertex
-    return unless next_half_edge
     next_half_edge.origin
   end
 
