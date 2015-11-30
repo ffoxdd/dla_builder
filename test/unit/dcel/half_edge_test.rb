@@ -123,17 +123,34 @@ describe DCEL::HalfEdge do
   end
 
   describe "#delete_vertex" do
-    it "can delete an inner vertex" do
-      vertices = 3.times.map { test_vertex }
-      inner_vertex = test_vertex
-      half_edges = DCEL::HalfEdge.triangle(vertices).face_edges
-      half_edges[0].subdivide_triangle(inner_vertex)
-      inner_vertex_edge = half_edges[0].previous_half_edge
+    let(:vertices) { 3.times.map { test_vertex } }
+    let(:inner_vertex) { test_vertex }
+    let(:triangle) { DCEL::HalfEdge.triangle(vertices) }
+    let(:original_triangle_edges) { triangle.face_edges }
 
+    before do
+      original_triangle_edges
+      triangle.subdivide_triangle(inner_vertex)
+    end
+
+    it "can delete an inner vertex" do
+      inner_vertex_edge = original_triangle_edges[0].previous_half_edge
       inner_vertex_edge.delete_vertex
 
-      half_edges[0].must_be_face_for(vertices)
-      half_edges[0].twin_half_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
+      inner_half_edge = original_triangle_edges[0]
+
+      inner_half_edge.must_be_face_for(vertices)
+      inner_half_edge.twin_half_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
+    end
+
+    it "can delete a perimeter vertex" do
+      perimeter_vertex_edge = original_triangle_edges[0].twin_half_edge
+      perimeter_vertex_edge.delete_vertex
+
+      inner_half_edge = original_triangle_edges[2]
+
+      inner_half_edge.must_be_face_for([vertices[2], vertices[0], inner_vertex])
+      inner_half_edge.twin_half_edge.must_be_face_for([vertices[0], vertices[2], inner_vertex])
     end
   end
 
