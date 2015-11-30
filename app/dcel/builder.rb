@@ -1,3 +1,6 @@
+require_relative "half_edge"
+require_relative "face"
+
 module DCEL; end
 
 module DCEL::Builder

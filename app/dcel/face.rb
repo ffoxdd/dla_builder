@@ -1,3 +1,5 @@
+require_relative "builder"
+
 module DCEL; end
 
 class DCEL::Face

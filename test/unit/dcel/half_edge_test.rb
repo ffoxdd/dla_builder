@@ -1,5 +1,7 @@
 require_relative "../../test_helper.rb"
+require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/half_edge"
+require_relative "../../../app/dcel/builder"
 
 def test_vertex
   Object.new
@@ -15,37 +17,6 @@ def test_triangle
     half_edge.next_half_edge.link_vertex(test_vertex)
   end
 end
-
-module MiniTest::Assertions
-  def assert_half_edge_cycle(_, half_edges) # TODO: find a better place for this assertion
-    assert cycle?(half_edges), "Expected half edges to form a cycle"
-  end
-
-  def assert_face_for(half_edge, vertices)
-    assert face_for_vertices?(half_edge, vertices), "Expected half edges to form a face for the given vertices"
-  end
-
-  private
-
-  def face_for_vertices?(vertices, half_edge)
-    face_edges = DCEL::Face.new(half_edge).half_edges
-    cycle?(face_edges) && face_edges.map(&:origin) == vertices
-  end
-
-  def cycle?(half_edges)
-    DCEL.cyclical_each_pair(half_edges).all? do |previous_half_edge, next_half_edge|
-      sequentially_linked?(previous_half_edge, next_half_edge)
-    end
-  end
-
-  def sequentially_linked?(previous_half_edge, next_half_edge)
-    previous_half_edge.next_half_edge == next_half_edge &&
-    next_half_edge.previous_half_edge == previous_half_edge
-  end
-end
-
-Array.infect_an_assertion :assert_half_edge_cycle, :must_form_a_half_edge_cycle
-DCEL::HalfEdge.infect_an_assertion :assert_face_for, :must_be_face_for
 
 describe DCEL::HalfEdge do
 
@@ -99,55 +70,6 @@ describe DCEL::HalfEdge do
       twin_half_edges = half_edges.map(&:twin_half_edge)
       twin_half_edges.map(&:origin).must_equal([vertices[1], vertices[2], vertices[0]])
       twin_half_edges.reverse.must_form_a_half_edge_cycle
-    end
-  end
-
-  describe "#subdivide_triangle" do
-    it "subdivides a triangle about an interior vertex" do
-      vertices = 3.times.map { test_vertex }
-      inner_vertex = test_vertex
-      triangle = DCEL::Builder.triangle(vertices)
-      half_edges = triangle.half_edges
-
-      half_edges[0].subdivide_triangle(inner_vertex)
-
-      half_edges[0].must_be_face_for([vertices[0], vertices[1], inner_vertex])
-      half_edges[1].must_be_face_for([vertices[1], vertices[2], inner_vertex])
-      half_edges[2].must_be_face_for([vertices[2], vertices[0], inner_vertex])
-
-      half_edges[0].twin_half_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
-    end
-  end
-
-  describe "#delete_vertex" do
-    let(:vertices) { 3.times.map { test_vertex } }
-    let(:inner_vertex) { test_vertex }
-    let(:triangle) { DCEL::Builder.triangle(vertices) }
-    let(:original_triangle_edges) { triangle.half_edges }
-
-    before do
-      original_triangle_edges
-      original_triangle_edges[0].subdivide_triangle(inner_vertex)
-    end
-
-    it "can delete an inner vertex" do
-      inner_vertex_edge = original_triangle_edges[0].previous_half_edge
-      inner_vertex_edge.delete_vertex
-
-      inner_half_edge = original_triangle_edges[0]
-
-      inner_half_edge.must_be_face_for(vertices)
-      inner_half_edge.twin_half_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
-    end
-
-    it "can delete a perimeter vertex" do
-      perimeter_vertex_edge = original_triangle_edges[0].twin_half_edge
-      perimeter_vertex_edge.delete_vertex
-
-      inner_half_edge = original_triangle_edges[2]
-
-      inner_half_edge.must_be_face_for([vertices[2], vertices[0], inner_vertex])
-      inner_half_edge.twin_half_edge.must_be_face_for([vertices[0], vertices[2], inner_vertex])
     end
   end
 
