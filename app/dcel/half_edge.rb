@@ -25,7 +25,7 @@ class DCEL::HalfEdge
   attr_accessor :previous_half_edge, :next_half_edge, :twin_half_edge
 
   def self.triangle(vertices)
-    Builder.new.triangle(vertices)
+    Builder.triangle(vertices)
   end
 
   def next_vertex
@@ -87,7 +87,7 @@ class DCEL::HalfEdge
     private
 
     def delete_edge(half_edge)
-      Builder.new.link_sequentially(*new_corner_half_edges(half_edge))
+      Builder.link_sequentially(*new_corner_half_edges(half_edge))
     end
 
     def new_corner_half_edges(half_edge)
@@ -110,7 +110,7 @@ class DCEL::HalfEdge
     attr_reader :inner_vertex, :original_face_edges
 
     def link_spokes
-      each_spoke { |inward_edge, outward_edge| Builder.new.link_twin(inward_edge, outward_edge) }
+      each_spoke { |inward_edge, outward_edge| Builder.link_twin(inward_edge, outward_edge) }
     end
 
     def build_inner_triangles
@@ -130,11 +130,13 @@ class DCEL::HalfEdge
       inward_edge = DCEL::HalfEdge.new(origin: perimeter_half_edge.next_vertex)
       outward_edge = DCEL::HalfEdge.new(origin: inner_vertex)
 
-      Builder.new.cyclically_link([perimeter_half_edge, inward_edge, outward_edge])
+      Builder.cyclically_link([perimeter_half_edge, inward_edge, outward_edge])
     end
   end
 
-  class Builder
+  module Builder
+    extend self
+
     def triangle(vertices)
       raise ArgumentError unless vertices.size == 3
 
