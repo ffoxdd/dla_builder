@@ -38,11 +38,11 @@ class DCEL::HalfEdge
   end
 
   def face_edges
-    next_enumerator.to_a
+    enumerator(&:next_half_edge).to_a
   end
 
   def all_adjacent_edges
-    adjacent_edge_enumerator.to_a
+    enumerator(&:adjacent_half_edge).to_a
   end
 
   def subdivide_triangle(inner_vertex)
@@ -58,24 +58,12 @@ class DCEL::HalfEdge
 
   private
 
-  def adjacent_edge_enumerator
+  def enumerator(&next_procedure)
     Enumerator.new do |y|
       self.tap do |current_half_edge|
         loop do
           y.yield(current_half_edge)
-          current_half_edge = current_half_edge.adjacent_half_edge
-          break if current_half_edge.nil? || current_half_edge == self
-        end
-      end
-    end
-  end
-
-  def next_enumerator
-    Enumerator.new do |y|
-      self.tap do |current_half_edge|
-        loop do
-          y.yield(current_half_edge)
-          current_half_edge = current_half_edge.next_half_edge
+          current_half_edge = next_procedure.call(current_half_edge)
           break if current_half_edge.nil? || current_half_edge == self
         end
       end
