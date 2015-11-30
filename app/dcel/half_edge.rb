@@ -41,22 +41,6 @@ class DCEL::HalfEdge
     Subdivider.new(self, inner_vertex).subdivide_triangle
   end
 
-    # triangle_edges = face_edges
-    #
-    # triangle_edges.each do |face_edge|
-    #   inward_edge = DCEL::HalfEdge.new(origin: face_edge.next_vertex)
-    #   outward_edge = DCEL::HalfEdge.new(origin: inner_vertex)
-    #
-    #   Builder.new.cyclically_link([face_edge, inward_edge, outward_edge])
-    # end
-    #
-    # DCEL.cyclical_each_pair(triangle_edges) do |previous_half_edge, next_half_edge|
-    #   inward_edge = previous_half_edge.next_half_edge
-    #   outward_edge = next_half_edge.previous_half_edge
-    #
-    #   Builder.new.link_twin(inward_edge, outward_edge)
-    # end
-  # end
 
   protected
 
@@ -98,9 +82,7 @@ class DCEL::HalfEdge
     attr_reader :inner_vertex, :original_face_edges
 
     def link_spokes
-      each_spoke do |inward_edge, outward_edge|
-        Builder.new.link_twin(inward_edge, outward_edge)
-      end
+      each_spoke { |inward_edge, outward_edge| Builder.new.link_twin(inward_edge, outward_edge) }
     end
 
     def build_inner_triangles
