@@ -80,17 +80,17 @@ describe DCEL::HalfEdge do
 
   describe ".triangle" do
     it "raises ArgumentError when given less than 3 vertices" do
-      proc { DCEL::HalfEdge.triangle(2.times.map { test_vertex }) }.must_raise(ArgumentError)
+      proc { DCEL::Builder.triangle(2.times.map { test_vertex }) }.must_raise(ArgumentError)
     end
 
     it "raises ArgumentError when given more than 3 vertices" do
-      proc { DCEL::HalfEdge.triangle(4.times.map { test_vertex }) }.must_raise(ArgumentError)
+      proc { DCEL::Builder.triangle(4.times.map { test_vertex }) }.must_raise(ArgumentError)
     end
 
     it "creates a fully linked triangle from 3 vertices" do
       vertices = 3.times.map { test_vertex }
 
-      triangle = DCEL::HalfEdge.triangle(vertices)
+      triangle = DCEL::Builder.triangle(vertices)
       half_edges = triangle.half_edges
 
       half_edges.map(&:origin).must_equal(vertices)
@@ -106,7 +106,7 @@ describe DCEL::HalfEdge do
     it "subdivides a triangle about an interior vertex" do
       vertices = 3.times.map { test_vertex }
       inner_vertex = test_vertex
-      triangle = DCEL::HalfEdge.triangle(vertices)
+      triangle = DCEL::Builder.triangle(vertices)
       half_edges = triangle.half_edges
 
       half_edges[0].subdivide_triangle(inner_vertex)
@@ -122,7 +122,7 @@ describe DCEL::HalfEdge do
   describe "#delete_vertex" do
     let(:vertices) { 3.times.map { test_vertex } }
     let(:inner_vertex) { test_vertex }
-    let(:triangle) { DCEL::HalfEdge.triangle(vertices) }
+    let(:triangle) { DCEL::Builder.triangle(vertices) }
     let(:original_triangle_edges) { triangle.half_edges }
 
     before do

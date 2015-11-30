@@ -1,4 +1,5 @@
 require_relative "face"
+require_relative "builder"
 
 module DCEL
   def self.cyclical_each_pair(enumerable, &block) # TODO: find a better place for this helper code
@@ -25,10 +26,6 @@ class DCEL::HalfEdge
 
   attr_reader :origin
   attr_accessor :previous_half_edge, :next_half_edge, :twin_half_edge
-
-  def self.triangle(vertices)
-    Builder.triangle(vertices)
-  end
 
   def next_vertex
     next_half_edge.origin
@@ -84,7 +81,7 @@ class DCEL::HalfEdge
     private
 
     def delete_edge(half_edge)
-      Builder.link_sequentially(*new_corner_half_edges(half_edge))
+      DCEL::Builder.link_sequentially(*new_corner_half_edges(half_edge))
     end
 
     def new_corner_half_edges(half_edge)
@@ -107,7 +104,7 @@ class DCEL::HalfEdge
     attr_reader :inner_vertex, :original_face_edges
 
     def link_spokes
-      each_spoke { |inward_edge, outward_edge| Builder.link_twin(inward_edge, outward_edge) }
+      each_spoke { |inward_edge, outward_edge| DCEL::Builder.link_twin(inward_edge, outward_edge) }
     end
 
     def build_inner_triangles
@@ -127,53 +124,7 @@ class DCEL::HalfEdge
       inward_edge = DCEL::HalfEdge.new(origin: perimeter_half_edge.next_vertex)
       outward_edge = DCEL::HalfEdge.new(origin: inner_vertex)
 
-      Builder.cyclically_link([perimeter_half_edge, inward_edge, outward_edge])
-    end
-  end
-
-  module Builder
-    extend self
-
-    def triangle(vertices)
-      raise ArgumentError unless vertices.size == 3
-
-      half_edges = vertices.map { |vertex| new_half_edge(vertex) }
-      cyclically_link(half_edges)
-
-      twin_half_edges = half_edges.map { |half_edge| new_half_edge(half_edge.next_vertex) }
-      cyclically_link(twin_half_edges.reverse)
-
-      link_twins(half_edges, twin_half_edges)
-
-      DCEL::Face.new(half_edges.first)
-    end
-
-    def cyclically_link(half_edges)
-      DCEL.cyclical_each_pair(half_edges) do |previous_half_edge, next_half_edge|
-        link_sequentially(previous_half_edge, next_half_edge)
-      end
-    end
-
-    def link_twins(half_edges, twin_half_edges)
-      half_edges.zip(twin_half_edges).each do |half_edge, twin_half_edge|
-        link_twin(half_edge, twin_half_edge)
-      end
-    end
-
-    def link_sequentially(previous_half_edge, next_half_edge)
-      previous_half_edge.next_half_edge = next_half_edge
-      next_half_edge.previous_half_edge = previous_half_edge
-    end
-
-    def link_twin(half_edge, twin_half_edge)
-      half_edge.twin_half_edge = twin_half_edge
-      twin_half_edge.twin_half_edge = half_edge
-    end
-
-    private
-
-    def new_half_edge(vertex)
-      DCEL::HalfEdge.new(origin: vertex)
+      DCEL::Builder.cyclically_link([perimeter_half_edge, inward_edge, outward_edge])
     end
   end
 
