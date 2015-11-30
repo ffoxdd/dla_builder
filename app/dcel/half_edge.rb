@@ -41,33 +41,24 @@ class DCEL::HalfEdge
     next_enumerator.to_a
   end
 
+  def all_adjacent_edges
+    adjacent_edge_enumerator.to_a
+  end
+
   def subdivide_triangle(inner_vertex)
     Subdivider.new(self, inner_vertex).subdivide_triangle
   end
 
   def delete_vertex
-    all_half_edges_from_origin.each { |half_edge| delete_edge(half_edge) }
+    VertexDeleter.new.delete_vertex(self)
   end
 
   protected
-
-  # attr_writer :origin
   attr_reader :id # utility
 
   private
 
-  def delete_edge(half_edge)
-    new_corner_previous_half_edge = half_edge.twin_half_edge.previous_half_edge
-    new_corner_next_half_edge = half_edge.next_half_edge
-
-    Builder.new.link_sequentially(new_corner_previous_half_edge, new_corner_next_half_edge)
-  end
-
-  def all_half_edges_from_origin
-    half_edges_from_origin_enumerator.to_a
-  end
-
-  def half_edges_from_origin_enumerator
+  def adjacent_edge_enumerator
     Enumerator.new do |y|
       self.tap do |current_half_edge|
         loop do
@@ -95,6 +86,25 @@ class DCEL::HalfEdge
     [:previous_half_edge, :next_half_edge, :twin_half_edge].map do |m|
       "#{m}=#{send(m).id if send(m)}"
     end.join(", ")
+  end
+
+  class VertexDeleter
+    # So far this "deletes" by reconnecting edges in the mesh to not include the deleted edges.
+    # More bookkeeping will need to be done when there is a global list of mesh components.
+
+    def delete_vertex(half_edge)
+      half_edge.all_adjacent_edges.each { |half_edge| delete_edge(half_edge) }
+    end
+
+    private
+
+    def delete_edge(half_edge)
+      Builder.new.link_sequentially(*new_corner_half_edges(half_edge))
+    end
+
+    def new_corner_half_edges(half_edge)
+      [half_edge.twin_half_edge.previous_half_edge, half_edge.next_half_edge]
+    end
   end
 
   class Subdivider
