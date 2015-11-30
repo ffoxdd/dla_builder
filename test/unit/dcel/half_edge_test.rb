@@ -90,8 +90,8 @@ describe DCEL::HalfEdge do
     it "creates a fully linked triangle from 3 vertices" do
       vertices = 3.times.map { test_vertex }
 
-      half_edge_0 = DCEL::HalfEdge.triangle(vertices)
-      half_edges = DCEL::Face.new(half_edge_0).half_edges
+      triangle = DCEL::HalfEdge.triangle(vertices)
+      half_edges = triangle.half_edges
 
       half_edges.map(&:origin).must_equal(vertices)
       half_edges.must_form_a_half_edge_cycle
@@ -107,7 +107,7 @@ describe DCEL::HalfEdge do
       vertices = 3.times.map { test_vertex }
       inner_vertex = test_vertex
       triangle = DCEL::HalfEdge.triangle(vertices)
-      half_edges = DCEL::Face.new(triangle).half_edges
+      half_edges = triangle.half_edges
 
       half_edges[0].subdivide_triangle(inner_vertex)
 
@@ -123,11 +123,11 @@ describe DCEL::HalfEdge do
     let(:vertices) { 3.times.map { test_vertex } }
     let(:inner_vertex) { test_vertex }
     let(:triangle) { DCEL::HalfEdge.triangle(vertices) }
-    let(:original_triangle_edges) { DCEL::Face.new(triangle).half_edges }
+    let(:original_triangle_edges) { triangle.half_edges }
 
     before do
       original_triangle_edges
-      triangle.subdivide_triangle(inner_vertex)
+      original_triangle_edges[0].subdivide_triangle(inner_vertex)
     end
 
     it "can delete an inner vertex" do

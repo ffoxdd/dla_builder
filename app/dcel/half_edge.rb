@@ -145,7 +145,7 @@ class DCEL::HalfEdge
 
       link_twins(half_edges, twin_half_edges)
 
-      half_edges.first
+      DCEL::Face.new(half_edges.first)
     end
 
     def cyclically_link(half_edges)
