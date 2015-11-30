@@ -28,7 +28,7 @@ module MiniTest::Assertions
   private
 
   def face_for_vertices?(vertices, half_edge)
-    face_edges = half_edge.face_edges
+    face_edges = DCEL::Face.new(half_edge).half_edges
     cycle?(face_edges) && face_edges.map(&:origin) == vertices
   end
 
@@ -74,10 +74,6 @@ describe DCEL::HalfEdge do
     # TODO
   end
 
-  describe "#face_edges" do
-    # TODO
-  end
-
   describe "#adjacent_half_edge" do
     # TODO
   end
@@ -95,7 +91,7 @@ describe DCEL::HalfEdge do
       vertices = 3.times.map { test_vertex }
 
       half_edge_0 = DCEL::HalfEdge.triangle(vertices)
-      half_edges = half_edge_0.face_edges
+      half_edges = DCEL::Face.new(half_edge_0).half_edges
 
       half_edges.map(&:origin).must_equal(vertices)
       half_edges.must_form_a_half_edge_cycle
@@ -110,7 +106,8 @@ describe DCEL::HalfEdge do
     it "subdivides a triangle about an interior vertex" do
       vertices = 3.times.map { test_vertex }
       inner_vertex = test_vertex
-      half_edges = DCEL::HalfEdge.triangle(vertices).face_edges
+      triangle = DCEL::HalfEdge.triangle(vertices)
+      half_edges = DCEL::Face.new(triangle).half_edges
 
       half_edges[0].subdivide_triangle(inner_vertex)
 
@@ -126,7 +123,7 @@ describe DCEL::HalfEdge do
     let(:vertices) { 3.times.map { test_vertex } }
     let(:inner_vertex) { test_vertex }
     let(:triangle) { DCEL::HalfEdge.triangle(vertices) }
-    let(:original_triangle_edges) { triangle.face_edges }
+    let(:original_triangle_edges) { DCEL::Face.new(triangle).half_edges }
 
     before do
       original_triangle_edges

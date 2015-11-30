@@ -1,3 +1,5 @@
+require_relative "face"
+
 module DCEL
   def self.cyclical_each_pair(enumerable, &block) # TODO: find a better place for this helper code
     enumerable.cycle.each_cons(2).take(enumerable.size).each(&block)
@@ -36,10 +38,6 @@ class DCEL::HalfEdge
     twin_half_edge.next_half_edge
   end
 
-  def face_edges
-    enumerator(&:next_half_edge).to_a
-  end
-
   def all_adjacent_edges
     enumerator(&:adjacent_half_edge).to_a
   end
@@ -52,11 +50,6 @@ class DCEL::HalfEdge
     VertexDeleter.new.delete_vertex(self)
   end
 
-  protected
-  attr_reader :id # utility
-
-  private
-
   def enumerator(&next_procedure)
     Enumerator.new do |y|
       self.tap do |current_half_edge|
@@ -68,6 +61,11 @@ class DCEL::HalfEdge
       end
     end
   end
+
+  protected
+  attr_reader :id # utility
+
+  private
 
   def inspect_links
     [:previous_half_edge, :next_half_edge, :twin_half_edge].map do |m|
@@ -97,7 +95,7 @@ class DCEL::HalfEdge
   class Subdivider
     def initialize(half_edge, inner_vertex)
       @inner_vertex = inner_vertex
-      @original_face_edges = half_edge.face_edges
+      @original_face_edges = DCEL::Face.new(half_edge).half_edges
     end
 
     def subdivide_triangle

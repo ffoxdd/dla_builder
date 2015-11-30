@@ -23,3 +23,4 @@
 - [ ] Consider factoring out linked list behavior from DCEL::HalfEdge
 
 - [ ] See if triangle specific methods in DCEL::HalfEdge work for faces generally
+- [ ] Factor out the creation of enumerators for linked list type objects
