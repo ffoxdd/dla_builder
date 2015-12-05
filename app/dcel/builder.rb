@@ -1,4 +1,4 @@
-require_relative "half_edge"
+require_relative "edge"
 require_relative "face"
 
 module DCEL; end
@@ -9,42 +9,42 @@ module DCEL::Builder
   def triangle(vertices)
     raise ArgumentError unless vertices.size == 3
 
-    half_edges = vertices.map { |vertex| new_half_edge(vertex) }
-    cyclically_link(half_edges)
+    edges = vertices.map { |vertex| new_edge(vertex) }
+    cyclically_link(edges)
 
-    twin_half_edges = half_edges.map { |half_edge| new_half_edge(half_edge.destination_vertex) }
-    cyclically_link(twin_half_edges.reverse)
+    twin_edges = edges.map { |edge| new_edge(edge.destination_vertex) }
+    cyclically_link(twin_edges.reverse)
 
-    link_twins(half_edges, twin_half_edges)
+    link_twins(edges, twin_edges)
 
-    DCEL::Face.new(half_edges.first)
+    DCEL::Face.new(edges.first)
   end
 
-  def cyclically_link(half_edges)
-    DCEL.cyclical_each_pair(half_edges) do |previous_half_edge, next_half_edge|
-      link_sequentially(previous_half_edge, next_half_edge)
+  def cyclically_link(edges)
+    DCEL.cyclical_each_pair(edges) do |previous_edge, next_edge|
+      link_sequentially(previous_edge, next_edge)
     end
   end
 
-  def link_twins(half_edges, twin_half_edges)
-    half_edges.zip(twin_half_edges).each do |half_edge, twin_half_edge|
-      link_twin(half_edge, twin_half_edge)
+  def link_twins(edges, twin_edges)
+    edges.zip(twin_edges).each do |edge, twin_edge|
+      link_twin(edge, twin_edge)
     end
   end
 
-  def link_sequentially(previous_half_edge, next_half_edge)
-    previous_half_edge.next_half_edge = next_half_edge
-    next_half_edge.previous_half_edge = previous_half_edge
+  def link_sequentially(previous_edge, next_edge)
+    previous_edge.next_edge = next_edge
+    next_edge.previous_edge = previous_edge
   end
 
-  def link_twin(half_edge, twin_half_edge)
-    half_edge.twin_half_edge = twin_half_edge
-    twin_half_edge.twin_half_edge = half_edge
+  def link_twin(edge, twin_edge)
+    edge.twin_edge = twin_edge
+    twin_edge.twin_edge = edge
   end
 
   private
 
-  def new_half_edge(vertex)
-    DCEL::HalfEdge.new(origin_vertex: vertex)
+  def new_edge(vertex)
+    DCEL::Edge.new(origin_vertex: vertex)
   end
 end

@@ -3,14 +3,14 @@ require_relative "builder"
 module DCEL; end
 
 class DCEL::Face
-  def initialize(half_edge)
-    @half_edge = half_edge
+  def initialize(edge)
+    @edge = edge
   end
 
-  def half_edges
-    half_edge.enumerator(&:next_half_edge).to_a
+  def edges
+    edge.enumerator(&:next_edge).to_a
   end
 
   private
-  attr_reader :half_edge
+  attr_reader :edge
 end

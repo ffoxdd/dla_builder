@@ -1,4 +1,4 @@
-require_relative "half_edge"
+require_relative "edge"
 require_relative "face"
 require_relative "builder"
 
@@ -7,7 +7,7 @@ module DCEL; end
 class DCEL::Subdivider
   def initialize(face, inner_vertex)
     @inner_vertex = inner_vertex
-    @original_face_edges = face.half_edges
+    @original_face_edges = face.edges
   end
 
   def subdivide_triangle
@@ -23,22 +23,22 @@ class DCEL::Subdivider
   end
 
   def build_inner_triangles
-    original_face_edges.each { |half_edge| build_inner_triangle(half_edge) }
+    original_face_edges.each { |edge| build_inner_triangle(edge) }
   end
 
   def each_spoke
-    DCEL.cyclical_each_pair(original_face_edges) do |previous_half_edge, next_half_edge|
-      inward_edge = previous_half_edge.next_half_edge
-      outward_edge = next_half_edge.previous_half_edge
+    DCEL.cyclical_each_pair(original_face_edges) do |previous_edge, next_edge|
+      inward_edge = previous_edge.next_edge
+      outward_edge = next_edge.previous_edge
 
       yield(inward_edge, outward_edge)
     end
   end
 
-  def build_inner_triangle(perimeter_half_edge)
-    inward_edge = DCEL::HalfEdge.new(origin_vertex: perimeter_half_edge.destination_vertex)
-    outward_edge = DCEL::HalfEdge.new(origin_vertex: inner_vertex)
+  def build_inner_triangle(perimeter_edge)
+    inward_edge = DCEL::Edge.new(origin_vertex: perimeter_edge.destination_vertex)
+    outward_edge = DCEL::Edge.new(origin_vertex: inner_vertex)
 
-    DCEL::Builder.cyclically_link([perimeter_half_edge, inward_edge, outward_edge])
+    DCEL::Builder.cyclically_link([perimeter_edge, inward_edge, outward_edge])
   end
 end

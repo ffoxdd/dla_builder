@@ -13,15 +13,15 @@ describe DCEL::Subdivider do
       vertices = 3.times.map { test_vertex }
       inner_vertex = test_vertex
       triangle = DCEL::Builder.triangle(vertices)
-      half_edges = triangle.half_edges
+      edges = triangle.edges
 
       DCEL::Subdivider.new(triangle, inner_vertex).subdivide_triangle
 
-      half_edges[0].must_be_face_for([vertices[0], vertices[1], inner_vertex])
-      half_edges[1].must_be_face_for([vertices[1], vertices[2], inner_vertex])
-      half_edges[2].must_be_face_for([vertices[2], vertices[0], inner_vertex])
+      edges[0].must_be_face_for([vertices[0], vertices[1], inner_vertex])
+      edges[1].must_be_face_for([vertices[1], vertices[2], inner_vertex])
+      edges[2].must_be_face_for([vertices[2], vertices[0], inner_vertex])
 
-      half_edges[0].twin_half_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
+      edges[0].twin_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
     end
   end
 end

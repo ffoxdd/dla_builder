@@ -1,33 +1,33 @@
-require_relative "../../app/dcel/half_edge"
+require_relative "../../app/dcel/edge"
 require_relative "../../app/dcel/face"
 
 module MiniTest::Assertions
-  def assert_half_edge_cycle(_, half_edges) # TODO: find a better place for this assertion
-    assert cycle?(half_edges), "Expected half edges to form a cycle"
+  def assert_edge_cycle(_, edges) # TODO: find a better place for this assertion
+    assert cycle?(edges), "Expected edges to form a cycle"
   end
 
-  def assert_face_for(half_edge, vertices)
-    assert face_for_vertices?(half_edge, vertices), "Expected half edges to form a face for the given vertices"
+  def assert_face_for(edge, vertices)
+    assert face_for_vertices?(edge, vertices), "Expected edges to form a face for the given vertices"
   end
 
   private
 
-  def face_for_vertices?(vertices, half_edge)
-    face_edges = DCEL::Face.new(half_edge).half_edges
+  def face_for_vertices?(vertices, edge)
+    face_edges = DCEL::Face.new(edge).edges
     cycle?(face_edges) && face_edges.map(&:origin_vertex) == vertices
   end
 
-  def cycle?(half_edges)
-    DCEL.cyclical_each_pair(half_edges).all? do |previous_half_edge, next_half_edge|
-      sequentially_linked?(previous_half_edge, next_half_edge)
+  def cycle?(edges)
+    DCEL.cyclical_each_pair(edges).all? do |previous_edge, next_edge|
+      sequentially_linked?(previous_edge, next_edge)
     end
   end
 
-  def sequentially_linked?(previous_half_edge, next_half_edge)
-    previous_half_edge.next_half_edge == next_half_edge &&
-    next_half_edge.previous_half_edge == previous_half_edge
+  def sequentially_linked?(previous_edge, next_edge)
+    previous_edge.next_edge == next_edge &&
+    next_edge.previous_edge == previous_edge
   end
 end
 
-Array.infect_an_assertion :assert_half_edge_cycle, :must_form_a_half_edge_cycle
-DCEL::HalfEdge.infect_an_assertion :assert_face_for, :must_be_face_for
+Array.infect_an_assertion :assert_edge_cycle, :must_form_a_edge_cycle
+DCEL::Edge.infect_an_assertion :assert_face_for, :must_be_face_for

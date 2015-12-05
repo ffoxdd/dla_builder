@@ -20,7 +20,7 @@
 - [ ] Figure out a slicker way of accepting various proc arity for dla visitors
 - [ ] Make BoundingBoxFinder more functional by taking work out of the initializer
 - [ ] Use Translation wherever rotation/offset pairs are used
-- [ ] Consider factoring out linked list behavior from DCEL::HalfEdge
+- [ ] Consider factoring out linked list behavior from DCEL::Edge
 
-- [ ] See if triangle specific methods in DCEL::HalfEdge work for faces generally
+- [ ] See if triangle specific methods in DCEL::Edge work for faces generally
 - [ ] Factor out the creation of enumerators for linked list type objects

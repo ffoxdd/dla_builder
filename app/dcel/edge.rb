@@ -4,15 +4,15 @@ module DCEL
   end
 end
 
-class DCEL::HalfEdge
+class DCEL::Edge
 
   @@instance_count = 0
 
   def initialize(options = {})
     @origin_vertex = options.fetch(:origin_vertex)
-    @previous_half_edge = options.fetch(:previous_half_edge, nil)
-    @next_half_edge = options.fetch(:next_half_edge, nil)
-    @twin_half_edge = options.fetch(:twin_half_edge, nil)
+    @previous_edge = options.fetch(:previous_edge, nil)
+    @next_edge = options.fetch(:next_edge, nil)
+    @twin_edge = options.fetch(:twin_edge, nil)
 
     @id = (@@instance_count += 1)
   end
@@ -22,27 +22,27 @@ class DCEL::HalfEdge
   end
 
   attr_reader :origin_vertex
-  attr_accessor :previous_half_edge, :next_half_edge, :twin_half_edge
+  attr_accessor :previous_edge, :next_edge, :twin_edge
 
   def destination_vertex
-    next_half_edge.origin_vertex
+    next_edge.origin_vertex
   end
 
-  def adjacent_half_edge
-    twin_half_edge.next_half_edge
+  def adjacent_edge
+    twin_edge.next_edge
   end
 
   def all_adjacent_edges
-    enumerator(&:adjacent_half_edge).to_a
+    enumerator(&:adjacent_edge).to_a
   end
 
   def enumerator(&next_procedure)
     Enumerator.new do |y|
-      self.tap do |current_half_edge|
+      self.tap do |current_edge|
         loop do
-          y.yield(current_half_edge)
-          current_half_edge = next_procedure.call(current_half_edge)
-          break if current_half_edge.nil? || current_half_edge == self
+          y.yield(current_edge)
+          current_edge = next_procedure.call(current_edge)
+          break if current_edge.nil? || current_edge == self
         end
       end
     end
@@ -54,7 +54,7 @@ class DCEL::HalfEdge
   private
 
   def inspect_links
-    [:previous_half_edge, :next_half_edge, :twin_half_edge].map do |m|
+    [:previous_edge, :next_edge, :twin_edge].map do |m|
       "#{m}=#{send(m).id if send(m)}"
     end.join(", ")
   end

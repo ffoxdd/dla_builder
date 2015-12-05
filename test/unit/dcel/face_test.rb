@@ -6,7 +6,7 @@ def test_vertex
 end
 
 describe DCEL::Face do
-  describe "#half_edges" do
+  describe "#edges" do
     # TODO
   end
 end
