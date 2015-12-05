@@ -41,7 +41,7 @@ describe DCEL::HalfEdge do
     end
   end
 
-  describe "#next_vertex" do
+  describe "#destination_vertex" do
     # TODO
   end
 

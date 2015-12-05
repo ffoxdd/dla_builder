@@ -12,7 +12,7 @@ module DCEL::Builder
     half_edges = vertices.map { |vertex| new_half_edge(vertex) }
     cyclically_link(half_edges)
 
-    twin_half_edges = half_edges.map { |half_edge| new_half_edge(half_edge.next_vertex) }
+    twin_half_edges = half_edges.map { |half_edge| new_half_edge(half_edge.destination_vertex) }
     cyclically_link(twin_half_edges.reverse)
 
     link_twins(half_edges, twin_half_edges)

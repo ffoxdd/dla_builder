@@ -24,7 +24,7 @@ class DCEL::HalfEdge
   attr_reader :origin
   attr_accessor :previous_half_edge, :next_half_edge, :twin_half_edge
 
-  def next_vertex
+  def destination_vertex
     next_half_edge.origin
   end
 
