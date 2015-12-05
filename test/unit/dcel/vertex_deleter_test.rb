@@ -27,17 +27,17 @@ describe DCEL::VertexDeleter do
       inner_edge = original_triangle_edges[0]
 
       inner_edge.must_be_face_for(vertices)
-      inner_edge.twin_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
+      inner_edge.opposite_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
     end
 
     it "can delete a perimeter vertex" do
-      perimeter_vertex_edge = original_triangle_edges[0].twin_edge
+      perimeter_vertex_edge = original_triangle_edges[0].opposite_edge
       DCEL::VertexDeleter.new.delete_vertex(perimeter_vertex_edge)
 
       inner_edge = original_triangle_edges[2]
 
       inner_edge.must_be_face_for([vertices[2], vertices[0], inner_vertex])
-      inner_edge.twin_edge.must_be_face_for([vertices[0], vertices[2], inner_vertex])
+      inner_edge.opposite_edge.must_be_face_for([vertices[0], vertices[2], inner_vertex])
     end
   end
 end

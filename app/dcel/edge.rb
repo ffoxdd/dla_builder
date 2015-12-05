@@ -12,7 +12,7 @@ class DCEL::Edge
     @origin_vertex = options.fetch(:origin_vertex)
     @previous_edge = options.fetch(:previous_edge, nil)
     @next_edge = options.fetch(:next_edge, nil)
-    @twin_edge = options.fetch(:twin_edge, nil)
+    @opposite_edge = options.fetch(:opposite_edge, nil)
 
     @id = (@@instance_count += 1)
   end
@@ -22,14 +22,14 @@ class DCEL::Edge
   end
 
   attr_reader :origin_vertex
-  attr_accessor :previous_edge, :next_edge, :twin_edge
+  attr_accessor :previous_edge, :next_edge, :opposite_edge
 
   def destination_vertex
     next_edge.origin_vertex
   end
 
   def adjacent_edge
-    twin_edge.next_edge
+    opposite_edge.next_edge
   end
 
   def all_adjacent_edges
@@ -54,7 +54,7 @@ class DCEL::Edge
   private
 
   def inspect_links
-    [:previous_edge, :next_edge, :twin_edge].map do |m|
+    [:previous_edge, :next_edge, :opposite_edge].map do |m|
       "#{m}=#{send(m).id if send(m)}"
     end.join(", ")
   end

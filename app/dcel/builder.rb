@@ -12,10 +12,10 @@ module DCEL::Builder
     edges = vertices.map { |vertex| new_edge(vertex) }
     cyclically_link(edges)
 
-    twin_edges = edges.map { |edge| new_edge(edge.destination_vertex) }
-    cyclically_link(twin_edges.reverse)
+    opposite_edges = edges.map { |edge| new_edge(edge.destination_vertex) }
+    cyclically_link(opposite_edges.reverse)
 
-    link_twins(edges, twin_edges)
+    link_opposites(edges, opposite_edges)
 
     DCEL::Face.new(edges.first)
   end
@@ -26,9 +26,9 @@ module DCEL::Builder
     end
   end
 
-  def link_twins(edges, twin_edges)
-    edges.zip(twin_edges).each do |edge, twin_edge|
-      link_twin(edge, twin_edge)
+  def link_opposites(edges, opposite_edges)
+    edges.zip(opposite_edges).each do |edge, opposite_edge|
+      link_opposite(edge, opposite_edge)
     end
   end
 
@@ -37,9 +37,9 @@ module DCEL::Builder
     next_edge.previous_edge = previous_edge
   end
 
-  def link_twin(edge, twin_edge)
-    edge.twin_edge = twin_edge
-    twin_edge.twin_edge = edge
+  def link_opposite(edge, opposite_edge)
+    edge.opposite_edge = opposite_edge
+    opposite_edge.opposite_edge = edge
   end
 
   private

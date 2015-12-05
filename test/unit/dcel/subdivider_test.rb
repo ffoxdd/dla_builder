@@ -21,7 +21,7 @@ describe DCEL::Subdivider do
       edges[1].must_be_face_for([vertices[1], vertices[2], inner_vertex])
       edges[2].must_be_face_for([vertices[2], vertices[0], inner_vertex])
 
-      edges[0].twin_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
+      edges[0].opposite_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
     end
   end
 end

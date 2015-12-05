@@ -17,6 +17,6 @@ class DCEL::VertexDeleter
   end
 
   def new_corner_edges(edge)
-    [edge.twin_edge.previous_edge, edge.next_edge]
+    [edge.opposite_edge.previous_edge, edge.next_edge]
   end
 end

@@ -19,7 +19,7 @@ class DCEL::Subdivider
   attr_reader :inner_vertex, :original_face_edges
 
   def link_spokes
-    each_spoke { |inward_edge, outward_edge| DCEL::Builder.link_twin(inward_edge, outward_edge) }
+    each_spoke { |inward_edge, outward_edge| DCEL::Builder.link_opposite(inward_edge, outward_edge) }
   end
 
   def build_inner_triangles
