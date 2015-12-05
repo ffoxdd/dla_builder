@@ -36,8 +36,8 @@ class DCEL::Subdivider
   end
 
   def build_inner_triangle(perimeter_half_edge)
-    inward_edge = DCEL::HalfEdge.new(origin: perimeter_half_edge.destination_vertex)
-    outward_edge = DCEL::HalfEdge.new(origin: inner_vertex)
+    inward_edge = DCEL::HalfEdge.new(origin_vertex: perimeter_half_edge.destination_vertex)
+    outward_edge = DCEL::HalfEdge.new(origin_vertex: inner_vertex)
 
     DCEL::Builder.cyclically_link([perimeter_half_edge, inward_edge, outward_edge])
   end

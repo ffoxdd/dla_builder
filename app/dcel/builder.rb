@@ -45,6 +45,6 @@ module DCEL::Builder
   private
 
   def new_half_edge(vertex)
-    DCEL::HalfEdge.new(origin: vertex)
+    DCEL::HalfEdge.new(origin_vertex: vertex)
   end
 end

@@ -14,7 +14,7 @@ module MiniTest::Assertions
 
   def face_for_vertices?(vertices, half_edge)
     face_edges = DCEL::Face.new(half_edge).half_edges
-    cycle?(face_edges) && face_edges.map(&:origin) == vertices
+    cycle?(face_edges) && face_edges.map(&:origin_vertex) == vertices
   end
 
   def cycle?(half_edges)

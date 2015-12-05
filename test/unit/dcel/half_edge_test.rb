@@ -8,11 +8,11 @@ def test_vertex
 end
 
 def test_half_edge
-  DCEL::HalfEdge.new(origin: test_vertex)
+  DCEL::HalfEdge.new(origin_vertex: test_vertex)
 end
 
 def test_triangle
-  DCEL::HalfEdge.singleton(origin: test_vertex).tap do |half_edge|
+  DCEL::HalfEdge.singleton(origin_vertex: test_vertex).tap do |half_edge|
     half_edge.link_vertex(test_vertex)
     half_edge.next_half_edge.link_vertex(test_vertex)
   end
@@ -20,7 +20,7 @@ end
 
 describe DCEL::HalfEdge do
 
-  describe "#next_half_edge/#previous_half_edge/#twin_half_edge/#origin" do
+  describe "#next_half_edge/#previous_half_edge/#twin_half_edge/#origin_vertex" do
     it "has readers for connected components" do
       origin_vertex = test_vertex
       previous_half_edge = test_half_edge
@@ -28,13 +28,13 @@ describe DCEL::HalfEdge do
       twin_half_edge = test_half_edge
 
       half_edge = DCEL::HalfEdge.new(
-        origin: origin_vertex,
+        origin_vertex: origin_vertex,
         previous_half_edge: previous_half_edge,
         next_half_edge: next_half_edge,
         twin_half_edge: twin_half_edge
       )
 
-      half_edge.origin.must_equal(origin_vertex)
+      half_edge.origin_vertex.must_equal(origin_vertex)
       half_edge.previous_half_edge.must_equal(previous_half_edge)
       half_edge.next_half_edge.must_equal(next_half_edge)
       half_edge.twin_half_edge.must_equal(twin_half_edge)
@@ -64,11 +64,11 @@ describe DCEL::HalfEdge do
       triangle = DCEL::Builder.triangle(vertices)
       half_edges = triangle.half_edges
 
-      half_edges.map(&:origin).must_equal(vertices)
+      half_edges.map(&:origin_vertex).must_equal(vertices)
       half_edges.must_form_a_half_edge_cycle
 
       twin_half_edges = half_edges.map(&:twin_half_edge)
-      twin_half_edges.map(&:origin).must_equal([vertices[1], vertices[2], vertices[0]])
+      twin_half_edges.map(&:origin_vertex).must_equal([vertices[1], vertices[2], vertices[0]])
       twin_half_edges.reverse.must_form_a_half_edge_cycle
     end
   end

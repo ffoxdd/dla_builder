@@ -9,7 +9,7 @@ class DCEL::HalfEdge
   @@instance_count = 0
 
   def initialize(options = {})
-    @origin = options.fetch(:origin)
+    @origin_vertex = options.fetch(:origin_vertex)
     @previous_half_edge = options.fetch(:previous_half_edge, nil)
     @next_half_edge = options.fetch(:next_half_edge, nil)
     @twin_half_edge = options.fetch(:twin_half_edge, nil)
@@ -18,14 +18,14 @@ class DCEL::HalfEdge
   end
 
   def inspect
-    "#<#{self.class.name}:#{id} origin=#{origin.to_s} #{inspect_links}>"
+    "#<#{self.class.name}:#{id} origin_vertex=#{origin_vertex.to_s} #{inspect_links}>"
   end
 
-  attr_reader :origin
+  attr_reader :origin_vertex
   attr_accessor :previous_half_edge, :next_half_edge, :twin_half_edge
 
   def destination_vertex
-    next_half_edge.origin
+    next_half_edge.origin_vertex
   end
 
   def adjacent_half_edge
