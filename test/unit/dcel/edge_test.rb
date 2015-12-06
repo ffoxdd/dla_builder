@@ -3,10 +3,6 @@ require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/edge"
 require_relative "../../../app/dcel/builder"
 
-def test_vertex
-  Object.new
-end
-
 def test_edge
   DCEL::Edge.new(origin_vertex: test_vertex)
 end

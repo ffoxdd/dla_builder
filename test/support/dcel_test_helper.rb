@@ -1,6 +1,14 @@
 require_relative "../../app/dcel/edge"
 require_relative "../../app/dcel/face"
 
+def test_vertex
+  Object.new
+end
+
+def test_edge
+  DCEL::Edge.new(origin_vertex: test_vertex)
+end
+
 module MiniTest::Assertions
   def assert_edge_cycle(_, edges) # TODO: find a better place for this assertion
     assert cycle?(edges), "Expected edges to form a cycle"
