@@ -8,20 +8,23 @@ def test_vertex
 end
 
 describe DCEL::Subdivider do
-  describe "#subdivide_triangle" do
+  describe ".subdivide_triangle" do
+    let(:vertices) { 3.times.map { test_vertex }}
+    let(:inner_vertex) { test_vertex }
+
     it "subdivides a triangle about an interior vertex" do
-      vertices = 3.times.map { test_vertex }
-      inner_vertex = test_vertex
       triangle = DCEL::Builder.triangle(vertices)
-      edges = triangle.edges
+      perimeter_edges = triangle.edges
 
-      DCEL::Subdivider.new(triangle, inner_vertex).subdivide_triangle
+      new_triangles = DCEL::Subdivider.subdivide_triangle(triangle, inner_vertex)
 
-      edges[0].must_be_face_for([vertices[0], vertices[1], inner_vertex])
-      edges[1].must_be_face_for([vertices[1], vertices[2], inner_vertex])
-      edges[2].must_be_face_for([vertices[2], vertices[0], inner_vertex])
+      new_triangles.size.must_equal(3)
+      # TODO: perform more thorough tests on the returned triangles
 
-      edges[0].opposite_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
+      perimeter_edges[0].must_be_face_for([vertices[0], vertices[1], inner_vertex])
+      perimeter_edges[1].must_be_face_for([vertices[1], vertices[2], inner_vertex])
+      perimeter_edges[2].must_be_face_for([vertices[2], vertices[0], inner_vertex])
+      perimeter_edges[0].opposite_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
     end
   end
 end

@@ -5,14 +5,17 @@ require_relative "builder"
 module DCEL; end
 
 class DCEL::Subdivider
+  def self.subdivide_triangle(*args)
+    new(*args).subdivide_triangle
+  end
+
   def initialize(face, inner_vertex)
     @inner_vertex = inner_vertex
     @original_face_edges = face.edges
   end
 
   def subdivide_triangle
-    build_inner_triangles
-    link_spokes
+    build_inner_triangles.tap { link_spokes }
   end
 
   private
@@ -23,7 +26,7 @@ class DCEL::Subdivider
   end
 
   def build_inner_triangles
-    original_face_edges.each { |edge| build_inner_triangle(edge) }
+    original_face_edges.map { |edge| build_inner_triangle(edge) }
   end
 
   def each_spoke
@@ -38,7 +41,7 @@ class DCEL::Subdivider
   def build_inner_triangle(perimeter_edge)
     inward_edge = DCEL::Edge.new(origin_vertex: perimeter_edge.destination_vertex)
     outward_edge = DCEL::Edge.new(origin_vertex: inner_vertex)
-
     DCEL::Builder.cyclically_link([perimeter_edge, inward_edge, outward_edge])
+    DCEL::Face.new(perimeter_edge)
   end
 end
