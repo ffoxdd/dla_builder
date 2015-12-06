@@ -7,6 +7,7 @@ GEM
     minitest (5.8.0)
     minitest-line (0.6.3)
       minitest (~> 5.0)
+    minitest-stub-const (0.5)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -30,6 +31,7 @@ PLATFORMS
 DEPENDENCIES
   minitest
   minitest-line
+  minitest-stub-const
   pry
   rake
   rasem

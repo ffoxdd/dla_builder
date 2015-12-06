@@ -7,4 +7,6 @@ gem "rasem"
 
 gem "minitest"
 gem "minitest-line"
+gem "minitest-stub-const"
+
 gem "pry"

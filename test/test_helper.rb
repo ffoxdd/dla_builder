@@ -4,6 +4,7 @@ gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/spec'
 require 'minitest/benchmark'
+require 'minitest/stub_const'
 
 require 'pry'
 
