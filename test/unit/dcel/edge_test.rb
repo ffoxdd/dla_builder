@@ -34,6 +34,10 @@ describe DCEL::Edge do
     # TODO
   end
 
+  describe "#includes_vertex" do
+    # TODO
+  end
+
   describe "#adjacent_edge" do
     # TODO
   end

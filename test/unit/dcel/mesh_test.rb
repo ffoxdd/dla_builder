@@ -21,6 +21,7 @@ describe DCEL::Mesh do
     end
 
     it "creates a mesh with a single triangle" do
+      # TODO: consider rewriting this test so you aren't first using the builder and then stubbing it
       vertices = 3.times.map { test_vertex }
       face = DCEL::Builder.triangle(vertices)
 
@@ -36,6 +37,22 @@ describe DCEL::Mesh do
       end
 
       mock_builder.verify
+    end
+  end
+
+  describe "#subdivide" do
+    it "augments the mesh by subdividing the specified face by a new vertex" do
+      vertices = 3.times.map { test_vertex }
+      new_vertex = test_vertex
+
+      mesh = DCEL::Mesh.triangle(vertices)
+      face = mesh.faces.first
+
+      mesh.subdivide(face, new_vertex)
+
+      mesh.faces.size.must_equal(3)
+      mesh.edges.size.must_equal(6)
+      mesh.vertices.size.must_equal(4)
     end
   end
 
