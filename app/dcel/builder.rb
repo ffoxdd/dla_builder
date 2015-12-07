@@ -15,7 +15,11 @@ module DCEL::Builder
 
     link_opposites(edges, opposite_edges)
 
-    DCEL::Face.new(edges.first)
+    DCEL::Face.new(edges.first).tap { |face| set_face(edges, face) }
+  end
+
+  def set_face(edges, face)
+    edges.each { |edge| edge.left_face = face }
   end
 
   def cyclically_link(edges)

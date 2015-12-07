@@ -9,24 +9,27 @@ end
 
 describe DCEL::Edge do
 
-  describe "#next_edge/#previous_edge/#opposite_edge/#origin_vertex" do
+  describe "#next_edge/#previous_edge/#opposite_edge/#origin_vertex/#left_face" do
     it "has readers for connected components" do
       origin_vertex = test_vertex
       previous_edge = test_edge
       next_edge = test_edge
       opposite_edge = test_edge
+      left_face = Object.new
 
       edge = DCEL::Edge.new(
         origin_vertex: origin_vertex,
         previous_edge: previous_edge,
         next_edge: next_edge,
-        opposite_edge: opposite_edge
+        opposite_edge: opposite_edge,
+        left_face: left_face
       )
 
       edge.origin_vertex.must_equal(origin_vertex)
       edge.previous_edge.must_equal(previous_edge)
       edge.next_edge.must_equal(next_edge)
       edge.opposite_edge.must_equal(opposite_edge)
+      edge.left_face.must_equal(left_face)
     end
   end
 
@@ -35,6 +38,10 @@ describe DCEL::Edge do
   end
 
   describe "#adjacent_edge" do
+    # TODO
+  end
+
+  describe "#right_face" do
     # TODO
   end
 

@@ -13,6 +13,7 @@ class DCEL::Edge
     @previous_edge = options.fetch(:previous_edge, nil)
     @next_edge = options.fetch(:next_edge, nil)
     @opposite_edge = options.fetch(:opposite_edge, nil)
+    @left_face = options.fetch(:left_face, nil)
 
     @id = (@@instance_count += 1)
   end
@@ -22,7 +23,7 @@ class DCEL::Edge
   end
 
   attr_reader :origin_vertex
-  attr_accessor :previous_edge, :next_edge, :opposite_edge
+  attr_accessor :previous_edge, :next_edge, :opposite_edge, :left_face
 
   def destination_vertex
     next_edge.origin_vertex
@@ -34,6 +35,10 @@ class DCEL::Edge
 
   def all_adjacent_edges
     enumerator(&:adjacent_edge).to_a
+  end
+
+  def right_face
+    opposite_edge.left_face
   end
 
   def enumerator(&next_procedure)

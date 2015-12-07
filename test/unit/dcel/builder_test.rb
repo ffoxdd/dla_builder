@@ -17,6 +17,8 @@ describe DCEL::Builder do
       opposite_edges.reverse.must_form_a_edge_cycle
 
       face.vertices.must_equal(vertices)
+
+      edges.each { |edge| edge.left_face.must_equal(face) }
     end
   end
 
