@@ -15,6 +15,10 @@ describe DCEL::Face do
     end
   end
 
+  describe "#opposite_face" do
+    # TODO
+  end
+
   describe "#each_edge" do
     # TODO
   end

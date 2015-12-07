@@ -7,6 +7,10 @@ class DCEL::Face
     @edge = edge
   end
 
+  def opposite_face
+    edge.opposite_edge.left_face
+  end
+
   def edges
     each_edge.to_a
   end
