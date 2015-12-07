@@ -46,4 +46,22 @@ describe DCEL::Mesh do
     end
   end
 
+  describe "#delete_vertex" do
+    let(:vertices) { 3.times.map { test_vertex } }
+    let(:inner_vertex) { test_vertex }
+    let(:mesh) { DCEL::Mesh.face(vertices) }
+    let(:face) { mesh.faces.first }
+
+    it "deletes a vertex, along with any incident edges and faces" do
+      perimeter_edge = mesh.edges.first
+      mesh.subdivide(face, inner_vertex)
+
+      mesh.delete_vertex(perimeter_edge)
+
+      # mesh.faces.size.must_equal(1)
+      mesh.edges.size.must_equal(3)
+      mesh.vertices.size.must_equal(3)
+    end
+  end
+
 end

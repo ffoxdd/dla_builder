@@ -1,5 +1,6 @@
 require_relative "builder"
 require_relative "subdivider"
+require_relative "vertex_deleter"
 
 module DCEL; end
 
@@ -27,6 +28,14 @@ class DCEL::Mesh
       self.vertices += [new_vertex]
 
       return new_faces
+    end
+  end
+
+  def delete_vertex(edge)
+    DCEL::VertexDeleter.delete_vertex(edge) do |deleted_faces, deleted_edges, deleted_vertex|
+      # self.faces -= deleted_faces
+      self.edges -= deleted_edges
+      self.vertices -= [deleted_vertex]
     end
   end
 
