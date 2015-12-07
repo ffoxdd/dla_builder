@@ -19,14 +19,14 @@ class DCEL::Mesh
   end
 
   def subdivide(face, new_vertex)
-    DCEL::Subdivider.subdivide_triangle(face, new_vertex) do |new_triangles, new_edges|
+    DCEL::Subdivider.subdivide_face(face, new_vertex) do |new_faces, new_edges|
       # TODO: figure out why 'self' is required here
       self.faces -= [face]
-      self.faces += new_triangles
+      self.faces += new_faces
       self.edges += new_edges
       self.vertices += [new_vertex]
 
-      return new_triangles
+      return new_faces
     end
   end
 

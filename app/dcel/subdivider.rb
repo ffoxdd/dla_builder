@@ -5,8 +5,8 @@ require_relative "builder"
 module DCEL; end
 
 class DCEL::Subdivider
-  def self.subdivide_triangle(face, new_vertex, &block)
-    new(face, new_vertex).subdivide_triangle(&block)
+  def self.subdivide_face(face, new_vertex, &block)
+    new(face, new_vertex).subdivide_face(&block)
   end
 
   def initialize(face, new_vertex)
@@ -14,19 +14,19 @@ class DCEL::Subdivider
     @original_face_edges = face.edges
   end
 
-  def subdivide_triangle(&block)
-    new_triangles.tap do
+  def subdivide_face(&block)
+    new_faces.tap do
       link_spokes
-      yield(new_triangles, new_edges) if block_given?
+      yield(new_faces, new_edges) if block_given?
     end
   end
 
-  def new_triangles
-    @new_triangles ||= original_face_edges.map { |edge| build_inner_triangle(edge) }
+  def new_faces
+    @new_faces ||= original_face_edges.map { |edge| build_inner_face(edge) }
   end
 
   def new_edges
-    @new_edges ||= edges_with_origin(new_triangles, new_vertex)
+    @new_edges ||= edges_with_origin(new_faces, new_vertex)
   end
 
   private
@@ -51,7 +51,7 @@ class DCEL::Subdivider
     end
   end
 
-  def build_inner_triangle(perimeter_edge)
+  def build_inner_face(perimeter_edge)
     inward_edge = DCEL::Edge.new(origin_vertex: perimeter_edge.destination_vertex)
     outward_edge = DCEL::Edge.new(origin_vertex: new_vertex)
     DCEL::Builder.cyclically_link([perimeter_edge, inward_edge, outward_edge])
