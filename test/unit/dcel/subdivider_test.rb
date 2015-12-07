@@ -18,14 +18,14 @@ describe DCEL::Subdivider do
       perimeter_edges = face.edges
 
       DCEL::Subdivider.subdivide_face(face, inner_vertex) do |new_faces, new_edges|
-        new_faces.size.must_equal(3)
-        # TODO: perform more thorough tests on the returned faces
-        # TODO: test new_edges
+        inner_faces = perimeter_edges.map(&:left_face)
 
-        perimeter_edges[0].must_be_face_for([vertices[0], vertices[1], inner_vertex])
-        perimeter_edges[1].must_be_face_for([vertices[1], vertices[2], inner_vertex])
-        perimeter_edges[2].must_be_face_for([vertices[2], vertices[0], inner_vertex])
-        perimeter_edges[0].opposite_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
+        inner_faces[0].vertices.must_cyclically_equal([vertices[0], vertices[1], inner_vertex])
+        inner_faces[1].vertices.must_cyclically_equal([vertices[1], vertices[2], inner_vertex])
+        inner_faces[2].vertices.must_cyclically_equal([vertices[2], vertices[0], inner_vertex])
+
+        new_faces.size.must_equal(3)
+        new_edges.size.must_equal(3) # only returns one per side
 
         new_edges.map(&:left_face).uniq.must_equal(new_faces)
       end
