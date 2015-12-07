@@ -14,7 +14,9 @@ class DCEL::VertexDeleter
 
   def delete_vertex(&block)
     adjacent_edges.each { |edge| delete_edge(edge) }
-    yield(nil, deleted_edges, deleted_vertex) if block_given?
+    update_face_references
+
+    yield(deleted_faces, deleted_edges, deleted_vertex) if block_given?
   end
 
   private
@@ -22,6 +24,10 @@ class DCEL::VertexDeleter
 
   def deleted_vertex
     deleted_edge.origin_vertex
+  end
+
+  def deleted_faces
+    deleted_edge.each_adjacent_face.to_a
   end
 
   def adjacent_edges
@@ -32,11 +38,20 @@ class DCEL::VertexDeleter
     adjacent_edges + adjacent_edges.map(&:opposite_edge)
   end
 
+  def new_face
+    @new_face ||= DCEL::Face.new(deleted_edge.next_edge)
+  end
+
+  def update_face_references
+    new_face.edges.each { |edge| edge.left_face = new_face }
+  end
+
   def delete_edge(edge)
     DCEL::Builder.link_sequentially(*new_corner_edges(edge))
   end
 
   def new_corner_edges(edge)
+    # TODO: make an edge method for edge.opposite_edge.previous_edge
     [edge.opposite_edge.previous_edge, edge.next_edge]
   end
 end
