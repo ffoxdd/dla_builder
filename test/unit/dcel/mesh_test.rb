@@ -9,27 +9,17 @@ describe DCEL::Mesh do
     # TODO
   end
 
-  describe ".triangle" do
-    it "raises ArgumentError when given fewer than 3 vertices" do
-      vertices = 2.times.map { test_vertex }
-      proc { DCEL::Builder.triangle(vertices) }.must_raise(ArgumentError)
-    end
+  describe ".face" do
+    let(:vertices) { 3.times.map { test_vertex }}
+    let(:face) { DCEL::Builder.face(vertices) }
+    let(:mock_builder) { Minitest::Mock.new }
 
-    it "raises ArgumentError when given more than 3 vertices" do
-      vertices = 4.times.map { test_vertex }
-      proc { DCEL::Builder.triangle(vertices) }.must_raise(ArgumentError)
-    end
-
-    it "creates a mesh with a single triangle" do
+    it "creates a mesh with a single face" do
       # TODO: consider rewriting this test so you aren't first using the builder and then stubbing it
-      vertices = 3.times.map { test_vertex }
-      face = DCEL::Builder.triangle(vertices)
-
-      mock_builder = Minitest::Mock.new
-      mock_builder.expect(:triangle, face, [vertices])
+      mock_builder.expect(:face, face, [vertices])
 
       DCEL.stub_const(:Builder, mock_builder) do
-        mesh = DCEL::Mesh.triangle(vertices)
+        mesh = DCEL::Mesh.face(vertices)
 
         mesh.faces.must_equal([face])
         mesh.edges.must_equal(face.edges)
@@ -45,12 +35,12 @@ describe DCEL::Mesh do
       vertices = 3.times.map { test_vertex }
       new_vertex = test_vertex
 
-      mesh = DCEL::Mesh.triangle(vertices)
+      mesh = DCEL::Mesh.face(vertices)
       face = mesh.faces.first
 
-      new_triangles = mesh.subdivide(face, new_vertex)
+      new_faces = mesh.subdivide(face, new_vertex)
 
-      mesh.faces.must_equal(new_triangles)
+      mesh.faces.must_equal(new_faces)
       mesh.edges.size.must_equal(6)
       mesh.vertices.size.must_equal(4)
     end

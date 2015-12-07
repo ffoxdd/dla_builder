@@ -13,9 +13,9 @@ class DCEL::Mesh
 
   attr_reader :faces, :edges, :vertices
 
-  def self.triangle(vertices)
-    triangle_face = DCEL::Builder.triangle(vertices)
-    new(faces: [triangle_face])
+  def self.face(vertices)
+    face = DCEL::Builder.face(vertices)
+    new(faces: [face])
   end
 
   def subdivide(face, new_vertex)

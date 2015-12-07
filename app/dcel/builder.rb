@@ -6,9 +6,7 @@ module DCEL; end
 module DCEL::Builder
   extend self
 
-  def triangle(vertices)
-    raise ArgumentError unless vertices.size == 3
-
+  def face(vertices)
     edges = vertices.map { |vertex| new_edge(vertex) }
     cyclically_link(edges)
 
