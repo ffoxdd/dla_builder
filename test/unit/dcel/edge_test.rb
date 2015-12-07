@@ -38,4 +38,33 @@ describe DCEL::Edge do
     # TODO
   end
 
+  describe "#eql?/hash" do
+    let(:origin_vertex) { test_vertex }
+    let(:destination_vertex) { test_vertex }
+    let(:different_vertex) { test_vertex }
+
+    def edge_from_endpoints(origin_vertex, destination_vertex)
+      DCEL::Edge.new(origin_vertex: origin_vertex).tap do |edge|
+        next_edge = DCEL::Edge.new(origin_vertex: destination_vertex)
+        DCEL::Builder.link_sequentially(edge, next_edge)
+      end
+    end
+
+    it "represent equality if they have the same endpoints" do
+      edge_0 = edge_from_endpoints(origin_vertex, destination_vertex)
+      edge_1 = edge_from_endpoints(origin_vertex, destination_vertex)
+
+      edge_0.eql?(edge_1).must_equal(true)
+      edge_0.hash.must_equal(edge_1.hash)
+    end
+
+    it "doesn't represent equality if the endpoints are different" do
+      edge_0 = edge_from_endpoints(origin_vertex, destination_vertex)
+      edge_1 = edge_from_endpoints(origin_vertex, different_vertex)
+
+      edge_0.eql?(edge_1).must_equal(false)
+      edge_0.hash.wont_equal(edge_1.hash)
+    end
+  end
+
 end

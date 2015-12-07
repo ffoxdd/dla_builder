@@ -48,8 +48,20 @@ class DCEL::Edge
     end
   end
 
+  def eql?(edge)
+    vertices == edge.vertices
+  end
+
+  def hash
+    vertices.hash
+  end
+
   protected
   attr_reader :id # utility
+
+  def vertices
+    [origin_vertex, destination_vertex]
+  end
 
   private
 
