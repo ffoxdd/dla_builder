@@ -7,18 +7,20 @@ class DCEL::Face
     @edge = edge
   end
 
+  def each_edge
+    edge.enumerator(&:next_edge)
+  end
+
   def edges
-    next_edge_enumerator.to_a
+    each_edge.to_a
   end
 
   def vertices
-    next_edge_enumerator.map(&:origin_vertex)
+    each_edge.map(&:origin_vertex)
   end
 
   private
   attr_reader :edge
 
-  def next_edge_enumerator # TODO: move this to DCEL::Edge
-    edge.enumerator(&:next_edge)
-  end
+
 end

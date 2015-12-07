@@ -15,6 +15,10 @@ describe DCEL::Face do
     end
   end
 
+  describe "#each_edge" do
+    # TODO
+  end
+
   describe "#edges" do
     it "returns the edges that make up the face" do
       face = DCEL::Face.new(edges.first)
