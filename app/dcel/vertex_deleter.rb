@@ -3,14 +3,34 @@ require_relative "builder"
 module DCEL; end
 
 class DCEL::VertexDeleter
-  # So far this "deletes" by reconnecting edges in the mesh to not include the deleted edges.
-  # More bookkeeping will need to be done when there is a global list of mesh components.
 
-  def delete_vertex(edge)
-    edge.all_adjacent_edges.each { |edge| delete_edge(edge) }
+  def self.delete_vertex(edge, &block)
+    new(edge).delete_vertex(&block)
+  end
+
+  def initialize(deleted_edge)
+    @deleted_edge = deleted_edge
+  end
+
+  def delete_vertex(&block)
+    adjacent_edges.each { |edge| delete_edge(edge) }
+    yield(nil, deleted_edges, deleted_vertex) if block_given?
   end
 
   private
+  attr_reader :deleted_edge
+
+  def deleted_vertex
+    deleted_edge.origin_vertex
+  end
+
+  def adjacent_edges
+    @adjacent_edges ||= deleted_edge.all_adjacent_edges
+  end
+
+  def deleted_edges
+    adjacent_edges + adjacent_edges.map(&:opposite_edge)
+  end
 
   def delete_edge(edge)
     DCEL::Builder.link_sequentially(*new_corner_edges(edge))

@@ -22,7 +22,7 @@ describe DCEL::VertexDeleter do
 
     it "can delete an inner vertex" do
       inner_vertex_edge = original_edges[0].previous_edge
-      DCEL::VertexDeleter.new.delete_vertex(inner_vertex_edge)
+      DCEL::VertexDeleter.delete_vertex(inner_vertex_edge)
 
       inner_edge = original_edges[0]
 
@@ -32,7 +32,7 @@ describe DCEL::VertexDeleter do
 
     it "can delete a perimeter vertex" do
       perimeter_vertex_edge = original_edges[0].opposite_edge
-      DCEL::VertexDeleter.new.delete_vertex(perimeter_vertex_edge)
+      DCEL::VertexDeleter.delete_vertex(perimeter_vertex_edge)
 
       inner_edge = original_edges[2]
 
