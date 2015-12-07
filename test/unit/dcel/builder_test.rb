@@ -8,17 +8,19 @@ describe DCEL::Builder do
 
     it "creates a fully linked face" do
       face = DCEL::Builder.face(vertices)
-
-      edges = face.edges
-      edges.must_form_a_edge_cycle
-
-      opposite_edges = edges.map(&:opposite_edge)
-      opposite_edges.map(&:origin_vertex).must_equal([vertices[1], vertices[2], vertices[0]])
-      opposite_edges.reverse.must_form_a_edge_cycle
-
       face.vertices.must_equal(vertices)
 
-      edges.each { |edge| edge.left_face.must_equal(face) }
+      inner_edges = face.edges
+      inner_edges.must_form_a_edge_cycle
+
+      outer_edges = inner_edges.map(&:opposite_edge)
+      outer_edges.map(&:origin_vertex).must_equal([vertices[1], vertices[2], vertices[0]])
+      outer_edges.reverse.must_form_a_edge_cycle
+
+      inner_edges.each { |edge| edge.left_face.must_equal(face) }
+
+      outer_face = outer_edges.first.left_face
+      outer_edges.each { |edge| edge.left_face.must_equal(outer_face) }
     end
   end
 

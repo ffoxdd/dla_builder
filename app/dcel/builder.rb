@@ -7,15 +7,21 @@ module DCEL::Builder
   extend self
 
   def face(vertices)
-    edges = vertices.map { |vertex| new_edge(vertex) }
-    cyclically_link(edges)
+    inner_edges = vertices.map { |vertex| new_edge(vertex) }
+    cyclically_link(inner_edges)
 
-    opposite_edges = edges.map { |edge| new_edge(edge.destination_vertex) }
-    cyclically_link(opposite_edges.reverse)
+    outer_edges = inner_edges.map { |edge| new_edge(edge.destination_vertex) }
+    cyclically_link(outer_edges.reverse)
 
-    link_opposites(edges, opposite_edges)
+    link_opposites(inner_edges, outer_edges)
 
-    DCEL::Face.new(edges.first).tap { |face| set_face(edges, face) }
+    inner_face = DCEL::Face.new(inner_edges.first)
+    outer_face = DCEL::Face.new(outer_edges.first)
+
+    set_face(inner_edges, inner_face)
+    set_face(outer_edges, outer_face)
+
+    inner_face
   end
 
   def set_face(edges, face)
