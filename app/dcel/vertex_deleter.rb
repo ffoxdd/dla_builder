@@ -25,7 +25,7 @@ class DCEL::VertexDeleter
   end
 
   def adjacent_edges
-    @adjacent_edges ||= deleted_edge.all_adjacent_edges
+    @adjacent_edges ||= deleted_edge.each_adjacent_edge.to_a
   end
 
   def deleted_edges
