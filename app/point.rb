@@ -40,6 +40,8 @@ class Point
     vector == point.vector
   end
 
+  alias_method :eql?, :==
+
   def map(&block)
     Point.new(vector.map(&block))
   end

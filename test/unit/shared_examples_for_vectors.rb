@@ -59,13 +59,13 @@ shared_examples_for "A Vector" do
   end
 
   describe "#hash" do
-    it "returns the same value for points representing the same point in space" do
-      factory.call(0, 0).hash.must_equal(factory.call(0, 0).hash)
-    end
+    specify { factory.call(0, 0).hash.must_equal(factory.call(0, 0).hash) }
+    specify { factory.call(0, 0).hash.wont_equal(factory.call(1, 1).hash) }
+  end
 
-    it "returns different values for different points in space" do
-      factory.call(0, 0).hash.wont_equal(factory.call(1, 1).hash)
-    end
+  describe "#eql?" do
+    specify { factory.call(0, 0).eql?(factory.call(0, 0)).must_equal(true) }
+    specify { factory.call(0, 0).eql?(factory.call(1, 1)).must_equal(false) }
   end
 
 end

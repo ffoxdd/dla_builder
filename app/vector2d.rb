@@ -23,6 +23,8 @@ class Vector2D
     vector == rhs.vector
   end
 
+  alias_method :eql?, :==
+
   def +(rhs)
     Vector2D.new(vector + rhs.vector)
   end
