@@ -8,6 +8,7 @@ def test_vertex
 end
 
 describe DCEL::Subdivider do
+
   describe ".subdivide_triangle" do
     let(:vertices) { 3.times.map { test_vertex }}
     let(:inner_vertex) { test_vertex }
@@ -16,15 +17,17 @@ describe DCEL::Subdivider do
       triangle = DCEL::Builder.triangle(vertices)
       perimeter_edges = triangle.edges
 
-      new_triangles = DCEL::Subdivider.subdivide_triangle(triangle, inner_vertex)
+      DCEL::Subdivider.subdivide_triangle(triangle, inner_vertex) do |new_triangles, new_edges|
+        new_triangles.size.must_equal(3)
+        # TODO: perform more thorough tests on the returned triangles
+        # TODO: test new_edges
 
-      new_triangles.size.must_equal(3)
-      # TODO: perform more thorough tests on the returned triangles
-
-      perimeter_edges[0].must_be_face_for([vertices[0], vertices[1], inner_vertex])
-      perimeter_edges[1].must_be_face_for([vertices[1], vertices[2], inner_vertex])
-      perimeter_edges[2].must_be_face_for([vertices[2], vertices[0], inner_vertex])
-      perimeter_edges[0].opposite_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
+        perimeter_edges[0].must_be_face_for([vertices[0], vertices[1], inner_vertex])
+        perimeter_edges[1].must_be_face_for([vertices[1], vertices[2], inner_vertex])
+        perimeter_edges[2].must_be_face_for([vertices[2], vertices[0], inner_vertex])
+        perimeter_edges[0].opposite_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
+      end
     end
   end
+
 end

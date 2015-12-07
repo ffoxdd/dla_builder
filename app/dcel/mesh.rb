@@ -19,19 +19,15 @@ class DCEL::Mesh
   end
 
   def subdivide(face, new_vertex)
-    old_edges = face.edges
-    old_vertices = face.vertices
+    DCEL::Subdivider.subdivide_triangle(face, new_vertex) do |new_triangles, new_edges|
+      # TODO: figure out why 'self' is required here
+      self.faces -= [face]
+      self.faces += new_triangles
+      self.edges += new_edges
+      self.vertices += [new_vertex]
 
-    new_triangles = DCEL::Subdivider.subdivide_triangle(face, new_vertex)
-
-    new_triangle_edges = new_triangles.flat_map(&:edges).uniq(&:origin_vertex)
-    new_edges = new_triangle_edges.select { |edge| edge.includes_vertex?(new_vertex) }
-
-    # TODO: figure out why 'self' is required here
-    self.faces -= [face]
-    self.faces += new_triangles
-    self.edges += new_edges
-    self.vertices += [new_vertex]
+      return new_triangles
+    end
   end
 
   private

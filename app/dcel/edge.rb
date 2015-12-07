@@ -28,10 +28,6 @@ class DCEL::Edge
     next_edge.origin_vertex
   end
 
-  def includes_vertex?(vertex)
-    origin_vertex == vertex || destination_vertex == vertex
-  end
-
   def adjacent_edge
     opposite_edge.next_edge
   end

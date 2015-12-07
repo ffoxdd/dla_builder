@@ -5,28 +5,41 @@ require_relative "builder"
 module DCEL; end
 
 class DCEL::Subdivider
-  def self.subdivide_triangle(*args)
-    new(*args).subdivide_triangle
+  def self.subdivide_triangle(face, new_vertex, &block)
+    new(face, new_vertex).subdivide_triangle(&block)
   end
 
-  def initialize(face, inner_vertex)
-    @inner_vertex = inner_vertex
+  def initialize(face, new_vertex)
+    @new_vertex = new_vertex
     @original_face_edges = face.edges
   end
 
-  def subdivide_triangle
-    build_inner_triangles.tap { link_spokes }
+  def subdivide_triangle(&block)
+    new_triangles.tap do
+      link_spokes
+      yield(new_triangles, new_edges) if block_given?
+    end
+  end
+
+  def new_triangles
+    @new_triangles ||= original_face_edges.map { |edge| build_inner_triangle(edge) }
+  end
+
+  def new_edges
+    @new_edges ||= edges_with_origin(new_triangles, new_vertex)
   end
 
   private
-  attr_reader :inner_vertex, :original_face_edges
+  attr_reader :new_vertex, :original_face_edges
 
   def link_spokes
-    each_spoke { |inward_edge, outward_edge| DCEL::Builder.link_opposite(inward_edge, outward_edge) }
+    each_spoke do |inward_edge, outward_edge|
+      DCEL::Builder.link_opposite(inward_edge, outward_edge)
+    end
   end
 
-  def build_inner_triangles
-    original_face_edges.map { |edge| build_inner_triangle(edge) }
+  def edges_with_origin(faces, origin_vertex)
+    faces.flat_map(&:edges).select { |edge| edge.origin_vertex == origin_vertex }
   end
 
   def each_spoke
@@ -40,7 +53,7 @@ class DCEL::Subdivider
 
   def build_inner_triangle(perimeter_edge)
     inward_edge = DCEL::Edge.new(origin_vertex: perimeter_edge.destination_vertex)
-    outward_edge = DCEL::Edge.new(origin_vertex: inner_vertex)
+    outward_edge = DCEL::Edge.new(origin_vertex: new_vertex)
     DCEL::Builder.cyclically_link([perimeter_edge, inward_edge, outward_edge])
     DCEL::Face.new(perimeter_edge)
   end

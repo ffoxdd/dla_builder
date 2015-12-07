@@ -48,9 +48,9 @@ describe DCEL::Mesh do
       mesh = DCEL::Mesh.triangle(vertices)
       face = mesh.faces.first
 
-      mesh.subdivide(face, new_vertex)
+      new_triangles = mesh.subdivide(face, new_vertex)
 
-      mesh.faces.size.must_equal(3)
+      mesh.faces.must_equal(new_triangles)
       mesh.edges.size.must_equal(6)
       mesh.vertices.size.must_equal(4)
     end
