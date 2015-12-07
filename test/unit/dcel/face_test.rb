@@ -10,9 +10,21 @@ describe DCEL::Face do
   end
 
   let(:edges) do
-    vertices.map { |vertex| DCEL::Edge.new(origin_vertex: vertex) }.tap do |_edges|
-      DCEL::Builder.cyclically_link(_edges)
+    vertices.map { |vertex| new_edge(vertex) }.tap { |e| cyclically_link(e) }
+  end
+
+  def new_edge(vertex)
+    DCEL::Edge.new(origin_vertex: vertex)
+  end
+
+  def cyclically_link(edges)
+    DCEL.cyclical_each_pair(edges) do |previous_edge, next_edge|
+      DCEL::Edge.link(previous_edge, next_edge)
     end
+  end
+
+  describe ".build_from_edges" do
+    # TODO
   end
 
   describe "#opposite_face" do

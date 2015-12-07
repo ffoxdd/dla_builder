@@ -9,6 +9,10 @@ end
 
 describe DCEL::Edge do
 
+  describe ".link" do
+    # TODO
+  end
+
   describe "#next_edge/#previous_edge/#opposite_edge/#origin_vertex/#left_face" do
     it "has readers for connected components" do
       origin_vertex = test_vertex
@@ -56,7 +60,6 @@ describe DCEL::Edge do
   describe "#each_adjacent_face" do
     # TODO
   end
-
 
   describe "#eql?/hash" do
     let(:origin_vertex) { test_vertex }

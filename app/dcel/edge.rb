@@ -18,6 +18,11 @@ class DCEL::Edge
     @id = (@@instance_count += 1)
   end
 
+  def self.link(previous_edge, next_edge)
+    previous_edge.next_edge = next_edge
+    next_edge.previous_edge = previous_edge
+  end
+
   def inspect
     "#<#{self.class.name}:#{id} origin_vertex=#{origin_vertex.to_s} #{inspect_links}>"
   end

@@ -7,6 +7,10 @@ class DCEL::Face
     @edge = edge
   end
 
+  def self.build_from_edges(edges)
+    FaceBuilder.from_edges(edges)
+  end
+
   def opposite_face
     edge.opposite_edge.left_face
   end
@@ -33,5 +37,18 @@ class DCEL::Face
 
   private
   attr_reader :edge
+
+  module FaceBuilder
+    extend self
+
+    def from_edges(edges)
+      DCEL::Face.new(edges.first).tap do |face|
+        DCEL.cyclical_each_pair(edges) do |previous_edge, next_edge|
+          DCEL::Edge.link(previous_edge, next_edge)
+          previous_edge.left_face = face
+        end
+      end
+    end
+  end
 
 end
