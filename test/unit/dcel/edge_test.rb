@@ -45,6 +45,19 @@ describe DCEL::Edge do
     # TODO
   end
 
+  describe "#each_adjacent_edge" do
+    # TODO
+  end
+
+  describe "#each_next_edge" do
+    # TODO
+  end
+
+  describe "#each_adjacent_face" do
+    # TODO
+  end
+
+
   describe "#eql?/hash" do
     let(:origin_vertex) { test_vertex }
     let(:destination_vertex) { test_vertex }

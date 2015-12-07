@@ -33,6 +33,10 @@ class DCEL::Edge
     opposite_edge.next_edge
   end
 
+  def right_face
+    opposite_edge.left_face
+  end
+
   def each_adjacent_edge
     enumerator(&:adjacent_edge)
   end
@@ -41,8 +45,8 @@ class DCEL::Edge
     enumerator(&:next_edge)
   end
 
-  def right_face
-    opposite_edge.left_face
+  def each_adjacent_face
+    enumerator(:left_face, &:adjacent_edge)
   end
 
   def eql?(edge)
@@ -60,14 +64,21 @@ class DCEL::Edge
     [origin_vertex, destination_vertex]
   end
 
-  def enumerator(&next_procedure)
+  def enumerator(value_proc = :itself, &next_proc)
+    value_proc = value_proc.to_proc
+
+    original_value = value_proc.call(self)
+    current_edge = self
+    current_value = value_proc.call(current_edge)
+
     Enumerator.new do |y|
-      self.tap do |current_edge|
-        loop do
-          y.yield(current_edge)
-          current_edge = next_procedure.call(current_edge)
-          break if current_edge.nil? || current_edge == self
-        end
+      loop do
+        y.yield(current_value)
+
+        current_edge = next_proc.call(current_edge)
+        current_value = value_proc.call(current_edge)
+
+        break if current_value.nil? || current_value == original_value
       end
     end
   end
