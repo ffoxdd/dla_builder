@@ -16,10 +16,6 @@ module DCEL::Builder
     inner_face
   end
 
-  def link_sequentially(previous_edge, next_edge) # TODO: kill this method
-    DCEL::Edge.link(previous_edge, next_edge)
-  end
-
   def link_opposite(edge, opposite_edge)
     edge.opposite_edge = opposite_edge
     opposite_edge.opposite_edge = edge

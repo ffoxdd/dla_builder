@@ -1,5 +1,3 @@
-require_relative "builder"
-
 module DCEL; end
 
 class DCEL::VertexDeleter
@@ -47,7 +45,7 @@ class DCEL::VertexDeleter
   end
 
   def delete_edge(edge)
-    DCEL::Builder.link_sequentially(*new_corner_edges(edge))
+    DCEL::Edge.link(*new_corner_edges(edge))
   end
 
   def new_corner_edges(edge)

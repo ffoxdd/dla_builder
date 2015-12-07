@@ -1,7 +1,6 @@
 require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/edge"
-require_relative "../../../app/dcel/builder"
 
 def test_edge
   DCEL::Edge.new(origin_vertex: test_vertex)
@@ -69,7 +68,7 @@ describe DCEL::Edge do
     def edge_from_endpoints(origin_vertex, destination_vertex)
       DCEL::Edge.new(origin_vertex: origin_vertex).tap do |edge|
         next_edge = DCEL::Edge.new(origin_vertex: destination_vertex)
-        DCEL::Builder.link_sequentially(edge, next_edge)
+        DCEL::Edge.link(edge, next_edge)
       end
     end
 
