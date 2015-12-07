@@ -7,7 +7,7 @@ require "set"
 describe Triangulation::HierarchicalTriangle do
 
   let(:points) { [Point[0, 0], Point[10, 0], Point[0, 10]] }
-  let(:mesh) { DCEL::Mesh.face(points) }
+  let(:mesh) { DCEL::Mesh.polygon(points) }
   let(:face) { mesh.faces.first }
   let(:triangle) { Triangulation::HierarchicalTriangle.new(mesh: mesh, face: face) }
 

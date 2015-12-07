@@ -12,13 +12,13 @@ describe DCEL::VertexDeleter do
   describe "#delete_vertex" do
     let(:original_vertices) { 3.times.map { test_vertex } }
     let(:inner_vertex) { test_vertex }
-    let(:face) { DCEL::Builder.face(original_vertices) }
+    let(:inner_face) { DCEL::Builder.polygon(original_vertices) }
 
     attr_reader :outer_edge, :inner_edge
 
     before do
-      outer_edges = face.edges
-      DCEL::Subdivider.subdivide_face(face, inner_vertex)
+      outer_edges = inner_face.edges
+      DCEL::Subdivider.subdivide_face(inner_face, inner_vertex)
 
       @outer_edge = outer_edges.first
       @inner_edge = @outer_edge.previous_edge

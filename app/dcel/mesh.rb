@@ -14,9 +14,9 @@ class DCEL::Mesh
 
   attr_reader :faces, :edges, :vertices
 
-  def self.face(vertices)
-    face = DCEL::Builder.face(vertices)
-    new(faces: [face])
+  def self.polygon(vertices)
+    inner_face = DCEL::Builder.polygon(vertices)
+    new(faces: [inner_face]) # !!!!!
   end
 
   def subdivide(face, new_vertex)

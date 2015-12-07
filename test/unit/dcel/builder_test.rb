@@ -8,7 +8,7 @@ describe DCEL::Builder do
     let(:vertices) { 3.times.to_a }
 
     it "creates a fully linked face" do
-      inner_face = DCEL::Builder.face(vertices)
+      inner_face = DCEL::Builder.polygon(vertices)
       outer_face = inner_face.opposite_face
 
       inner_face.vertices.must_cyclically_equal(vertices)

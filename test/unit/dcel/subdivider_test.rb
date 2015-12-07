@@ -14,7 +14,7 @@ describe DCEL::Subdivider do
     let(:inner_vertex) { test_vertex }
 
     it "subdivides a face about an interior vertex" do
-      face = DCEL::Builder.face(vertices)
+      face = DCEL::Builder.polygon(vertices)
       perimeter_edges = face.edges
 
       DCEL::Subdivider.subdivide_face(face, inner_vertex) do |new_faces, new_edges|

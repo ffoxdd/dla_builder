@@ -6,7 +6,7 @@ module DCEL; end
 module DCEL::Builder
   extend self
 
-  def face(vertices)
+  def polygon(vertices)
     inner_edges = vertices.map { |vertex| new_edge(vertex) }
     cyclically_link(inner_edges)
 
