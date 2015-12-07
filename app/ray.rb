@@ -52,8 +52,8 @@ class Ray
 
   private
 
-    def same_direction?(v1, v2)
-      v1.determinant(v2) == 0
-    end
+  def same_direction?(v1, v2)
+    v1.determinant(v2) == 0
+  end
 
 end

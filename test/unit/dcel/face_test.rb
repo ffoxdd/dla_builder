@@ -1,6 +1,7 @@
 require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/face"
+require_relative "../../../app/point"
 
 describe DCEL::Face do
 
@@ -27,5 +28,21 @@ describe DCEL::Face do
       face.vertices.must_equal(vertices)
     end
   end
+
+  # describe "#contains?" do
+  #   let(:vertices) { [Point[0, 0], Point[1, 0], Point[1, 1], Point[0, 1]] }
+  #   let(:face) { DCEL::Builder.face(vertices) }
+  #
+  #   specify { face.contains?(Point[0.5, 0.5]).must_equal(true) }
+  #   specify { face.contains?(Point[0, 0]).must_equal(true) }
+  #   specify { face.contains?(Point[1, 0]).must_equal(true) }
+  #   specify { face.contains?(Point[1, 1]).must_equal(true) }
+  #   specify { face.contains?(Point[0, 1]).must_equal(true) }
+  #
+  #   specify { face.contains?(Point[-0.5, 0.5]).must_equal(false) }
+  #   specify { face.contains?(Point[1.5, 0.5]).must_equal(false) }
+  #   specify { face.contains?(Point[0.5, -0.5]).must_equal(false) }
+  #   specify { face.contains?(Point[0.5, 1.5]).must_equal(false) }
+  # end
 
 end

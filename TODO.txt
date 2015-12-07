@@ -9,7 +9,7 @@
 - [ ] Audit bracket initializers -- remove where there isn't much value
 - [ ] Factor out tree structure responsibility from the Particle class
 - [ ] Rename PolygonNode -> PolygonVertex
-- [ ] Rename Ray -> Line
+- [ ] Rename Ray -> Line (it's really the parametric representation of a line)
 - [ ] Consider making an Interval class to replace the use of Range
 - [ ] Consider using an R-tree for particle index
 - [ ] Make a shared example group for bounding boxes
@@ -27,3 +27,4 @@
 - [ ] Factor out the creation of enumerators for linked list type objects
 - [ ] Implement all enumerators for DCEL::Edge
 - [ ] Implement all neighborhood accessors for DCEL::Edge
+- [ ] Figure out how to remove duplication between Polygon and DCEL::Face (they have similar responsibilities)
