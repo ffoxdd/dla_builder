@@ -17,7 +17,7 @@ class Vector2D
     @vector = Vector[*elements.to_a]
   end
 
-  def_delegators :vector, :magnitude, :[], :to_a
+  def_delegators :vector, :magnitude, :[], :to_a, :hash
 
   def ==(rhs)
     vector == rhs.vector
