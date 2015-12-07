@@ -4,6 +4,10 @@ require_relative "../../app/point.rb"
 
 describe Ray do
 
+  describe ".from_endpoints" do
+    # TODO
+  end
+
   describe "#relative_position/#point_to_the_left?" do
     let(:ray) { Ray.new(Point[0, 0], Vector2D[0, 3]) }
 

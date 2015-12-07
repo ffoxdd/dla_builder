@@ -9,6 +9,10 @@ class Ray
     @displacement_vector = displacement_vector
   end
 
+  def self.from_endpoints(point_0, point_1)
+    new(point_0, point_0.displacement(point_1))
+  end
+
   attr_reader :point, :displacement_vector
   alias_method :to_v, :displacement_vector
 
