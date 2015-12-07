@@ -26,6 +26,8 @@ describe DCEL::Subdivider do
         perimeter_edges[1].must_be_face_for([vertices[1], vertices[2], inner_vertex])
         perimeter_edges[2].must_be_face_for([vertices[2], vertices[0], inner_vertex])
         perimeter_edges[0].opposite_edge.must_be_face_for([vertices[1], vertices[0], vertices[2]])
+
+        new_edges.map(&:left_face).uniq.must_equal(new_faces)
       end
     end
   end

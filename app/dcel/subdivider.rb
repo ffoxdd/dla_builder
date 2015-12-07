@@ -55,6 +55,11 @@ class DCEL::Subdivider
     inward_edge = DCEL::Edge.new(origin_vertex: perimeter_edge.destination_vertex)
     outward_edge = DCEL::Edge.new(origin_vertex: new_vertex)
     DCEL::Builder.cyclically_link([perimeter_edge, inward_edge, outward_edge])
-    DCEL::Face.new(perimeter_edge)
+
+    DCEL::Face.new(perimeter_edge).tap { |face| update_edges_face(face) }
+  end
+
+  def update_edges_face(face)
+    face.edges.each { |edge| edge.left_face = face }
   end
 end
