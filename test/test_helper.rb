@@ -30,6 +30,10 @@ module MiniTest::Assertions
     assert cyclically_equal?(a1, a2), "Expected #{a1} to be cyclically equal to #{a2}"
   end
 
+  def refute_cyclically_equal(a1, a2)
+    refute cyclically_equal?(a1, a2), "Expected #{a1} to not be cyclically equal to #{a2}"
+  end
+
   private
 
   def cyclically_equal?(a0, a1)
@@ -42,3 +46,4 @@ module MiniTest::Assertions
 end
 
 Array.infect_an_assertion :assert_cyclically_equal, :must_cyclically_equal
+Array.infect_an_assertion :refute_cyclically_equal, :wont_cyclically_equal
