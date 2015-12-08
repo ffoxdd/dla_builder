@@ -8,15 +8,16 @@ class DCEL::Mesh
 
   def initialize(options = {})
     @faces = options.fetch(:faces, [])
-    @edges = @faces.flat_map(&:edges)
-    @vertices = @faces.flat_map(&:vertices)
+    @edges = options.fetch(:edges) { unique_edges(faces) }
+    @vertices = options.fetch(:vertices) { @edges.map(&:origin_vertex) }
   end
 
   attr_reader :faces, :edges, :vertices
 
-  def self.polygon(vertices)
-    inner_face = DCEL::PolygonBuilder.polygon(vertices)
-    new(faces: [inner_face]) # !!!!!
+  def self.polygon(input_vertices)
+    DCEL::PolygonBuilder.polygon(input_vertices) do |faces, edges, vertices|
+      return new(faces: faces, edges: edges, vertices: vertices)
+    end
   end
 
   def subdivide(face, new_vertex)
@@ -41,5 +42,9 @@ class DCEL::Mesh
 
   private
   attr_writer :faces, :edges, :vertices
+
+  def unique_edges(input_faces)
+    input_faces.flat_map(&:edges).uniq(&:origin_vertex)
+  end
 
 end

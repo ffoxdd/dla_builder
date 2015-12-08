@@ -3,20 +3,42 @@ require_relative "face"
 
 module DCEL; end
 
-module DCEL::PolygonBuilder
-  extend self
+class DCEL::PolygonBuilder
+  def self.polygon(vertices, &block)
+    new(vertices).polygon(&block)
+  end
 
-  def polygon(vertices)
-    inner_edges = vertices.map { |vertex| new_edge(vertex) }
-    inner_face = DCEL::Face.build_from_edges(inner_edges)
+  def initialize(vertices)
+    @vertices = vertices
+  end
 
-    outer_edges = inner_edges.map { |edge| new_opposite_edge(edge) }.reverse
-    outer_face = DCEL::Face.build_from_edges(outer_edges)
+  def polygon(&block)
+    faces = [inner_face, outer_face]
+    edges = inner_edges
+
+    yield(faces, edges, vertices) if block_given?
 
     inner_face
   end
 
   private
+  attr_reader :vertices
+
+  def inner_face
+    @inner_face ||= new_face(inner_edges)
+  end
+
+  def outer_face
+    @outer_face ||= new_face(outer_edges)
+  end
+
+  def inner_edges
+    @inner_edges ||= vertices.map { |vertex| new_edge(vertex) }
+  end
+
+  def outer_edges
+    @outer_edges ||= inner_edges.map { |edge| new_opposite_edge(edge) }.reverse
+  end
 
   def new_opposite_edge(edge)
     new_edge(edge.destination_vertex).tap do |opposite_edge|
@@ -26,5 +48,9 @@ module DCEL::PolygonBuilder
 
   def new_edge(vertex)
     DCEL::Edge.new(origin_vertex: vertex)
+  end
+
+  def new_face(edges)
+    DCEL::Face.build_from_edges(edges)
   end
 end

@@ -15,7 +15,7 @@ describe DCEL::Mesh do
     it "creates a mesh representing a single polygon" do
       mesh = DCEL::Mesh.polygon(vertices)
 
-      # mesh.faces.size.must_equal(2) # 1 bounded, 1 infinite
+      mesh.faces.size.must_equal(2) # 1 bounded, 1 infinite
       mesh.edges.size.must_equal(3) # only count each polygon edge once
       mesh.vertices.must_cyclically_equal(vertices)
     end
@@ -30,7 +30,7 @@ describe DCEL::Mesh do
     it "augments the mesh by subdividing the specified face by a new vertex" do
       mesh.subdivide(face, new_vertex)
 
-      # mesh.faces.size.must_equal(4) # 3 bounded, 1 infinite
+      mesh.faces.size.must_equal(4) # 3 bounded, 1 infinite
       mesh.edges.size.must_equal(6)
       mesh.vertices.size.must_equal(4)
     end
