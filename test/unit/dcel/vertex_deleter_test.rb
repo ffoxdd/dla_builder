@@ -4,10 +4,6 @@ require_relative "../../../app/dcel/vertex_deleter"
 require_relative "../../../app/dcel/face_subdivider"
 require_relative "../../../app/dcel/polygon_builder"
 
-def test_vertex
-  Object.new
-end
-
 describe DCEL::VertexDeleter do
   describe "#delete_vertex" do
     let(:original_vertices) { 3.times.map { test_vertex } }

@@ -3,10 +3,6 @@ require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/face_subdivider"
 require_relative "../../../app/dcel/polygon_builder"
 
-def test_vertex
-  Object.new
-end
-
 describe DCEL::FaceSubdivider do
 
   describe ".subdivide_face" do
