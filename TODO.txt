@@ -28,3 +28,4 @@
 - [ ] Implement all neighborhood accessors for DCEL::Edge
 - [ ] Figure out how to remove duplication between Polygon and DCEL::Face (they have similar responsibilities)
 - [ ] Create a MeshOperation class to represent atomic changes to faces/edges/vertices
+- [ ] Pull DCEL::Face::FaceBuilder out to its own file

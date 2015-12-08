@@ -31,6 +31,10 @@ describe DCEL::Face do
     # TODO
   end
 
+  describe ".from_vertices" do
+    # TODO
+  end
+
   describe "#opposite_face" do
     # TODO
   end

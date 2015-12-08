@@ -1,3 +1,5 @@
+require_relative "edge"
+
 module DCEL; end
 
 class DCEL::Face
@@ -11,6 +13,10 @@ class DCEL::Face
 
   def self.from_connected_edge(edge)
     FaceBuilder.from_connected_edge(edge)
+  end
+
+  def self.from_vertices(edge)
+    FaceBuilder.from_vertices(edge)
   end
 
   def opposite_face
@@ -45,6 +51,11 @@ class DCEL::Face
 
   module FaceBuilder
     extend self
+
+    def from_vertices(vertices)
+      edges = vertices.map { |vertex| DCEL::Edge.new(origin_vertex: vertex) }
+      from_disjoint_edges(edges)
+    end
 
     def from_disjoint_edges(edges)
       DCEL::Face.new(edges.first).tap do |face|
