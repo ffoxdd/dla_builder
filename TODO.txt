@@ -23,7 +23,6 @@
 - [ ] Start using minispec-stub-const everywhere
 
 - [ ] Consider factoring out linked list behavior from DCEL::Edge
-- [ ] See if triangle specific methods in DCEL::Edge work for faces generally
 - [ ] Factor out the creation of enumerators for linked list type objects
 - [ ] Implement all enumerators for DCEL::Edge
 - [ ] Implement all neighborhood accessors for DCEL::Edge
