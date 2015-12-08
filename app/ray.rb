@@ -29,6 +29,10 @@ class Ray
     relative_position(point) > 0
   end
 
+  def right_handed_orientation?(test_line)
+    relative_orientation(test_line) > 0
+  end
+
   def rotate(theta)
     Ray.new(point, displacement_vector.rotate(theta))
   end
@@ -58,6 +62,10 @@ class Ray
 
   def same_direction?(v1, v2)
     v1.determinant(v2) == 0
+  end
+
+  def relative_orientation(test_line)
+    displacement_vector.determinant(test_line.displacement_vector) <=> 0
   end
 
 end

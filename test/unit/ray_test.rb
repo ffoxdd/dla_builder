@@ -30,6 +30,20 @@ describe Ray do
     end
   end
 
+  describe "#right_handed_orientation?" do
+    let(:ray) { Ray.new(Point[0, 0], Vector2D[1, 1]) }
+
+    it "returns true if the second ray is oriented to the left" do
+      second_ray = Ray.new(Point[0, 0], Vector2D[0, 1])
+      ray.right_handed_orientation?(second_ray).must_equal(true)
+    end
+
+    it "returns true if the second ray is oriented to the right" do
+      second_ray = Ray.new(Point[0, 0], Vector2D[1, 0])
+      ray.right_handed_orientation?(second_ray).must_equal(false)
+    end
+  end
+
   describe "#angle_to" do
     let(:ray) { Ray.new(Point[0, 0], Vector2D[0, 1]) }
 

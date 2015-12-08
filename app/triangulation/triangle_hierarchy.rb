@@ -7,8 +7,8 @@ module Triangulation; end
 class Triangulation::TriangleHierarchy
 
   def initialize
-    @mesh = boundary_mesh
-    @boundary_triangle = Triangulation::HierarchicalTriangle.new(mesh: mesh, face: mesh.faces.first)
+    @mesh = new_boundary_mesh
+    @boundary_triangle = boundary_triangle_for(@mesh)
   end
 
   def points
@@ -25,9 +25,25 @@ class Triangulation::TriangleHierarchy
   MAX_VALUE = 1e100 # representing "infinity" in a way that is guaranteed to work (for now)
   # TODO: consider implementing the boundary triangle with a special type
 
-  def boundary_mesh
+  def new_boundary_mesh
     DCEL::Mesh.polygon(boundary_points)
   end
+
+  def bounded_face(input_mesh)
+    input_mesh.faces.find { |graph_face| Triangulation::Face.new(graph_face).bounded? }
+  end
+
+  def boundary_triangle_for(input_mesh)
+    Triangulation::HierarchicalTriangle.new(mesh: input_mesh, face: bounded_face(input_mesh))
+  end
+
+  # def face_enumerator(input_mesh)
+  #   Enumerator.new do |y|
+  #     mesh.faces.each do |graph_face|
+  #       y.yield(Triangulation::Face.new(graph_face))
+  #     end
+  #   end
+  # end
 
   def boundary_points
     [Point[MAX_VALUE, MAX_VALUE], Point[-MAX_VALUE, MAX_VALUE], Point[0, -MAX_VALUE]]
