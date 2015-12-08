@@ -34,7 +34,7 @@ class DCEL::Subdivider
 
   def link_spokes
     each_spoke do |inward_edge, outward_edge|
-      DCEL::Builder.link_opposite(inward_edge, outward_edge)
+      DCEL::Edge.link_opposites(inward_edge, outward_edge)
     end
   end
 

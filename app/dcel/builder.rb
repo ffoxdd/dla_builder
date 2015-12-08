@@ -16,15 +16,12 @@ module DCEL::Builder
     inner_face
   end
 
-  def link_opposite(edge, opposite_edge)
-    edge.opposite_edge = opposite_edge
-    opposite_edge.opposite_edge = edge
-  end
-
   private
 
   def new_opposite_edge(edge)
-    new_edge(edge.destination_vertex).tap { |opposite_edge| link_opposite(edge, opposite_edge) }
+    new_edge(edge.destination_vertex).tap do |opposite_edge|
+      DCEL::Edge.link_opposites(edge, opposite_edge)
+    end
   end
 
   def new_edge(vertex)

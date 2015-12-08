@@ -12,6 +12,10 @@ describe DCEL::Edge do
     # TODO
   end
 
+  describe ".link_opposites" do
+    # TODO
+  end
+
   describe "#next_edge/#previous_edge/#opposite_edge/#origin_vertex/#left_face" do
     it "has readers for connected components" do
       origin_vertex = test_vertex

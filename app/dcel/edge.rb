@@ -23,6 +23,11 @@ class DCEL::Edge
     next_edge.previous_edge = previous_edge
   end
 
+  def self.link_opposites(edge, opposite_edge)
+    edge.opposite_edge = opposite_edge
+    opposite_edge.opposite_edge = edge
+  end
+
   def inspect
     "#<#{self.class.name}:#{id} origin_vertex=#{origin_vertex.to_s} #{inspect_links}>"
   end
