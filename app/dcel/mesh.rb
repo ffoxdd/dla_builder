@@ -1,4 +1,4 @@
-require_relative "builder"
+require_relative "polygon_builder"
 require_relative "subdivider"
 require_relative "vertex_deleter"
 
@@ -15,7 +15,7 @@ class DCEL::Mesh
   attr_reader :faces, :edges, :vertices
 
   def self.polygon(vertices)
-    inner_face = DCEL::Builder.polygon(vertices)
+    inner_face = DCEL::PolygonBuilder.polygon(vertices)
     new(faces: [inner_face]) # !!!!!
   end
 

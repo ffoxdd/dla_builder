@@ -1,7 +1,7 @@
 require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/subdivider"
-require_relative "../../../app/dcel/builder"
+require_relative "../../../app/dcel/polygon_builder"
 
 def test_vertex
   Object.new
@@ -14,7 +14,7 @@ describe DCEL::Subdivider do
     let(:inner_vertex) { test_vertex }
 
     it "subdivides a face about an interior vertex" do
-      face = DCEL::Builder.polygon(vertices)
+      face = DCEL::PolygonBuilder.polygon(vertices)
       perimeter_edges = face.edges
 
       DCEL::Subdivider.subdivide_face(face, inner_vertex) do |new_faces, new_edges|

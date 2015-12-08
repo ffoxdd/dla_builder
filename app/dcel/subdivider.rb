@@ -1,6 +1,6 @@
 require_relative "edge"
 require_relative "face"
-require_relative "builder"
+require_relative "polygon_builder"
 
 module DCEL; end
 

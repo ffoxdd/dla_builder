@@ -1,7 +1,7 @@
 require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/mesh"
-require_relative "../../../app/dcel/builder"
+require_relative "../../../app/dcel/polygon_builder"
 
 describe DCEL::Mesh do
 
@@ -11,14 +11,14 @@ describe DCEL::Mesh do
 
   describe ".polygon" do
     let(:vertices) { 3.times.map { test_vertex }}
-    let(:inner_face) { DCEL::Builder.polygon(vertices) }
+    let(:inner_face) { DCEL::PolygonBuilder.polygon(vertices) }
     let(:mock_builder) { Minitest::Mock.new }
 
     it "creates a mesh with a single polygon" do
       # TODO: consider rewriting this test so you aren't first using the builder and then stubbing it
       mock_builder.expect(:polygon, inner_face, [vertices])
 
-      DCEL.stub_const(:Builder, mock_builder) do
+      DCEL.stub_const(:PolygonBuilder, mock_builder) do
         mesh = DCEL::Mesh.polygon(vertices)
 
         mesh.faces.must_equal([inner_face])

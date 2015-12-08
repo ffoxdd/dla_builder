@@ -3,7 +3,7 @@ require_relative "face"
 
 module DCEL; end
 
-module DCEL::Builder
+module DCEL::PolygonBuilder
   extend self
 
   def polygon(vertices)

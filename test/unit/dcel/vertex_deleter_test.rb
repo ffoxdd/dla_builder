@@ -2,7 +2,7 @@ require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/vertex_deleter"
 require_relative "../../../app/dcel/subdivider"
-require_relative "../../../app/dcel/builder"
+require_relative "../../../app/dcel/polygon_builder"
 
 def test_vertex
   Object.new
@@ -12,7 +12,7 @@ describe DCEL::VertexDeleter do
   describe "#delete_vertex" do
     let(:original_vertices) { 3.times.map { test_vertex } }
     let(:inner_vertex) { test_vertex }
-    let(:inner_face) { DCEL::Builder.polygon(original_vertices) }
+    let(:inner_face) { DCEL::PolygonBuilder.polygon(original_vertices) }
 
     attr_reader :outer_edge, :inner_edge
 

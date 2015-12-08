@@ -1,14 +1,14 @@
 require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
-require_relative "../../../app/dcel/builder"
+require_relative "../../../app/dcel/polygon_builder"
 
-describe DCEL::Builder do
+describe DCEL::PolygonBuilder do
 
   describe ".face" do
     let(:vertices) { 3.times.to_a }
 
     it "creates a fully linked face" do
-      inner_face = DCEL::Builder.polygon(vertices)
+      inner_face = DCEL::PolygonBuilder.polygon(vertices)
       outer_face = inner_face.opposite_face
 
       inner_face.vertices.must_cyclically_equal(vertices)
