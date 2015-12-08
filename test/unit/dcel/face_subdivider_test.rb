@@ -1,13 +1,13 @@
 require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
-require_relative "../../../app/dcel/subdivider"
+require_relative "../../../app/dcel/face_subdivider"
 require_relative "../../../app/dcel/polygon_builder"
 
 def test_vertex
   Object.new
 end
 
-describe DCEL::Subdivider do
+describe DCEL::FaceSubdivider do
 
   describe ".subdivide_face" do
     let(:vertices) { 3.times.map { test_vertex }}
@@ -17,7 +17,7 @@ describe DCEL::Subdivider do
       face = DCEL::PolygonBuilder.polygon(vertices)
       perimeter_edges = face.edges
 
-      DCEL::Subdivider.subdivide_face(face, inner_vertex) do |new_faces, new_edges|
+      DCEL::FaceSubdivider.subdivide_face(face, inner_vertex) do |new_faces, new_edges|
         inner_faces = perimeter_edges.map(&:left_face)
 
         inner_faces[0].vertices.must_cyclically_equal([vertices[0], vertices[1], inner_vertex])

@@ -1,7 +1,7 @@
 require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/vertex_deleter"
-require_relative "../../../app/dcel/subdivider"
+require_relative "../../../app/dcel/face_subdivider"
 require_relative "../../../app/dcel/polygon_builder"
 
 def test_vertex
@@ -18,7 +18,7 @@ describe DCEL::VertexDeleter do
 
     before do
       outer_edges = inner_face.edges
-      DCEL::Subdivider.subdivide_face(inner_face, inner_vertex)
+      DCEL::FaceSubdivider.subdivide_face(inner_face, inner_vertex)
 
       @outer_edge = outer_edges.first
       @inner_edge = @outer_edge.previous_edge

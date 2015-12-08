@@ -4,7 +4,7 @@ require_relative "polygon_builder"
 
 module DCEL; end
 
-class DCEL::Subdivider
+class DCEL::FaceSubdivider
   def self.subdivide_face(face, new_vertex, &block)
     new(face, new_vertex).subdivide_face(&block)
   end

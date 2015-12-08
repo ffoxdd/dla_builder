@@ -1,5 +1,5 @@
 require_relative "polygon_builder"
-require_relative "subdivider"
+require_relative "face_subdivider"
 require_relative "vertex_deleter"
 
 module DCEL; end
@@ -21,7 +21,7 @@ class DCEL::Mesh
   end
 
   def subdivide(face, new_vertex)
-    DCEL::Subdivider.subdivide_face(face, new_vertex) do |new_faces, new_edges|
+    DCEL::FaceSubdivider.subdivide_face(face, new_vertex) do |new_faces, new_edges|
       # TODO: figure out why 'self' is required here
       self.faces -= [face]
       self.faces += new_faces
