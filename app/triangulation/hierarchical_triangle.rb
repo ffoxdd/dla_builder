@@ -52,7 +52,7 @@ class Triangulation::HierarchicalTriangle
     end
 
     def contains?(point)
-      face.each_edge.all? { |edge| ray(edge).point_to_the_left?(point) }
+      face.each_edge_enumerator.all? { |edge| ray(edge).point_to_the_left?(point) }
     end
 
     private

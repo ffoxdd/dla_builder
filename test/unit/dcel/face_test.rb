@@ -23,7 +23,11 @@ describe DCEL::Face do
     end
   end
 
-  describe ".build_from_edges" do
+  describe ".from_disjoint_edges" do
+    # TODO
+  end
+
+  describe ".from_connected_edge" do
     # TODO
   end
 
@@ -32,6 +36,10 @@ describe DCEL::Face do
   end
 
   describe "#each_edge" do
+    # TODO
+  end
+
+  describe "#each_vertex" do
     # TODO
   end
 
@@ -50,7 +58,19 @@ describe DCEL::Face do
   end
 
   describe "#eql?/#hash" do
-    # TODO
+    def test_face
+      DCEL::Face.new(Object.new)
+    end
+
+    let(:face) { test_face }
+    let(:different_face) { test_face }
+
+    it "only represents equality for identical instances" do
+      face.eql?(face).must_equal(true)
+      face.eql?(different_face).must_equal(false)
+
+      face.hash.wont_equal(different_face.hash)
+    end
   end
 
 end

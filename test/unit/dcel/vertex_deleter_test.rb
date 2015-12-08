@@ -10,7 +10,7 @@ describe DCEL::VertexDeleter do
     let(:inner_vertex) { test_vertex }
     let(:inner_face) { DCEL::PolygonBuilder.polygon(original_vertices) }
 
-    attr_reader :outer_edge, :inner_edge
+    attr_reader :outer_edge, :inner_edge, :old_face
 
     before do
       outer_edges = inner_face.edges
@@ -18,34 +18,37 @@ describe DCEL::VertexDeleter do
 
       @outer_edge = outer_edges.first
       @inner_edge = @outer_edge.previous_edge
+      @old_face = @outer_edge.left_face
     end
 
     it "can delete an inner vertex" do
-      old_face = outer_edge.left_face
-
-      DCEL::VertexDeleter.delete_vertex(inner_edge) do |deleted_faces, deleted_edges, deleted_vertex|
-        new_face = outer_edge.left_face
-        new_face.wont_equal(old_face)
-        new_face.vertices.must_cyclically_equal(original_vertices)
+      DCEL::VertexDeleter.delete_vertex(inner_edge) do |deleted_faces, deleted_edges, deleted_vertex, added_face|
+        # note that the deleted faces are corrupt and cannot be iterated over
 
         deleted_faces.size.must_equal(3)
         deleted_edges.size.must_equal(6)
         deleted_vertex.must_equal(inner_vertex)
+
+        # TODO: test deleted elements more thoroughly
+
+        added_face.vertices.must_cyclically_equal(original_vertices)
       end
     end
 
     it "can delete a perimeter vertex" do
       new_outer_edge = outer_edge.next_edge
 
-      DCEL::VertexDeleter.delete_vertex(outer_edge) do |deleted_faces, deleted_edges, deleted_vertex|
-        new_face = new_outer_edge.left_face
-        new_triangle_vertices = [original_vertices[1], inner_vertex, original_vertices[2]]
-
-        new_face.vertices.must_cyclically_equal(new_triangle_vertices)
+      DCEL::VertexDeleter.delete_vertex(outer_edge) do |deleted_faces, deleted_edges, deleted_vertex, added_face|
+        # note that the deleted faces are corrupt and cannot be iterated over
 
         deleted_faces.size.must_equal(3)
         deleted_edges.size.must_equal(6)
         deleted_vertex.must_equal(outer_edge.origin_vertex)
+
+        # TODO: test deleted elements more thoroughly
+
+        new_triangle_vertices = [original_vertices[1], inner_vertex, original_vertices[2]]
+        added_face.vertices.must_cyclically_equal(new_triangle_vertices)
       end
     end
   end

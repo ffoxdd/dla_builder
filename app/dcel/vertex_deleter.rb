@@ -12,9 +12,7 @@ class DCEL::VertexDeleter
 
   def delete_vertex(&block)
     adjacent_edges.each { |edge| delete_edge(edge) }
-    update_face_references
-
-    yield(deleted_faces, deleted_edges, deleted_vertex) if block_given?
+    yield(deleted_faces, deleted_edges, deleted_vertex, new_face) if block_given?
   end
 
   private
@@ -37,11 +35,7 @@ class DCEL::VertexDeleter
   end
 
   def new_face
-    @new_face ||= DCEL::Face.new(deleted_edge.next_edge)
-  end
-
-  def update_face_references
-    new_face.edges.each { |edge| edge.left_face = new_face }
+    @new_face ||= DCEL::Face.from_connected_edge(deleted_edge.next_edge)
   end
 
   def delete_edge(edge)

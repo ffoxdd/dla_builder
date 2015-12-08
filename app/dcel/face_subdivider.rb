@@ -54,6 +54,6 @@ class DCEL::FaceSubdivider
   def build_inner_face(perimeter_edge)
     inward_edge = DCEL::Edge.new(origin_vertex: perimeter_edge.destination_vertex)
     outward_edge = DCEL::Edge.new(origin_vertex: new_vertex)
-    DCEL::Face.build_from_edges([perimeter_edge, inward_edge, outward_edge])
+    DCEL::Face.from_disjoint_edges([perimeter_edge, inward_edge, outward_edge])
   end
 end

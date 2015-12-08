@@ -52,7 +52,7 @@ describe DCEL::Mesh do
     it "deletes a vertex, along with any incident edges and faces" do
       mesh.delete_vertex(perimeter_edge)
 
-      # mesh.faces.size.must_equal(2) # 1 bounded, 1 infinite
+      mesh.faces.size.must_equal(2) # 1 bounded, 1 infinite
       mesh.edges.size.must_equal(3)
       mesh.vertices.size.must_equal(3)
     end

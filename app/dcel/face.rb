@@ -5,8 +5,12 @@ class DCEL::Face
     @edge = edge
   end
 
-  def self.build_from_edges(edges)
-    FaceBuilder.from_edges(edges)
+  def self.from_disjoint_edges(edges)
+    FaceBuilder.from_disjoint_edges(edges)
+  end
+
+  def self.from_connected_edge(edge)
+    FaceBuilder.from_connected_edge(edge)
   end
 
   def opposite_face
@@ -14,37 +18,46 @@ class DCEL::Face
   end
 
   def edges
-    each_edge.to_a
+    each_edge_enumerator.to_a
   end
 
   def vertices
-    each_edge.map(&:origin_vertex)
+    each_vertex_enumerator.to_a
   end
 
-  def each_edge
+  def each_edge_enumerator
     edge.each_next_edge
   end
 
-  def eql?(face)
-    vertices.eql?(face.vertices)
-  end
-
-  def hash
-    vertices.hash
+  def each_vertex_enumerator
+    map_enumerator(each_edge_enumerator, &:origin_vertex)
   end
 
   private
   attr_reader :edge
 
+  # TODO: move this somewhere more general
+  def map_enumerator(enumerator, &transformation)
+    Enumerator.new do |y|
+      loop { y.yield(transformation.call(enumerator.next)) }
+    end
+  end
+
   module FaceBuilder
     extend self
 
-    def from_edges(edges)
+    def from_disjoint_edges(edges)
       DCEL::Face.new(edges.first).tap do |face|
         DCEL.cyclical_each_pair(edges) do |previous_edge, next_edge|
           DCEL::Edge.link(previous_edge, next_edge)
           previous_edge.left_face = face
         end
+      end
+    end
+
+    def from_connected_edge(edge)
+      DCEL::Face.new(edge).tap do |face|
+        face.each_edge_enumerator.each { |face_edge| face_edge.left_face = face }
       end
     end
   end

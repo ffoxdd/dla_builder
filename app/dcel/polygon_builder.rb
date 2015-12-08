@@ -51,6 +51,6 @@ class DCEL::PolygonBuilder
   end
 
   def new_face(edges)
-    DCEL::Face.build_from_edges(edges)
+    DCEL::Face.from_disjoint_edges(edges)
   end
 end
