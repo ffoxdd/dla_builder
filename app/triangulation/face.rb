@@ -22,6 +22,6 @@ class Triangulation::Face
     line_0.right_handed_orientation?(line_1)
   end
 
-  # private
+  private
   attr_reader :lines
 end
