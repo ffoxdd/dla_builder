@@ -7,7 +7,7 @@ class Triangulation::HierarchicalTriangle
   def initialize(mesh:, mesh_face:)
     @mesh = mesh
     @mesh_face = mesh_face
-    @triangulation_face = Triangulation::Face.new(@mesh_face.edges)
+    @triangulation_face = Triangulation::Face.from_face(@mesh_face)
     @children = []
   end
 
