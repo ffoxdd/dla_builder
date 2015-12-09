@@ -1,9 +1,18 @@
 require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/edge"
+require_relative "../../../app/point"
+require_relative "../../../app/ray"
 
 def test_edge
   DCEL::Edge.new(origin_vertex: test_vertex)
+end
+
+def edge_from_endpoints(origin_vertex, destination_vertex)
+  DCEL::Edge.new(origin_vertex: origin_vertex).tap do |edge|
+    next_edge = DCEL::Edge.new(origin_vertex: destination_vertex)
+    DCEL::Edge.link(edge, next_edge)
+  end
 end
 
 describe DCEL::Edge do
@@ -69,13 +78,6 @@ describe DCEL::Edge do
     let(:destination_vertex) { test_vertex }
     let(:different_vertex) { test_vertex }
 
-    def edge_from_endpoints(origin_vertex, destination_vertex)
-      DCEL::Edge.new(origin_vertex: origin_vertex).tap do |edge|
-        next_edge = DCEL::Edge.new(origin_vertex: destination_vertex)
-        DCEL::Edge.link(edge, next_edge)
-      end
-    end
-
     it "represent equality if they have the same endpoints" do
       edge_0 = edge_from_endpoints(origin_vertex, destination_vertex)
       edge_1 = edge_from_endpoints(origin_vertex, destination_vertex)
@@ -90,6 +92,17 @@ describe DCEL::Edge do
 
       edge_0.eql?(edge_1).must_equal(false)
       edge_0.hash.wont_equal(edge_1.hash)
+    end
+  end
+
+  describe "#to_line" do
+    let(:origin_point) { Point[0, 0] }
+    let(:destination_point) { Point[1, 1] }
+    let(:edge) { edge_from_endpoints(origin_point, destination_point) }
+
+    it "returns a line incident with this edge" do
+      line = edge.to_line
+      line.defining_points.must_equal([origin_point, destination_point])
     end
   end
 

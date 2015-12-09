@@ -115,4 +115,11 @@ describe Ray do
     end
   end
 
+  describe "#to_line" do
+    it "just returns itself" do
+      ray = Ray.new(Point[1, 0], Vector2D[1, 0])
+      ray.to_line.must_equal(ray)
+    end
+  end
+
 end

@@ -22,7 +22,7 @@ class Triangulation::TriangleHierarchy
   private
   attr_reader :mesh, :boundary_triangle
 
-  MAX_VALUE = 1e100 # representing "infinity" in a way that is guaranteed to work (for now)
+  MAX_VALUE = 10 #1e100 # representing "infinity" in a way that is guaranteed to work (for now)
   # TODO: consider implementing the boundary triangle with a special type
 
   def new_boundary_mesh
@@ -30,17 +30,17 @@ class Triangulation::TriangleHierarchy
   end
 
   def bounded_face(input_mesh)
-    input_mesh.faces.find { |graph_face| Triangulation::Face.new(graph_face).bounded? }
+    input_mesh.faces.find { |dcel_face| Triangulation::Face.from_face(dcel_face).bounded? }
   end
 
   def boundary_triangle_for(input_mesh)
-    Triangulation::HierarchicalTriangle.new(mesh: input_mesh, face: bounded_face(input_mesh))
+    Triangulation::HierarchicalTriangle.new(mesh: input_mesh, mesh_face: bounded_face(input_mesh))
   end
 
   # def face_enumerator(input_mesh)
   #   Enumerator.new do |y|
-  #     mesh.faces.each do |graph_face|
-  #       y.yield(Triangulation::Face.new(graph_face))
+  #     mesh.faces.each do |dcel_face|
+  #       y.yield(Triangulation::Face.new(dcel_face))
   #     end
   #   end
   # end

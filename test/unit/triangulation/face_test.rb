@@ -2,12 +2,25 @@ require_relative "../../test_helper.rb"
 require_relative "../../../app/triangulation/face"
 require_relative "../../../app/point"
 require_relative "../../../app/dcel/face"
+require_relative "../../../app/ray"
 
 describe Triangulation::Face do
 
   def from_points(points)
-    graph_face = DCEL::Face.from_vertices(points)
-    Triangulation::Face.new(graph_face)
+    lines = DCEL.cyclical_each_pair(points).map do |previous_point, next_point|
+      Ray.from_endpoints(previous_point, next_point)
+    end
+
+    Triangulation::Face.new(lines)
+  end
+
+  describe "#points" do
+    let(:points) { [Point[0, 0], Point[10, 0], Point[0, 10]] }
+    let(:face) { from_points(points) }
+
+    it "returns the points for the face" do
+      face.points.must_equal(points)
+    end
   end
 
   describe "#contains?" do
