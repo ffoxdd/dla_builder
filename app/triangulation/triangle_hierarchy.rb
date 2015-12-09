@@ -22,7 +22,7 @@ class Triangulation::TriangleHierarchy
   private
   attr_reader :mesh, :boundary_triangle
 
-  MAX_VALUE = 10 #1e100 # representing "infinity" in a way that is guaranteed to work (for now)
+  MAX_VALUE = 1e100 # representing "infinity" in a way that is guaranteed to work (for now)
   # TODO: consider implementing the boundary triangle with a special type
 
   def new_boundary_mesh
