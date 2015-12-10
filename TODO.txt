@@ -30,4 +30,5 @@
 - [ ] Create a MeshOperation class to represent atomic changes to faces/edges/vertices
 - [ ] Pull DCEL::Face::FaceBuilder out to its own file
 - [ ] See if we can change Ray#point_to_the_left? so that it will work with Triangulation::Face#contains?
-- [ ] On second thought, take the #to_line method out of DCEL::Edge. If it's going to know about Euclidean measure there's no reason to have it be separate.
+- [ ] Change names to use the term "wheel graph" instead of "polygon" when talking about the (metricless) DCEL
+- [ ] Stop using the test_vertex method now that it's being used for vertex values instead

@@ -12,18 +12,21 @@ class DCEL::Mesh
     @vertices = options.fetch(:vertices) { @edges.map(&:origin_vertex) }
   end
 
-  attr_reader :faces, :edges, :vertices
-
-  def self.polygon(input_vertices)
-    DCEL::PolygonBuilder.polygon(input_vertices) do |faces, edges, vertices|
+  def self.polygon(vertex_values)
+    DCEL::PolygonBuilder.polygon(vertex_values) do |faces, edges, vertices|
       return new(faces: faces, edges: edges, vertices: vertices)
     end
   end
 
-  def subdivide(face, new_vertex)
-    DCEL::FaceSubdivider.subdivide_face(face, new_vertex) do |new_faces, new_edges|
-      # TODO: figure out why 'self' is required here
-      self.faces -= [face]
+  attr_reader :faces, :edges, :vertices
+
+  def vertex_values
+    vertices.map(&:value)
+  end
+
+  def subdivide(face, new_vertex_value)
+    DCEL::FaceSubdivider.subdivide_face(face, new_vertex_value) do |new_faces, new_edges, new_vertex|
+      self.faces -= [face] # not sure why 'self' is required here
       self.faces += new_faces
       self.edges += new_edges
       self.vertices += [new_vertex]

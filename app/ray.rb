@@ -58,10 +58,6 @@ class Ray
     Point[x, y]
   end
 
-  def to_line
-    self
-  end
-
   private
 
   def same_direction?(v1, v2)

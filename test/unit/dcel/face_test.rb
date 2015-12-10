@@ -1,38 +1,27 @@
 require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/face"
+require_relative "../../../app/dcel/vertex"
 require_relative "../../../app/point"
 
 describe DCEL::Face do
 
-  let(:vertices) do
+  let(:vertex_values) do
     3.times.map { test_vertex }
   end
 
-  let(:edges) do
-    vertices.map { |vertex| new_edge(vertex) }.tap { |e| cyclically_link(e) }
+  let(:vertices) do
+    vertex_values.map { |value| DCEL::Vertex.new(value) }
   end
 
-  def new_edge(vertex)
-    DCEL::Edge.new(origin_vertex: vertex)
+  let(:edges) do
+    vertices.map { |vertex| DCEL::Edge.new(origin_vertex: vertex) }.tap { |e| cyclically_link(e) }
   end
 
   def cyclically_link(edges)
     DCEL.cyclical_each_pair(edges) do |previous_edge, next_edge|
       DCEL::Edge.link(previous_edge, next_edge)
     end
-  end
-
-  describe ".from_disjoint_edges" do
-    # TODO
-  end
-
-  describe ".from_connected_edge" do
-    # TODO
-  end
-
-  describe ".from_vertices" do
-    # TODO
   end
 
   describe "#opposite_face" do
@@ -47,17 +36,13 @@ describe DCEL::Face do
     # TODO
   end
 
-  describe "#edges" do
+  describe "#edges/#vertices/#vertex_values" do
     it "returns the edges that make up the face" do
       face = DCEL::Face.new(edges.first)
-      face.edges.must_equal(edges)
-    end
-  end
 
-  describe "#vertices" do
-    it "returns the vertices that make up the face" do
-      face = DCEL::Face.new(edges.first)
+      face.edges.must_equal(edges)
       face.vertices.must_equal(vertices)
+      face.vertex_values.must_equal(vertex_values)
     end
   end
 

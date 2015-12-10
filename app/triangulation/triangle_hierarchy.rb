@@ -30,20 +30,12 @@ class Triangulation::TriangleHierarchy
   end
 
   def bounded_face(input_mesh)
-    input_mesh.faces.find { |dcel_face| Triangulation::Face.from_face(dcel_face).bounded? }
+    input_mesh.faces.find { |mesh_face| Triangulation::Face.new(mesh_face.vertex_values).bounded? }
   end
 
   def boundary_triangle_for(input_mesh)
     Triangulation::HierarchicalTriangle.new(mesh: input_mesh, mesh_face: bounded_face(input_mesh))
   end
-
-  # def face_enumerator(input_mesh)
-  #   Enumerator.new do |y|
-  #     mesh.faces.each do |dcel_face|
-  #       y.yield(Triangulation::Face.new(dcel_face))
-  #     end
-  #   end
-  # end
 
   def boundary_points
     [Point[MAX_VALUE, MAX_VALUE], Point[-MAX_VALUE, MAX_VALUE], Point[0, -MAX_VALUE]]

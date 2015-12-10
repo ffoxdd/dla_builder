@@ -1,5 +1,3 @@
-require_relative "../ray"
-
 module DCEL
   def self.cyclical_each_pair(enumerable, &block) # TODO: find a better place for this helper code
     enumerable.cycle.each_cons(2).take(enumerable.size).each(&block)
@@ -67,10 +65,6 @@ class DCEL::Edge
 
   def hash
     vertices.hash
-  end
-
-  def to_line
-    Ray.from_endpoints(*vertices)
   end
 
   protected

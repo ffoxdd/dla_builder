@@ -95,15 +95,4 @@ describe DCEL::Edge do
     end
   end
 
-  describe "#to_line" do
-    let(:origin_point) { Point[0, 0] }
-    let(:destination_point) { Point[1, 1] }
-    let(:edge) { edge_from_endpoints(origin_point, destination_point) }
-
-    it "returns a line incident with this edge" do
-      line = edge.to_line
-      line.defining_points.must_equal([origin_point, destination_point])
-    end
-  end
-
 end

@@ -7,12 +7,12 @@ class Triangulation::HierarchicalTriangle
   def initialize(mesh:, mesh_face:)
     @mesh = mesh
     @mesh_face = mesh_face
-    @triangulation_face = Triangulation::Face.from_face(@mesh_face)
+    @face = Triangulation::Face.new(@mesh_face.vertex_values)
     @children = []
   end
 
   def points
-    return triangulation_face.points if leaf?
+    return face.points if leaf?
     children.flat_map(&:points).uniq
   end
 
@@ -29,7 +29,7 @@ class Triangulation::HierarchicalTriangle
   end
 
   def enclosing_triangle(point)
-    return unless triangulation_face.contains?(point)
+    return unless face.contains?(point)
     return self if leaf?
 
     children.lazy
@@ -38,7 +38,7 @@ class Triangulation::HierarchicalTriangle
   end
 
   private
-  attr_reader :mesh, :triangulation_face
+  attr_reader :mesh, :face
   attr_accessor :children, :mesh_face
 
   def new_triangle(new_mesh_face)

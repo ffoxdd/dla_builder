@@ -2,6 +2,7 @@ require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/mesh"
 require_relative "../../../app/dcel/polygon_builder"
+require 'set'
 
 describe DCEL::Mesh do
 
@@ -10,29 +11,30 @@ describe DCEL::Mesh do
   end
 
   describe ".polygon" do
-    let(:vertices) { 3.times.map { test_vertex }}
+    let(:vertex_values) { 3.times.map { test_vertex }}
 
     it "creates a mesh representing a single polygon" do
-      mesh = DCEL::Mesh.polygon(vertices)
+      mesh = DCEL::Mesh.polygon(vertex_values)
 
       mesh.faces.size.must_equal(2) # 1 bounded, 1 infinite
       mesh.edges.size.must_equal(3) # only count each polygon edge once
-      mesh.vertices.must_cyclically_equal(vertices)
+      mesh.vertex_values.must_cyclically_equal(vertex_values)
     end
   end
 
   describe "#subdivide" do
-    let(:vertices) { 3.times.map { test_vertex }}
-    let(:new_vertex) { test_vertex }
-    let(:mesh) { DCEL::Mesh.polygon(vertices) }
+    let(:vertex_values) { 3.times.map { test_vertex }}
+    let(:new_vertex_value) { test_vertex }
+    let(:mesh) { DCEL::Mesh.polygon(vertex_values) }
     let(:face) { mesh.faces.first }
 
     it "augments the mesh by subdividing the specified face by a new vertex" do
-      mesh.subdivide(face, new_vertex)
+      mesh.subdivide(face, new_vertex_value)
 
       mesh.faces.size.must_equal(4) # 3 bounded, 1 infinite
       mesh.edges.size.must_equal(6)
       mesh.vertices.size.must_equal(4)
+      Set.new(mesh.vertex_values).must_equal(Set.new(vertex_values + [new_vertex_value]))
     end
   end
 

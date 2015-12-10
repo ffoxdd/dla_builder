@@ -1,4 +1,4 @@
-require_relative "edge"
+require_relative "edge" # only used in FaceBuilder
 
 module DCEL; end
 
@@ -31,6 +31,10 @@ class DCEL::Face
     each_vertex_enumerator.to_a
   end
 
+  def vertex_values
+    each_vertex_value_enumerator.to_a
+  end
+
   def each_edge_enumerator
     edge.each_next_edge
   end
@@ -39,11 +43,14 @@ class DCEL::Face
     map_enumerator(each_edge_enumerator, &:origin_vertex)
   end
 
+  def each_vertex_value_enumerator
+    map_enumerator(each_vertex_enumerator, &:value)
+  end
+
   private
   attr_reader :edge
 
-  # TODO: move this somewhere more general
-  def map_enumerator(enumerator, &transformation)
+  def map_enumerator(enumerator, &transformation) # TODO: move this somewhere more general
     Enumerator.new do |y|
       loop { y.yield(transformation.call(enumerator.next)) }
     end

@@ -1,15 +1,16 @@
+require_relative "vertex"
 require_relative "edge"
 require_relative "face"
 
 module DCEL; end
 
 class DCEL::PolygonBuilder
-  def self.polygon(vertices, &block)
-    new(vertices).polygon(&block)
+  def self.polygon(vertex_values, &block)
+    new(vertex_values).polygon(&block)
   end
 
-  def initialize(vertices)
-    @vertices = vertices
+  def initialize(vertex_values)
+    @vertex_values = vertex_values
   end
 
   def polygon(&block)
@@ -22,18 +23,22 @@ class DCEL::PolygonBuilder
   end
 
   private
-  attr_reader :vertices
+  attr_reader :vertex_values
+
+  def vertices
+    @vertices ||= vertex_values.map { |value| DCEL::Vertex.new(value) }
+  end
 
   def inner_face
-    @inner_face ||= new_face(inner_edges)
+    @inner_face ||= DCEL::Face.from_disjoint_edges(inner_edges)
   end
 
   def outer_face
-    @outer_face ||= new_face(outer_edges)
+    @outer_face ||= DCEL::Face.from_disjoint_edges(outer_edges)
   end
 
   def inner_edges
-    @inner_edges ||= vertices.map { |vertex| new_edge(vertex) }
+    @inner_edges ||= vertices.map { |vertex| DCEL::Edge.new(origin_vertex: vertex) }
   end
 
   def outer_edges
@@ -41,16 +46,8 @@ class DCEL::PolygonBuilder
   end
 
   def new_opposite_edge(edge)
-    new_edge(edge.destination_vertex).tap do |opposite_edge|
+    DCEL::Edge.new(origin_vertex: edge.destination_vertex).tap do |opposite_edge|
       DCEL::Edge.link_opposites(edge, opposite_edge)
     end
-  end
-
-  def new_edge(vertex)
-    DCEL::Edge.new(origin_vertex: vertex)
-  end
-
-  def new_face(edges)
-    DCEL::Face.from_disjoint_edges(edges)
   end
 end

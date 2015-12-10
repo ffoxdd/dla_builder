@@ -1,17 +1,11 @@
 require_relative "../../test_helper.rb"
 require_relative "../../../app/triangulation/face"
 require_relative "../../../app/point"
-require_relative "../../../app/dcel/face"
-require_relative "../../../app/ray"
 
 describe Triangulation::Face do
 
   def from_points(points)
-    lines = DCEL.cyclical_each_pair(points).map do |previous_point, next_point|
-      Ray.from_endpoints(previous_point, next_point)
-    end
-
-    Triangulation::Face.new(lines)
+    Triangulation::Face.new(points)
   end
 
   describe "#points" do
