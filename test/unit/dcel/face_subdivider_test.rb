@@ -2,17 +2,22 @@ require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/face_subdivider"
 require_relative "../../../app/dcel/polygon_builder"
+require "set"
 
 describe DCEL::FaceSubdivider do
 
   describe ".subdivide_face" do
     let(:vertex_values) { 3.times.map { test_vertex }}
     let(:inner_vertex_value) { test_vertex }
+    let(:face) { DCEL::PolygonBuilder.polygon(vertex_values) }
+
+    attr_reader :perimeter_edges
+
+    before do
+      @perimeter_edges = face.edges
+    end
 
     it "subdivides a face about an interior vertex" do
-      face = DCEL::PolygonBuilder.polygon(vertex_values)
-      perimeter_edges = face.edges
-
       DCEL::FaceSubdivider.subdivide_face(face, inner_vertex_value) do |new_faces, new_edges, new_vertex|
         inner_faces = perimeter_edges.map(&:left_face)
 
@@ -27,7 +32,8 @@ describe DCEL::FaceSubdivider do
 
         new_vertex.value.must_equal(inner_vertex_value)
 
-        # new_vertex.adjacent_edges.must_cyclically_equal(new_edges) # THIS IS THE BIG ONE
+        new_vertex_adjacent_faces = new_vertex.adjacent_edges.map(&:left_face)
+        Set.new(new_vertex_adjacent_faces).must_equal(Set.new(new_faces))
       end
     end
   end

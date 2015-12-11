@@ -33,7 +33,7 @@ class DCEL::FaceSubdivider
   attr_reader :new_vertex_value, :original_face_edges
 
   def new_vertex
-    DCEL::Vertex.new(new_vertex_value)
+    @new_vertex ||= DCEL::Vertex.new(new_vertex_value)
   end
 
   def link_spokes
@@ -56,8 +56,15 @@ class DCEL::FaceSubdivider
   end
 
   def build_inner_face(perimeter_edge)
-    inward_edge = DCEL::Edge.new(origin_vertex: perimeter_edge.destination_vertex)
-    outward_edge = DCEL::Edge.new(origin_vertex: new_vertex)
+    inward_edge = new_edge(perimeter_edge.destination_vertex)
+    outward_edge = new_edge(new_vertex)
+
     DCEL::Face.from_disjoint_edges([perimeter_edge, inward_edge, outward_edge])
+  end
+
+  def new_edge(origin_vertex)
+    DCEL::Edge.new(origin_vertex: origin_vertex).tap do |edge|
+      origin_vertex.edge = edge
+    end
   end
 end

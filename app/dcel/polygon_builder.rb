@@ -38,14 +38,18 @@ class DCEL::PolygonBuilder
   end
 
   def inner_edges
-    @inner_edges ||= vertices.map { |vertex| DCEL::Edge.new(origin_vertex: vertex) }
+    @inner_edges ||= vertices.map { |vertex| new_edge_from_vertex(vertex) }
   end
 
   def outer_edges
-    @outer_edges ||= inner_edges.map { |edge| new_opposite_edge(edge) }.reverse
+    @outer_edges ||= inner_edges.map { |edge| new_edge_from_opposite_edge(edge) }.reverse
   end
 
-  def new_opposite_edge(edge)
+  def new_edge_from_vertex(vertex)
+    DCEL::Edge.new(origin_vertex: vertex).tap { |edge| vertex.edge = edge }
+  end
+
+  def new_edge_from_opposite_edge(edge)
     DCEL::Edge.new(origin_vertex: edge.destination_vertex).tap do |opposite_edge|
       DCEL::Edge.link_opposites(edge, opposite_edge)
     end

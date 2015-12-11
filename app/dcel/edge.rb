@@ -47,7 +47,11 @@ class DCEL::Edge
     opposite_edge.left_face
   end
 
-  def each_adjacent_edge
+  def vertices
+    [origin_vertex, destination_vertex]
+  end
+
+  def each_adjacent_edge_enumerator
     enumerator(&:adjacent_edge)
   end
 
@@ -69,10 +73,6 @@ class DCEL::Edge
 
   protected
   attr_reader :id # utility
-
-  def vertices
-    [origin_vertex, destination_vertex]
-  end
 
   def enumerator(value_proc = :itself, &next_proc)
     value_proc = value_proc.to_proc

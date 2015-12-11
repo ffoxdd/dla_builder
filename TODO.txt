@@ -32,3 +32,4 @@
 - [ ] See if we can change Ray#point_to_the_left? so that it will work with Triangulation::Face#contains?
 - [ ] Change names to use the term "wheel graph" instead of "polygon" when talking about the (metricless) DCEL
 - [ ] Stop using the test_vertex method now that it's being used for vertex values instead
+- [ ] See what happens if you make DCEL::Edge link itself to it's origin vertex on initialization
