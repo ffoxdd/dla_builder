@@ -55,12 +55,24 @@ class DCEL::Edge
     enumerator(&:adjacent_edge)
   end
 
-  def each_next_edge
+  def adjacent_edges
+    each_adjacent_edge_enumerator.to_a
+  end
+
+  def each_next_edge_enumerator
     enumerator(&:next_edge)
   end
 
-  def each_adjacent_face
+  def next_edges
+    each_next_edge_enumerator.to_a
+  end
+
+  def each_adjacent_face_enumerator
     enumerator(:left_face, &:adjacent_edge)
+  end
+
+  def adjacent_faces
+    each_adjacent_face_enumerator.to_a
   end
 
   def eql?(edge)

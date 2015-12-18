@@ -36,7 +36,7 @@ class DCEL::Face
   end
 
   def each_edge_enumerator
-    edge.each_next_edge
+    edge.each_next_edge_enumerator
   end
 
   def each_vertex_enumerator

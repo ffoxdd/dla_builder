@@ -19,21 +19,24 @@ describe DCEL::FaceSubdivider do
 
     it "subdivides a face about an interior vertex" do
       DCEL::FaceSubdivider.subdivide_face(face, inner_vertex_value) do |new_faces, new_edges, new_vertex|
-        inner_faces = perimeter_edges.map(&:left_face)
-
-        inner_faces[0].vertex_values.must_cyclically_equal([vertex_values[0], vertex_values[1], inner_vertex_value])
-        inner_faces[1].vertex_values.must_cyclically_equal([vertex_values[1], vertex_values[2], inner_vertex_value])
-        inner_faces[2].vertex_values.must_cyclically_equal([vertex_values[2], vertex_values[0], inner_vertex_value])
-
         new_faces.size.must_equal(3)
-        new_edges.size.must_equal(3) # only returns one per side
+        new_edges.size.must_equal(3)
 
-        new_edges.map(&:left_face).uniq.must_equal(new_faces)
+        Set.new(perimeter_edges.map(&:left_face)).must_equal(Set.new(new_faces))
+
+        new_faces.each do |face|
+          face.vertices.include?(new_vertex).must_equal(true)
+        end
+
+        new_edges.each do |edge|
+          new_faces.include?(edge.left_face).must_equal(true)
+          edge.vertices.include?(new_vertex).must_equal(true)
+        end
+
+        Set.new(new_vertex.adjacent_edges).must_equal(Set.new(new_edges))
+        Set.new(new_vertex.adjacent_faces).must_equal(Set.new(new_faces))
 
         new_vertex.value.must_equal(inner_vertex_value)
-
-        new_vertex_adjacent_faces = new_vertex.adjacent_edges.map(&:left_face)
-        Set.new(new_vertex_adjacent_faces).must_equal(Set.new(new_faces))
       end
     end
   end

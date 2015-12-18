@@ -65,11 +65,11 @@ describe DCEL::Edge do
     # TODO
   end
 
-  describe "#each_next_edge" do
+  describe "#each_next_edge_enumerator" do
     # TODO
   end
 
-  describe "#each_adjacent_face" do
+  describe "#each_adjacent_face_enumerator" do
     # TODO
   end
 
