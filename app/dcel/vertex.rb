@@ -12,10 +12,6 @@ class DCEL::Vertex
   delegate [:each_adjacent_edge_enumerator, :adjacent_edges] => :edge
   delegate [:each_adjacent_face_enumerator, :adjacent_faces] => :edge
 
-  def adjacent_edges
-    each_adjacent_edge_enumerator.to_a
-  end
-
   attr_reader :value
   attr_accessor :edge
 
