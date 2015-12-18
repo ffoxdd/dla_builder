@@ -13,7 +13,7 @@ describe DCEL::VertexDeleter do
     attr_reader :outer_edge, :inner_edge, :old_face
 
     before do
-      outer_edges = inner_face.edges
+      outer_edges = inner_face.edge_enumerator.to_a
       DCEL::FaceSubdivider.subdivide_face(inner_face, inner_vertex_value)
 
       @outer_edge = outer_edges.first
@@ -31,7 +31,7 @@ describe DCEL::VertexDeleter do
 
         # TODO: test deleted elements more thoroughly
 
-        added_face.vertex_values.must_cyclically_equal(vertex_values)
+        added_face.vertex_value_enumerator.to_a.must_cyclically_equal(vertex_values)
       end
     end
 
@@ -48,7 +48,7 @@ describe DCEL::VertexDeleter do
         # TODO: test deleted elements more thoroughly
 
         new_triangle_vertex_values = [vertex_values[1], inner_vertex_value, vertex_values[2]]
-        added_face.vertex_values.must_cyclically_equal(new_triangle_vertex_values)
+        added_face.vertex_value_enumerator.to_a.must_cyclically_equal(new_triangle_vertex_values)
       end
     end
   end

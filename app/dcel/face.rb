@@ -23,18 +23,6 @@ class DCEL::Face
     edge.opposite_edge.left_face
   end
 
-  def edges
-    edge_enumerator.to_a
-  end
-
-  def vertices
-    vertex_enumerator.to_a
-  end
-
-  def vertex_values
-    vertex_value_enumerator.to_a
-  end
-
   def edge_enumerator
     edge.next_edge_enumerator
   end

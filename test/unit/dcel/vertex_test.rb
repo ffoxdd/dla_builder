@@ -8,11 +8,11 @@ describe DCEL::Vertex do
   describe "#adjacent_edge_enumerator" do
     let(:vertex_values) { 3.times.map { Object.new }}
     let(:face) { DCEL::PolygonBuilder.polygon(vertex_values) }
-    let(:vertices) { face.vertices }
-    let(:edges) { face.edges }
 
     it "returns an enumerator for adjacent edges" do
-      edge = edges[0]
+      edges = face.edge_enumerator.to_a
+      edge = edges.first
+
       vertex = edge.origin_vertex
       adjacent_edges = vertex.adjacent_edge_enumerator.to_a
 

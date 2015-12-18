@@ -36,16 +36,6 @@ describe DCEL::Face do
     # TODO
   end
 
-  describe "#edges/#vertices/#vertex_values" do
-    it "returns the edges that make up the face" do
-      face = DCEL::Face.new(edges.first)
-
-      face.edges.must_equal(edges)
-      face.vertices.must_equal(vertices)
-      face.vertex_values.must_equal(vertex_values)
-    end
-  end
-
   describe "#eql?/#hash" do
     def test_face
       DCEL::Face.new(Object.new)

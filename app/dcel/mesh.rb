@@ -48,7 +48,11 @@ class DCEL::Mesh
   attr_writer :faces, :edges, :vertices
 
   def unique_edges(input_faces)
-    input_faces.flat_map(&:edges).uniq(&:origin_vertex)
+    all_edges(input_faces).uniq(&:origin_vertex)
+  end
+
+  def all_edges(input_faces)
+    input_faces.flat_map { |face| face.edge_enumerator.to_a }
   end
 
 end

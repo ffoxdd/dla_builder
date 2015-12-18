@@ -14,7 +14,7 @@ describe DCEL::FaceSubdivider do
     attr_reader :perimeter_edges
 
     before do
-      @perimeter_edges = face.edges
+      @perimeter_edges = face.edge_enumerator.to_a
     end
 
     it "subdivides a face about an interior vertex" do
@@ -25,7 +25,7 @@ describe DCEL::FaceSubdivider do
         Set.new(perimeter_edges.map(&:left_face)).must_equal(Set.new(new_faces))
 
         new_faces.each do |face|
-          face.vertices.include?(new_vertex).must_equal(true)
+          face.vertex_enumerator.include?(new_vertex).must_equal(true)
         end
 
         new_edges.each do |edge|

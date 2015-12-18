@@ -30,7 +30,7 @@ class Triangulation::TriangleHierarchy
   end
 
   def bounded_face(input_mesh)
-    input_mesh.faces.find { |mesh_face| Triangulation::Face.new(mesh_face.vertex_values).bounded? }
+    input_mesh.faces.find { |mesh_face| Triangulation::Face.new(mesh_face.vertex_value_enumerator).bounded? }
   end
 
   def boundary_triangle_for(input_mesh)

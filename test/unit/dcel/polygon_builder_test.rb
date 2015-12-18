@@ -20,8 +20,8 @@ describe DCEL::PolygonBuilder do
 
         inner_face, outer_face = faces
 
-        inner_face.vertices.must_cyclically_equal(vertices)
-        outer_face.vertices.must_cyclically_equal(vertices.reverse)
+        inner_face.vertex_enumerator.to_a.must_cyclically_equal(vertices)
+        outer_face.vertex_enumerator.to_a.must_cyclically_equal(vertices.reverse)
 
         inner_face.opposite_face.must_equal(outer_face)
         outer_face.opposite_face.must_equal(inner_face)

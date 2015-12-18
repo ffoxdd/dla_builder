@@ -11,7 +11,7 @@ class DCEL::FaceSubdivider
 
   def initialize(face, new_vertex_value)
     @new_vertex_value = new_vertex_value
-    @original_face_edges = face.edges
+    @original_face_edges = face.edge_enumerator.to_a
   end
 
   def subdivide_face(&block)
@@ -43,7 +43,8 @@ class DCEL::FaceSubdivider
   end
 
   def edges_with_origin(faces, origin_vertex)
-    faces.flat_map(&:edges).select { |edge| edge.origin_vertex.value == origin_vertex.value }
+    all_edges = faces.flat_map { |face| face.edge_enumerator.to_a }
+    all_edges.select { |edge| edge.origin_vertex.value == origin_vertex.value }
   end
 
   def each_spoke

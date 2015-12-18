@@ -5,7 +5,7 @@ module Triangulation; end
 
 class Triangulation::Face
   def initialize(points)
-    @points = points
+    @points = points.to_a
   end
 
   attr_reader :points
