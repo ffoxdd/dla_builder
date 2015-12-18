@@ -33,8 +33,8 @@ describe DCEL::FaceSubdivider do
           edge.vertices.include?(new_vertex).must_equal(true)
         end
 
-        Set.new(new_vertex.adjacent_edges).must_equal(Set.new(new_edges))
-        Set.new(new_vertex.adjacent_faces).must_equal(Set.new(new_faces))
+        Set.new(new_vertex.adjacent_edge_enumerator).must_equal(Set.new(new_edges))
+        Set.new(new_vertex.adjacent_face_enumerator).must_equal(Set.new(new_faces))
 
         new_vertex.value.must_equal(inner_vertex_value)
       end

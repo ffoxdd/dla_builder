@@ -33,8 +33,8 @@ describe DCEL::PolygonBuilder do
 
         vertices.each do |vertex|
           other_vertices = vertices - [vertex]
-          adjacent_origin_vertices = vertex.adjacent_edges.map(&:origin_vertex)
-          adjacent_destination_vertices = vertex.adjacent_edges.map(&:destination_vertex)
+          adjacent_origin_vertices = vertex.adjacent_edge_enumerator.map(&:origin_vertex)
+          adjacent_destination_vertices = vertex.adjacent_edge_enumerator.map(&:destination_vertex)
 
           Set.new(adjacent_origin_vertices).must_equal(Set.new([vertex]))
           Set.new(adjacent_destination_vertices).must_equal(Set.new(other_vertices))

@@ -9,8 +9,7 @@ class DCEL::Vertex
     @edge = edge
   end
 
-  delegate [:adjacent_edge_enumerator, :adjacent_edges] => :edge
-  delegate [:adjacent_face_enumerator, :adjacent_faces] => :edge
+  delegate [:adjacent_edge_enumerator, :adjacent_face_enumerator] => :edge
 
   attr_reader :value
   attr_accessor :edge
