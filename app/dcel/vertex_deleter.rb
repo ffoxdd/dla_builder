@@ -23,11 +23,11 @@ class DCEL::VertexDeleter
   end
 
   def deleted_faces
-    deleted_edge.each_adjacent_face_enumerator.to_a
+    deleted_edge.adjacent_face_enumerator.to_a
   end
 
   def adjacent_edges
-    @adjacent_edges ||= deleted_edge.each_adjacent_edge_enumerator.to_a
+    @adjacent_edges ||= deleted_edge.adjacent_edge_enumerator.to_a
   end
 
   def deleted_edges

@@ -15,17 +15,17 @@ class Triangulation::Face
   end
 
   def bounded?
-    line_0, line_1 = each_line_enumerator.first(2)
+    line_0, line_1 = line_enumerator.first(2)
     line_0.right_handed_orientation?(line_1)
   end
 
   private
 
   def lines
-    each_line_enumerator.to_a
+    line_enumerator.to_a
   end
 
-  def each_line_enumerator
+  def line_enumerator
     DCEL.cyclical_each_pair(points).map do |previous_point, next_point|
       Ray.from_endpoints(previous_point, next_point)
     end

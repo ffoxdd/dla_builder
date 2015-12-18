@@ -24,27 +24,27 @@ class DCEL::Face
   end
 
   def edges
-    each_edge_enumerator.to_a
+    edge_enumerator.to_a
   end
 
   def vertices
-    each_vertex_enumerator.to_a
+    vertex_enumerator.to_a
   end
 
   def vertex_values
-    each_vertex_value_enumerator.to_a
+    vertex_value_enumerator.to_a
   end
 
-  def each_edge_enumerator
-    edge.each_next_edge_enumerator
+  def edge_enumerator
+    edge.next_edge_enumerator
   end
 
-  def each_vertex_enumerator
-    map_enumerator(each_edge_enumerator, &:origin_vertex)
+  def vertex_enumerator
+    map_enumerator(edge_enumerator, &:origin_vertex)
   end
 
-  def each_vertex_value_enumerator
-    map_enumerator(each_vertex_enumerator, &:value)
+  def vertex_value_enumerator
+    map_enumerator(vertex_enumerator, &:value)
   end
 
   private
@@ -75,7 +75,7 @@ class DCEL::Face
 
     def from_connected_edge(edge)
       DCEL::Face.new(edge).tap do |face|
-        face.each_edge_enumerator.each { |face_edge| face_edge.left_face = face }
+        face.edge_enumerator.each { |face_edge| face_edge.left_face = face }
       end
     end
   end

@@ -51,28 +51,28 @@ class DCEL::Edge
     [origin_vertex, destination_vertex]
   end
 
-  def each_adjacent_edge_enumerator
+  def adjacent_edge_enumerator
     enumerator(&:adjacent_edge)
   end
 
   def adjacent_edges
-    each_adjacent_edge_enumerator.to_a
+    adjacent_edge_enumerator.to_a
   end
 
-  def each_next_edge_enumerator
+  def next_edge_enumerator
     enumerator(&:next_edge)
   end
 
   def next_edges
-    each_next_edge_enumerator.to_a
+    next_edge_enumerator.to_a
   end
 
-  def each_adjacent_face_enumerator
+  def adjacent_face_enumerator
     enumerator(:left_face, &:adjacent_edge)
   end
 
   def adjacent_faces
-    each_adjacent_face_enumerator.to_a
+    adjacent_face_enumerator.to_a
   end
 
   def eql?(edge)

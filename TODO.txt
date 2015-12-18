@@ -33,3 +33,4 @@
 - [ ] Change names to use the term "wheel graph" instead of "polygon" when talking about the (metricless) DCEL
 - [ ] Stop using the test_vertex method now that it's being used for vertex values instead
 - [ ] See what happens if you make DCEL::Edge link itself to it's origin vertex on initialization
+- [ ] Stop including redundant array methods (go with enumerators only)
