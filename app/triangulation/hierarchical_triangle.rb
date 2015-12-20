@@ -4,10 +4,10 @@ require_relative "../ray"
 module Triangulation; end
 
 class Triangulation::HierarchicalTriangle
-  def initialize(mesh:, mesh_face:)
+  def initialize(mesh:, graph_face:)
     @mesh = mesh
-    @mesh_face = mesh_face
-    @face = Triangulation::Face.new(@mesh_face.vertex_value_enumerator)
+    @graph_face = graph_face
+    @face = Triangulation::Face.new(@graph_face.vertex_value_enumerator)
     @children = []
   end
 
@@ -23,9 +23,9 @@ class Triangulation::HierarchicalTriangle
   protected
 
   def subdivide(point)
-    new_faces = mesh.subdivide(mesh_face, point)
+    new_faces = mesh.subdivide(graph_face, point)
     self.children = new_faces.map { |face| new_triangle(face) }
-    self.mesh_face = nil
+    self.graph_face = nil
   end
 
   def enclosing_triangle(point)
@@ -39,10 +39,10 @@ class Triangulation::HierarchicalTriangle
 
   private
   attr_reader :mesh, :face
-  attr_accessor :children, :mesh_face
+  attr_accessor :children, :graph_face
 
-  def new_triangle(new_mesh_face)
-    Triangulation::HierarchicalTriangle.new(mesh: mesh, mesh_face: new_mesh_face)
+  def new_triangle(new_graph_face)
+    Triangulation::HierarchicalTriangle.new(mesh: mesh, graph_face: new_graph_face)
   end
 
   def leaf?

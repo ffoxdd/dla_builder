@@ -13,8 +13,10 @@ class DCEL::Mesh
   end
 
   def self.cycle_graph(vertex_values)
-    DCEL::CycleGraphBuilder.cycle_graph(vertex_values) do |faces, edges, vertices|
-      return new(faces: faces, edges: edges, vertices: vertices)
+    DCEL::CycleGraphBuilder.cycle_graph(vertex_values) do |(forward_face, reverse_face), edges, vertices|
+      mesh = new(faces: [forward_face, reverse_face], edges: edges, vertices: vertices)
+      yield(mesh, forward_face) if block_given?
+      return mesh
     end
   end
 

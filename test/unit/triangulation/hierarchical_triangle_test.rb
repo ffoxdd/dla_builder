@@ -9,7 +9,7 @@ describe Triangulation::HierarchicalTriangle do
   let(:points) { [Point[0, 0], Point[10, 0], Point[0, 10]] }
   let(:mesh) { DCEL::Mesh.cycle_graph(points) }
   let(:face) { mesh.faces.first }
-  let(:triangle) { Triangulation::HierarchicalTriangle.new(mesh: mesh, mesh_face: face) }
+  let(:triangle) { Triangulation::HierarchicalTriangle.new(mesh: mesh, graph_face: face) }
 
   describe "#points" do
     it "starts off with the points from the given face" do

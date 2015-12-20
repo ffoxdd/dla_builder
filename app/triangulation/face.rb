@@ -8,6 +8,10 @@ class Triangulation::Face
     @points = points.to_a
   end
 
+  def self.from_graph_face(graph_face)
+    new(graph_face.vertex_value_enumerator)
+  end
+
   attr_reader :points
 
   def contains?(point)
