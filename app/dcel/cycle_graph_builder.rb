@@ -4,16 +4,16 @@ require_relative "face"
 
 module DCEL; end
 
-class DCEL::PolygonBuilder
-  def self.polygon(vertex_values, &block)
-    new(vertex_values).polygon(&block)
+class DCEL::CycleGraphBuilder
+  def self.cycle_graph(vertex_values, &block)
+    new(vertex_values).cycle_graph(&block)
   end
 
   def initialize(vertex_values)
     @vertex_values = vertex_values
   end
 
-  def polygon(&block)
+  def cycle_graph(&block)
     faces = [inner_face, outer_face]
     edges = inner_edges
 

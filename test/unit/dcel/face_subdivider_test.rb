@@ -1,7 +1,7 @@
 require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/face_subdivider"
-require_relative "../../../app/dcel/polygon_builder"
+require_relative "../../../app/dcel/cycle_graph_builder"
 require "set"
 
 describe DCEL::FaceSubdivider do
@@ -9,7 +9,7 @@ describe DCEL::FaceSubdivider do
   describe ".subdivide_face" do
     let(:vertex_values) { 3.times.map { test_vertex }}
     let(:inner_vertex_value) { test_vertex }
-    let(:face) { DCEL::PolygonBuilder.polygon(vertex_values) }
+    let(:face) { DCEL::CycleGraphBuilder.cycle_graph(vertex_values) }
 
     attr_reader :perimeter_edges
 

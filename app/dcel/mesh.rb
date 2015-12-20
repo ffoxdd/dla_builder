@@ -1,4 +1,4 @@
-require_relative "polygon_builder"
+require_relative "cycle_graph_builder"
 require_relative "face_subdivider"
 require_relative "vertex_deleter"
 
@@ -12,8 +12,8 @@ class DCEL::Mesh
     @vertices = options.fetch(:vertices) { @edges.map(&:origin_vertex) }
   end
 
-  def self.polygon(vertex_values)
-    DCEL::PolygonBuilder.polygon(vertex_values) do |faces, edges, vertices|
+  def self.cycle_graph(vertex_values)
+    DCEL::CycleGraphBuilder.cycle_graph(vertex_values) do |faces, edges, vertices|
       return new(faces: faces, edges: edges, vertices: vertices)
     end
   end

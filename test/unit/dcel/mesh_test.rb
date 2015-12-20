@@ -1,7 +1,7 @@
 require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/mesh"
-require_relative "../../../app/dcel/polygon_builder"
+require_relative "../../../app/dcel/cycle_graph_builder"
 require 'set'
 
 describe DCEL::Mesh do
@@ -10,11 +10,11 @@ describe DCEL::Mesh do
     # TODO
   end
 
-  describe ".polygon" do
+  describe ".cycle_graph" do
     let(:vertex_values) { 3.times.map { test_vertex }}
 
     it "creates a mesh representing a single polygon" do
-      mesh = DCEL::Mesh.polygon(vertex_values)
+      mesh = DCEL::Mesh.cycle_graph(vertex_values)
 
       mesh.faces.size.must_equal(2) # 1 bounded, 1 infinite
       mesh.edges.size.must_equal(3) # only count each polygon edge once
@@ -27,7 +27,7 @@ describe DCEL::Mesh do
   describe "#subdivide" do
     let(:vertex_values) { 3.times.map { test_vertex }}
     let(:new_vertex_value) { test_vertex }
-    let(:mesh) { DCEL::Mesh.polygon(vertex_values) }
+    let(:mesh) { DCEL::Mesh.cycle_graph(vertex_values) }
     let(:face) { mesh.faces.first }
 
     it "augments the mesh by subdividing the specified face by a new vertex" do
@@ -46,7 +46,7 @@ describe DCEL::Mesh do
     let(:perimeter_vertex_values) { 3.times.map { test_vertex } }
     let(:inner_vertex_value) { test_vertex }
     let(:vertex_values) { perimeter_vertex_values + [inner_vertex_value] }
-    let(:mesh) { DCEL::Mesh.polygon(perimeter_vertex_values) }
+    let(:mesh) { DCEL::Mesh.cycle_graph(perimeter_vertex_values) }
     let(:face) { mesh.faces.first }
 
     attr_reader :perimeter_edge, :deleted_vertex

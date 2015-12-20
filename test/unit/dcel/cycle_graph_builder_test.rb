@@ -1,9 +1,9 @@
 require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
-require_relative "../../../app/dcel/polygon_builder"
+require_relative "../../../app/dcel/cycle_graph_builder"
 require "set"
 
-describe DCEL::PolygonBuilder do
+describe DCEL::CycleGraphBuilder do
 
   describe ".face" do
     let(:vertex_values) { 3.times.map { test_vertex }}
@@ -11,7 +11,7 @@ describe DCEL::PolygonBuilder do
     it "yields a fully linked face" do
       block_reached = false
 
-      DCEL::PolygonBuilder.polygon(vertex_values) do |faces, edges, vertices|
+      DCEL::CycleGraphBuilder.cycle_graph(vertex_values) do |faces, edges, vertices|
         block_reached = true
 
         faces.size.must_equal(2)

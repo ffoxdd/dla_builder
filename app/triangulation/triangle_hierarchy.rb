@@ -26,7 +26,7 @@ class Triangulation::TriangleHierarchy
   # TODO: consider implementing the boundary triangle with a special type
 
   def new_boundary_mesh
-    DCEL::Mesh.polygon(boundary_points)
+    DCEL::Mesh.cycle_graph(boundary_points)
   end
 
   def bounded_face(input_mesh)

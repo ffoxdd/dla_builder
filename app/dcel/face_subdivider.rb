@@ -1,6 +1,6 @@
 require_relative "edge"
 require_relative "face"
-require_relative "polygon_builder"
+require_relative "cycle_graph_builder"
 
 module DCEL; end
 

@@ -2,13 +2,13 @@ require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/vertex_deleter"
 require_relative "../../../app/dcel/face_subdivider"
-require_relative "../../../app/dcel/polygon_builder"
+require_relative "../../../app/dcel/cycle_graph_builder"
 
 describe DCEL::VertexDeleter do
   describe "#delete_vertex" do
     let(:vertex_values) { 3.times.map { test_vertex } }
     let(:inner_vertex_value) { test_vertex }
-    let(:inner_face) { DCEL::PolygonBuilder.polygon(vertex_values) }
+    let(:inner_face) { DCEL::CycleGraphBuilder.cycle_graph(vertex_values) }
 
     attr_reader :outer_edge, :inner_edge, :old_face
 
