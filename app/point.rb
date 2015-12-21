@@ -26,7 +26,7 @@ class Point
     vector[1]
   end
 
-  def_delegators :vector, :[], :magnitude, :to_a, :hash
+  def_delegators :vector, :[], :magnitude, :to_a, :hash, :inner_product
 
   def +(offset)
     Point.new(vector + offset.to_v)

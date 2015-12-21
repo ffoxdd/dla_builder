@@ -23,6 +23,10 @@ class Triangulation::Face
     line_0.right_handed_orientation?(line_1)
   end
 
+  def circumcircle_contains?(vertex)
+    Circumcircle.new(points).contains?(vertex.value)
+  end
+
   private
 
   def lines
@@ -39,5 +43,32 @@ class Triangulation::Face
     DCEL.cyclical_each_pair(points).map do |previous_point, next_point|
       Ray.from_endpoints(previous_point, next_point)
     end
+  end
+
+  class Circumcircle
+    def initialize(points)
+      @points = points
+    end
+
+    def contains?(point)
+      containment_test_matrix(point).determinant >= 0
+    end
+
+    private
+    attr_reader :points
+
+    def containment_test_matrix(test_point)
+      Matrix[
+        point_row(points[0]),
+        point_row(points[1]),
+        point_row(points[2]),
+        point_row(test_point)
+      ]
+    end
+
+    def point_row(point)
+      [point.x, point.y, point.inner_product(point), 1]
+    end
+
   end
 end

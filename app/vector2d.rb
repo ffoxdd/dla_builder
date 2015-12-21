@@ -58,7 +58,7 @@ class Vector2D
   end
 
   def inner_product(other_vector)
-    vector.inner_product(other_vector.vector)
+    vector.inner_product(other_vector.to_v.vector)
   end
 
   def angle_to(other_vector)
