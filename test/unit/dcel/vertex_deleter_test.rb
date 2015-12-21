@@ -26,7 +26,7 @@ describe DCEL::VertexDeleter do
     end
 
     it "can delete an inner vertex" do
-      DCEL::VertexDeleter.delete_vertex(inner_vertex) do |deleted_faces, deleted_edges, deleted_vertex, added_face|
+      DCEL::VertexDeleter.delete_vertex(inner_vertex) do |(new_face), deleted_faces, new_edges, deleted_edges, deleted_vertex|
         # note that the deleted faces are corrupt and cannot be iterated over
 
         deleted_faces.size.must_equal(3)
@@ -35,14 +35,14 @@ describe DCEL::VertexDeleter do
 
         # TODO: test deleted elements more thoroughly
 
-        added_face.vertex_value_enumerator.to_a.must_cyclically_equal(vertex_values)
+        new_face.vertex_value_enumerator.to_a.must_cyclically_equal(vertex_values)
       end
     end
 
     it "can delete a perimeter vertex" do
       new_outer_edge = outer_edge.next_edge
 
-      DCEL::VertexDeleter.delete_vertex(outer_edge) do |deleted_faces, deleted_edges, deleted_vertex, added_face|
+      DCEL::VertexDeleter.delete_vertex(outer_edge) do |(new_face), deleted_faces, new_edges, deleted_edges, deleted_vertex|
         # note that the deleted faces are corrupt and cannot be iterated over
 
         deleted_faces.size.must_equal(3)
@@ -51,7 +51,7 @@ describe DCEL::VertexDeleter do
         # TODO: test deleted elements more thoroughly
 
         new_triangle_vertex_values = [vertex_values[1], inner_vertex_value, vertex_values[2]]
-        added_face.vertex_value_enumerator.to_a.must_cyclically_equal(new_triangle_vertex_values)
+        new_face.vertex_value_enumerator.to_a.must_cyclically_equal(new_triangle_vertex_values)
       end
     end
   end

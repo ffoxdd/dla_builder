@@ -28,7 +28,7 @@ class DCEL::Mesh
 
   def subdivide(face, new_vertex_value)
     DCEL::FaceSubdivider.subdivide_face(face, new_vertex_value) do |new_faces, new_edges, new_vertex|
-      self.faces -= [face] # not sure why 'self' is required here
+      self.faces -= [face]
       self.faces += new_faces
       self.edges += new_edges
       self.vertices += [new_vertex]
@@ -38,13 +38,16 @@ class DCEL::Mesh
   end
 
   def delete_vertex(vertex)
-    DCEL::VertexDeleter.delete_vertex(vertex) do |deleted_faces, deleted_edges, deleted_vertex, added_face|
+    DCEL::VertexDeleter.delete_vertex(vertex) do |added_faces, deleted_faces, added_edges, deleted_edges, deleted_vertex|
       self.faces -= deleted_faces
-      self.faces += [added_face]
+      self.faces += added_faces
       self.edges -= deleted_edges
+      self.edges += added_edges
       self.vertices -= [deleted_vertex]
     end
   end
+
+  attr_reader :faces, :edges, :vertices
 
   private
   attr_writer :faces, :edges, :vertices

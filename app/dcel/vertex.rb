@@ -1,3 +1,5 @@
+require "forwardable"
+
 module DCEL; end
 
 class DCEL::Vertex

@@ -4,6 +4,7 @@ require_relative "../ray"
 module Triangulation; end
 
 class Triangulation::HierarchicalTriangle
+
   def initialize(mesh:, graph_face:)
     @mesh = mesh
     @graph_face = graph_face

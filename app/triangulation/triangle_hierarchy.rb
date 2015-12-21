@@ -10,7 +10,7 @@ class Triangulation::TriangleHierarchy
   def initialize
     DCEL::Mesh.cycle_graph(boundary_points) do |mesh, boundary_face|
       @mesh = mesh
-      @boundary_triangle = new_triangle(boundary_face)
+      @boundary_triangle = new_hierarchichal_triangle(boundary_face)
     end
   end
 
@@ -22,8 +22,9 @@ class Triangulation::TriangleHierarchy
     boundary_triangle.add_point(point)
   end
 
-  private
   attr_reader :mesh, :boundary_triangle
+
+  private
 
   MAX_VALUE = 1e100 # representing "infinity" in a way that is guaranteed to work (for now)
 
@@ -31,7 +32,7 @@ class Triangulation::TriangleHierarchy
     [Point[MAX_VALUE, MAX_VALUE], Point[-MAX_VALUE, MAX_VALUE], Point[0, -MAX_VALUE]]
   end
 
-  def new_triangle(graph_face)
+  def new_hierarchichal_triangle(graph_face)
     Triangulation::HierarchicalTriangle.new(mesh: mesh, graph_face: graph_face)
   end
 

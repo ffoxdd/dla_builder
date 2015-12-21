@@ -4,13 +4,9 @@ require_relative "../../../app/point"
 
 describe Triangulation::Face do
 
-  def from_points(points)
-    Triangulation::Face.new(points)
-  end
-
   describe "#points" do
     let(:points) { [Point[0, 0], Point[10, 0], Point[0, 10]] }
-    let(:face) { from_points(points) }
+    let(:face) { Triangulation::Face.new(points) }
 
     it "returns the points for the face" do
       face.points.must_equal(points)
@@ -19,7 +15,7 @@ describe Triangulation::Face do
 
   describe "#contains?" do
     let(:points) { [Point[0, 0], Point[10, 0], Point[0, 10]] }
-    let(:face) { from_points(points) }
+    let(:face) { Triangulation::Face.new(points) }
 
     it "returns true for a point in the interior of the face" do
       point = Point[2, 2]
@@ -36,12 +32,12 @@ describe Triangulation::Face do
     let(:right_handed_points) { [Point[0, 0], Point[1, 0], Point[0, 1]] }
 
     it "is true for a face with right-handed orientation" do
-      face = from_points(right_handed_points)
+      face = Triangulation::Face.new(right_handed_points)
       face.bounded?.must_equal(true)
     end
 
     it "is false for a face with left-handed orientation" do
-      face = from_points(right_handed_points.reverse)
+      face = Triangulation::Face.new(right_handed_points.reverse)
       face.bounded?.must_equal(false)
     end
   end
