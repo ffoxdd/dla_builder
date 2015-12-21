@@ -22,8 +22,24 @@ class DCEL::Mesh
 
   attr_reader :faces, :edges, :vertices
 
+  def face_enumerator
+    faces.lazy.reject(&:invisible)
+  end
+
+  def edge_enumerator
+    edges.lazy.reject(&:invisible)
+  end
+
+  def vertex_enumerator
+    vertices.lazy.reject(&:invisible)
+  end
+
+  def vertex_value_enumerator
+    vertex_enumerator.map(&:value)
+  end
+
   def vertex_values
-    vertices.map(&:value)
+    vertex_value_enumerator.to_a
   end
 
   def subdivide(face, new_vertex_value)

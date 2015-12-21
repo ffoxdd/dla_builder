@@ -33,7 +33,7 @@ class DCEL::Edge
   end
 
   attr_reader :origin_vertex
-  attr_accessor :previous_edge, :next_edge, :opposite_edge, :left_face
+  attr_accessor :previous_edge, :next_edge, :opposite_edge, :left_face, :invisible
 
   def destination_vertex
     next_edge.origin_vertex

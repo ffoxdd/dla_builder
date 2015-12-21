@@ -19,6 +19,8 @@ class DCEL::Face
     FaceBuilder.from_vertices(edge)
   end
 
+  attr_accessor :invisible
+
   def opposite_face
     edge.opposite_edge.left_face
   end
