@@ -32,7 +32,6 @@ class SvgExporter
   end
 
   def draw_particles(image)
-    binding.pry
     dla.accept { |particle| draw_particle(particle, image) }
   end
 
