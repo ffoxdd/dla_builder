@@ -16,11 +16,20 @@ class Triangulation::HierarchicalTriangulator
   end
 
   def mesh
-    points.each { |point| triangle_hierarchy.add_point(point) }
-    boundary_vertices.each { |vertex| hierarchy_mesh.delete_vertex(vertex) }
-    hierarchy_mesh
+    @mesh ||= hierarchy_mesh.tap do
+      add_points
+      make_boundary_invisible
+    end
   end
 
   private
   attr_reader :points, :triangle_hierarchy, :hierarchy_mesh, :boundary_vertices
+
+  def add_points
+    points.each { |point| triangle_hierarchy.add_point(point) }
+  end
+
+  def make_boundary_invisible
+    boundary_vertices.each { |vertex| vertex.invisible! }
+  end
 end

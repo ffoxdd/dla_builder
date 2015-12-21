@@ -63,6 +63,7 @@ class DCEL::Mesh
     end
   end
 
+  # private
   attr_reader :faces, :edges, :vertices
 
   private

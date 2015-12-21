@@ -10,7 +10,7 @@ describe Triangulation::HierarchicalTriangulator do
 
     it "returns a triangulation mesh" do
       mesh = Triangulation::HierarchicalTriangulator.mesh(points)
-      Set.new(mesh.vertex_values).must_equal(Set.new(points))
+      Set.new(mesh.vertex_value_enumerator).must_equal(Set.new(points))
     end
   end
 
