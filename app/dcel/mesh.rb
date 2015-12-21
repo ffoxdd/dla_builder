@@ -1,6 +1,5 @@
 require_relative "cycle_graph_builder"
 require_relative "face_subdivider"
-require_relative "vertex_deleter"
 
 module DCEL; end
 
@@ -50,16 +49,6 @@ class DCEL::Mesh
       self.vertices += [new_vertex]
 
       return new_faces
-    end
-  end
-
-  def delete_vertex(vertex)
-    DCEL::VertexDeleter.delete_vertex(vertex) do |added_faces, deleted_faces, added_edges, deleted_edges, deleted_vertex|
-      self.faces -= deleted_faces
-      self.faces += added_faces
-      self.edges -= deleted_edges
-      self.edges += added_edges
-      self.vertices -= [deleted_vertex]
     end
   end
 
