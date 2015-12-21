@@ -5,7 +5,7 @@ require "set"
 
 describe DCEL::CycleGraphBuilder do
 
-  describe ".face" do
+  describe ".cycle_graph" do
     let(:vertex_values) { 3.times.map { test_vertex }}
 
     it "yields a fully linked face" do
