@@ -37,8 +37,8 @@ class DCEL::Mesh
     end
   end
 
-  def delete_vertex(edge)
-    DCEL::VertexDeleter.delete_vertex(edge) do |deleted_faces, deleted_edges, deleted_vertex, added_face|
+  def delete_vertex(vertex)
+    DCEL::VertexDeleter.delete_vertex(vertex) do |deleted_faces, deleted_edges, deleted_vertex, added_face|
       self.faces -= deleted_faces
       self.faces += [added_face]
       self.edges -= deleted_edges

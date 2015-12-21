@@ -10,19 +10,23 @@ describe DCEL::VertexDeleter do
     let(:inner_vertex_value) { test_vertex }
     let(:inner_face) { DCEL::CycleGraphBuilder.cycle_graph(vertex_values) }
 
-    attr_reader :outer_edge, :inner_edge, :old_face
+    attr_reader :outer_edge, :inner_edge, :old_face, :inner_vertex, :outer_vertex
 
     before do
       outer_edges = inner_face.edge_enumerator.to_a
-      DCEL::FaceSubdivider.subdivide_face(inner_face, inner_vertex_value)
+
+      DCEL::FaceSubdivider.subdivide_face(inner_face, inner_vertex_value) do |_, _, new_vertex|
+        @inner_vertex = new_vertex
+      end
 
       @outer_edge = outer_edges.first
+      @outer_vertex = @outer_edge.origin_vertex
       @inner_edge = @outer_edge.previous_edge
       @old_face = @outer_edge.left_face
     end
 
     it "can delete an inner vertex" do
-      DCEL::VertexDeleter.delete_vertex(inner_edge) do |deleted_faces, deleted_edges, deleted_vertex, added_face|
+      DCEL::VertexDeleter.delete_vertex(inner_vertex) do |deleted_faces, deleted_edges, deleted_vertex, added_face|
         # note that the deleted faces are corrupt and cannot be iterated over
 
         deleted_faces.size.must_equal(3)
@@ -43,7 +47,6 @@ describe DCEL::VertexDeleter do
 
         deleted_faces.size.must_equal(3)
         deleted_edges.size.must_equal(6)
-        deleted_vertex.must_equal(outer_edge.origin_vertex)
 
         # TODO: test deleted elements more thoroughly
 

@@ -6,8 +6,8 @@ class DCEL::VertexDeleter
     new(edge).delete_vertex(&block)
   end
 
-  def initialize(deleted_edge)
-    @deleted_edge = deleted_edge
+  def initialize(deleted_vertex)
+    @deleted_vertex = deleted_vertex
   end
 
   def delete_vertex(&block)
@@ -16,26 +16,22 @@ class DCEL::VertexDeleter
   end
 
   private
-  attr_reader :deleted_edge
-
-  def deleted_vertex
-    deleted_edge.origin_vertex
-  end
+  attr_reader :deleted_vertex
 
   def deleted_faces
-    deleted_edge.adjacent_face_enumerator.to_a
+    deleted_vertex.adjacent_face_enumerator.to_a
   end
 
   def adjacent_edges
-    @adjacent_edges ||= deleted_edge.adjacent_edge_enumerator.to_a
+    @adjacent_edges ||= deleted_vertex.adjacent_edge_enumerator.to_a
   end
 
   def deleted_edges
-    adjacent_edges + adjacent_edges.map(&:opposite_edge)
+    @deleted_edges ||= adjacent_edges + adjacent_edges.map(&:opposite_edge)
   end
 
   def new_face
-    @new_face ||= DCEL::Face.from_connected_edge(deleted_edge.next_edge)
+    @new_face ||= DCEL::Face.from_connected_edge(adjacent_edges.first.next_edge)
   end
 
   def delete_edge(edge)
