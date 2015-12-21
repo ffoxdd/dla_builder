@@ -6,10 +6,10 @@ module DCEL; end
 
 class DCEL::Mesh
 
-  def initialize(options = {})
-    @faces = options.fetch(:faces, [])
-    @edges = options.fetch(:edges) { unique_edges(faces) }
-    @vertices = options.fetch(:vertices) { @edges.map(&:origin_vertex) }
+  def initialize(faces:, edges:, vertices:)
+    @faces = faces
+    @edges = edges
+    @vertices = vertices
   end
 
   def self.cycle_graph(vertex_values)
@@ -67,13 +67,5 @@ class DCEL::Mesh
 
   private
   attr_writer :faces, :edges, :vertices
-
-  def unique_edges(input_faces)
-    all_edges(input_faces).uniq(&:origin_vertex)
-  end
-
-  def all_edges(input_faces)
-    input_faces.flat_map { |face| face.edge_enumerator.to_a }
-  end
 
 end
