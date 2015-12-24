@@ -10,26 +10,21 @@ class Triangulation::HierarchicalTriangulator
 
   def initialize(points)
     @points = points
-    @triangle_hierarchy = Triangulation::TriangleHierarchy.new
-    @hierarchy_mesh = @triangle_hierarchy.mesh
-    @boundary_vertices = @hierarchy_mesh.vertices
   end
 
   def mesh
-    @mesh ||= hierarchy_mesh.tap do
-      add_points
-      make_boundary_invisible
-    end
+    @mesh ||= triangle_hierarchy.mesh.tap { add_points }
   end
 
   private
-  attr_reader :points, :triangle_hierarchy, :hierarchy_mesh, :boundary_vertices
+  attr_reader :points
 
   def add_points
     points.each { |point| triangle_hierarchy.add_point(point) }
   end
 
-  def make_boundary_invisible
-    boundary_vertices.each { |vertex| vertex.invisible! }
+  def triangle_hierarchy
+    @triangle_hierarchy ||= Triangulation::TriangleHierarchy.new
   end
+
 end

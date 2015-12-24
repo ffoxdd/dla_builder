@@ -1,8 +1,12 @@
+require_relative "metadata"
 require_relative "edge" # only used in FaceBuilder
 
 module DCEL; end
 
 class DCEL::Face
+
+  include DCEL::Metadata
+
   def initialize(edge)
     @edge = edge
   end
@@ -18,8 +22,6 @@ class DCEL::Face
   def self.from_vertices(edge)
     FaceBuilder.from_vertices(edge)
   end
-
-  attr_accessor :invisible
 
   def opposite_face
     edge.opposite_edge.left_face

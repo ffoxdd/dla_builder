@@ -1,3 +1,5 @@
+require_relative "metadata"
+
 module DCEL
   def self.cyclical_each_pair(enumerable, &block) # TODO: find a better place for this helper code
     enumerable.cycle.each_cons(2).take(enumerable.size).each(&block)
@@ -5,6 +7,8 @@ module DCEL
 end
 
 class DCEL::Edge
+
+  include DCEL::Metadata
 
   @@instance_count = 0
 
@@ -33,7 +37,7 @@ class DCEL::Edge
   end
 
   attr_reader :origin_vertex
-  attr_accessor :previous_edge, :next_edge, :opposite_edge, :left_face, :invisible
+  attr_accessor :previous_edge, :next_edge, :opposite_edge, :left_face
 
   def destination_vertex
     next_edge.origin_vertex

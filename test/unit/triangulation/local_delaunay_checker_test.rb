@@ -41,11 +41,12 @@ describe Triangulation::LocalDelaunayChecker do
       Triangulation::LocalDelaunayChecker.locally_delaunay?(edge).must_equal(false)
     end
 
-    it "returns true for a boundary edge" do
-      edge, opposite_vertex = split_diamond
-      opposite_vertex.invisible!
-      Triangulation::LocalDelaunayChecker.locally_delaunay?(edge).must_equal(true)
-    end
+    ## This has to be for a "constrained" edge
+    # it "returns true for a boundary edge" do
+    #   edge, opposite_vertex = split_diamond
+    #   opposite_vertex.invisible!
+    #   Triangulation::LocalDelaunayChecker.locally_delaunay?(edge).must_equal(true)
+    # end
   end
 
 end

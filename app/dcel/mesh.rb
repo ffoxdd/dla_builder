@@ -23,15 +23,15 @@ class DCEL::Mesh
   attr_reader :faces, :edges, :vertices
 
   def face_enumerator
-    faces.lazy.reject(&:invisible)
+    faces.lazy
   end
 
   def edge_enumerator
-    edges.lazy.reject(&:invisible)
+    edges.lazy
   end
 
   def vertex_enumerator
-    vertices.lazy.reject(&:invisible)
+    vertices.lazy
   end
 
   def vertex_value_enumerator
@@ -62,7 +62,7 @@ class DCEL::Mesh
     end
   end
 
-  # private
+  # private # TODO: check if this can be made private again
   attr_reader :faces, :edges, :vertices
 
   private
