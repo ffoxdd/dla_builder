@@ -1,5 +1,6 @@
 require_relative "cycle_graph_builder"
 require_relative "face_subdivider"
+require_relative "quadrilateral_edge_flipper"
 
 module DCEL; end
 
@@ -49,6 +50,15 @@ class DCEL::Mesh
       self.vertices += [new_vertex]
 
       return new_faces
+    end
+  end
+
+  def flip_quadrilateral_edge(edge)
+    DCEL::QuadrilateralEdgeFlipper.flip(edge) do |removed_edges, added_edges, affected_edges|
+      self.edges -= removed_edges
+      self.edges += added_edges
+
+      yield(affected_edges)
     end
   end
 

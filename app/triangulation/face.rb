@@ -69,6 +69,6 @@ class Triangulation::Face
     def point_row(point)
       [point.x, point.y, point.inner_product(point), 1]
     end
-
   end
+
 end

@@ -51,6 +51,10 @@ class DCEL::Edge
     [origin_vertex, destination_vertex]
   end
 
+  def vertex_values
+    vertices.map(&:value)
+  end
+
   def adjacent_edge_enumerator
     enumerator(&:adjacent_edge)
   end

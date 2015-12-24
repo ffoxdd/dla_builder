@@ -26,7 +26,8 @@ class Triangulation::TriangleHierarchy
 
   private
 
-  MAX_VALUE = 1e100 # representing "infinity" in a way that is guaranteed to work (for now)
+  # MAX_VALUE = 1e100 # representing "infinity" in a way that is guaranteed to work (for now)
+  MAX_VALUE = 240
 
   def boundary_points
     [Point[MAX_VALUE, MAX_VALUE], Point[-MAX_VALUE, MAX_VALUE], Point[0, -MAX_VALUE]]
