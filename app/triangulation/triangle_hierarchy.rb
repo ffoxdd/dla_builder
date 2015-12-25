@@ -10,7 +10,7 @@ class Triangulation::TriangleHierarchy
   def initialize
     DCEL::Mesh.cycle_graph(boundary_points) do |mesh, boundary_face|
       @mesh = mesh
-      @boundary_triangle = new_hierarchichal_triangle(boundary_face)
+      @boundary_triangle = new_hierarchichal_triangle(boundary_face, constrained: true)
     end
   end
 
@@ -33,7 +33,7 @@ class Triangulation::TriangleHierarchy
     [Point[MAX_VALUE, MAX_VALUE], Point[-MAX_VALUE, MAX_VALUE], Point[0, -MAX_VALUE]]
   end
 
-  def new_hierarchichal_triangle(graph_face)
+  def new_hierarchichal_triangle(graph_face, constrained: false)
     Triangulation::HierarchicalTriangle.new(mesh: mesh, graph_face: graph_face)
   end
 

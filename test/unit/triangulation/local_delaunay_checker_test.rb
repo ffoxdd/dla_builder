@@ -41,12 +41,11 @@ describe Triangulation::LocalDelaunayChecker do
       Triangulation::LocalDelaunayChecker.locally_delaunay?(edge).must_equal(false)
     end
 
-    ## This has to be for a "constrained" edge
-    # it "returns true for a boundary edge" do
-    #   edge, opposite_vertex = split_diamond
-    #   opposite_vertex.invisible!
-    #   Triangulation::LocalDelaunayChecker.locally_delaunay?(edge).must_equal(true)
-    # end
+    it "returns true for a constrained edge" do
+      edge, opposite_vertex = split_diamond(opposite_vertex_offset: -0.1)
+      edge.set_property(:constrained, true)
+      Triangulation::LocalDelaunayChecker.locally_delaunay?(edge).must_equal(true)
+    end
   end
 
 end

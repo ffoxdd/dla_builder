@@ -34,9 +34,6 @@ class DCEL::MeshSVGFile
   def draw_mesh(image)
     draw_edges(image)
     # draw_vertices(image)
-
-    draw_invisible_edges(image)
-    draw_invisible_vertices(image)
   end
 
   def draw_edges(image)
@@ -45,16 +42,6 @@ class DCEL::MeshSVGFile
 
   def draw_vertices(image)
     mesh.vertex_enumerator.each { |vertex| draw_vertex(vertex, image) }
-  end
-
-  def draw_invisible_edges(image)
-    invisible_edges = mesh.edges.select(&:invisible)
-    invisible_edges.each { |edge| draw_edge(edge, image, stroke: "red") }
-  end
-
-  def draw_invisible_vertices(image)
-    invisible_vertices = mesh.vertices.select(&:invisible)
-    invisible_vertices.each { |vertex| draw_vertex(vertex, image, stroke: "red") }
   end
 
   def draw_edge(edge, image, stroke: "black")

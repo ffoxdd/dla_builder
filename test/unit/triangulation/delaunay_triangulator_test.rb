@@ -20,11 +20,14 @@ describe Triangulation::DelaunayTriangulator do
 
   require 'timeout'
   require_relative "../../../app/triangulation/hierarchical_triangulator"
+  require_relative "../../../app/triangulation/delaunay_triangulator"
   require_relative "../../../app/dcel/mesh_svg_file"
 
   it "looks sane" do
     points = 3.times.map { sample_point }
-    mesh = Triangulation::HierarchicalTriangulator.mesh(points)
+
+    # mesh = Triangulation::HierarchicalTriangulator.mesh(points)
+    mesh = Triangulation::DelaunayTriangulator.mesh(points)
     DCEL::MeshSVGFile.new(mesh).save
 
     # Triangulation::DelaunayTriangulator.mesh(points)

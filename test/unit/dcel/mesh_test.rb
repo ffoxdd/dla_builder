@@ -24,28 +24,6 @@ describe DCEL::Mesh do
     end
   end
 
-  describe "enumerators" do
-    let(:points) { 3.times.map { Object.new }}
-    let(:new_point) { Object.new }
-
-    before do
-      DCEL::Mesh.cycle_graph(points) do |mesh_, face_|
-        @mesh = mesh_
-        @inner_face = face_
-        @mesh.subdivide(@inner_face, new_point)
-      end
-    end
-
-    attr_reader :mesh, :inner_face
-
-    it "enumerates all values" do
-      mesh.vertex_value_enumerator.to_a.must_equal(points + [new_point])
-      mesh.vertex_enumerator.to_a.size.must_equal(3)
-      mesh.edge_enumerator.to_a.size.must_equal(3)
-      mesh.face_enumerator.to_a.size.must_equal(1)
-    end
-  end
-
   describe "#subdivide" do
     let(:vertex_values) { 3.times.map { test_vertex }}
     let(:new_vertex_value) { test_vertex }

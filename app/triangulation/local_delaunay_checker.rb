@@ -13,7 +13,7 @@ class Triangulation::LocalDelaunayChecker
   end
 
   def locally_delaunay?
-    # return true if edge.boundary? ## HAS TO BE "constrained"
+    return true if constrained?
     !left_face.circumcircle_contains?(opposite_vertex)
   end
 
@@ -26,6 +26,10 @@ class Triangulation::LocalDelaunayChecker
 
   def opposite_vertex
     edge.opposite_edge.next_edge.destination_vertex
+  end
+
+  def constrained?
+    edge.has_property?(:constrained, true)
   end
 
 end

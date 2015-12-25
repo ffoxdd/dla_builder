@@ -1,4 +1,5 @@
-require_relative "./face"
+require_relative "face"
+require_relative "local_delaunay_checker"
 require "forwardable"
 
 module Triangulation; end

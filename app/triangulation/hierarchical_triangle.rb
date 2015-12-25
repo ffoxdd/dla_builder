@@ -5,11 +5,13 @@ module Triangulation; end
 
 class Triangulation::HierarchicalTriangle
 
-  def initialize(mesh:, graph_face:)
+  def initialize(mesh:, graph_face:, constrained: false)
     @mesh = mesh
     @graph_face = graph_face
     @face = Triangulation::Face.new(@graph_face.vertex_value_enumerator)
     @children = []
+
+    constrain if constrained
   end
 
   def points
@@ -48,6 +50,10 @@ class Triangulation::HierarchicalTriangle
 
   def leaf?
     children.empty?
+  end
+
+  def constrain
+    graph_face.edge_enumerator.each { |edge| edge.set_property(:constrained, true) }
   end
 
 end
