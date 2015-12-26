@@ -36,8 +36,7 @@ class DCEL::Edge
     "#<#{self.class.name}:#{id} origin_vertex=#{origin_vertex.to_s} #{inspect_links}>"
   end
 
-  attr_reader :origin_vertex
-  attr_accessor :previous_edge, :next_edge, :opposite_edge, :left_face
+  attr_accessor :origin_vertex, :previous_edge, :next_edge, :opposite_edge, :left_face
 
   def destination_vertex
     next_edge.origin_vertex

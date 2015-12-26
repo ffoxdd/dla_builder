@@ -24,7 +24,7 @@ describe Triangulation::DelaunayTriangulator do
   require_relative "../../../app/dcel/mesh_svg_file"
 
   it "looks sane" do
-    points = 3.times.map { sample_point }
+    points = 100.times.map { sample_point }
 
     # mesh = Triangulation::HierarchicalTriangulator.mesh(points)
     mesh = Triangulation::DelaunayTriangulator.mesh(points)

@@ -31,15 +31,11 @@ describe DCEL::QuadrilateralEdgeFlipper do
       diagonal_edges, perimeter_edges = split_diamond
       edge_to_flip = diagonal_edges.first
 
-      removed_edges = nil
-      added_edges = nil
-
-      DCEL::QuadrilateralEdgeFlipper.flip(edge_to_flip) do |removed_edges_, added_edges_|
-        removed_edges = removed_edges_
-        added_edges = added_edges_
+      DCEL::QuadrilateralEdgeFlipper.flip(edge_to_flip) do |removed_faces, added_faces, affected_edges|
+        removed_faces.size.must_equal(2)
+        added_faces.size.must_equal(2)
+        Set.new(affected_edges).must_equal(Set.new(perimeter_edges))
       end
-
-      Set.new(removed_edges).must_equal(Set.new(diagonal_edges))
 
       faces = perimeter_edges.map(&:left_face).uniq
 

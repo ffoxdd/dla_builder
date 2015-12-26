@@ -10,44 +10,44 @@ class DCEL::QuadrilateralEdgeFlipper
   end
 
   def initialize(edge)
-    @edge = edge
+    @left_edge = edge
+    @right_edge = edge.opposite_edge
 
-    perimeter_edge_0 = edge.next_edge
-    perimeter_edge_1 = perimeter_edge_0.next_edge
-    perimeter_edge_2 = edge.opposite_edge.next_edge
-    perimeter_edge_3 = perimeter_edge_2.next_edge
+    perimeter_edge_0 = @left_edge.next_edge
+    perimeter_edge_1 = @left_edge.previous_edge
+    perimeter_edge_2 = @right_edge.next_edge
+    perimeter_edge_3 = @right_edge.previous_edge
 
     @perimeter_edges = [perimeter_edge_0, perimeter_edge_1, perimeter_edge_2, perimeter_edge_3]
+    @perimeter_vertices = @perimeter_edges.map(&:origin_vertex)
   end
 
   def flip
-    new_left_diagonal_edge = DCEL::Edge.new(origin_vertex: perimeter_edges[1].origin_vertex)
-    new_right_diagonal_edge = DCEL::Edge.new(origin_vertex: perimeter_edges[3].origin_vertex)
+    removed_faces = [left_edge.left_face, right_edge.left_face]
 
-    DCEL::Edge.link_opposites(new_left_diagonal_edge, new_right_diagonal_edge)
+    left_edge.origin_vertex = perimeter_vertices[1]
+    right_edge.origin_vertex = perimeter_vertices[3]
 
-    new_face_0 = DCEL::Face.from_disjoint_edges([
-      new_left_diagonal_edge, perimeter_edges[3], perimeter_edges[0]
-    ])
+    set_origin_vertex_edge_reference(perimeter_edges[2])
+    set_origin_vertex_edge_reference(perimeter_edges[0])
 
-    new_face_1 = DCEL::Face.from_disjoint_edges([
-      new_right_diagonal_edge, perimeter_edges[1], perimeter_edges[2]
-    ])
-
-    removed_edges = [edge, edge.opposite_edge]
-    added_edges = [new_left_diagonal_edge, new_right_diagonal_edge]
-
-    removed_faces = [edge.left_face, edge.opposite_edge.left_face]
-    added_faces = [new_face_0, new_face_1]
+    added_faces = [
+      DCEL::Face.from_disjoint_edges([left_edge, perimeter_edges[3], perimeter_edges[0]]),
+      DCEL::Face.from_disjoint_edges([right_edge, perimeter_edges[1], perimeter_edges[2]])
+    ]
 
     affected_edges = perimeter_edges
 
-    yield(removed_faces, added_faces, removed_edges, added_edges, affected_edges) if block_given?
+    yield(removed_faces, added_faces, affected_edges) if block_given?
 
-    new_left_diagonal_edge
+    left_edge
   end
 
   private
-  attr_reader :edge, :perimeter_edges
+  attr_reader :left_edge, :right_edge, :perimeter_edges, :perimeter_vertices
+
+  def set_origin_vertex_edge_reference(edge)
+    edge.origin_vertex.edge = edge
+  end
 
 end
