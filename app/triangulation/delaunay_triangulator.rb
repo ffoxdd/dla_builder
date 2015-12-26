@@ -1,5 +1,7 @@
 require_relative "./hierarchical_triangulator"
 require_relative "./delaunay_flipper"
+require_relative "hierarchical_triangulator"
+require_relative "delaunay_flipper"
 require "set"
 
 module Triangulation; end

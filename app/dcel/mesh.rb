@@ -54,7 +54,9 @@ class DCEL::Mesh
   end
 
   def flip_quadrilateral_edge(edge)
-    DCEL::QuadrilateralEdgeFlipper.flip(edge) do |removed_edges, added_edges, affected_edges|
+    DCEL::QuadrilateralEdgeFlipper.flip(edge) do |removed_faces, added_faces, removed_edges, added_edges, affected_edges|
+      self.faces -= removed_faces
+      self.faces += added_faces
       self.edges -= removed_edges
       self.edges += added_edges
 

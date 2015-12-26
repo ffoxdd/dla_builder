@@ -26,14 +26,23 @@ class DCEL::QuadrilateralEdgeFlipper
 
     DCEL::Edge.link_opposites(new_left_diagonal_edge, new_right_diagonal_edge)
 
-    DCEL::Face.from_disjoint_edges([new_left_diagonal_edge, perimeter_edges[3], perimeter_edges[0]])
-    DCEL::Face.from_disjoint_edges([new_right_diagonal_edge, perimeter_edges[1], perimeter_edges[2]])
+    new_face_0 = DCEL::Face.from_disjoint_edges([
+      new_left_diagonal_edge, perimeter_edges[3], perimeter_edges[0]
+    ])
+
+    new_face_1 = DCEL::Face.from_disjoint_edges([
+      new_right_diagonal_edge, perimeter_edges[1], perimeter_edges[2]
+    ])
 
     removed_edges = [edge, edge.opposite_edge]
     added_edges = [new_left_diagonal_edge, new_right_diagonal_edge]
+
+    removed_faces = [edge.left_face, edge.opposite_edge.left_face]
+    added_faces = [new_face_0, new_face_1]
+
     affected_edges = perimeter_edges
 
-    yield(removed_edges, added_edges, affected_edges) if block_given?
+    yield(removed_faces, added_faces, removed_edges, added_edges, affected_edges) if block_given?
 
     new_left_diagonal_edge
   end
