@@ -5,9 +5,11 @@ require_relative "../../../app/dcel/vertex"
 
 describe Triangulation::Face do
 
+  let(:graph_face) { OpenStruct.new(vertex_value_enumerator: points.each) }
+  let(:face) { Triangulation::Face.new(graph_face) }
+
   describe "#points" do
     let(:points) { [Point[0, 0], Point[10, 0], Point[0, 10]] }
-    let(:face) { Triangulation::Face.new(points) }
 
     it "returns the points for the face" do
       face.points.must_equal(points)
@@ -16,7 +18,6 @@ describe Triangulation::Face do
 
   describe "#contains?" do
     let(:points) { [Point[0, 0], Point[10, 0], Point[0, 10]] }
-    let(:face) { Triangulation::Face.new(points) }
 
     it "returns true for a point in the interior of the face" do
       point = Point[2, 2]
@@ -30,22 +31,25 @@ describe Triangulation::Face do
   end
 
   describe "#bounded?" do
-    let(:right_handed_points) { [Point[0, 0], Point[1, 0], Point[0, 1]] }
+    describe "for right-handed points" do
+      let(:points) { [Point[0, 0], Point[1, 0], Point[0, 1]] }
 
-    it "is true for a face with right-handed orientation" do
-      face = Triangulation::Face.new(right_handed_points)
-      face.bounded?.must_equal(true)
+      it "is true" do
+        face.bounded?.must_equal(true)
+      end
     end
 
-    it "is false for a face with left-handed orientation" do
-      face = Triangulation::Face.new(right_handed_points.reverse)
-      face.bounded?.must_equal(false)
+    describe "for left-handed points" do
+      let(:points) { [Point[0, 0], Point[1, 0], Point[0, 1]].reverse }
+
+      it "is false for a face with left-handed orientation" do
+        face.bounded?.must_equal(false)
+      end
     end
   end
 
   describe "#circumcircle_contains?" do
-    let(:face_points) { [Point[-1, 0], Point[1, 0], Point[0, 1]] }
-    let(:face) { Triangulation::Face.new(face_points) }
+    let(:points) { [Point[-1, 0], Point[1, 0], Point[0, 1]] }
 
     def vertex(*coordinates)
       DCEL::Vertex.new(Point.new(coordinates))

@@ -4,12 +4,8 @@ require_relative "../dcel/edge" # only for the cyclical_each_pair_helper...
 module Triangulation; end
 
 class Triangulation::Face
-  def initialize(points)
-    @points = points.to_a
-  end
-
-  def self.from_graph_face(graph_face)
-    new(graph_face.vertex_value_enumerator)
+  def initialize(graph_face)
+    @points = graph_face.vertex_value_enumerator.to_a
   end
 
   attr_reader :points

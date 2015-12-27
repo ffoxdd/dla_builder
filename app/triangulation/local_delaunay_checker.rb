@@ -21,7 +21,7 @@ class Triangulation::LocalDelaunayChecker
   attr_reader :edge
 
   def left_face
-    Triangulation::Face.from_graph_face(edge.left_face)
+    Triangulation::Face.new(edge.left_face)
   end
 
   def opposite_vertex

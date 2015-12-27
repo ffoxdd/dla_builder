@@ -8,7 +8,7 @@ class Triangulation::HierarchicalTriangle
   def initialize(mesh:, graph_face:, constrained: false)
     @mesh = mesh
     @graph_face = graph_face
-    @face = Triangulation::Face.new(@graph_face.vertex_value_enumerator)
+    @face = Triangulation::Face.new(@graph_face)
     @children = []
 
     constrain if constrained
