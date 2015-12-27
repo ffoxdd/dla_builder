@@ -1,11 +1,13 @@
 require_relative "metadata"
 require_relative "edge" # only used in FaceBuilder
+require_relative "../../lib/enumerators/enumerator_helpers"
 
 module DCEL; end
 
 class DCEL::Face
 
   include DCEL::Metadata
+  include EnumeratorHelpers
 
   def initialize(edge)
     @edge = edge
@@ -41,12 +43,6 @@ class DCEL::Face
 
   private
   attr_reader :edge
-
-  def map_enumerator(enumerator, &transformation) # TODO: move this somewhere more general
-    Enumerator.new do |y|
-      loop { y.yield(transformation.call(enumerator.next)) }
-    end
-  end
 
   module FaceBuilder
     extend self
