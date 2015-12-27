@@ -4,7 +4,7 @@ module DCEL; end
 
 class DCEL::MeshSVGFile
 
-  def initialize(mesh, filename = "mesh.svg")
+  def initialize(mesh, filename = "data/mesh.svg")
     @mesh = mesh
     @filename = filename
   end
