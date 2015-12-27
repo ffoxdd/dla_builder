@@ -5,10 +5,12 @@ module Triangulation; end
 
 class Triangulation::Face
   def initialize(graph_face)
-    @points = graph_face.vertex_value_enumerator.to_a
+    @vertices = graph_face.vertex_enumerator.to_a
   end
 
-  attr_reader :points
+  def points
+    vertices.map(&:value)
+  end
 
   def contains?(point)
     lines.all? { |line| line.relative_position(point) >= 0 } # includes boundary
@@ -24,6 +26,7 @@ class Triangulation::Face
   end
 
   private
+  attr_reader :vertices
 
   def lines
     line_enumerator.to_a
