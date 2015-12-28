@@ -2,6 +2,7 @@ require_relative "../../test_helper.rb"
 require_relative "../../../app/dcel/quadrilateral_edge_flipper"
 require_relative "../../../app/point"
 require_relative "../../../app/dcel/cycle_graph_builder"
+require_relative "../../../app/dcel/face_builder"
 require "set"
 
 describe DCEL::QuadrilateralEdgeFlipper do
@@ -18,8 +19,8 @@ describe DCEL::QuadrilateralEdgeFlipper do
       left_diagonal_edge = DCEL::Edge.new(origin_vertex: e0.origin_vertex)
 
       DCEL::Edge.link_opposites(right_diagonal_edge, left_diagonal_edge)
-      DCEL::Face.from_disjoint_edges([e0, e1, right_diagonal_edge])
-      DCEL::Face.from_disjoint_edges([left_diagonal_edge, e2, e3])
+      DCEL::FaceBuilder.face([e0, e1, right_diagonal_edge])
+      DCEL::FaceBuilder.face([left_diagonal_edge, e2, e3])
 
       opposite_vertex = e1.origin_vertex
       diagonal_edges = [right_diagonal_edge, left_diagonal_edge]

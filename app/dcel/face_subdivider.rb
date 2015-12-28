@@ -1,6 +1,7 @@
 require_relative "edge"
 require_relative "face"
 require_relative "cycle_graph_builder"
+require_relative "face_builder"
 
 module DCEL; end
 
@@ -60,7 +61,7 @@ class DCEL::FaceSubdivider
     inward_edge = new_edge(perimeter_edge.destination_vertex)
     outward_edge = new_edge(new_vertex)
 
-    DCEL::Face.from_disjoint_edges([perimeter_edge, inward_edge, outward_edge])
+    DCEL::FaceBuilder.face([perimeter_edge, inward_edge, outward_edge])
   end
 
   def new_edge(origin_vertex)

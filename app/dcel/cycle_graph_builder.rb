@@ -1,6 +1,7 @@
 require_relative "vertex"
 require_relative "edge"
 require_relative "face"
+require_relative "face_builder"
 
 module DCEL; end
 
@@ -30,11 +31,11 @@ class DCEL::CycleGraphBuilder
   end
 
   def inner_face
-    @inner_face ||= DCEL::Face.from_disjoint_edges(inner_edges)
+    @inner_face ||= DCEL::FaceBuilder.face(inner_edges)
   end
 
   def outer_face
-    @outer_face ||= DCEL::Face.from_disjoint_edges(outer_edges)
+    @outer_face ||= DCEL::FaceBuilder.face(outer_edges)
   end
 
   def inner_edges

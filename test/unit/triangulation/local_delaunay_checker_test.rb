@@ -2,6 +2,7 @@ require_relative "../../test_helper.rb"
 require_relative "../../../app/triangulation/local_delaunay_checker"
 require_relative "../../../app/point"
 require_relative "../../../app/dcel/cycle_graph_builder"
+require_relative "../../../app/dcel/face_builder"
 
 describe Triangulation::LocalDelaunayChecker do
 
@@ -22,8 +23,8 @@ describe Triangulation::LocalDelaunayChecker do
       left_center_edge = DCEL::Edge.new(origin_vertex: e0.origin_vertex)
 
       DCEL::Edge.link_opposites(right_center_edge, left_center_edge)
-      DCEL::Face.from_disjoint_edges([e0, e1, right_center_edge])
-      DCEL::Face.from_disjoint_edges([left_center_edge, e2, e3])
+      DCEL::FaceBuilder.face([e0, e1, right_center_edge])
+      DCEL::FaceBuilder.face([left_center_edge, e2, e3])
 
       test_edge = left_center_edge
       opposite_vertex = e1.origin_vertex

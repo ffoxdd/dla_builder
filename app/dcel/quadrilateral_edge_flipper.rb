@@ -1,5 +1,6 @@
-require_relative "./edge"
-require_relative "./face"
+require_relative "edge"
+require_relative "face"
+require_relative "face_builder"
 
 module DCEL; end
 
@@ -32,8 +33,8 @@ class DCEL::QuadrilateralEdgeFlipper
     set_origin_vertex_edge_reference(perimeter_edges[0])
 
     added_faces = [
-      DCEL::Face.from_disjoint_edges([left_edge, perimeter_edges[3], perimeter_edges[0]]),
-      DCEL::Face.from_disjoint_edges([right_edge, perimeter_edges[1], perimeter_edges[2]])
+      DCEL::FaceBuilder.face([left_edge, perimeter_edges[3], perimeter_edges[0]]),
+      DCEL::FaceBuilder.face([right_edge, perimeter_edges[1], perimeter_edges[2]])
     ]
 
     affected_edges = perimeter_edges

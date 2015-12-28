@@ -28,7 +28,6 @@
 - [ ] Implement all neighborhood accessors for DCEL::Edge
 - [ ] Figure out how to remove duplication between Polygon and DCEL::Face (they have similar responsibilities)
 - [ ] Create a MeshOperation class to represent atomic changes to faces/edges/vertices
-- [ ] Pull DCEL::Face::FaceBuilder out to its own file
 - [ ] See if we can change Ray#point_to_the_left? so that it will work with Triangulation::Face#contains?
 - [ ] Stop using the test_vertex method now that it's being used for vertex values instead
 - [ ] See what happens if you make DCEL::Edge link itself to it's origin vertex on initialization
