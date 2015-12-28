@@ -3,8 +3,12 @@ require_relative "face_builder"
 require_relative "mesh_update"
 require_relative "../vertex"
 require_relative "../edge"
+require_relative "../../../lib/enumerators/enumerator_helpers"
 
 class DCEL::Manipulation::FaceSubdivider
+
+  include EnumeratorHelpers
+
   def self.subdivide_face(face, new_vertex_value, &block)
     new(face, new_vertex_value).subdivide_face(&block)
   end
@@ -56,7 +60,7 @@ class DCEL::Manipulation::FaceSubdivider
   end
 
   def each_spoke
-    DCEL.cyclical_each_pair(original_face_edges) do |previous_edge, next_edge|
+    cyclical_pairs_enumerator(original_face_edges).each do |previous_edge, next_edge|
       inward_edge = previous_edge.next_edge
       outward_edge = next_edge.previous_edge
 

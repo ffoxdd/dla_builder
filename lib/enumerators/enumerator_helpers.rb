@@ -2,6 +2,10 @@ module EnumeratorHelpers
 
   module_function
 
+  def cyclical_pairs_enumerator(enumerable)
+    enumerable.cycle.each_cons(2).take(enumerable.size)
+  end
+
   def enumerator_map(enumerator, &transformation)
     Enumerator.new do |y|
       loop { y.yield(transformation.call(enumerator.next)) }

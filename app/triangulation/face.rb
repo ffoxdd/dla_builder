@@ -1,8 +1,11 @@
 require_relative "triangulation"
 require_relative "../ray"
-require_relative "../dcel/edge" # only for the cyclical_each_pair_helper...
+require_relative "../../lib/enumerators/enumerator_helpers"
 
 class Triangulation::Face
+
+  include EnumeratorHelpers
+
   def initialize(graph_face)
     @vertices = graph_face.vertex_enumerator.to_a
   end
@@ -33,13 +36,13 @@ class Triangulation::Face
   end
 
   def line_enumerator
-    DCEL.cyclical_each_pair(points).map do |previous_point, next_point|
+    cyclical_pairs_enumerator(points).map do |previous_point, next_point|
       Ray.from_endpoints(previous_point, next_point)
     end
   end
 
   def lines_from_points(points)
-    DCEL.cyclical_each_pair(points).map do |previous_point, next_point|
+    cyclical_pairs_enumerator(points).map do |previous_point, next_point|
       Ray.from_endpoints(previous_point, next_point)
     end
   end
