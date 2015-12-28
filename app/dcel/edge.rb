@@ -1,10 +1,5 @@
+require_relative "dcel"
 require_relative "metadata"
-
-module DCEL
-  def self.cyclical_each_pair(enumerable, &block) # TODO: find a better place for this helper code
-    enumerable.cycle.each_cons(2).take(enumerable.size).each(&block)
-  end
-end
 
 class DCEL::Edge
 

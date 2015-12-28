@@ -1,6 +1,5 @@
+require_relative "dcel"
 require 'rasem'
-
-module DCEL; end
 
 class DCEL::MeshSVGFile
 

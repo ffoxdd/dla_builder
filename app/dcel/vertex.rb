@@ -1,7 +1,6 @@
+require_relative "dcel"
 require_relative "metadata"
 require "forwardable"
-
-module DCEL; end
 
 class DCEL::Vertex
 

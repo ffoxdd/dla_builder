@@ -1,8 +1,7 @@
+require_relative "dcel"
 require_relative "cycle_graph_builder"
 require_relative "face_subdivider"
 require_relative "quadrilateral_edge_flipper"
-
-module DCEL; end
 
 class DCEL::Mesh
 

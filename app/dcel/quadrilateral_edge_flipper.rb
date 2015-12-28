@@ -1,8 +1,7 @@
+require_relative "dcel"
 require_relative "edge"
 require_relative "face"
 require_relative "face_builder"
-
-module DCEL; end
 
 class DCEL::QuadrilateralEdgeFlipper
 

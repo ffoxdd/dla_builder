@@ -1,4 +1,4 @@
-module DCEL; end
+require_relative "dcel"
 
 module DCEL::Metadata
 

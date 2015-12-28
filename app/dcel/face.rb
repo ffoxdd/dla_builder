@@ -1,7 +1,6 @@
+require_relative "dcel"
 require_relative "metadata"
 require_relative "../../lib/enumerators/enumerator_helpers"
-
-module DCEL; end
 
 class DCEL::Face
 

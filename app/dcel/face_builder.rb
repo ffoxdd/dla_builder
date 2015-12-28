@@ -1,6 +1,5 @@
+require_relative "dcel"
 require_relative "edge"
-
-module DCEL; end
 
 class DCEL::FaceBuilder
 

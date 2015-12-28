@@ -1,9 +1,8 @@
+require_relative "dcel"
 require_relative "vertex"
 require_relative "edge"
 require_relative "face"
 require_relative "face_builder"
-
-module DCEL; end
 
 class DCEL::CycleGraphBuilder
   def self.cycle_graph(vertex_values, &block)

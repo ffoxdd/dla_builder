@@ -1,9 +1,8 @@
+require_relative "dcel"
 require_relative "edge"
 require_relative "face"
 require_relative "cycle_graph_builder"
 require_relative "face_builder"
-
-module DCEL; end
 
 class DCEL::FaceSubdivider
   def self.subdivide_face(face, new_vertex_value, &block)
