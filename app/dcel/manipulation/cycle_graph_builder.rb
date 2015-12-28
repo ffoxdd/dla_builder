@@ -1,10 +1,9 @@
-require_relative "dcel"
-require_relative "vertex"
-require_relative "edge"
-require_relative "face"
+require_relative "manipulation"
 require_relative "face_builder"
+require_relative "../vertex"
+require_relative "../edge"
 
-class DCEL::CycleGraphBuilder
+class DCEL::Manipulation::CycleGraphBuilder
   def self.cycle_graph(vertex_values, &block)
     new(vertex_values).cycle_graph(&block)
   end
@@ -30,11 +29,11 @@ class DCEL::CycleGraphBuilder
   end
 
   def inner_face
-    @inner_face ||= DCEL::FaceBuilder.face(inner_edges)
+    @inner_face ||= DCEL::Manipulation::FaceBuilder.face(inner_edges)
   end
 
   def outer_face
-    @outer_face ||= DCEL::FaceBuilder.face(outer_edges)
+    @outer_face ||= DCEL::Manipulation::FaceBuilder.face(outer_edges)
   end
 
   def inner_edges

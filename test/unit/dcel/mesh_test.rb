@@ -1,7 +1,7 @@
 require_relative "../../test_helper.rb"
 require_relative "../../support/dcel_test_helper.rb"
 require_relative "../../../app/dcel/mesh"
-require_relative "../../../app/dcel/cycle_graph_builder"
+require_relative "../../../app/dcel/manipulation/cycle_graph_builder"
 require 'set'
 
 describe DCEL::Mesh do

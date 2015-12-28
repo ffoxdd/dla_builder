@@ -2,12 +2,12 @@ require_relative "../../test_helper.rb"
 require_relative "../../../app/triangulation/face"
 require_relative "../../../app/point"
 require_relative "../../../app/dcel/vertex"
-require_relative "../../../app/dcel/cycle_graph_builder"
+require_relative "../../../app/dcel/manipulation/cycle_graph_builder"
 
 describe Triangulation::Face do
 
   let(:vertices) { points.map { |p| DCEL::Vertex.new() }}
-  let(:graph_face) { DCEL::CycleGraphBuilder.cycle_graph(points) }
+  let(:graph_face) { DCEL::Manipulation::CycleGraphBuilder.cycle_graph(points) }
   let(:face) { Triangulation::Face.new(graph_face) }
 
   describe "#points" do

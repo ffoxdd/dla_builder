@@ -1,9 +1,7 @@
-require_relative "dcel"
-require_relative "edge"
-require_relative "face"
+require_relative "manipulation"
 require_relative "face_builder"
 
-class DCEL::QuadrilateralEdgeFlipper
+class DCEL::Manipulation::QuadrilateralEdgeFlipper
 
   def self.flip(edge, &block)
     new(edge).flip(&block)
@@ -32,8 +30,8 @@ class DCEL::QuadrilateralEdgeFlipper
     set_origin_vertex_edge_reference(perimeter_edges[0])
 
     added_faces = [
-      DCEL::FaceBuilder.face([left_edge, perimeter_edges[3], perimeter_edges[0]]),
-      DCEL::FaceBuilder.face([right_edge, perimeter_edges[1], perimeter_edges[2]])
+      DCEL::Manipulation::FaceBuilder.face([left_edge, perimeter_edges[3], perimeter_edges[0]]),
+      DCEL::Manipulation::FaceBuilder.face([right_edge, perimeter_edges[1], perimeter_edges[2]])
     ]
 
     affected_edges = perimeter_edges

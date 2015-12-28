@@ -1,10 +1,9 @@
-require_relative "dcel"
-require_relative "edge"
-require_relative "face"
-require_relative "cycle_graph_builder"
+require_relative "manipulation"
 require_relative "face_builder"
+require_relative "../vertex"
+require_relative "../edge"
 
-class DCEL::FaceSubdivider
+class DCEL::Manipulation::FaceSubdivider
   def self.subdivide_face(face, new_vertex_value, &block)
     new(face, new_vertex_value).subdivide_face(&block)
   end
@@ -60,7 +59,7 @@ class DCEL::FaceSubdivider
     inward_edge = new_edge(perimeter_edge.destination_vertex)
     outward_edge = new_edge(new_vertex)
 
-    DCEL::FaceBuilder.face([perimeter_edge, inward_edge, outward_edge])
+    DCEL::Manipulation::FaceBuilder.face([perimeter_edge, inward_edge, outward_edge])
   end
 
   def new_edge(origin_vertex)

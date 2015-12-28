@@ -1,8 +1,8 @@
 require_relative "../../test_helper.rb"
 require_relative "../../../app/triangulation/local_delaunay_checker"
 require_relative "../../../app/point"
-require_relative "../../../app/dcel/cycle_graph_builder"
-require_relative "../../../app/dcel/face_builder"
+require_relative "../../../app/dcel/manipulation/cycle_graph_builder"
+require_relative "../../../app/dcel/manipulation/face_builder"
 
 describe Triangulation::LocalDelaunayChecker do
 
@@ -15,7 +15,7 @@ describe Triangulation::LocalDelaunayChecker do
         Point[-1, 0]
       ]
 
-      scaffold_face = DCEL::CycleGraphBuilder.cycle_graph(quadrilateral_points)
+      scaffold_face = DCEL::Manipulation::CycleGraphBuilder.cycle_graph(quadrilateral_points)
       inner_edges = scaffold_face.edge_enumerator.to_a
       e0, e1, e2, e3 = inner_edges
 
@@ -23,8 +23,8 @@ describe Triangulation::LocalDelaunayChecker do
       left_center_edge = DCEL::Edge.new(origin_vertex: e0.origin_vertex)
 
       DCEL::Edge.link_opposites(right_center_edge, left_center_edge)
-      DCEL::FaceBuilder.face([e0, e1, right_center_edge])
-      DCEL::FaceBuilder.face([left_center_edge, e2, e3])
+      DCEL::Manipulation::FaceBuilder.face([e0, e1, right_center_edge])
+      DCEL::Manipulation::FaceBuilder.face([left_center_edge, e2, e3])
 
       test_edge = left_center_edge
       opposite_vertex = e1.origin_vertex

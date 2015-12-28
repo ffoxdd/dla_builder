@@ -1,7 +1,8 @@
-require_relative "dcel"
-require_relative "edge"
+require_relative "manipulation"
+require_relative "../face"
+require_relative "../edge"
 
-class DCEL::FaceBuilder
+class DCEL::Manipulation::FaceBuilder
 
   def self.face(edges)
     new(edges).face

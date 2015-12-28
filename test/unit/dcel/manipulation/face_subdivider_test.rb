@@ -1,15 +1,15 @@
-require_relative "../../test_helper.rb"
-require_relative "../../support/dcel_test_helper.rb"
-require_relative "../../../app/dcel/face_subdivider"
-require_relative "../../../app/dcel/cycle_graph_builder"
+require_relative "../../../test_helper.rb"
+require_relative "../../../support/dcel_test_helper.rb"
+require_relative "../../../../app/dcel/manipulation/face_subdivider"
+require_relative "../../../../app/dcel/manipulation/cycle_graph_builder"
 require "set"
 
-describe DCEL::FaceSubdivider do
+describe DCEL::Manipulation::FaceSubdivider do
 
   describe ".subdivide_face" do
     let(:vertex_values) { 3.times.map { test_vertex }}
     let(:inner_vertex_value) { test_vertex }
-    let(:face) { DCEL::CycleGraphBuilder.cycle_graph(vertex_values) }
+    let(:face) { DCEL::Manipulation::CycleGraphBuilder.cycle_graph(vertex_values) }
 
     attr_reader :perimeter_edges
 
@@ -18,7 +18,7 @@ describe DCEL::FaceSubdivider do
     end
 
     it "subdivides a face about an interior vertex" do
-      DCEL::FaceSubdivider.subdivide_face(face, inner_vertex_value) do |new_faces, new_edges, new_vertex|
+      DCEL::Manipulation::FaceSubdivider.subdivide_face(face, inner_vertex_value) do |new_faces, new_edges, new_vertex|
         new_faces.size.must_equal(3)
         new_edges.size.must_equal(3)
 

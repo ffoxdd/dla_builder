@@ -1,7 +1,7 @@
 require_relative "triangulation"
 require_relative "hierarchical_triangle"
 require_relative "../dcel/mesh"
-require_relative "../dcel/cycle_graph_builder"
+require_relative "../dcel/manipulation/cycle_graph_builder"
 require_relative "../point"
 require "forwardable"
 

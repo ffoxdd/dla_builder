@@ -1,7 +1,7 @@
 require_relative "dcel"
-require_relative "cycle_graph_builder"
-require_relative "face_subdivider"
-require_relative "quadrilateral_edge_flipper"
+require_relative "manipulation/cycle_graph_builder"
+require_relative "manipulation/face_subdivider"
+require_relative "manipulation/quadrilateral_edge_flipper"
 
 class DCEL::Mesh
 
@@ -12,7 +12,7 @@ class DCEL::Mesh
   end
 
   def self.cycle_graph(vertex_values)
-    DCEL::CycleGraphBuilder.cycle_graph(vertex_values) do |(forward_face, reverse_face), edges, vertices|
+    DCEL::Manipulation::CycleGraphBuilder.cycle_graph(vertex_values) do |(forward_face, reverse_face), edges, vertices|
       mesh = new(faces: [forward_face, reverse_face], edges: edges, vertices: vertices)
       yield(mesh, forward_face) if block_given?
       return mesh
@@ -42,7 +42,7 @@ class DCEL::Mesh
   end
 
   def subdivide(face, new_vertex_value)
-    DCEL::FaceSubdivider.subdivide_face(face, new_vertex_value) do |new_faces, new_edges, new_vertex|
+    DCEL::Manipulation::FaceSubdivider.subdivide_face(face, new_vertex_value) do |new_faces, new_edges, new_vertex|
       self.faces -= [face]
       self.faces += new_faces
       self.edges += new_edges
@@ -53,7 +53,7 @@ class DCEL::Mesh
   end
 
   def flip_quadrilateral_edge(edge)
-    DCEL::QuadrilateralEdgeFlipper.flip(edge) do |removed_faces, added_faces, affected_edges|
+    DCEL::Manipulation::QuadrilateralEdgeFlipper.flip(edge) do |removed_faces, added_faces, affected_edges|
       self.faces -= removed_faces
       self.faces += added_faces
 
