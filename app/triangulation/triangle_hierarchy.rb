@@ -22,12 +22,16 @@ class Triangulation::TriangleHierarchy
     boundary_triangle.add_point(point)
   end
 
+  def hide_boundary
+    boundary_triangle.hide
+  end
+
   attr_reader :mesh, :boundary_triangle
 
   private
 
   # MAX_VALUE = 1e100 # representing "infinity" in a way that is guaranteed to work (for now)
-  MAX_VALUE = 240
+  MAX_VALUE = 1e10
 
   def boundary_points
     [Point[MAX_VALUE, MAX_VALUE], Point[-MAX_VALUE, MAX_VALUE], Point[0, -MAX_VALUE]]

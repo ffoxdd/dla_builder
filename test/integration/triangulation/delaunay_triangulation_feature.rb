@@ -1,17 +1,21 @@
 require_relative "../../test_helper.rb"
 require_relative '../../../app/triangulation/delaunay_triangulator.rb'
+require_relative '../../../app/dcel/mesh_svg_file'
 
 describe "Delaunay Triangulation" do
 
+  RADIUS = 240.0
+
   def sample_point
-    Point[rand(-50..50.0), rand(-50..50.0)]
+    Point[rand(-RADIUS..RADIUS), rand(-RADIUS..RADIUS)]
   end
 
   it "triangulates a set of points" do
     points = 100.times.map { sample_point }
-    mesh = Triangulation::DelaunayTriangulator.mesh(points)
+    triangulation = Triangulation::DelaunayTriangulator.new(points)
 
-    mesh.vertex_enumerator.size.must_equal(points.size + 3) # 3 boundary vertices
+    DCEL::MeshSVGFile.new(triangulation).save
+    triangulation.vertex_enumerator.to_a.size.must_equal(points.size)
   end
 
 end

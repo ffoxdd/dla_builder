@@ -1,8 +1,11 @@
 require_relative "../../app/triangulation/triangle_hierarchy"
+require "forwardable"
 
 module Triangulation; end
 
 class Triangulation::HierarchicalTriangulator
+
+  extend Forwardable
 
   def self.mesh(points)
     new(points).mesh
@@ -15,6 +18,9 @@ class Triangulation::HierarchicalTriangulator
   def mesh
     @mesh ||= triangle_hierarchy.mesh.tap { add_points }
   end
+
+  delegate [:edge_enumerator] => :mesh
+  delegate [:hide_boundary] => :triangle_hierarchy
 
   private
   attr_reader :points

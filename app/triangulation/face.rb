@@ -25,6 +25,10 @@ class Triangulation::Face
     Circumcircle.new(points).contains?(vertex.value)
   end
 
+  def set_neighbors_properties(property, value)
+    vertices.each { |vertex| vertex.set_property(property, value, neighbors: true) }
+  end
+
   private
   attr_reader :vertices
 

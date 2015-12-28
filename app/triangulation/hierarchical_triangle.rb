@@ -23,6 +23,10 @@ class Triangulation::HierarchicalTriangle
     enclosing_triangle(point).subdivide(point)
   end
 
+  def hide
+    face.set_neighbors_properties(:hidden, true)
+  end
+
   protected
 
   def subdivide(point)

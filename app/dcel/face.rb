@@ -34,11 +34,11 @@ class DCEL::Face
   end
 
   def vertex_enumerator
-    map_enumerator(edge_enumerator, &:origin_vertex)
+    enumerator_map(edge_enumerator, &:origin_vertex)
   end
 
   def vertex_value_enumerator
-    map_enumerator(vertex_enumerator, &:value)
+    enumerator_map(vertex_enumerator, &:value)
   end
 
   private
