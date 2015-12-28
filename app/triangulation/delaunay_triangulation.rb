@@ -7,7 +7,7 @@ require "set"
 
 module Triangulation; end
 
-class Triangulation::DelaunayTriangulator
+class Triangulation::DelaunayTriangulation
 
   include EnumeratorHelpers
 

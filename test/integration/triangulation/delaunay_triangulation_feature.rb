@@ -1,5 +1,5 @@
 require_relative "../../test_helper.rb"
-require_relative '../../../app/triangulation/delaunay_triangulator.rb'
+require_relative '../../../app/triangulation/delaunay_triangulation.rb'
 require_relative '../../../app/dcel/mesh_svg_file'
 
 describe "Delaunay Triangulation" do
@@ -12,7 +12,7 @@ describe "Delaunay Triangulation" do
 
   it "triangulates a set of points" do
     points = 100.times.map { sample_point }
-    triangulation = Triangulation::DelaunayTriangulator.new(points)
+    triangulation = Triangulation::DelaunayTriangulation.new(points)
 
     DCEL::MeshSVGFile.new(triangulation).save
     triangulation.vertex_enumerator.to_a.size.must_equal(points.size)
