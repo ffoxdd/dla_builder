@@ -64,7 +64,7 @@ class Triangulation::DelaunayTriangulation
   end
 
   def hierarchical_triangulation
-    @hierarchical_triangulation ||= Triangulation::TriangleHierarchy.new(points)
+    @hierarchical_triangulation ||= Triangulation::HierarchicalTriangulation.new(points)
   end
 
 end

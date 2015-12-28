@@ -6,7 +6,7 @@ require "forwardable"
 
 module Triangulation; end
 
-class Triangulation::TriangleHierarchy
+class Triangulation::HierarchicalTriangulation
 
   extend Forwardable
 
