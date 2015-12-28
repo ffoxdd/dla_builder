@@ -1,6 +1,3 @@
-require_relative "hierarchical_triangulator"
-require_relative "delaunay_flipper"
-require_relative "hierarchical_triangulator"
 require_relative "delaunay_flipper"
 require_relative "../../lib/enumerators/enumerator_helpers"
 require "set"
@@ -67,7 +64,7 @@ class Triangulation::DelaunayTriangulation
   end
 
   def hierarchical_triangulation
-    @hierarchical_triangulation ||= Triangulation::HierarchicalTriangulator.new(points)
+    @hierarchical_triangulation ||= Triangulation::TriangleHierarchy.new(points)
   end
 
 end

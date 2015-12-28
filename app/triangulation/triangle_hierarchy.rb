@@ -2,21 +2,25 @@ require_relative "hierarchical_triangle"
 require_relative "../dcel/mesh"
 require_relative "../dcel/cycle_graph_builder"
 require_relative "../point"
+require "forwardable"
 
 module Triangulation; end
 
 class Triangulation::TriangleHierarchy
 
-  def initialize
+  extend Forwardable
+
+  def initialize(points = [])
     DCEL::Mesh.cycle_graph(boundary_points) do |mesh, boundary_face|
       @mesh = mesh
       @boundary_triangle = new_hierarchichal_triangle(boundary_face, constrained: true)
     end
+
+    points.each { |point| add_point(point) }
   end
 
-  def points
-    boundary_triangle.points - boundary_points
-  end
+  delegate [:edge_enumerator, :vertex_enumerator, :vertex_value_enumerator] => :mesh
+  alias_method :point_enumerator, :vertex_value_enumerator
 
   def add_point(point)
     boundary_triangle.add_point(point)
