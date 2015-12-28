@@ -24,7 +24,14 @@ class Triangulation::HierarchicalTriangle
   end
 
   def hide
-    face.set_neighbors_properties(:hidden, true)
+    face.vertices.each do |vertex|
+      vertex.set_property(:hidden, true)
+
+      vertex.adjacent_edge_enumerator.each do |edge|
+        edge.set_property(:hidden, true)
+        edge.opposite_edge.set_property(:hidden, true)
+      end
+    end
   end
 
   protected

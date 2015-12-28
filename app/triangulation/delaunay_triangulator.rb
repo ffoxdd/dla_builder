@@ -27,12 +27,20 @@ class Triangulation::DelaunayTriangulator
     end
   end
 
+  def vertex_value_enumerator
+    enumerator_map(vertex_enumerator, &:value)
+  end
+
   def vertex_enumerator
     reject_hidden(mesh.vertex_enumerator)
   end
 
   def edge_enumerator
     reject_hidden(mesh.edge_enumerator)
+  end
+
+  def face_enumerator
+    reject_hidden(mesh.face_enumerator)
   end
 
   private
