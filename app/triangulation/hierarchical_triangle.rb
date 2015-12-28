@@ -1,7 +1,6 @@
+require_relative "triangulation"
 require_relative "face"
 require_relative "../ray"
-
-module Triangulation; end
 
 class Triangulation::HierarchicalTriangle
 

@@ -1,7 +1,6 @@
+require_relative "triangulation"
 require_relative "../ray"
 require_relative "../dcel/edge" # only for the cyclical_each_pair_helper...
-
-module Triangulation; end
 
 class Triangulation::Face
   def initialize(graph_face)

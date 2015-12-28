@@ -1,6 +1,5 @@
-require_relative "./face"
-
-module Triangulation; end
+require_relative "triangulation"
+require_relative "face"
 
 class Triangulation::LocalDelaunayChecker
 

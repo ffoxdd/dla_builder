@@ -1,8 +1,7 @@
+require_relative "triangulation"
 require_relative "delaunay_flipper"
 require_relative "../../lib/enumerators/enumerator_helpers"
 require "set"
-
-module Triangulation; end
 
 class Triangulation::DelaunayTriangulation
 
