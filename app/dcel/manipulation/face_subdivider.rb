@@ -1,5 +1,6 @@
 require_relative "manipulation"
 require_relative "face_builder"
+require_relative "mesh_update"
 require_relative "../vertex"
 require_relative "../edge"
 
@@ -9,6 +10,7 @@ class DCEL::Manipulation::FaceSubdivider
   end
 
   def initialize(face, new_vertex_value)
+    @face = face
     @new_vertex_value = new_vertex_value
     @original_face_edges = face.edge_enumerator.to_a
   end
@@ -16,8 +18,18 @@ class DCEL::Manipulation::FaceSubdivider
   def subdivide_face(&block)
     new_faces.tap do
       link_spokes
-      yield(new_faces, new_edges, new_vertex) if block_given?
+      yield(mesh_update) if block_given?
     end
+  end
+
+  private
+  attr_reader :face, :new_vertex_value, :original_face_edges
+
+  def mesh_update
+    DCEL::Manipulation::MeshUpdate.new(
+      added_faces: new_faces, removed_faces: [face],
+      added_edges: new_edges, added_vertices: [new_vertex]
+    )
   end
 
   def new_faces
@@ -27,9 +39,6 @@ class DCEL::Manipulation::FaceSubdivider
   def new_edges
     @new_edges ||= edges_with_origin(new_faces, new_vertex)
   end
-
-  private
-  attr_reader :new_vertex_value, :original_face_edges
 
   def new_vertex
     @new_vertex ||= DCEL::Vertex.new(new_vertex_value)

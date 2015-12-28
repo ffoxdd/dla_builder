@@ -1,4 +1,5 @@
 require_relative "manipulation"
+require_relative "mesh_update"
 require_relative "face_builder"
 require_relative "../vertex"
 require_relative "../edge"
@@ -16,7 +17,11 @@ class DCEL::Manipulation::CycleGraphBuilder
     faces = [inner_face, outer_face]
     edges = inner_edges
 
-    yield(faces, edges, vertices) if block_given?
+    mesh_update = DCEL::Manipulation::MeshUpdate.new(
+      added_faces: faces, added_edges: edges, added_vertices: vertices
+    )
+
+    yield(mesh_update, inner_face) if block_given?
 
     inner_face
   end

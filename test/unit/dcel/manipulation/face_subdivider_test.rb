@@ -18,7 +18,11 @@ describe DCEL::Manipulation::FaceSubdivider do
     end
 
     it "subdivides a face about an interior vertex" do
-      DCEL::Manipulation::FaceSubdivider.subdivide_face(face, inner_vertex_value) do |new_faces, new_edges, new_vertex|
+      DCEL::Manipulation::FaceSubdivider.subdivide_face(face, inner_vertex_value) do |mesh_update|
+        new_faces = mesh_update.added_faces
+        new_edges = mesh_update.added_edges
+        new_vertex, = mesh_update.added_vertices
+
         new_faces.size.must_equal(3)
         new_edges.size.must_equal(3)
 

@@ -32,9 +32,9 @@ describe DCEL::Manipulation::QuadrilateralEdgeFlipper do
       diagonal_edges, perimeter_edges = split_diamond
       edge_to_flip = diagonal_edges.first
 
-      DCEL::Manipulation::QuadrilateralEdgeFlipper.flip(edge_to_flip) do |removed_faces, added_faces, affected_edges|
-        removed_faces.size.must_equal(2)
-        added_faces.size.must_equal(2)
+      DCEL::Manipulation::QuadrilateralEdgeFlipper.flip(edge_to_flip) do |mesh_update, affected_edges|
+        mesh_update.removed_faces.size.must_equal(2)
+        mesh_update.added_faces.size.must_equal(2)
         Set.new(affected_edges).must_equal(Set.new(perimeter_edges))
       end
 

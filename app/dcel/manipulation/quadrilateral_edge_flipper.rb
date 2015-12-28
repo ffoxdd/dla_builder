@@ -1,4 +1,5 @@
 require_relative "manipulation"
+require_relative "mesh_update"
 require_relative "face_builder"
 
 class DCEL::Manipulation::QuadrilateralEdgeFlipper
@@ -34,9 +35,13 @@ class DCEL::Manipulation::QuadrilateralEdgeFlipper
       DCEL::Manipulation::FaceBuilder.face([right_edge, perimeter_edges[1], perimeter_edges[2]])
     ]
 
+    mesh_update = DCEL::Manipulation::MeshUpdate.new(
+      added_faces: added_faces, removed_faces: removed_faces
+    )
+
     affected_edges = perimeter_edges
 
-    yield(removed_faces, added_faces, affected_edges) if block_given?
+    yield(mesh_update, affected_edges) if block_given?
 
     left_edge
   end

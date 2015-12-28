@@ -11,7 +11,11 @@ describe DCEL::Manipulation::CycleGraphBuilder do
     it "yields a fully linked face" do
       block_reached = false
 
-      DCEL::Manipulation::CycleGraphBuilder.cycle_graph(vertex_values) do |faces, edges, vertices|
+      DCEL::Manipulation::CycleGraphBuilder.cycle_graph(vertex_values) do |mesh_update|
+        vertices = mesh_update.added_vertices
+        edges = mesh_update.added_edges
+        faces = mesh_update.added_faces
+        
         block_reached = true
 
         faces.size.must_equal(2)
