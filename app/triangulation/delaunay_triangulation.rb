@@ -12,8 +12,13 @@ class Triangulation::DelaunayTriangulation
     new(points).mesh
   end
 
-  def initialize(points)
-    @points = points
+  def initialize(points, boundary_radius: nil, boundary_hidden: true)
+    @boundary_hidden = boundary_hidden
+
+    @hierarchical_triangulation = Triangulation::HierarchicalTriangulation.new(
+      points: points, boundary_radius: boundary_radius
+    )
+
     @unprocessed_edges = hierarchical_triangulation.edge_enumerator.to_a
   end
 
@@ -41,13 +46,14 @@ class Triangulation::DelaunayTriangulation
   end
 
   private
-  attr_reader :points, :unprocessed_edges
+  attr_reader :boundary_hidden, :hierarchical_triangulation, :unprocessed_edges
 
   def reject_hidden(enumerator)
     enumerator_reject(enumerator) { |e| e.has_property?(:hidden, true) }
   end
 
   def hide_boundary
+    return unless boundary_hidden
     hierarchical_triangulation.hide_boundary
   end
 
@@ -61,10 +67,6 @@ class Triangulation::DelaunayTriangulation
     Triangulation::DelaunayFlipper.flip(mesh: hierarchical_triangulation.mesh, edge: edge) do |affected_edges|
       unprocessed_edges.push(*affected_edges)
     end
-  end
-
-  def hierarchical_triangulation
-    @hierarchical_triangulation ||= Triangulation::HierarchicalTriangulation.new(points)
   end
 
 end

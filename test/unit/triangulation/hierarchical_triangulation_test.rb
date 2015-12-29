@@ -7,7 +7,7 @@ describe Triangulation::HierarchicalTriangulation do
     let(:hierarchical_triangulation) { Triangulation::HierarchicalTriangulation.new }
 
     it "starts out with only boundary points" do
-      hierarchical_triangulation.point_enumerator.size.must_equal(3)
+      hierarchical_triangulation.point_enumerator.size.must_equal(4)
     end
   end
 
@@ -22,7 +22,7 @@ describe Triangulation::HierarchicalTriangulation do
 
     it "can add more than one point" do
       3.times { |n| hierarchical_triangulation.add_point(Point[0, 1 + n]) }
-      hierarchical_triangulation.vertex_enumerator.size.must_equal(3 + 3)
+      hierarchical_triangulation.vertex_enumerator.size.must_equal(4 + 3)
     end
   end
 

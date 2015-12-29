@@ -3,9 +3,14 @@ require 'rasem'
 
 class DCEL::MeshSVGFile
 
-  def initialize(mesh, filename: "data/mesh.svg", highlighted_faces: [], highlighted_vertices: [])
+  def initialize( mesh,
+    filename: "data/mesh.svg",
+    dimensions: [500, 500],
+    highlighted_faces: [], highlighted_vertices: [] )
+
     @mesh = mesh
     @filename = filename
+    @dimensions = dimensions
     @highlighted_faces = highlighted_faces
     @highlighted_vertices = highlighted_vertices
   end
@@ -15,14 +20,10 @@ class DCEL::MeshSVGFile
   end
 
   private
-  attr_reader :mesh, :filename, :highlighted_faces, :highlighted_vertices
+  attr_reader :mesh, :filename, :dimensions, :highlighted_faces, :highlighted_vertices
 
   def svg_image(file)
     new_svg_image(file) { |image| draw_mesh(image) }
-  end
-
-  def dimensions
-    [500, 500]
   end
 
   def new_svg_image(file, &block)
