@@ -5,12 +5,12 @@ class DCEL::MeshSVGFile
 
   def initialize( mesh,
     filename: "data/mesh.svg",
-    dimensions: [500, 500],
+    bounds: calculate_bounds(mesh),
     highlighted_faces: [], highlighted_vertices: [] )
 
     @mesh = mesh
+    @bounds = bounds
     @filename = filename
-    @dimensions = dimensions
     @highlighted_faces = highlighted_faces
     @highlighted_vertices = highlighted_vertices
   end
@@ -20,7 +20,7 @@ class DCEL::MeshSVGFile
   end
 
   private
-  attr_reader :mesh, :filename, :dimensions, :highlighted_faces, :highlighted_vertices
+  attr_reader :mesh, :filename, :bounds, :highlighted_faces, :highlighted_vertices
 
   def svg_image(file)
     new_svg_image(file) { |image| draw_mesh(image) }
@@ -52,24 +52,41 @@ class DCEL::MeshSVGFile
   end
 
   def draw_face(face, image, fill: "red")
-    coordinates = face.vertex_value_enumerator.map { |point| t(point.to_a) }
-    image.polygon(coordinates, fill: fill)
+    image.polygon(*coordinates(face.vertex_value_enumerator), fill: fill)
   end
 
   def draw_edge(edge, image, stroke: "black")
     stroke = "red" if edge.has_property?(:hidden, true)
-
-    vertices = edge.vertices
-    coordinates = vertices.flat_map { |vertex| vertex.value.to_a }
-    image.line(*t(coordinates), stroke: stroke)
+    image.line(*coordinates(edge.vertices), stroke: stroke)
   end
 
   def draw_vertex(vertex, image, stroke: "orange")
-    image.circle(*t(vertex.value.to_a), 5, stroke: stroke)
+    image.circle(*coordinates(vertex), 5, stroke: stroke)
+  end
+
+  def coordinates(vertices)
+    Array(vertices).map { |vertex| t(vertex.value.to_a) }.flatten
   end
 
   def t(coordinates)
-    coordinates.map { |n| n + dimensions.first / 2 }
+    [
+      coordinates[0] - bounds[0].first + BORDER,
+      coordinates[1] - bounds[1].first + BORDER
+    ]
+  end
+
+  BORDER = 10
+
+  def dimensions
+    @dimensions ||= bounds.map { |min, max| max - min + (BORDER * 2) }
+  end
+
+  def calculate_bounds(mesh)
+    [bounds_by(mesh, &:x), bounds_by(mesh, &:y)]
+  end
+
+  def bounds_by(mesh, &value)
+    mesh.vertex_value_enumerator.map(&value).minmax
   end
 
 end
