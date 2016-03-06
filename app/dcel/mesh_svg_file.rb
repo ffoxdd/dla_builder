@@ -1,5 +1,6 @@
 require_relative "dcel"
-require 'rasem'
+require_relative "../svg/svg_file"
+require "rasem"
 
 class DCEL::MeshSVGFile
 
@@ -16,21 +17,14 @@ class DCEL::MeshSVGFile
   end
 
   def save
-    File.open(filename, 'w') { |f| svg_image(f) }
+    svg_file.save { |image| draw_mesh(image) }
   end
 
   private
   attr_reader :mesh, :filename, :bounds, :highlighted_faces, :highlighted_vertices
 
-  def svg_image(file)
-    new_svg_image(file) { |image| draw_mesh(image) }
-  end
-
-  def new_svg_image(file, &block)
-    Rasem::SVGImage.new(*dimensions.to_a, file).tap do |image|
-      yield(image)
-      image.close
-    end
+  def svg_file
+    @svg_file ||= SVG::File.new(filename: filename, dimensions: dimensions)
   end
 
   def draw_mesh(image)
