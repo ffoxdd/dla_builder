@@ -4,10 +4,14 @@ class PointCloud
 
   extend Forwardable
 
-  def initialize(boundary:)
+  def initialize(
+    boundary:,
+    minimum_separation_function: ->(point){ MINIMUM_SEPARATION } )
+
     @boundary = boundary
     @points = []
     @failure_count = 0
+    @minimum_separation_function = minimum_separation_function
 
     generate_points # for whatever reason things are just simpler if this goes here
   end
@@ -16,7 +20,7 @@ class PointCloud
   delegate [:size, :origin] => :boundary
 
   private
-  attr_reader :boundary
+  attr_reader :boundary, :minimum_separation_function
   attr_accessor :failure_count
 
   MAX_POINTS = 500
@@ -53,7 +57,7 @@ class PointCloud
 
   def properly_separated?(point)
     return true if points.empty?
-    distance_to_closest_existing_point(point) > MINIMUM_SEPARATION
+    distance_to_closest_existing_point(point) > minimum_separation_function.call(point)
   end
 
   def distance_to_closest_existing_point(point) # TODO: consider using a quadtree
