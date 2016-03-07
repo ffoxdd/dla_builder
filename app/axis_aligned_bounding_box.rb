@@ -71,34 +71,46 @@ class AxisAlignedBoundingBox
     offset + Vector2D[width / 2.0, height / 2.0]
   end
 
+  def size
+    [width, height]
+  end
+
+  def origin
+    Point[x_range.begin, y_range.begin]
+  end
+
+  def sample_point
+    Point[rand(x_range), rand(y_range)]
+  end
+
   private
 
-    def segment(range, i)
-      RangeSegmenter.new(range, 2).segments[i]
-    end
+  def segment(range, i)
+    RangeSegmenter.new(range, 2).segments[i]
+  end
 
-    def ranges_intersect?(range_1, range_2)
-      RangeIntersectionCalculator.new(range_1, range_2).intersect?
-    end
+  def ranges_intersect?(range_1, range_2)
+    RangeIntersectionCalculator.new(range_1, range_2).intersect?
+  end
 
-    def range_fits_within?(inner_range, outer_range)
-      measure(inner_range) <= measure(outer_range)
-    end
+  def range_fits_within?(inner_range, outer_range)
+    measure(inner_range) <= measure(outer_range)
+  end
 
-    def width
-      measure(x_range)
-    end
+  def width
+    measure(x_range)
+  end
 
-    def height
-      measure(y_range)
-    end
+  def height
+    measure(y_range)
+  end
 
-    def measure(range)
-      range.last - range.first
-    end
+  def measure(range)
+    range.last - range.first
+  end
 
-    def translate_range(range, offset)
-      Range.new(range.begin + offset, range.end + offset, range.exclude_end?)
-    end
+  def translate_range(range, offset)
+    Range.new(range.begin + offset, range.end + offset, range.exclude_end?)
+  end
 
 end

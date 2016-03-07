@@ -1,6 +1,5 @@
 require_relative "dcel"
 require_relative "../svg/svg_file"
-require "rasem"
 
 class DCEL::MeshSVGFile
 
@@ -17,7 +16,7 @@ class DCEL::MeshSVGFile
   end
 
   def save
-    svg_file.save { |image| draw_mesh(image) }
+    svg_file.save { |image| draw(image) }
   end
 
   private
@@ -27,7 +26,7 @@ class DCEL::MeshSVGFile
     @svg_file ||= SVG::File.new(filename: filename, dimensions: dimensions)
   end
 
-  def draw_mesh(image)
+  def draw(image)
     draw_edges(image)
     draw_vertices(image)
     draw_faces(image)
