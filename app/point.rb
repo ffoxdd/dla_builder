@@ -47,7 +47,7 @@ class Point
   end
 
   def displacement(point)
-    point.vector - vector
+    point.to_v - vector
   end
 
   def distance(point)

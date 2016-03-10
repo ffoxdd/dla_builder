@@ -17,15 +17,17 @@ class PointCloud
   end
 
   attr_reader :points
+
   delegate [:size, :origin] => :boundary
+  delegate [:each] => :points
 
   private
   attr_reader :boundary, :minimum_separation_function
   attr_accessor :failure_count
 
-  MAX_POINTS = 500
+  MAX_POINTS = 50000
   MINIMUM_SEPARATION = 30
-  MAX_FAILURES = 2500
+  MAX_FAILURES = 1000
 
   def generate_points
     catch (:saturated) do

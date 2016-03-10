@@ -71,6 +71,14 @@ class AxisAlignedBoundingBox
     offset + Vector2D[width / 2.0, height / 2.0]
   end
 
+  def width
+    measure(x_range)
+  end
+
+  def height
+    measure(y_range)
+  end
+
   def size
     [width, height]
   end
@@ -95,14 +103,6 @@ class AxisAlignedBoundingBox
 
   def range_fits_within?(inner_range, outer_range)
     measure(inner_range) <= measure(outer_range)
-  end
-
-  def width
-    measure(x_range)
-  end
-
-  def height
-    measure(y_range)
   end
 
   def measure(range)
