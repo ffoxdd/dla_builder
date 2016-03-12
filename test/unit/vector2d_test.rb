@@ -22,6 +22,36 @@ describe Vector2D do
     end
   end
 
+  describe "#x/#y" do
+    it "provides accessors to x and y" do
+      vector = Vector2D[1, 2]
+
+      vector.x.must_equal 1
+      vector.y.must_equal 2
+    end
+  end
+
+  describe "#displacement" do
+    it "returns a vector representing the distance to another vector" do
+      Vector2D[1, 2].displacement(Vector2D[3, 4]).must_equal Vector2D[2, 2]
+    end
+  end
+
+  describe "#distance" do
+    it "returns the distance between two position vectors" do
+      vector_1 = Vector2D[0, 0]
+      vector_2 = Vector2D[3, 4]
+
+      vector_1.distance(vector_2).must_equal 5.0
+    end
+  end
+
+  describe "#extent" do
+    it "returns a vector with the absolute value of both dimensions" do
+      Vector2D[-3, -2].extent.must_equal Vector2D[3, 2]
+    end
+  end
+
   describe "#inner_product" do
     it "returns the inner product of two vectors" do
       Vector2D[4, 7].inner_product(Vector2D[10, 1]).must_equal 47

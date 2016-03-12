@@ -25,6 +25,14 @@ class Vector2D
 
   alias_method :eql?, :==
 
+  def x
+    vector[0]
+  end
+
+  def y
+    vector[1]
+  end
+
   def +(rhs)
     Vector2D.new(vector + rhs.vector)
   end
@@ -35,6 +43,22 @@ class Vector2D
 
   def *(rhs)
     Vector2D.new(vector * rhs)
+  end
+
+  def displacement(rhs)
+    rhs - self
+  end
+
+  def distance(rhs)
+    displacement(rhs).magnitude
+  end
+
+  def extent
+    Vector2D.new(vector.map(&:abs))
+  end
+
+  def max(rhs)
+    Point[[x, point.x].max, [y, point.y].max]
   end
 
   def transform(transformation)
