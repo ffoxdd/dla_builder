@@ -32,3 +32,4 @@
 - [ ] See what happens if you make DCEL::Edge link itself to it's origin vertex on initialization
 - [ ] Consider representing the triangulation boundary triangle with a special unbounded type
 - [ ] Make an edge method for edge.opposite_edge.previous_edge
+- [ ] Use ruby standard library Vector#angle_with
