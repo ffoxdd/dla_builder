@@ -1,4 +1,3 @@
-require_relative 'point'
 require_relative 'vector2d'
 require_relative 'ray'
 require 'forwardable'
@@ -8,8 +7,8 @@ class Edge
   extend Forwardable
 
   def initialize(initial_point, terminal_point)
-    @initial_point = Point.new(initial_point)
-    @terminal_point = Point.new(terminal_point)
+    @initial_point = Vector2D.new(initial_point)
+    @terminal_point = Vector2D.new(terminal_point)
   end
 
   def_delegators :ray,

@@ -30,7 +30,7 @@ class BoundingBox
   end
 
   def self.from_vertices(vertices)
-    inverse_translation = vertices[0].displacement(Point[0, 0])
+    inverse_translation = vertices[0].displacement(Vector2D[0, 0])
     translation = -inverse_translation
 
     vertices_at_origin = vertices.map { |vertex| vertex + inverse_translation }
@@ -40,7 +40,7 @@ class BoundingBox
 
     edge_x, edge_y = edge_1.right_handed?(edge_2) ? [edge_1, edge_2] : [edge_2, edge_1]
 
-    x_basis = Edge.new(Point[0, 0], Point[1, 0])
+    x_basis = Edge.new(Vector2D[0, 0], Vector2D[1, 0])
 
     inverse_rotation = -x_basis.signed_angle_to(edge_x)
     rotation = -inverse_rotation

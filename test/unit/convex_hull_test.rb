@@ -1,6 +1,6 @@
-require_relative "../test_helper.rb"
-require_relative "../../app/convex_hull.rb"
-require_relative "../../app/point.rb"
+require_relative "../test_helper"
+require_relative "../../app/convex_hull"
+require_relative "../../app/vector2d"
 
 describe ConvexHull do
 
@@ -17,40 +17,40 @@ describe ConvexHull do
 
   describe "#add_point" do
     it "incrementally adds points to the hull" do
-      p0 = Point[0, 0]
+      p0 = Vector2D[0, 0]
       convex_hull.add_point(p0)
       convex_hull.points.must_cyclically_equal [p0] # seeding
 
-      p1 = Point[1, 0]
+      p1 = Vector2D[1, 0]
       convex_hull.add_point(p1)
       convex_hull.points.must_cyclically_equal [p0, p1] # simple addition
 
-      p2 = Point[1, 1]
+      p2 = Vector2D[1, 1]
       convex_hull.add_point(p2)
       convex_hull.points.must_cyclically_equal [p0, p2, p1] # maintains clockwise order
 
-      p3 = Point[0.5, 0.25]
+      p3 = Vector2D[0.5, 0.25]
       convex_hull.add_point(p3)
       convex_hull.points.must_cyclically_equal [p0, p2, p1] # ignores interior points
 
-      p4 = Point[0, 1]
+      p4 = Vector2D[0, 1]
       convex_hull.add_point(p4)
       convex_hull.points.must_cyclically_equal [p0, p4, p2, p1]
 
-      p5 = Point[2, 2]
+      p5 = Vector2D[2, 2]
       convex_hull.add_point(p5)
       convex_hull.points.must_cyclically_equal [p0, p4, p5, p1] # removes superceded points
 
-      p6 = Point[0.5, 0]
+      p6 = Vector2D[0.5, 0]
       convex_hull.add_point(p6)
       convex_hull.points.must_cyclically_equal [p0, p4, p5, p1] # ignores boundary points
 
       ## This is an edge-case that the current algorithm fails -- whatever
-      # p7 = Point[2, 0]
+      # p7 = Vector2D[2, 0]
       # convex_hull.add_point(p7)
       # convex_hull.points.must_cyclically_equal [p0, p4, p5, p7] # removes superceded boundary points
 
-      p7 = Point[-1, -1]
+      p7 = Vector2D[-1, -1]
       convex_hull.add_point(p7)
       convex_hull.points.must_cyclically_equal [p7, p4, p5, p1] # can handle root point removal
     end

@@ -1,8 +1,8 @@
-require_relative "../../test_helper.rb"
-require_relative "../../support/dcel_test_helper.rb"
+require_relative "../../test_helper"
+require_relative "../../support/dcel_test_helper"
 require_relative "../../../app/dcel/face"
 require_relative "../../../app/dcel/vertex"
-require_relative "../../../app/point"
+require_relative "../../../app/vector2d"
 
 describe DCEL::Face do
 

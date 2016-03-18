@@ -1,6 +1,6 @@
-require_relative "../../../test_helper.rb"
+require_relative "../../../test_helper"
 require_relative "../../../../app/dcel/manipulation/quadrilateral_edge_flipper"
-require_relative "../../../../app/point"
+require_relative "../../../../app/vector2d"
 require_relative "../../../../app/dcel/manipulation/cycle_graph_builder"
 require_relative "../../../../app/dcel/manipulation/face_builder"
 require "set"
@@ -9,7 +9,7 @@ describe DCEL::Manipulation::QuadrilateralEdgeFlipper do
 
   describe ".flip" do
     def split_diamond
-      quadrilateral_points = [Point[0, -1], Point[1, 0], Point[0, 1], Point[-1, 0]]
+      quadrilateral_points = [Vector2D[0, -1], Vector2D[1, 0], Vector2D[0, 1], Vector2D[-1, 0]]
 
       scaffold_face = DCEL::Manipulation::CycleGraphBuilder.cycle_graph(quadrilateral_points)
       perimeter_edges = scaffold_face.edge_enumerator.to_a
@@ -46,8 +46,8 @@ describe DCEL::Manipulation::QuadrilateralEdgeFlipper do
       bottom_face_points = bottom_face.vertex_value_enumerator.to_a
       top_face_points = top_face.vertex_value_enumerator.to_a
 
-      bottom_face_points.must_cyclically_equal([Point[0, -1], Point[1, 0], Point[-1, 0]])
-      top_face_points.must_cyclically_equal([Point[0, 1], Point[-1, 0], Point[1, 0]])
+      bottom_face_points.must_cyclically_equal([Vector2D[0, -1], Vector2D[1, 0], Vector2D[-1, 0]])
+      top_face_points.must_cyclically_equal([Vector2D[0, 1], Vector2D[-1, 0], Vector2D[1, 0]])
     end
   end
 

@@ -13,7 +13,7 @@ describe Triangulation::HierarchicalTriangulation do
 
   describe "#add_point" do
     let(:hierarchical_triangulation) { Triangulation::HierarchicalTriangulation.new }
-    let(:point) { Point[0, 0] }
+    let(:point) { Vector2D[0, 0] }
 
     it "adds a point to the hierarchy" do
       hierarchical_triangulation.add_point(point)
@@ -21,7 +21,7 @@ describe Triangulation::HierarchicalTriangulation do
     end
 
     it "can add more than one point" do
-      3.times { |n| hierarchical_triangulation.add_point(Point[0, 1 + n]) }
+      3.times { |n| hierarchical_triangulation.add_point(Vector2D[0, 1 + n]) }
       hierarchical_triangulation.vertex_enumerator.size.must_equal(4 + 3)
     end
   end

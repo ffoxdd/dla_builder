@@ -14,7 +14,7 @@ class Dla
     @live_visitor = live_visitor
 
     @particles = ParticleCollection.new(@particle_radius)
-    @extent = Point[0, 0]
+    @extent = Vector2D[0, 0]
     @convex_hull = ConvexHull.new
 
     @seeds.each { |seed| add_particle(seed) }

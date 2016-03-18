@@ -37,7 +37,7 @@ end
 def centered_vertices
   vertices.each.map do |point|
     v = center_vector(point.to_v)
-    Point.new(v.to_a)
+    Vector2D.new(v.to_a)
   end
 end
 
@@ -48,7 +48,7 @@ end
 
 def center_point(point)
   v = center_vector(point.to_v)
-  Point.new(v.to_a)
+  Vector2D.new(v.to_a)
 end
 
 def center_particle(particle)

@@ -1,6 +1,6 @@
-require_relative "../../test_helper.rb"
+require_relative "../../test_helper"
 require_relative "../../../app/triangulation/face"
-require_relative "../../../app/point"
+require_relative "../../../app/vector2d"
 require_relative "../../../app/dcel/vertex"
 require_relative "../../../app/dcel/manipulation/cycle_graph_builder"
 
@@ -11,7 +11,7 @@ describe Triangulation::Face do
   let(:face) { Triangulation::Face.new(graph_face) }
 
   describe "#points" do
-    let(:points) { [Point[0, 0], Point[10, 0], Point[0, 10]] }
+    let(:points) { [Vector2D[0, 0], Vector2D[10, 0], Vector2D[0, 10]] }
 
     it "returns the points for the face" do
       face.points.must_equal(points)
@@ -19,22 +19,22 @@ describe Triangulation::Face do
   end
 
   describe "#contains?" do
-    let(:points) { [Point[0, 0], Point[10, 0], Point[0, 10]] }
+    let(:points) { [Vector2D[0, 0], Vector2D[10, 0], Vector2D[0, 10]] }
 
     it "returns true for a point in the interior of the face" do
-      point = Point[2, 2]
+      point = Vector2D[2, 2]
       face.contains?(point).must_equal(true)
     end
 
     it "returns false for a point outside of the face" do
-      point = Point[100, 100]
+      point = Vector2D[100, 100]
       face.contains?(point).must_equal(false)
     end
   end
 
   describe "#bounded?" do
     describe "for right-handed points" do
-      let(:points) { [Point[0, 0], Point[1, 0], Point[0, 1]] }
+      let(:points) { [Vector2D[0, 0], Vector2D[1, 0], Vector2D[0, 1]] }
 
       it "is true" do
         face.bounded?.must_equal(true)
@@ -42,7 +42,7 @@ describe Triangulation::Face do
     end
 
     describe "for left-handed points" do
-      let(:points) { [Point[0, 0], Point[1, 0], Point[0, 1]].reverse }
+      let(:points) { [Vector2D[0, 0], Vector2D[1, 0], Vector2D[0, 1]].reverse }
 
       it "is false for a face with left-handed orientation" do
         face.bounded?.must_equal(false)
@@ -51,10 +51,10 @@ describe Triangulation::Face do
   end
 
   describe "#circumcircle_contains?" do
-    let(:points) { [Point[-1, 0], Point[1, 0], Point[0, 1]] }
+    let(:points) { [Vector2D[-1, 0], Vector2D[1, 0], Vector2D[0, 1]] }
 
     def vertex(*coordinates)
-      DCEL::Vertex.new(Point.new(coordinates))
+      DCEL::Vertex.new(Vector2D.new(coordinates))
     end
 
     specify { face.circumcircle_contains?(vertex(0, -0.5)).must_equal(true) }

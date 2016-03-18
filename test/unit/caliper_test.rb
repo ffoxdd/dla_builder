@@ -3,7 +3,7 @@ require_relative "../../app/caliper.rb"
 require_relative "../../app/polygon_node.rb"
 
 def test_node(x, y, options = {})
-  PolygonNode.new(options.merge(point: Point[x, y]))
+  PolygonNode.new(options.merge(point: Vector2D[x, y]))
 end
 
 describe Caliper do
@@ -29,21 +29,21 @@ describe Caliper do
       caliper.rotate(Math::PI / 4)
 
       caliper.angle.must_be_close_to Math::PI / 4, 1e-10
-      caliper.fulcrum.must_equal Point[0, 0]
+      caliper.fulcrum.must_equal Vector2D[0, 0]
     end
 
     it "moves the fulcrom forward if rotated onto its edge" do
       caliper = Caliper.new(node, Vector2D[0, 1])
       caliper.rotate(Math::PI / 2)
 
-      caliper.fulcrum.must_equal Point[1, 0]
+      caliper.fulcrum.must_equal Vector2D[1, 0]
     end
 
     it "also moves the fulcrum forward if rotated very close to its edge" do
       caliper = Caliper.new(node, Vector2D[0, 1])
       caliper.rotate((Math::PI/2) - 1e-13)
 
-      caliper.fulcrum.must_equal Point[1, 0]
+      caliper.fulcrum.must_equal Vector2D[1, 0]
     end
   end
 
@@ -55,7 +55,7 @@ describe Caliper do
       caliper_1 = Caliper.new(node_1, Vector2D[0, 1])
       caliper_2 = Caliper.new(node_2, Vector2D[1, 0])
 
-      caliper_1.intersection(caliper_2).must_equal Point[0, -1]
+      caliper_1.intersection(caliper_2).must_equal Vector2D[0, -1]
     end
   end
 

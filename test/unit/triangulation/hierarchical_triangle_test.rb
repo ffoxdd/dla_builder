@@ -1,12 +1,12 @@
-require_relative "../../test_helper.rb"
+require_relative "../../test_helper"
 require_relative "../../../app/triangulation/hierarchical_triangle"
 require_relative "../../../app/dcel/mesh"
-require_relative "../../../app/point"
+require_relative "../../../app/vector2d"
 require "set"
 
 describe Triangulation::HierarchicalTriangle do
 
-  let(:points) { [Point[0, 0], Point[10, 0], Point[0, 10]] }
+  let(:points) { [Vector2D[0, 0], Vector2D[10, 0], Vector2D[0, 10]] }
   let(:mesh) { DCEL::Mesh.cycle_graph(points) }
   let(:face) { mesh.faces.first }
   let(:triangle) { Triangulation::HierarchicalTriangle.new(mesh: mesh, graph_face: face) }
@@ -18,7 +18,7 @@ describe Triangulation::HierarchicalTriangle do
   end
 
   describe "#add_point" do
-    let(:new_point) { Point[1, 1] }
+    let(:new_point) { Vector2D[1, 1] }
 
     it "adds a point" do
       triangle.add_point(new_point)

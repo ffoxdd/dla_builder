@@ -1,6 +1,6 @@
-require_relative "../test_helper.rb"
-require_relative "../../app/polygon.rb"
-require_relative "../../app/point.rb"
+require_relative "../test_helper"
+require_relative "../../app/polygon"
+require_relative "../../app/vector2d"
 require 'set'
 
 describe Polygon do
@@ -13,8 +13,8 @@ describe Polygon do
     end
 
     it "allows specifying initial points" do
-      polygon = Polygon.new(Point[0, 0], Point[0, 1], Point[1, 0])
-      polygon.points.must_cyclically_equal [Point[0, 0], Point[0, 1], Point[1, 0]]
+      polygon = Polygon.new(Vector2D[0, 0], Vector2D[0, 1], Vector2D[1, 0])
+      polygon.points.must_cyclically_equal [Vector2D[0, 0], Vector2D[0, 1], Vector2D[1, 0]]
     end
   end
 
@@ -22,25 +22,25 @@ describe Polygon do
     it "returns true if the polygon has 0 or 1 point (i.e. no edges)" do
       polygon.degenerate?.must_equal true
 
-      polygon.add_point(Point[0, 0])
+      polygon.add_point(Vector2D[0, 0])
       polygon.degenerate?.must_equal true
 
-      polygon.add_point(Point[1, 0])
+      polygon.add_point(Vector2D[1, 0])
       polygon.degenerate?.must_equal false
     end
   end
 
   describe "#add_point" do
     it "adds points to the polygon" do
-      p0 = Point[0, 0]
+      p0 = Vector2D[0, 0]
       polygon.add_point(p0)
       polygon.points.must_cyclically_equal [p0]
 
-      p1 = Point[1, 0]
+      p1 = Vector2D[1, 0]
       polygon.add_point(p1)
       polygon.points.must_cyclically_equal [p0, p1]
 
-      p2 = Point[2, 0]
+      p2 = Vector2D[2, 0]
       polygon.add_point(p2)
       polygon.points.must_cyclically_equal [p0, p1, p2]
     end
@@ -50,13 +50,13 @@ describe Polygon do
     it "inserts the point between the specified nodes" do
       polygon = test_square
 
-      n0 = polygon.find_next { |node| node.point == Point[0, 1] }
-      n1 = polygon.find_next { |node| node.point == Point[1, 0] }
+      n0 = polygon.find_next { |node| node.point == Vector2D[0, 1] }
+      n1 = polygon.find_next { |node| node.point == Vector2D[1, 0] }
 
-      polygon.insert_point(Point[2, 2], n0, n1)
+      polygon.insert_point(Vector2D[2, 2], n0, n1)
 
       polygon.points.must_cyclically_equal(
-        [Point[0, 0], Point[0, 1], Point[2, 2], Point[1, 0]]
+        [Vector2D[0, 0], Vector2D[0, 1], Vector2D[2, 2], Vector2D[1, 0]]
       )
     end
   end
@@ -65,25 +65,25 @@ describe Polygon do
     it "finds nodes in the polygon by their point" do
       polygon = test_square
 
-      node = polygon.find_next { |node| node.point == Point[0, 1] }
-      node.point.must_equal Point[0, 1]
+      node = polygon.find_next { |node| node.point == Vector2D[0, 1] }
+      node.point.must_equal Vector2D[0, 1]
 
-      node = polygon.find_previous { |node| node.point == Point[1, 1] }
-      node.point.must_equal Point[1, 1]
+      node = polygon.find_previous { |node| node.point == Vector2D[1, 1] }
+      node.point.must_equal Vector2D[1, 1]
     end
   end
 
   describe "#min_nodes, #max_nodes" do
     it "calculates the bounding nodes" do
-      polygon = Polygon.new(Point[0, 0])
+      polygon = Polygon.new(Vector2D[0, 0])
 
-      polygon.min_nodes.map(&:point).must_equal [Point[0, 0], Point[0, 0]]
-      polygon.max_nodes.map(&:point).must_equal [Point[0, 0], Point[0, 0]]
+      polygon.min_nodes.map(&:point).must_equal [Vector2D[0, 0], Vector2D[0, 0]]
+      polygon.max_nodes.map(&:point).must_equal [Vector2D[0, 0], Vector2D[0, 0]]
     end
   end
 end
 
 def test_square
-  points = [[0, 0], [0, 1], [1, 1], [1, 0]].map { |x, y| Point[x, y] }
+  points = [[0, 0], [0, 1], [1, 1], [1, 0]].map { |x, y| Vector2D[x, y] }
   Polygon.new(*points)
 end

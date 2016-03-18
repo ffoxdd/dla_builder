@@ -1,6 +1,6 @@
-require_relative "../test_helper.rb"
-require_relative "../../app/bounding_box.rb"
-require_relative "../../app/point.rb"
+require_relative "../test_helper"
+require_relative "../../app/bounding_box"
+require_relative "../../app/vector2d"
 
 describe BoundingBox do
 
@@ -29,27 +29,27 @@ describe BoundingBox do
     let(:box) { BoundingBox.new(2..4, 2...4) }
 
     it "returns true if the point is within the x and y range" do
-      point = Point[3, 3]
+      point = Vector2D[3, 3]
       box.covers?(point).must_equal true
     end
 
     it "returns false if the x coordinate is out of range" do
-      point = Point[5, 3]
+      point = Vector2D[5, 3]
       box.covers?(point).must_equal false
     end
 
     it "returns false if the y coordinate is out of range" do
-      point = Point[3, 5]
+      point = Vector2D[3, 5]
       box.covers?(point).must_equal false
     end
 
     it "returns true if it borders on a closed interval" do
-      point = Point[4, 3]
+      point = Vector2D[4, 3]
       box.covers?(point).must_equal true
     end
 
     it "returns false if it borders on an open interval" do
-      point = Point[3, 4]
+      point = Vector2D[3, 4]
       box.covers?(point).must_equal false
     end
   end
@@ -66,7 +66,7 @@ describe BoundingBox do
 
   describe ".from_vertices" do
     it "builds a bounding box from the locations of its four corners" do
-      points = [Point[1, 1], Point[0, 0], Point[-1, 1], Point[0, 2]]
+      points = [Vector2D[1, 1], Vector2D[0, 0], Vector2D[-1, 1], Vector2D[0, 2]]
       bounding_box = BoundingBox.from_vertices(points)
 
       vertices = bounding_box.vertices
@@ -79,7 +79,7 @@ describe BoundingBox do
     end
 
     it "works with vertices indicated in the opposite direction" do
-      points = [Point[0, 2], Point[-1, 1], Point[0, 0], Point[1, 1]]
+      points = [Vector2D[0, 2], Vector2D[-1, 1], Vector2D[0, 0], Vector2D[1, 1]]
       bounding_box = BoundingBox.from_vertices(points)
 
       vertices = bounding_box.vertices
@@ -87,7 +87,7 @@ describe BoundingBox do
     end
 
     it "works in the case, lol" do
-      points = [Point[-1.0, 1.0], Point[1.0, 1.0], Point[1.0, 0.0], Point[-1.0, -0.0]]
+      points = [Vector2D[-1.0, 1.0], Vector2D[1.0, 1.0], Vector2D[1.0, 0.0], Vector2D[-1.0, -0.0]]
       bounding_box = BoundingBox.from_vertices(points)
 
       vertices = bounding_box.vertices
@@ -101,7 +101,7 @@ describe BoundingBox do
   #     box = BoundingBox.new(0..1, 0..1, rotation: pi/4)
   #
   #     box.vertices.must_cyclically_equal [
-  #       Point[0, 0], Point[-rt2/2, -rt2/2], Point[0, rt2], Point[rt2/2, rt2/2]
+  #       Vector2D[0, 0], Vector2D[-rt2/2, -rt2/2], Vector2D[0, rt2], Vector2D[rt2/2, rt2/2]
   #     ]
   #   end
   # end

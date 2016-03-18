@@ -1,6 +1,6 @@
-require_relative "../../test_helper.rb"
+require_relative "../../test_helper"
 require_relative "../../../app/triangulation/local_delaunay_checker"
-require_relative "../../../app/point"
+require_relative "../../../app/vector2d"
 require_relative "../../../app/dcel/manipulation/cycle_graph_builder"
 require_relative "../../../app/dcel/manipulation/face_builder"
 
@@ -9,10 +9,10 @@ describe Triangulation::LocalDelaunayChecker do
   describe ".flip" do
     def split_diamond(opposite_vertex_offset: 0)
       quadrilateral_points = [
-        Point[0, -1],
-        Point[1 + opposite_vertex_offset, 0],
-        Point[0, 1],
-        Point[-1, 0]
+        Vector2D[0, -1],
+        Vector2D[1 + opposite_vertex_offset, 0],
+        Vector2D[0, 1],
+        Vector2D[-1, 0]
       ]
 
       scaffold_face = DCEL::Manipulation::CycleGraphBuilder.cycle_graph(quadrilateral_points)

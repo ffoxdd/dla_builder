@@ -1,13 +1,8 @@
-require_relative "../test_helper.rb"
-require_relative "../../app/particle.rb"
-require_relative "./shared_examples_for_vectors.rb"
-require_relative "./shared_examples_for_points.rb"
+require_relative "../test_helper"
+require_relative "../../app/particle"
+require_relative "./shared_examples_for_vectors"
 
 describe Particle do
-
-  it_behaves_like "A Point" do
-    let(:factory) { ->(x, y) { Particle.new(x: x, y: y, radius: 1) } }
-  end
 
   describe "initialization" do
     it "provides sensible defaults" do
@@ -26,7 +21,7 @@ describe Particle do
     end
 
     it "respects an initial center value" do
-      particle = Particle.new(center: Point[3, 4])
+      particle = Particle.new(center: Vector2D[3, 4])
 
       particle.x.must_equal 3
       particle.y.must_equal 4
@@ -101,7 +96,7 @@ describe Particle do
 
   describe "#rotate" do
     it "rotates the particle the specified radians" do
-      particle = Particle.new(center: Point[1, 0])
+      particle = Particle.new(center: Vector2D[1, 0])
       rotated_particle = particle.rotate(Math::PI / 2)
 
       rotated_particle.x.must_be_close_to 0, 1e-6
@@ -111,7 +106,7 @@ describe Particle do
 
   describe "#extent" do
     it "returns a particle with the absolute value of both dimensions" do
-      Particle.new(x: -3, y: -2, radius: 0.5).extent.must_equal Point[3.5, 2.5]
+      Particle.new(x: -3, y: -2, radius: 0.5).extent.must_equal Vector2D[3.5, 2.5]
     end
   end
 

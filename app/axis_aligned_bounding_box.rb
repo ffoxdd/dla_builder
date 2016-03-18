@@ -49,10 +49,10 @@ class AxisAlignedBoundingBox
 
   def vertices
     [
-      Point[x_range.begin, y_range.begin],
-      Point[x_range.begin, y_range.end],
-      Point[x_range.end, y_range.end],
-      Point[x_range.end, y_range.begin]
+      Vector2D[x_range.begin, y_range.begin],
+      Vector2D[x_range.begin, y_range.end],
+      Vector2D[x_range.end, y_range.end],
+      Vector2D[x_range.end, y_range.begin]
     ]
   end
 
@@ -84,11 +84,11 @@ class AxisAlignedBoundingBox
   end
 
   def origin
-    Point[x_range.begin, y_range.begin]
+    Vector2D[x_range.begin, y_range.begin]
   end
 
   def sample_point
-    Point[rand(x_range), rand(y_range)]
+    Vector2D[rand(x_range), rand(y_range)]
   end
 
   private

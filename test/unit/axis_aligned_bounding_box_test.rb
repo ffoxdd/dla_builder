@@ -1,6 +1,6 @@
-require_relative "../test_helper.rb"
-require_relative "../../app/axis_aligned_bounding_box.rb"
-require_relative "../../app/point.rb"
+require_relative "../test_helper"
+require_relative "../../app/axis_aligned_bounding_box"
+require_relative "../../app/vector2d"
 
 describe AxisAlignedBoundingBox do
 
@@ -54,27 +54,27 @@ describe AxisAlignedBoundingBox do
     let(:box) { AxisAlignedBoundingBox.new(2..4, 2...4) }
 
     it "returns true if the point is within the x and y range" do
-      point = Point[3, 3]
+      point = Vector2D[3, 3]
       box.covers?(point).must_equal true
     end
 
     it "returns false if the x coordinate is out of range" do
-      point = Point[5, 3]
+      point = Vector2D[5, 3]
       box.covers?(point).must_equal false
     end
 
     it "returns false if the y coordinate is out of range" do
-      point = Point[3, 5]
+      point = Vector2D[3, 5]
       box.covers?(point).must_equal false
     end
 
     it "returns true if it borders on a closed interval" do
-      point = Point[4, 3]
+      point = Vector2D[4, 3]
       box.covers?(point).must_equal true
     end
 
     it "returns false if it borders on an open interval" do
-      point = Point[3, 4]
+      point = Vector2D[3, 4]
       box.covers?(point).must_equal false
     end
   end
@@ -162,13 +162,13 @@ describe AxisAlignedBoundingBox do
       bounding_box = AxisAlignedBoundingBox.new(-3..-1, 4..5)
 
       bounding_box.vertices.must_cyclically_equal([
-        Point[-3, 4], Point[-3, 5], Point[-1, 5], Point[-1, 4]
+        Vector2D[-3, 4], Vector2D[-3, 5], Vector2D[-1, 5], Vector2D[-1, 4]
       ])
     end
 
     it "works with a degenerate bounding box" do
       bounding_box = AxisAlignedBoundingBox.new(1..1, 1..1)
-      bounding_box.vertices.must_equal([Point[1, 1], Point[1, 1], Point[1, 1], Point[1, 1]])
+      bounding_box.vertices.must_equal([Vector2D[1, 1], Vector2D[1, 1], Vector2D[1, 1], Vector2D[1, 1]])
     end
   end
 

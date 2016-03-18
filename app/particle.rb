@@ -1,4 +1,4 @@
-require_relative "point"
+require_relative "vector2d"
 require 'forwardable'
 
 class Particle
@@ -11,7 +11,7 @@ class Particle
       [options.fetch(:x, 0), options.fetch(:y, 0)]
     end.to_a
 
-    @center = Point.new(coordinates)
+    @center = Vector2D.new(coordinates)
     @radius = options.fetch(:radius, 1)
     @children = []
   end
@@ -19,7 +19,7 @@ class Particle
   def_delegators :center, :x, :y, :magnitude, :to_v
 
   def extent
-    Point.new(center.extent + Point[radius, radius])
+    Vector2D.new(center.extent + Vector2D[radius, radius])
   end
 
   def distance(particle)
@@ -40,7 +40,7 @@ class Particle
   end
 
   def step(distance)
-    Particle.new(center: center + Point.random(distance), radius: radius)
+    Particle.new(center: center + Vector2D.random(distance), radius: radius)
   end
 
   def rotate(theta)
@@ -60,7 +60,7 @@ class Particle
   end
 
   def *(transformation)
-    Particle.new(center: center * transformation, radius: radius)
+    Particle.new(center: center.transform(transformation), radius: radius)
   end
 
   protected

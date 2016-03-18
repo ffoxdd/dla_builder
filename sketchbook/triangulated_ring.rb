@@ -1,5 +1,5 @@
 require_relative '../app/triangulation/delaunay_triangulation.rb'
-require_relative '../app/point'
+require_relative '../app/vector2d'
 require_relative '../app/dcel/mesh_svg_file'
 
 require_relative '../app/point_distributions/point_cloud'
@@ -154,7 +154,7 @@ class FunctionVisualizationSVGFile
     attr_reader :function, :bounding_box, :resolution
 
     def sample_points
-      @sample_points ||= coordinates.map { |x, y| Point[x, y] }.to_a
+      @sample_points ||= coordinates.map { |x, y| Vector2D[x, y] }.to_a
     end
 
     def coordinates

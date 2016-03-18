@@ -2,7 +2,7 @@ require_relative "triangulation"
 require_relative "hierarchical_triangle"
 require_relative "../dcel/mesh"
 require_relative "../dcel/manipulation/cycle_graph_builder"
-require_relative "../point"
+require_relative "../vector2d"
 require "forwardable"
 
 class Triangulation::HierarchicalTriangulation
@@ -51,8 +51,8 @@ class Triangulation::HierarchicalTriangulation
 
     def boundary_points
       [
-        Point[radius, radius], Point[-radius, radius],
-        Point[-radius, -radius], Point[radius, -radius]
+        Vector2D[radius, radius], Vector2D[-radius, radius],
+        Vector2D[-radius, -radius], Vector2D[radius, -radius]
       ]
     end
 
