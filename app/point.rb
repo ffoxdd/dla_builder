@@ -59,7 +59,7 @@ class Point
   end
 
   def max(rhs)
-    Vector2D.new(zip(rhs).map(&:max))
+    Point.new(to_a.zip(rhs.to_a).map(&:max))
   end
 
   def rotate(theta)

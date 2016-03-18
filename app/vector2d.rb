@@ -58,7 +58,7 @@ class Vector2D
   end
 
   def max(rhs)
-    Point[[x, point.x].max, [y, point.y].max]
+    Vector2D.new(vector.zip(rhs.to_a).map(&:max))
   end
 
   def transform(transformation)
