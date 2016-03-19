@@ -57,9 +57,6 @@ class DCEL::Mesh
     end
   end
 
-  # private # TODO: check if this can be made private again
-  attr_reader :faces, :edges, :vertices
-
   private
   attr_writer :faces, :edges, :vertices
 
