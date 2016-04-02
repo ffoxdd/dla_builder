@@ -29,14 +29,26 @@ class Quadtree
     bounding_box.covers?(point)
   end
 
-  def within(test_bounding_box)
-    return [] unless intersects?(test_bounding_box)
+  def closest_point(point)
+    return points.min_by { |p| p.distance(point) } if leaf?
 
-    if leaf?
-      @points.select { |point| test_bounding_box.covers?(point) }
-    else
-      children.flat_map { |child| child.within(test_bounding_box) }
+    current_closest_point = nil
+    current_min_distance = Float::INFINITY
+
+    children.each do |child|
+      next if current_min_distance < child.bounding_box_distance(point)
+      child_closest_point = child.closest_point(point)
+      next unless child_closest_point
+
+      child_distance = child_closest_point.distance(point)
+
+      if child_distance < current_min_distance
+        current_closest_point = child_closest_point
+        current_min_distance = child_distance
+      end
     end
+
+    current_closest_point
   end
 
   def depth
@@ -45,6 +57,10 @@ class Quadtree
   end
 
   protected
+
+  def bounding_box_distance(point)
+    bounding_box.distance(point)
+  end
 
   def child_for(point)
     return self if leaf?

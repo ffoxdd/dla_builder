@@ -27,6 +27,10 @@ class AxisAlignedBoundingBox
     x_range.include?(point.x) && y_range.include?(point.y)
   end
 
+  def distance(point)
+    closest_endpoint(point).distance(point)
+  end
+
   def fits_within?(box)
     range_fits_within?(x_range, box.x_range) && range_fits_within?(y_range, box.y_range)
   end
@@ -92,6 +96,13 @@ class AxisAlignedBoundingBox
   end
 
   private
+
+  def closest_endpoint(point)
+    Vector2D[
+      point.x >= center.x ? x_range.end : x_range.begin,
+      point.y >= center.y ? x_range.end : y_range.begin
+    ]
+  end
 
   def segment(range, i)
     RangeSegmenter.new(range, 2).segments[i]

@@ -1,5 +1,4 @@
 require_relative "quadtree"
-require_relative "quadtree_closest_particle_finder"
 require_relative "axis_aligned_bounding_box"
 require 'forwardable'
 
@@ -18,7 +17,7 @@ class ParticleCollection
   end
 
   def closest_particle(test_particle)
-    closest_particle_finder(test_particle).closest_particle
+    quadtree.closest_point(test_particle)
   end
 
   def <<(particle)
@@ -27,11 +26,6 @@ class ParticleCollection
   end
 
   private
-
-    attr_reader :quadtree, :particles, :particle_radius
-
-    def closest_particle_finder(test_particle)
-      QuadtreeClosestParticleFinder.new(quadtree, test_particle, particle_radius)
-    end
+  attr_reader :quadtree, :particles, :particle_radius
 
 end
