@@ -5,11 +5,11 @@ class PointCloud
   extend Forwardable
 
   def initialize(
-    boundary:,
+    bounding_box:,
     minimum_separation_function: ->(point){ MINIMUM_SEPARATION } )
 
-    @boundary = boundary
-    @points = []
+    @bounding_box = bounding_box
+    @points = Quadtree.new(bounding_box)
     @failure_count = 0
     @minimum_separation_function = minimum_separation_function
 
@@ -18,26 +18,27 @@ class PointCloud
 
   attr_reader :points
 
-  delegate [:size, :origin] => :boundary
+  delegate [:size, :origin] => :bounding_box
   delegate [:each] => :points
 
   private
-  attr_reader :boundary, :minimum_separation_function
+  attr_reader :bounding_box, :minimum_separation_function
   attr_accessor :failure_count
 
   MAX_POINTS = 50000
   MINIMUM_SEPARATION = 30
-  MAX_FAILURES = 1000
+  # MAX_FAILURES = 1000
+  MAX_FAILURES = 200
 
   def generate_points
     catch (:saturated) do
-      MAX_POINTS.times { points.push(new_point) }
+      MAX_POINTS.times { points << new_point }
     end
   end
 
   def new_point
     loop do
-      point = boundary.sample_point
+      point = bounding_box.sample_point
 
       if properly_separated?(point)
         reset_failure_count
@@ -58,12 +59,8 @@ class PointCloud
   end
 
   def properly_separated?(point)
-    return true if points.empty?
-    distance_to_closest_existing_point(point) > minimum_separation_function.call(point)
-  end
-
-  def distance_to_closest_existing_point(point) # TODO: consider using a quadtree
-    points.map { |p| p.distance(point) }.min
+    return true unless closest_point = points.closest_point(point)
+    closest_point.distance(point) > minimum_separation_function.call(point)
   end
 
 end

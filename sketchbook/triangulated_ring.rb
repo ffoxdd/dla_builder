@@ -1,6 +1,7 @@
 require_relative '../app/triangulation/delaunay_triangulation.rb'
 require_relative '../app/vector2d'
 require_relative '../app/dcel/mesh_svg_file'
+require_relative '../app/quadtree'
 
 require_relative '../app/point_distributions/point_cloud'
 require_relative '../app/point_distributions/point_cloud_svg_file'
@@ -49,7 +50,7 @@ class RingDistribution
       endpoints[0][:separation],
       endpoints[1][:separation],
       progress_fraction
-    )#.tap { |r| require 'pry'; binding.pry if radius < 5 }
+    )
   end
 
   def interpolate(a, b, progress_fraction)
@@ -74,118 +75,119 @@ class RingDistribution
   end
 end
 
-class FunctionVisualizationSVGFile
-  extend Forwardable
-
-  def initialize(function:, bounding_box:, resolution: 75, filename: "function_visualization.svg")
-    @function = function
-    @bounding_box = bounding_box
-    @resolution = resolution
-    @filename = filename
-  end
-
-  def save
-    svg_file.save { |image| draw(image) }
-  end
-
-  private
-  attr_reader :function, :bounding_box, :resolution, :filename
-
-  def svg_file
-    @svg_file ||= SVG::File.new(filename: filename, dimensions: bounding_box.size)
-  end
-
-  def t(point)
-    point - bounding_box.origin
-  end
-
-  def draw(image)
-    each_sample { |point, value| draw_value(point, value, image) }
-  end
-
-  def draw_value(point, value, image, radius: 3)
-    image.circle(*t(point).to_a, radius, stroke: "none", fill: value_color(value))
-  end
-
-  def value_color(value)
-    rgb_string(rgb_value(value))
-  end
-
-  def rgb_string(rgb_value)
-    "rgb(#{rgb_value},#{rgb_value},#{rgb_value})"
-  end
-
-  def rgb_value(value)
-    map_range(value, minmax, [0, 255]).round
-  end
-
-  def map_range(value, old_range, new_range)
-    old_size = old_range[1] - old_range[0]
-    new_size = new_range[1] - new_range[0]
-    index = (value - old_range[0]) / old_size.to_f
-
-    new_range[0] + (index * new_size)
-  end
-
-  def sampling
-    @sampling ||= AreaFunctionSampling.new(
-      function: function, bounding_box: bounding_box, resolution: resolution
-    )
-  end
-
-  delegate [:each_sample, :minmax] => :sampling
-
-  class AreaFunctionSampling
-    def initialize(function:, bounding_box:, resolution:)
-      @function = function
-      @bounding_box = bounding_box
-      @resolution = resolution
-    end
-
-    def each_sample
-      sample_points.each { |point| yield(point, function.call(point)) }
-    end
-
-    def minmax
-      @minmax ||= sample_points.map { |point| function.call(point) }.minmax
-    end
-
-    private
-    attr_reader :function, :bounding_box, :resolution
-
-    def sample_points
-      @sample_points ||= coordinates.map { |x, y| Vector2D[x, y] }.to_a
-    end
-
-    def coordinates
-      x_coordinates.to_a.product(y_coordinates.to_a)
-    end
-
-    def x_coordinates
-      step_over_range(bounding_box.x_range)
-    end
-
-    def y_coordinates
-      step_over_range(bounding_box.y_range)
-    end
-
-    def step_over_range(range)
-      range.step(step_size(range))
-    end
-
-    def step_size(range)
-      (range.end - range.begin) / resolution.to_f
-    end
-  end
-end
+# class FunctionVisualizationSVGFile
+#   extend Forwardable
+#
+#   def initialize(function:, bounding_box:, resolution: 75, filename: "function_visualization.svg")
+#     @function = function
+#     @bounding_box = bounding_box
+#     @resolution = resolution
+#     @filename = filename
+#   end
+#
+#   def save
+#     svg_file.save { |image| draw(image) }
+#   end
+#
+#   private
+#   attr_reader :function, :bounding_box, :resolution, :filename
+#
+#   def svg_file
+#     @svg_file ||= SVG::File.new(filename: filename, dimensions: bounding_box.size)
+#   end
+#
+#   def t(point)
+#     point - bounding_box.origin
+#   end
+#
+#   def draw(image)
+#     each_sample { |point, value| draw_value(point, value, image) }
+#   end
+#
+#   def draw_value(point, value, image, radius: 3)
+#     image.circle(*t(point).to_a, radius, stroke: "none", fill: value_color(value))
+#   end
+#
+#   def value_color(value)
+#     rgb_string(rgb_value(value))
+#   end
+#
+#   def rgb_string(rgb_value)
+#     "rgb(#{rgb_value},#{rgb_value},#{rgb_value})"
+#   end
+#
+#   def rgb_value(value)
+#     map_range(value, minmax, [0, 255]).round
+#   end
+#
+#   def map_range(value, old_range, new_range)
+#     old_size = old_range[1] - old_range[0]
+#     new_size = new_range[1] - new_range[0]
+#     index = (value - old_range[0]) / old_size.to_f
+#
+#     new_range[0] + (index * new_size)
+#   end
+#
+#   def sampling
+#     @sampling ||= AreaFunctionSampling.new(
+#       function: function, bounding_box: bounding_box, resolution: resolution
+#     )
+#   end
+#
+#   delegate [:each_sample, :minmax] => :sampling
+#
+#   class AreaFunctionSampling
+#     def initialize(function:, bounding_box:, resolution:)
+#       @function = function
+#       @bounding_box = bounding_box
+#       @resolution = resolution
+#     end
+#
+#     def each_sample
+#       sample_points.each { |point| yield(point, function.call(point)) }
+#     end
+#
+#     def minmax
+#       @minmax ||= sample_points.map { |point| function.call(point) }.minmax
+#     end
+#
+#     private
+#     attr_reader :function, :bounding_box, :resolution
+#
+#     def sample_points
+#       @sample_points ||= coordinates.map { |x, y| Vector2D[x, y] }.to_a
+#     end
+#
+#     def coordinates
+#       x_coordinates.to_a.product(y_coordinates.to_a)
+#     end
+#
+#     def x_coordinates
+#       step_over_range(bounding_box.x_range)
+#     end
+#
+#     def y_coordinates
+#       step_over_range(bounding_box.y_range)
+#     end
+#
+#     def step_over_range(range)
+#       range.step(step_size(range))
+#     end
+#
+#     def step_size(range)
+#       (range.end - range.begin) / resolution.to_f
+#     end
+#   end
+# end
 
 ring_distribution = RingDistribution.new(
   bounding_box: AxisAlignedBoundingBox.new(-250..250, -250..250),
   radius_separation_configuration: [
-    {radius: 0, separation: 15},
-    {radius: 100, separation: 15},
-    {radius: 150, separation: 5},
-    {radius: 200, separation: 15}
+    {radius: 0, separation: 20},
+    {radius: 75, separation: 10},
+    {radius: 100, separation: 5},
+    {radius: 125, separation: 20},
+    {radius: 200, separation: 50}
   ]
 )
 
@@ -194,12 +196,19 @@ ring_distribution = RingDistribution.new(
 #   bounding_box: ring_distribution.bounding_box
 # ).save
 
+print "creating point cloud... "
 point_cloud = PointCloud.new(
-  boundary: AxisAlignedBoundingBox.new(-200..200, -200..200),
+  bounding_box: AxisAlignedBoundingBox.new(-200..200, -200..200),
   minimum_separation_function: ring_distribution.method(:separation_function)
 )
+puts "done."
 
-PointCloudSVGFile.new(point_cloud).save
+# print "saving point cloud svg... "
+# PointCloudSVGFile.new(point_cloud).save
+# puts "done."
 
 triangulation = Triangulation::DelaunayTriangulation.new(point_cloud)
-DCEL::MeshSVGFile.new(triangulation).save
+
+print "triangulating and saving... "
+DCEL::MeshSVGFile.new(triangulation, filename: "data/triangulated-ring.svg").save
+puts "done."
