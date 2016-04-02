@@ -15,10 +15,9 @@ class Quadtree
 
   def <<(point)
     return unless covers?(point)
-    subdivide if leaf? && can_subdivide?
-
-    points << point if leaf?
-    children.each { |child| child << point }
+    subdivide
+    (points << point and return) if leaf?
+    child_for(point) << point
   end
 
   def each(&block)
@@ -45,31 +44,46 @@ class Quadtree
     children.map(&:depth).max + 1
   end
 
+  protected
+
+  def child_for(point)
+    return self if leaf?
+    immediate_child_for(point).child_for(point)
+  end
+
+  def immediate_child_for(point) # TODO: move this to AABB#quadtrant_index(point)
+    x_index_component = point.x >= bounding_box.center.x ? 1 : 0
+    y_index_component = point.y >= bounding_box.center.y ? 2 : 0
+    children[x_index_component + y_index_component]
+  end
+
   private
+  attr_reader :bounding_box, :points, :max_depth, :children
 
-    attr_reader :bounding_box, :points, :max_depth, :children
+  def leaf?
+    children.empty?
+  end
 
-    def leaf?
-      children.empty?
-    end
+  def intersects?(test_bounding_box)
+    bounding_box.intersects?(test_bounding_box)
+  end
 
-    def intersects?(test_bounding_box)
-      bounding_box.intersects?(test_bounding_box)
-    end
+  def can_subdivide?
+    return false unless leaf?
+    depth < max_depth
+  end
 
-    def can_subdivide?
-      depth < max_depth
-    end
+  def subdivide
+    return unless can_subdivide?
 
-    def subdivide
-      children[0] = new_child(0, 0)
-      children[1] = new_child(1, 0)
-      children[2] = new_child(0, 1)
-      children[3] = new_child(1, 1)
-    end
+    children[0] = new_child(0, 0)
+    children[1] = new_child(1, 0)
+    children[2] = new_child(0, 1)
+    children[3] = new_child(1, 1)
+  end
 
-    def new_child(i, j)
-      Quadtree.new(bounding_box.quadtrant(i, j), max_depth: max_depth - 1)
-    end
+  def new_child(i, j)
+    Quadtree.new(bounding_box.quadtrant(i, j), max_depth: max_depth - 1)
+  end
 
 end

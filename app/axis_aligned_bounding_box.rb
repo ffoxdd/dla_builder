@@ -36,11 +36,11 @@ class AxisAlignedBoundingBox
   end
 
   def perimeter
-    (width + height) * 2
+    @perimeter ||= (width + height) * 2
   end
 
   def offset
-    Vector2D[x_range.begin, y_range.begin]
+    @offset ||= Vector2D[x_range.begin, y_range.begin]
   end
 
   def at_origin
@@ -68,15 +68,15 @@ class AxisAlignedBoundingBox
   end
 
   def center
-    offset + Vector2D[width / 2.0, height / 2.0]
+    @center ||= offset + Vector2D[width / 2.0, height / 2.0]
   end
 
   def width
-    measure(x_range)
+    @width ||= measure(x_range)
   end
 
   def height
-    measure(y_range)
+    @height ||= measure(y_range)
   end
 
   def size
@@ -84,7 +84,7 @@ class AxisAlignedBoundingBox
   end
 
   def origin
-    Vector2D[x_range.begin, y_range.begin]
+    @origin ||= Vector2D[x_range.begin, y_range.begin]
   end
 
   def sample_point
