@@ -35,7 +35,7 @@ class Quadtree
     current_closest_point = nil
     current_min_distance = Float::INFINITY
 
-    children.each do |child|
+    children_by_distance(point).each do |child|
       next if current_min_distance < child.bounding_box_distance(point)
       child_closest_point = child.closest_point(point)
       next unless child_closest_point
@@ -64,17 +64,27 @@ class Quadtree
 
   def child_for(point)
     return self if leaf?
-    immediate_child_for(point).child_for(point)
-  end
 
-  def immediate_child_for(point) # TODO: move this to AABB#quadtrant_index(point)
     x_index_component = point.x >= bounding_box.center.x ? 1 : 0
     y_index_component = point.y >= bounding_box.center.y ? 2 : 0
+
     children[x_index_component + y_index_component]
   end
 
   private
   attr_reader :bounding_box, :points, :max_depth, :children
+
+  def children_by_distance(point) # TODO: make this index choosing trick clearer
+    x_greater = point.x >= bounding_box.center.x ? 1 : 0
+    y_greater = point.y >= bounding_box.center.y ? 1 : 0
+
+    [
+      children[ y_greater * 2       + x_greater      ],
+      children[ y_greater * 2       + (1 - x_greater)],
+      children[ (1 - y_greater) * 2 + x_greater      ],
+      children[ (1 - y_greater) * 2 + (1 - x_greater)]
+    ]
+  end
 
   def leaf?
     children.empty?
