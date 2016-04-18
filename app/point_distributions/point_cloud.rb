@@ -1,4 +1,5 @@
 require "forwardable"
+require_relative "../quadtree"
 
 class PointCloud
 
@@ -25,10 +26,10 @@ class PointCloud
   attr_reader :bounding_box, :minimum_separation_function
   attr_accessor :failure_count
 
-  MAX_POINTS = 50000
+  MAX_POINTS = 50_000
   MINIMUM_SEPARATION = 30
-  # MAX_FAILURES = 1000
-  MAX_FAILURES = 200
+  # MAX_FAILURES = 10_000
+  MAX_FAILURES = 1_000
 
   def generate_points
     catch (:saturated) do
@@ -50,6 +51,7 @@ class PointCloud
   end
 
   def reset_failure_count
+    puts failure_count
     self.failure_count = 0
   end
 
