@@ -7,62 +7,62 @@ class PointCloud
 
   def initialize(
     bounding_box:,
-    minimum_separation_function: ->(point){ MINIMUM_SEPARATION } )
+    seeds: [],
+    minimum_separation_function: ->(point){ DEFAULT_MINIMUM_SEPARATION } )
 
     @bounding_box = bounding_box
-    @points = Quadtree.new(bounding_box)
-    @failure_count = 0
+    @seeds = seeds
     @minimum_separation_function = minimum_separation_function
-
-    generate_points # for whatever reason things are just simpler if this goes here
   end
 
-  attr_reader :points
+  def points
+    @points ||= points_enumerator.take(MAX_POINTS)
+  end
 
   delegate [:size, :origin] => :bounding_box
   delegate [:each] => :points
 
   private
-  attr_reader :bounding_box, :minimum_separation_function
+  attr_reader :bounding_box, :seeds, :minimum_separation_function
   attr_accessor :failure_count
 
   MAX_POINTS = 50_000
-  MINIMUM_SEPARATION = 30
-  # MAX_FAILURES = 10_000
   MAX_FAILURES = 1_000
+  DEFAULT_MINIMUM_SEPARATION = 30
 
-  def generate_points
-    catch (:saturated) do
-      MAX_POINTS.times { points << new_point }
-    end
-  end
+  def points_enumerator
+    Enumerator.new do |y|
+      seeds.each { |point| add(y, point) }
+      failure_count = 0
 
-  def new_point
-    loop do
-      point = bounding_box.sample_point
+      loop do
+        break if failure_count > MAX_FAILURES
 
-      if properly_separated?(point)
-        reset_failure_count
-        return point
-      else
-        mark_failure
+        bounding_box.sample_point.tap do |point|
+          next(failure_count += 1) if !properly_separated?(point)
+          print("#{failure_count}, "); failure_count = 0
+          add(y, point)
+        end
       end
     end
   end
 
-  def reset_failure_count
-    puts failure_count
-    self.failure_count = 0
+  def add(y, point)
+    points_collection << point
+    y << point
   end
 
-  def mark_failure
-    self.failure_count += 1
-    throw(:saturated) if failure_count > MAX_FAILURES
+  def points_collection
+    @points_collection ||= Quadtree.new(bounding_box)
   end
 
   def properly_separated?(point)
-    return true unless closest_point = points.closest_point(point)
-    closest_point.distance(point) > minimum_separation_function.call(point)
+    return true unless closest_point = points_collection.closest_point(point)
+    closest_point.distance(point) > minimum_distance(point)
+  end
+
+  def minimum_distance(point)
+    minimum_separation_function.call(point)
   end
 
 end

@@ -61,6 +61,10 @@ class Vector2D
     Vector2D.new(vector.zip(rhs.to_a).map(&:max))
   end
 
+  def abs
+    map(&:abs)
+  end
+
   def transform(transformation)
     rotate(transformation.rotation) + transformation.translation
   end

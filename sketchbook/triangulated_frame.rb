@@ -7,46 +7,78 @@ require_relative '../app/point_distributions/point_cloud'
 require_relative '../app/point_distributions/point_cloud_svg_file'
 require_relative '../app/axis_aligned_bounding_box'
 
-1.times do |n|
+class Frame
+  def initialize(inner_half_width, outer_half_width)
+    @inner_half_width = inner_half_width.abs
+    @outer_half_width = outer_half_width.abs
+  end
 
-  separation_function = ->(point) {
-    x, y = point.x.abs, point.y.abs
-    next Float::INFINITY if x <= 100 && y <= 200
-    extent = [x - 100, y - 200].max
-    progress = extent / 150.0 # [0, 1]
-    15 + (40 * progress)
-  }
+  def inner_progress(point)
+    inner_magnitude(point) / max_magnitude.to_f
+  end
 
-  point_cloud = PointCloud.new(
-    bounding_box: AxisAlignedBoundingBox.new(-250..250, -350..350),
-    minimum_separation_function: separation_function
-  )
+  def points
+    (
+      Rectangle.new(inner_half_width).points +
+      Rectangle.new(outer_half_width).points
+    ).uniq
+  end
 
-  inner_boundary_points = [
-    (-100..100).step(20).map { |x| Vector2D[x, -200] },
-    (-100..100).step(20).map { |x| Vector2D[x, 200] },
-    (-200..200).step(20).map { |y| Vector2D[-100, y] },
-    (-200..200).step(20).map { |y| Vector2D[100, y] }
-  ].flatten.uniq
+  def bounding_box
+    x, y = outer_half_width.abs.to_a
+    AxisAlignedBoundingBox.new(-x..x, -y..y)
+  end
 
-  outer_boundary_points = [
-    (-250..250).step(50).map { |x| Vector2D[x, -350] },
-    (-250..250).step(50).map { |x| Vector2D[x, 350] },
-    (-350..350).step(50).map { |y| Vector2D[-250, y] },
-    (-350..350).step(50).map { |y| Vector2D[250, y] }
-  ].flatten.uniq
+  private
+  attr_reader :inner_half_width, :outer_half_width
 
-  points = point_cloud.points.to_a + inner_boundary_points + outer_boundary_points
+  def max_magnitude
+    @max_magnitude ||= inner_magnitude(outer_half_width)
+  end
 
-  triangulation = Triangulation::DelaunayTriangulation.new(points)
+  def inner_magnitude(point)
+    (point.abs - inner_half_width).to_a.max
+  end
 
-  # PointCloudSVGFile.new(
-  #   point_cloud, filename: "data/frame_points.svg"
-  # )
+  class Rectangle
+    def initialize(half_width)
+      @half_width = half_width
+    end
 
-  DCEL::MeshSVGFile.new(
-    triangulation,
-    filename: "data/triangulated_frame.svg"
-  ).save
+    STEP = 20
 
+    def points
+      x, y = half_width.x, half_width.y
+
+      [
+        (-x..x).step(STEP).map { |x_| Vector2D[x_, -y] },
+        (-x..x).step(STEP).map { |x_| Vector2D[x_, y ] },
+        (-y..y).step(STEP).map { |y_| Vector2D[-x, y_] },
+        (-y..y).step(STEP).map { |y_| Vector2D[x,  y_] }
+      ].flatten
+    end
+
+    private
+    attr_reader :half_width
+  end
 end
+
+frame = Frame.new(Vector2D[100, 200], Vector2D[250, 350])
+
+point_cloud = PointCloud.new(
+  bounding_box: frame.bounding_box,
+  seeds: frame.points,
+  minimum_separation_function: ->(point) {
+    progress = frame.inner_progress(point)
+    next Float::INFINITY if progress <= 0
+    15 + ((0.5 - (0.5 - progress).abs) * 40)
+  }
+)
+
+# PointCloudSVGFile.new(point_cloud).save
+
+triangulation = Triangulation::DelaunayTriangulation.new(point_cloud.points)
+
+puts "triangulating..."
+DCEL::MeshSVGFile.new(triangulation, filename: "data/triangulated_frame.svg").save
+puts "done."
