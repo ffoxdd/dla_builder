@@ -7,10 +7,14 @@ require_relative '../app/point_distributions/point_cloud'
 require_relative '../app/point_distributions/point_cloud_svg_file'
 require_relative '../app/axis_aligned_bounding_box'
 
+require 'pry'
+
 class Frame
-  def initialize(inner_half_width, outer_half_width)
+  def initialize(inner_half_width, outer_half_width, inner_resolution: 10, outer_resolution: 10)
     @inner_half_width = inner_half_width.abs
     @outer_half_width = outer_half_width.abs
+    @inner_resolution = inner_resolution
+    @outer_resolution = outer_resolution
   end
 
   def inner_progress(point)
@@ -18,10 +22,8 @@ class Frame
   end
 
   def points
-    (
-      Rectangle.new(inner_half_width).points +
-      Rectangle.new(outer_half_width).points
-    ).uniq
+    Rectangle.new(inner_half_width, resolution: inner_resolution).points +
+    Rectangle.new(outer_half_width, resolution: outer_resolution).points
   end
 
   def bounding_box
@@ -30,7 +32,7 @@ class Frame
   end
 
   private
-  attr_reader :inner_half_width, :outer_half_width
+  attr_reader :inner_half_width, :outer_half_width, :inner_resolution, :outer_resolution
 
   def max_magnitude
     @max_magnitude ||= inner_magnitude(outer_half_width)
@@ -41,44 +43,53 @@ class Frame
   end
 
   class Rectangle
-    def initialize(half_width)
+    def initialize(half_width, resolution: 10)
       @half_width = half_width
+      @resolution = resolution
     end
-
-    STEP = 20
 
     def points
       x, y = half_width.x, half_width.y
 
       [
-        (-x..x).step(STEP).map { |x_| Vector2D[x_, -y] },
-        (-x..x).step(STEP).map { |x_| Vector2D[x_, y ] },
-        (-y..y).step(STEP).map { |y_| Vector2D[-x, y_] },
-        (-y..y).step(STEP).map { |y_| Vector2D[x,  y_] }
-      ].flatten
+        (-x..x).step(resolution).map { |x_| Vector2D[x_, -y] },
+        (-x..x).step(resolution).map { |x_| Vector2D[x_, y ] },
+        (-y..y).step(resolution).map { |y_| Vector2D[-x, y_] },
+        (-y..y).step(resolution).map { |y_| Vector2D[x,  y_] }
+      ].flatten.uniq
     end
 
     private
-    attr_reader :half_width
+    attr_reader :half_width, :resolution
   end
 end
 
-frame = Frame.new(Vector2D[100, 200], Vector2D[250, 350])
+(0..160).step(10).each do |inner_inflation|
 
-point_cloud = PointCloud.new(
-  bounding_box: frame.bounding_box,
-  seeds: frame.points,
-  minimum_separation_function: ->(point) {
-    progress = frame.inner_progress(point)
-    next Float::INFINITY if progress <= 0
-    15 + ((0.5 - (0.5 - progress).abs) * 40)
-  }
-)
+  frame = Frame.new(
+    Vector2D[240, 440], Vector2D[500, 700],
+    inner_resolution: 20, outer_resolution: 20
+  )
 
-# PointCloudSVGFile.new(point_cloud).save
+  point_cloud = PointCloud.new(
+    bounding_box: frame.bounding_box,
+    seeds: frame.points,
+    minimum_separation_function: ->(point) {
+      progress = frame.inner_progress(point)
+      next Float::INFINITY if progress <= 0
+      20 + ((0.5 - (0.5 - progress).abs) * inner_inflation)
+    }
+  )
 
-triangulation = Triangulation::DelaunayTriangulation.new(point_cloud.points)
+  triangulation = Triangulation::DelaunayTriangulation.new(point_cloud.points)
 
-puts "triangulating..."
-DCEL::MeshSVGFile.new(triangulation, filename: "data/triangulated_frame.svg").save
-puts "done."
+  puts "\ntriangulating..."
+
+  DCEL::MeshSVGFile.new(
+    triangulation,
+    filename: "data/inner_inflation_b/inner_inflation_#{inner_inflation}.svg"
+  ).save
+
+  puts "done."
+
+end

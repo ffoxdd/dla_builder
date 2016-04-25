@@ -57,6 +57,7 @@ class PointCloud
   end
 
   def properly_separated?(point)
+    return false if minimum_distance(point) == Float::INFINITY
     return true unless closest_point = points_collection.closest_point(point)
     closest_point.distance(point) > minimum_distance(point)
   end

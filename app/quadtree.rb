@@ -29,7 +29,10 @@ class Quadtree
     bounding_box.covers?(point)
   end
 
+  # THERE IS A BUG IN HERE.. probably with how the current closest point state is managed
   def closest_point(point)
+    return min_by { |p| p.distance(point) } # HACK HACK HACK
+
     return points.min_by { |p| p.distance(point) } if leaf?
 
     current_closest_point = nil
