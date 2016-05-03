@@ -64,21 +64,39 @@ class Frame
   end
 end
 
-(0..160).step(10).each do |inner_inflation|
+(10..160).step(10).each do |vertical_increase|
 
-  frame = Frame.new(
-    Vector2D[240, 440], Vector2D[500, 700],
-    inner_resolution: 20, outer_resolution: 20
-  )
+  minimum_separation_function = ->(point) {
+    progress = (point.y + 700) / 1400.0
+    20 + (progress * vertical_increase)
+  }
+
+  bottom_separation = 20 + vertical_increase
+  bottom_resolution = [10, 20, 25, 50, 100].select { |r| r <= bottom_separation }.max
+
+  top_frame_points = (-500..500).step(20).map { |x| Vector2D[x, -700] }
+  bottom_frame_points = (-500..500).step(bottom_resolution).map { |x| Vector2D[x, 700] }
+
+  side_y_coordinates = []
+  current_y_coordinate = 700
+
+  while current_y_coordinate > -680 do
+    side_y_coordinates << current_y_coordinate
+    current_y_coordinate -= minimum_separation_function.call(Vector2D[0, current_y_coordinate])
+  end
+
+  side_y_coordinates << -700
+  side_y_coordinates
+
+  side_frame_points = side_y_coordinates.flat_map { |y| [Vector2D[-500, y], Vector2D[500, y]] }
+
+  frame_points = (top_frame_points + bottom_frame_points + side_frame_points).uniq
+
 
   point_cloud = PointCloud.new(
-    bounding_box: frame.bounding_box,
-    seeds: frame.points,
-    minimum_separation_function: ->(point) {
-      progress = frame.inner_progress(point)
-      next Float::INFINITY if progress <= 0
-      20 + ((0.5 - (0.5 - progress).abs) * inner_inflation)
-    }
+    bounding_box: AxisAlignedBoundingBox.new(-500..500, -700..700),
+    seeds: frame_points,
+    minimum_separation_function: minimum_separation_function
   )
 
   triangulation = Triangulation::DelaunayTriangulation.new(point_cloud.points)
@@ -87,7 +105,7 @@ end
 
   DCEL::MeshSVGFile.new(
     triangulation,
-    filename: "data/inner_inflation_b/inner_inflation_#{inner_inflation}.svg"
+    filename: "data/gradient/gradient_#{vertical_increase}.svg"
   ).save
 
   puts "done."
