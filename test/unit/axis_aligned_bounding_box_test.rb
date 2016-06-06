@@ -179,4 +179,20 @@ describe AxisAlignedBoundingBox do
     end
   end
 
+  describe "distance" do
+    let(:box) { AxisAlignedBoundingBox.new(0..4, 0..4) }
+
+    it "returns 0 if the point is in the interior of the box" do
+      box.distance(Vector2D[2, 2]).must_equal 0
+    end
+
+    it "returns the distance to one of the boundaries when the point is inside only one interval" do
+      box.distance(Vector2D[-1, 2]).must_equal 1
+    end
+
+    it "returns the distance to the nearest corner if the point is outside of both intervals" do
+      box.distance(Vector2D[-1, -1]).must_equal Math.sqrt(2)
+    end
+  end
+
 end

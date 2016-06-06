@@ -28,7 +28,7 @@ class AxisAlignedBoundingBox
   end
 
   def distance(point)
-    closest_endpoint(point).distance(point)
+    point.to_v.distance(closest_boundary_point(point))
   end
 
   def fits_within?(box)
@@ -92,16 +92,23 @@ class AxisAlignedBoundingBox
   end
 
   def sample_point
-    Vector2D[rand(x_range), rand(y_range)]
+    Vector2D[sample(x_range), sample(y_range)]
   end
 
   private
 
-  def closest_endpoint(point)
-    Vector2D[
-      point.x >= center.x ? x_range.end : x_range.begin,
-      point.y >= center.y ? x_range.end : y_range.begin
-    ]
+  def closest_boundary_point(point)
+    Vector2D[constrain(x_range, point.x), constrain(y_range, point.y)]
+  end
+
+  def constrain(range, value)
+    return range.begin if value < range.begin
+    return range.end if value > range.end
+    value
+  end
+
+  def sample(range)
+    rand(range.begin..range.end.to_f)
   end
 
   def segment(range, i)

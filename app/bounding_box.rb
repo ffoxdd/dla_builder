@@ -61,10 +61,10 @@ class BoundingBox
 
   protected
 
-    attr_reader :offset, :rotation, :axis_aligned_bounding_box
+  attr_reader :offset, :rotation, :axis_aligned_bounding_box
 
-    def offset_bounding_box
-      axis_aligned_bounding_box + offset
-    end
+  def offset_bounding_box
+    axis_aligned_bounding_box + offset
+  end
 
 end

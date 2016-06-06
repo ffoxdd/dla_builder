@@ -29,19 +29,13 @@ class Quadtree
     bounding_box.covers?(point)
   end
 
-  # THERE IS A BUG IN HERE.. probably with how the current closest point state is managed
-  def closest_point(point)
-    return min_by { |p| p.distance(point) } # HACK HACK HACK
-
+  def closest_point(point, current_min_distance = Float::INFINITY)
     return points.min_by { |p| p.distance(point) } if leaf?
-
     current_closest_point = nil
-    current_min_distance = Float::INFINITY
 
     children_by_distance(point).each do |child|
-      next if current_min_distance < child.bounding_box_distance(point)
-      child_closest_point = child.closest_point(point)
-      next unless child_closest_point
+      next unless child.bounding_box_distance(point) < current_min_distance
+      next unless child_closest_point = child.closest_point(point, current_min_distance)
 
       child_distance = child_closest_point.distance(point)
 
