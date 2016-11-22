@@ -16,7 +16,7 @@ class Particle
     @children = []
   end
 
-  def_delegators :center, :x, :y, :magnitude, :to_v
+  def_delegators :center, :x, :y, :magnitude, :to_v, :[]
 
   def extent
     Vector2D.new(center.extent + Vector2D[radius, radius])

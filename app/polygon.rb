@@ -1,10 +1,16 @@
 require_relative "linked_list"
 require_relative "polygon_node"
 require_relative "edge"
+require_relative "axis_aligned_bounding_box"
+require_relative "bounding_box_finder"
+require "memoist"
 
 class Polygon
 
+  extend Memoist
+
   def initialize(*points)
+    @minmax = [[], []]
     points.each { |point| add_point(point) }
   end
 
@@ -36,7 +42,7 @@ class Polygon
     root.next_enumerator.find(&block)
   end
 
-  attr_reader :min_nodes, :max_nodes
+  attr_reader :minmax
 
   def empty?
     !root
@@ -47,42 +53,51 @@ class Polygon
     root.singleton?
   end
 
+  def bounding_box
+    BoundingBoxFinder.new(self).bounding_box
+  end
+
+  def axis_aligned_bounding_box
+    AxisAlignedBoundingBox.new(*minmax_ranges)
+  end
+
+  memoize :bounding_box, :axis_aligned_bounding_box
+
   private
 
-    attr_accessor :root
-    attr_writer :min_nodes, :max_nodes
+  attr_accessor :root
+  attr_writer :minmax
 
-    def add_to_end(point)
-      old_end = root.previous_node
-      new_vertex(point, previous_node: old_end, next_node: root)
+  def add_to_end(point)
+    old_end = root.previous_node
+    new_vertex(point, previous_node: old_end, next_node: root)
+  end
+
+  def seed(point)
+    self.root = new_vertex(point)
+    root.self_link
+  end
+
+  def new_vertex(point, attributes = {})
+    PolygonNode.new(attributes.merge(point: point)).tap { |node| update_minmax(node) }
+  end
+
+  def update_minmax(new_node)
+    self.minmax = minmax.map.with_index do |sub_minmax, dimension|
+      sub_minmax.push(new_node).minmax_by { |node| node[dimension] }
     end
 
-    def seed(point)
-      self.root = new_vertex(point)
-      root.self_link
-    end
+    flush_cache
+  end
 
-    def new_vertex(point, attributes = {})
-      PolygonNode.new(attributes.merge(point: point)).tap { |node| check_bounding_nodes(node) }
+  def minmax_ranges
+    minmax.map.with_index do |sub_minmax, dimension|
+      sub_minmax.map { |vertex| vertex[dimension] }
     end
+  end
 
-    def check_bounding_nodes(node)
-      self.min_nodes = [min(node, 0), min(node, 1)]
-      self.max_nodes = [max(node, 0), max(node, 1)]
-    end
-
-    def min(node, dimension)
-      return node if empty?
-      [min_nodes[dimension], node].min_by { |n| n[dimension] }
-    end
-
-    def max(node, dimension)
-      return node if empty?
-      [max_nodes[dimension], node].max_by { |n| n[dimension] }
-    end
-
-    def last_node
-      root.previous_node
-    end
+  def last_node
+    root.previous_node
+  end
 
 end

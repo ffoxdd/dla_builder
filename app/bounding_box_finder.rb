@@ -45,8 +45,7 @@ class BoundingBoxFinder
     end
 
     def seed_calipers
-      min_x, min_y = polygon.min_nodes
-      max_x, max_y = polygon.max_nodes
+      (min_x, max_x), (min_y, max_y) = polygon.minmax
 
       calipers << Caliper.new(min_x, Vector2D[0, 1])
       calipers << Caliper.new(max_y, Vector2D[1, 0])

@@ -1,6 +1,7 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 gem "rake"
+gem "memoist"
 gem "ruby-processing"
 
 gem "rasem"

@@ -32,7 +32,8 @@ class AxisAlignedBoundingBox
   end
 
   def fits_within?(box)
-    range_fits_within?(x_range, box.x_range) && range_fits_within?(y_range, box.y_range)
+    boundary = box.axis_aligned
+    range_fits_within?(x_range, boundary.x_range) && range_fits_within?(y_range, boundary.y_range)
   end
 
   def quadtrant(i, j)

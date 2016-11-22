@@ -2,10 +2,12 @@ require_relative "particle"
 require_relative "grower"
 require_relative "persister"
 require_relative "particle_collection"
-require_relative "convex_hull"
-require_relative "bounding_box_finder"
+
+require "forwardable"
 
 class Dla
+
+  extend Forwardable
 
   def initialize(options = {}, &live_visitor)
     @particle_radius = Float( options.fetch(:particle_radius, 4) )
@@ -13,14 +15,12 @@ class Dla
     @seeds = Array( options.fetch(:seeds) { [Particle.new(radius: particle_radius)] } )
     @live_visitor = live_visitor
 
-    @particles = ParticleCollection.new(@particle_radius)
-    @extent = Vector2D[0, 0]
-    @convex_hull = ConvexHull.new
+    @particle_collection = ParticleCollection.new(@particle_radius)
 
     @seeds.each { |seed| add_particle(seed) }
   end
 
-  attr_reader :particles, :convex_hull, :bounding_box
+  attr_reader :particle_collection, :convex_hull, :bounding_box
 
   def grow
     grower.grow do |new_particle, stuck_particle|
@@ -31,57 +31,39 @@ class Dla
   def accept(options = {}, &visitor)
     transformation = options.fetch(:transformation) { Transformation.new }
 
-    particles.each do |particle|
+    particle_collection.each do |particle|
       accept_particle(particle * transformation, &visitor)
     end
   end
 
   def size
-    particles.size
+    particle_collection.size
   end
 
   def save(name)
     Persister.new(self, name).save
   end
 
-  def within?(box)
-    box.covers?(extent)
-  end
-
-  def fits_within?(box)
-    bounding_box.fits_within?(box)
-  end
+  def_delegators :particle_collection, :fits_within?, :within?
 
   private
 
-    attr_reader :seeds, :overlap, :particle_radius, :live_visitor
-    attr_writer :bounding_box
-    attr_accessor :extent
+  attr_reader :seeds, :overlap, :particle_radius, :live_visitor
+  attr_writer :bounding_box
+  def_delegators :particle_collection, :extent # TODO: move this into ParticleCollection
 
-    def grower
-      Grower.new(particles, particle_radius, overlap, extent)
-    end
+  def grower
+    Grower.new(particle_collection, particle_radius, overlap, extent)
+  end
 
-    def add_particle(new_particle, stuck_particle = nil)
-      particles << new_particle
-      stuck_particle.add_child(new_particle) if stuck_particle
-      accept_particle(new_particle, &live_visitor)
-      check_bounds(new_particle)
-      update_bounding_box(new_particle)
-    end
+  def add_particle(new_particle, stuck_particle = nil)
+    particle_collection.add(new_particle, stuck_to: stuck_particle)
+    accept_particle(new_particle, &live_visitor)
+  end
 
-    def check_bounds(particle)
-      self.extent = extent.max(particle.extent)
-    end
-
-    def update_bounding_box(particle)
-      convex_hull.add_point(particle.center)
-      self.bounding_box = convex_hull.bounding_box
-    end
-
-    def accept_particle(particle, &visitor)
-      return unless visitor
-      visitor.arity == 1 ? visitor.call(particle) : visitor.call(particle, self)
-    end
+  def accept_particle(particle, &visitor)
+    return unless visitor
+    visitor.arity == 1 ? visitor.call(particle) : visitor.call(particle, self)
+  end
 
 end

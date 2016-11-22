@@ -16,14 +16,11 @@ class ConvexHull
     add_to_hull(point)
   end
 
-  def bounding_box
-    BoundingBoxFinder.new(polygon).bounding_box
-  end
-
   attr_reader :polygon
-  def_delegators :polygon, :points
+  def_delegators :polygon, :points, :bounding_box, :axis_aligned_bounding_box
 
   private
+
   def_delegators :polygon, :degenerate?, :find_next, :find_previous, :insert_point
 
   def add_to_hull(point)
